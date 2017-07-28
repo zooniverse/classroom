@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { Route, Switch, NavLink } from 'react-router-dom';
 import App from 'grommet/components/App';
 import Box from 'grommet/components/Box';
-import { ZooniverseLogo } from 'zooniverse-react-components';
-
 import AboutLayout from './about';
 import ZooHeader from './layout/ZooHeader';
 import ZooFooter from './layout/ZooFooter';
