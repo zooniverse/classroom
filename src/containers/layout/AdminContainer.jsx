@@ -5,7 +5,7 @@ import { Actions } from 'jumpstate';
 import apiClient from 'panoptes-client/lib/api-client';
 import AdminCheckbox from '../../components/layout/AdminCheckbox';
 
-class AdminContainer extends React.Component {
+export class AdminContainer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -62,7 +62,9 @@ AdminContainer.defaultProps = {
 AdminContainer.propTypes = {
   admin: PropTypes.bool,
   initialised: PropTypes.bool,
-  user: PropTypes.object
+  user: PropTypes.shape({
+    admin: PropTypes.bool
+  })
 };
 
 function mapStateToProps(state) {
