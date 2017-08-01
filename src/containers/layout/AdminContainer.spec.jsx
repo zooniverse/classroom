@@ -41,6 +41,10 @@ describe.only('<AdminContainer />', function() {
         setAdminStateStub = sinon.stub(AdminContainer.prototype, 'setAdminState').callsFake(() => {});
       });
 
+      after(function() {
+        setAdminStateStub.restore();
+      });
+
       it('does not call #setAdminState if localStorage does not contain { adminFlag: true }', function() {
         mount(<AdminContainer user={user} initialised={true} />);
         expect(setAdminStateStub.called).to.be.false();
@@ -49,6 +53,25 @@ describe.only('<AdminContainer />', function() {
       it('calls #setAdminState if localstorage contains { adminFlag: true }', function() {
         localStorage.setItem('adminFlag', true);
         mount(<AdminContainer user={user} initialised={true} />);
+        expect(setAdminStateStub.called).to.be.true();
+        expect(setAdminStateStub.calledWith(true)).to.be.true();
+      });
+    });
+
+    describe('componentWillReceiveProps', function() {
+      let setAdminStateStub;
+      before(function() {
+        setAdminStateStub = sinon.stub(AdminContainer.prototype, 'setAdminState').callsFake(() => {});
+      });
+
+      after(function() {
+        setAdminStateStub.restore();
+      });
+
+      it('calls #setAdminState if nextProps.admin does not equal props.admin', function() {
+        const wrapper = shallow(<AdminContainer user={user} initialised={true} admin={false} />);
+        expect(setAdminStateStub.called).to.be.false();
+        wrapper.setProps({ admin: true });
         expect(setAdminStateStub.called).to.be.true();
         expect(setAdminStateStub.calledWith(true)).to.be.true();
       });
