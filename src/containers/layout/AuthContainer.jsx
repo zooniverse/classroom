@@ -9,7 +9,7 @@ import RegisterButton from '../../components/layout/RegisterButton';
 import RegistrationFormContainer from './RegistrationFormContainer';
 import UserMenu from '../../components/layout/UserMenu';
 
-class AuthContainer extends React.Component {
+export class AuthContainer extends React.Component {
   constructor(props) {
     super(props);
 

@@ -4,18 +4,15 @@
 
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import sinonTestFactory from 'sinon-test';
 import sinon from 'sinon';
 import ConnectedAdminContainer, { AdminContainer } from './AdminContainer';
-
-const sinonTest = sinonTestFactory(sinon);
 
 const user = {
   id: '34',
   admin: true
 };
 
-describe.only('<AdminContainer />', function() {
+describe('<AdminContainer />', function() {
   describe('renders', function() {
     let wrapper;
     before(function() {
