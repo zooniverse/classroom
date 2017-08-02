@@ -8,6 +8,7 @@ import AboutLayout from './about';
 import ZooHeader from './layout/ZooHeader';
 import ZooFooter from './layout/ZooFooter';
 import Home from './Home';
+import { ZooniverseLogo } from 'zooniverse-react-components';
 import AdminContainer from '../containers/layout/AdminContainer';
 import AdminLayoutIndicator from './layout/AdminLayoutIndicator';
 import AuthContainer from '../containers/layout/AuthContainer';
