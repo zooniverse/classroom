@@ -6,7 +6,7 @@ import oauth from 'panoptes-client/lib/oauth';
 import apiClient from 'panoptes-client/lib/api-client';
 
 import Main from './components/Main';
-import { config } from './config';
+import { config } from './lib/config';
 import configureStore from './store';
 
 import './styles/main.styl';

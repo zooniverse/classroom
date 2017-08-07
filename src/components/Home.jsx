@@ -3,7 +3,7 @@ import Section from 'grommet/components/Section';
 import Anchor from 'grommet/components/Anchor';
 import { Actions } from 'jumpstate';
 import { Link } from 'react-router-dom';
-import { config } from '../config';
+import { config } from '../lib/config';
 
 // TODO: Look into grommet's path prop for buttons to see if it works with React-Router v4
 export default function Home() {
