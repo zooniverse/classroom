@@ -28,7 +28,7 @@ const baseConfig = {
   },
   'production': {
     astroProjects: [],
-    panoptesAppId: '',
+    panoptesAppId: '47f9799996f91be6d0ee386dbcf044fcb43a37b4d07ac1b0787002111e61a152',
     root: 'https://education-api.zooniverse.org/'
   }
 };
@@ -42,7 +42,7 @@ export { env, config };
 function locationMatch(regex) {
   var match;
   if (typeof location !== 'undefined' && location !== null) {
-    match = location.search.match(regex);
+    match = location.href.match(regex);
   }
   return (match && match[1]) ? match[1] : undefined;
 }

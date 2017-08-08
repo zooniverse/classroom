@@ -1,6 +1,6 @@
 import { State, Effect, Actions } from 'jumpstate';
-import eduAPI, { defaultHeaders } from '../lib/edu-api';
-import { config } from '../lib/config';
+import { get } from '../lib/edu-api';
+// import { config } from '../lib/config';
 
 // Synchonous actions
 const fetchingClassrooms = (state, fetching) => {
@@ -18,8 +18,7 @@ const setError = (state, error) => {
 // Effects are for async actions and get automatically to the global Actions list
 Effect('getClassrooms', () => {
   Actions.classrooms.fetchingClassrooms(true);
-  eduAPI.get(`${config.root}teachers/classrooms/`)
-    .set(defaultHeaders)
+  get('teachers/classrooms/')
     .then((classrooms) => {
       Actions.classrooms.setClassrooms(classrooms);
       Actions.classrooms.fetchingClassrooms(false);
