@@ -5,18 +5,6 @@ import { config } from './config';
 
 superagentJsonapify(superagent);
 
-// function formatQuery(query) {
-//   const queryArray = [];
-//   if (typeof query === 'object') {
-//     Object.keys(query).forEach((key) => {
-//       const queryString = `${key}=${query[key]}`;
-//       queryArray.push(queryString);
-//     });
-
-//     return queryArray;
-//   }
-// }
-
 export function get(endpoint, query) {
   const request = superagent.get(`${config.root}${endpoint}`)
     .set('Content-Type', 'application/json')
@@ -26,7 +14,7 @@ export function get(endpoint, query) {
       if (typeof obj === 'object') request.query(obj);
     });
   }
-  return request.then(response => response.body.data);
+  return request.then(response => response);
 }
 
 window.eduAPI = superagent;

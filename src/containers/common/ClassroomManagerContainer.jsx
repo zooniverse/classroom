@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import {
-  CLASSROOMS_STATUS, CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES,
+  CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
 } from '../../ducks/classrooms';
+import {
+  ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES
+} from '../../ducks/assignments';
 import ClassroomManager from '../../components/common/ClassroomManager';
 
 class ClassroomManagerContainer extends React.Component {
@@ -24,40 +27,30 @@ class ClassroomManagerContainer extends React.Component {
     return (
       <ClassroomManager
         assignments={this.props.assignments}
+        assignmentsStatus={this.props.assignmentsStatus}
         classrooms={this.props.classrooms}
         classroomInstructions={this.props.classroomInstructions}
-        fetching={this.props.fetching}
+        classroomsStatus={this.props.classroomsStatus}
       />
     );
-  }
-
-  render_status() {
-    if (this.props.status === CLASSROOMS_STATUS.FETCHING) {
-      return (<div>Loading...</div>);
-    } else if (this.props.status === CLASSROOMS_STATUS.ERROR) {
-      return (<div>ERROR!</div>);
-    } else if (this.props.status === CLASSROOMS_STATUS.SUCCESS) {
-      return (<div>Ready!</div>);
-    }
-
-    return null;
   }
 }
 
 ClassroomManagerContainer.propTypes = {
-  ...CLASSROOMS_PROPTYPES,
+  ...ASSIGNMENTS_PROPTYPES,
+  ...CLASSROOMS_PROPTYPES
 };
 
 ClassroomManagerContainer.defaultProps = {
-  assignments: {},
+  ...ASSIGNMENTS_INITIAL_STATE,
   ...CLASSROOMS_INITIAL_STATE
 };
 
 const mapStateToProps = (state) => ({
   assignments: state.assignments.assignments,
+  assignmentsStatus: state.assignments.status,
   classrooms: state.classrooms.classrooms,
-  error: state.classrooms.error,
-  status: state.classrooms.status,
+  classroomsStatus: state.classrooms.status
 });
 
 export default connect(mapStateToProps)(ClassroomManagerContainer);

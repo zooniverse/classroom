@@ -1,6 +1,14 @@
 import { State, Effect, Actions } from 'jumpstate';
 import oauth from 'panoptes-client/lib/oauth';
 
+// Constants
+const AUTH_STATUS = {
+  IDLE: 'idle',
+  FETCHING: 'fetching',
+  SUCCESS: 'success',
+  ERROR: 'error'
+};
+
 // Helper functions
 const computeRedirectURL = (window) => {
   const { location } = window;
@@ -21,8 +29,8 @@ const setAdminUser = (state, isAdmin) => {
   return { ...state, admin: isAdmin };
 };
 
-const fetchingUser = (state, fetching) => {
-  return { ...state, fetching };
+const setStatus = (state, status) => {
+  return { ...state, status };
 };
 
 const setError = (state, error) => {
@@ -31,14 +39,15 @@ const setError = (state, error) => {
 
 // Effects are for async actions and get automatically to the global Actions list
 Effect('checkLoginUser', () => {
-  Actions.auth.fetchingUser(true);
+  Actions.auth.setStatus(AUTH_STATUS.FETCHING);
   oauth.checkCurrent()
     .then((user) => {
       Actions.auth.setLoginUser(user);
-      Actions.auth.fetchingUser(false);
+      Actions.auth.setStatus(AUTH_STATUS.SUCCESS);
     }).catch((error) => {
-      Actions.auth.fetchingUser(false);
+      Actions.auth.setStatus(AUTH_STATUS.ERROR);
       Actions.auth.setError(error);
+      console.error(error);
     });
 });
 
@@ -48,11 +57,11 @@ Effect('loginToPanoptes', () => {
 });
 
 Effect('logoutFromPanoptes', () => {
-  Actions.auth.fetchingUser(true);
+  Actions.auth.setStatus(AUTH_STATUS.FETCHING);
   oauth.signOut()
     .then((user) => {
       Actions.auth.setLoginUser(user);
-      Actions.auth.fetchingUser(false);
+      Actions.auth.setStatus(AUTH_STATUS.SUCCESS);
     });
 });
 
@@ -61,16 +70,16 @@ const auth = State('auth', {
   initial: {
     admin: false,
     error: null,
-    fetching: false,
     initialised: false,
     openRegistrationForm: false,
+    status: AUTH_STATUS.IDLE,
     user: null
   },
   // Actions
-  fetchingUser,
-  setLoginUser,
   setAdminUser,
   setError,
+  setLoginUser,
+  setStatus,
   toggleRegistrationForm
 });
 

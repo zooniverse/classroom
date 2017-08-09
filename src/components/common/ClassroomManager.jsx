@@ -6,47 +6,14 @@ import Button from 'grommet/components/Button';
 import Spinning from 'grommet/components/icons/Spinning';
 import Table from 'grommet/components/Table';
 import TableRow from 'grommet/components/TableRow';
-import { Actions } from 'jumpstate';
+import {
+  CLASSROOMS_STATUS, CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
+} from '../../ducks/classrooms';
+import {
+  ASSIGNMENTS_STATUS, ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES
+} from '../../ducks/assignments';
 
 const ClassroomManager = (props) => {
-  const renderClassroomTableRow = () => {
-    // console.log(props.classrooms)
-    return props.classrooms.map((classroom) => {
-      // Can we get linked assignments with classrooms in single get request?
-      // TODO replace classifications_target with calculated percentage
-      // console.log('classroom', classroom)
-      // const linkedAssignments = Actions.getAssignments(classroom.id);
-      // const linkedAssignments = [
-      //   { attributes: { name: 'fake assignment', id: '35' },
-      //     metadata: { classifications_target: '20' }
-      //   },
-      //   { attributes: { name: 'another', id: '37' },
-      //     metadata: { classifications_target: '26' }
-      //   }]; // Just for building out UI
-
-      return (
-        <span key={classroom.id}>
-          <TableRow>
-            <td>{classroom.name}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </TableRow>
-          {props.assignments[classroom.id].map((assignment) => {
-            return (
-              <TableRow key={assignment.attributes.id}>
-                <td headers="assignments">{assignment.attributes.name}</td>
-                <td headers="completed">{assignment.metadata.classifications_target}</td>
-                <td headers="export">Export data link placeholder</td>
-                <td headers="view-project">project link placeholder</td>
-              </TableRow>
-            );
-          })}
-        </span>
-      );
-    });
-  };
-
   return (
     <Box direction="column" colorIndex="light-2" full={true}>
       <Box direction="row">
@@ -54,20 +21,43 @@ const ClassroomManager = (props) => {
         <Button type="button" label="Create New Classroom" onClick={props.onCreateNewClassroom} />
       </Box>
       <Box>
-        {(props.classrooms.length === 0 && props.fetching) &&
+        {(props.classrooms.length === 0 && props.classroomsStatus === CLASSROOMS_STATUS.FETCHING) &&
           <Spinning />}
-        {(props.classrooms.length > 0 && !props.fetching) &&
+        {(props.classrooms.length > 0 && props.classroomsStatus === CLASSROOMS_STATUS.SUCCESS) &&
           <Table summary="Your classrooms and linked assignments, assignment percentage completed, export data links, and assignment project links (row headings)">
-            <caption>Your Classrooms</caption>
-            <tbody>
+            <thead>
               <TableRow>
-                <th scope="col" id="assignments">Assignments</th>
-                <th scope="col" id="completed">Completed</th>
-                <th scope="col" id="export">Export Data</th>
-                <th scope="col" id="view-project">View Project</th>
+                <th id="assignments" scope="col">Your Classrooms</th>
+                <th id="completed" scope="col">Completed</th>
+                <th id="export" scope="col">Export Data</th>
+                <th id="view-project" scope="col">View Project</th>
               </TableRow>
-              {renderClassroomTableRow()}
-            </tbody>
+            </thead>
+            {props.classrooms.map((classroom) => {
+              // Can we get linked assignments with classrooms in single get request?
+              // No, if we want this, then we need to open an issue with the API
+              // TODO replace classifications_target with calculated percentage
+              return (
+                <tbody key={classroom.id}>
+                  <TableRow>
+                    <th id="classroom" colSpan="4" scope="colgroup">{classroom.name}</th>
+                  </TableRow>
+                  {(!props.assignments && props.assignmentsStatus === ASSIGNMENTS_STATUS.FETCHING) &&
+                    <Spinning />}
+                  {(props.assignments[classroom.id] && props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS) &&
+                    props.assignments[classroom.id].map((assignment) => {
+                      return (
+                        <TableRow key={assignment.id}>
+                          <td headers="classroom assignments">{assignment.name}</td>
+                          <td headers="classroom completed">{assignment.metadata.classifications_target}</td>
+                          <td headers="classroom export">Export data link placeholder</td>
+                          <td headers="classroom view-project">project link placeholder</td>
+                        </TableRow>
+                      );
+                    })}
+                </tbody>
+              );
+            })}
           </Table>}
       </Box>
     </Box>
@@ -76,20 +66,16 @@ const ClassroomManager = (props) => {
 
 ClassroomManager.defaultProps = {
   classroomInstructions: '',
-  fetching: false,
-  onCreateNewClassroom: () => {}
+  onCreateNewClassroom: () => {},
+  ...CLASSROOMS_INITIAL_STATE,
+  ...ASSIGNMENTS_INITIAL_STATE
 };
 
 ClassroomManager.propTypes = {
-  classrooms: PropTypes.arrayOf(PropTypes.shape({
-    attributes: PropTypes.shape({
-      name: PropTypes.string
-    }),
-    id: PropTypes.string
-  })),
   classroomInstructions: PropTypes.string,
-  fetching: PropTypes.bool,
-  onCreateNewClassroom: PropTypes.func
+  onCreateNewClassroom: PropTypes.func,
+  ...CLASSROOMS_PROPTYPES,
+  ...ASSIGNMENTS_PROPTYPES
 };
 
 export default ClassroomManager;
