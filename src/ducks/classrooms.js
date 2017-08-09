@@ -1,5 +1,6 @@
 import { State, Effect, Actions } from 'jumpstate';
 import { get } from '../lib/edu-api';
+<<<<<<< 037a4d70bdf37f54fcb51cda995af75ed5670343
 import PropTypes from 'prop-types';
 
 // Constants
@@ -22,6 +23,8 @@ const CLASSROOMS_PROPTYPES = {
   error: PropTypes.object,
   status: PropTypes.string,
 };
+=======
+>>>>>>> Figured out how to get assignments
 
 // Synchonous actions
 const setStatus = (state, status) => {
@@ -38,6 +41,7 @@ const setError = (state, error) => {
 
 // Effects are for async actions and get automatically to the global Actions list
 Effect('getClassrooms', () => {
+<<<<<<< 037a4d70bdf37f54fcb51cda995af75ed5670343
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.FETCHING);
   
   get('teachers/classrooms/')
@@ -56,6 +60,17 @@ Effect('getClassrooms', () => {
     Actions.classrooms.setStatus(CLASSROOMS_STATUS.ERROR);
     Actions.classrooms.setError(error);
   });
+=======
+  Actions.classrooms.fetchingClassrooms(true);
+  return get('teachers/classrooms/', [{ include: 'assignments' }])
+    .then((classrooms) => {
+      Actions.classrooms.setClassrooms(classrooms);
+      Actions.classrooms.fetchingClassrooms(false);
+    }).catch((error) => {
+      Actions.classrooms.fetchingClassrooms(false);
+      Actions.classrooms.setError(error);
+    });
+>>>>>>> Figured out how to get assignments
 });
 
 const classrooms = State('classrooms', {

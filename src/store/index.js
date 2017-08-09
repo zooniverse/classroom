@@ -5,7 +5,7 @@ import rootReducer from '../ducks/reducer';
 
 const createStoreWithMiddleware = applyMiddleware(
   CreateJumpstateMiddleware(),
-  createLogger(),
+  // createLogger(),
 )(createStore);
 
 export default function configureStore(initialState) {

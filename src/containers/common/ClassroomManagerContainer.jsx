@@ -13,12 +13,17 @@ class ClassroomManagerContainer extends React.Component {
   }
 
   componentDidMount() {
-    Actions.getClassrooms();
+    Actions.getClassrooms().then(() => {
+      this.props.classrooms.forEach((classroom) => {
+        Actions.getAssignments(classroom.id);
+      });
+    });
   }
 
   render() {
     return (
       <ClassroomManager
+        assignments={this.props.assignments}
         classrooms={this.props.classrooms}
         classroomInstructions={this.props.classroomInstructions}
         fetching={this.props.fetching}
@@ -44,10 +49,12 @@ ClassroomManagerContainer.propTypes = {
 };
 
 ClassroomManagerContainer.defaultProps = {
-  ...CLASSROOMS_INITIAL_STATE,
+  assignments: {},
+  ...CLASSROOMS_INITIAL_STATE
 };
 
 const mapStateToProps = (state) => ({
+  assignments: state.assignments.assignments,
   classrooms: state.classrooms.classrooms,
   error: state.classrooms.error,
   status: state.classrooms.status,

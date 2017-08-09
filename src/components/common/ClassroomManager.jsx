@@ -10,25 +10,29 @@ import { Actions } from 'jumpstate';
 
 const ClassroomManager = (props) => {
   const renderClassroomTableRow = () => {
+    // console.log(props.classrooms)
     return props.classrooms.map((classroom) => {
       // Can we get linked assignments with classrooms in single get request?
       // TODO replace classifications_target with calculated percentage
-      const linkedAssignments = [
-        { attributes: { name: 'fake assignment', id: '35' },
-          metadata: { classifications_target: '20' }
-        },
-        { attributes: { name: 'another', id: '37' },
-          metadata: { classifications_target: '26' }
-        }]; // Just for building out UI
+      // console.log('classroom', classroom)
+      // const linkedAssignments = Actions.getAssignments(classroom.id);
+      // const linkedAssignments = [
+      //   { attributes: { name: 'fake assignment', id: '35' },
+      //     metadata: { classifications_target: '20' }
+      //   },
+      //   { attributes: { name: 'another', id: '37' },
+      //     metadata: { classifications_target: '26' }
+      //   }]; // Just for building out UI
+
       return (
         <span key={classroom.id}>
           <TableRow>
-            <td>{classroom.attributes.name}</td>
+            <td>{classroom.name}</td>
             <td></td>
             <td></td>
             <td></td>
           </TableRow>
-          {linkedAssignments.map((assignment) => {
+          {props.assignments[classroom.id].map((assignment) => {
             return (
               <TableRow key={assignment.attributes.id}>
                 <td headers="assignments">{assignment.attributes.name}</td>

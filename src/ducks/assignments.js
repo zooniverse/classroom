@@ -7,7 +7,8 @@ const fetchingAssignments = (state, fetching) => {
 };
 
 const setAssignments = (state, assignments) => {
-  return { ...state, assignments };
+  const mergedAssignments = Object.assign({}, state.assignments, assignments);
+  return { ...state, assignments: mergedAssignments };
 };
 
 const setError = (state, error) => {
@@ -15,11 +16,12 @@ const setError = (state, error) => {
 };
 
 // Effects are for async actions and get automatically to the global Actions list
-Effect('getAssignments', () => {
+Effect('getAssignments', (classroomId) => {
   Actions.assignments.fetchingAssignments(true);
-  get('assignments')
+  get('assignments', [{ classroom_id: classroomId }])
     .then((assignments) => {
-      Actions.assignments.setAssignments(assignments);
+      const assignmentsForClassroom = { [classroomId]: assignments };
+      Actions.assignments.setAssignments(assignmentsForClassroom);
       Actions.assignments.fetchingAssignments(false);
     }).catch((error) => {
       Actions.assignments.fetchingAssignments(false);
