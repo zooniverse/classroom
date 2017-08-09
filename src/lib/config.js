@@ -42,7 +42,7 @@ export { env, config };
 function locationMatch(regex) {
   var match;
   if (typeof location !== 'undefined' && location !== null) {
-    match = location.search.match(regex);
+    match = location.href.match(regex);
   }
   return (match && match[1]) ? match[1] : undefined;
 }

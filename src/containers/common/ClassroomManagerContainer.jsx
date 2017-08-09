@@ -5,11 +5,7 @@ import { Actions } from 'jumpstate';
 import {
   CLASSROOMS_STATUS, CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES,
 } from '../../ducks/classrooms';
-  
-import Section from 'grommet/components/Section';
-import Heading from 'grommet/components/Heading';
-import List from 'grommet/components/List';
-import ListItem from 'grommet/components/ListItem';
+import ClassroomManager from '../../components/common/ClassroomManager';
 
 class ClassroomManagerContainer extends React.Component {
   constructor(props) {
@@ -22,22 +18,11 @@ class ClassroomManagerContainer extends React.Component {
 
   render() {
     return (
-      <Section>
-        <Heading tag="h3">Classrooms</Heading>
-        {this.render_status()}
-        <List>
-          {this.props.status === CLASSROOMS_STATUS.SUCCESS &&
-            this.props.classrooms.map((classroom, i)=>{
-            return (
-              <ListItem key={`classroom_${i}`}>
-                <div>{classroom.id}</div>
-                <div>{classroom.name}</div>
-                <div>{classroom.description}</div>
-              </ListItem>
-            );
-          })}
-        </List>
-      </Section>
+      <ClassroomManager
+        classrooms={this.props.classrooms}
+        classroomInstructions={this.props.classroomInstructions}
+        fetching={this.props.fetching}
+      />
     );
   }
 
@@ -49,7 +34,7 @@ class ClassroomManagerContainer extends React.Component {
     } else if (this.props.status === CLASSROOMS_STATUS.SUCCESS) {
       return (<div>Ready!</div>);
     }
-      
+
     return null;
   }
 }
