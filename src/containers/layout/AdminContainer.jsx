@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import apiClient from 'panoptes-client/lib/api-client';
-import AdminCheckbox from '../../components/layout/AdminCheckbox';
+import { AdminCheckbox } from 'zooniverse-react-components';
 
 export class AdminContainer extends React.Component {
   constructor(props) {
