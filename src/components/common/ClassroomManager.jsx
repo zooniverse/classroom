@@ -15,19 +15,22 @@ import {
 
 const ClassroomManager = (props) => {
   return (
-    <Box direction="column" colorIndex="light-2" full={true}>
-      <Box direction="row">
+    <Box className="classroom-manager" direction="column" colorIndex="light-2" full={true} pad="large">
+      <Box align="center" direction="row" justify="center">
         <Paragraph align="start" size="small">{props.classroomInstructions}</Paragraph>
-        <Button type="button" label="Create New Classroom" onClick={props.onCreateNewClassroom} />
+        <Button type="button" primary={true} label="Create New Classroom" onClick={props.onCreateNewClassroom} />
       </Box>
       <Box>
         {(props.classrooms.length === 0 && props.classroomsStatus === CLASSROOMS_STATUS.FETCHING) &&
           <Spinning />}
         {(props.classrooms.length > 0 && props.classroomsStatus === CLASSROOMS_STATUS.SUCCESS) &&
-          <Table summary="Your classrooms and linked assignments, assignment percentage completed, export data links, and assignment project links (row headings)">
-            <thead>
+          <Table className="classroom-manager__table"
+            summary="Your classrooms and linked assignments, assignment percentage completed, export data links, and assignment project links (row headings)"
+          >
+            <caption className="table__caption">Your Classrooms</caption>
+            <thead className="table__headers">
               <TableRow>
-                <th id="assignments" scope="col">Your Classrooms</th>
+                <th id="assignments" scope="col"></th>
                 <th id="completed" scope="col">Completed</th>
                 <th id="export" scope="col">Export Data</th>
                 <th id="view-project" scope="col">View Project</th>
@@ -38,7 +41,7 @@ const ClassroomManager = (props) => {
               // No, if we want this, then we need to open an issue with the API
               // TODO replace classifications_target with calculated percentage
               return (
-                <tbody key={classroom.id}>
+                <tbody className="table__body" key={classroom.id}>
                   <TableRow>
                     <th id="classroom" colSpan="4" scope="colgroup">{classroom.name}</th>
                   </TableRow>
