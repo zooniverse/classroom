@@ -15,7 +15,13 @@ import {
 
 const ClassroomManager = (props) => {
   return (
-    <Box className="classroom-manager" direction="column" colorIndex="light-2" full={true} pad="large">
+    <Box
+      className="classroom-manager"
+      direction="column"
+      colorIndex="grey-5"
+      full={{ horizontal: true, vertical: false }}
+      pad="large"
+    >
       <Box align="center" direction="row" justify="center">
         <Paragraph align="start" size="small">{props.classroomInstructions}</Paragraph>
         <Button type="button" primary={true} label="Create New Classroom" onClick={props.onCreateNewClassroom} />
@@ -43,14 +49,14 @@ const ClassroomManager = (props) => {
               return (
                 <tbody className="table__body" key={classroom.id}>
                   <TableRow>
-                    <th id="classroom" colSpan="4" scope="colgroup">{classroom.name}</th>
+                    <th className="table__row-header" id="classroom" colSpan="4" scope="colgroup">{classroom.name}</th>
                   </TableRow>
                   {(!props.assignments && props.assignmentsStatus === ASSIGNMENTS_STATUS.FETCHING) &&
                     <Spinning />}
                   {(props.assignments[classroom.id] && props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS) &&
                     props.assignments[classroom.id].map((assignment) => {
                       return (
-                        <TableRow key={assignment.id}>
+                        <TableRow className="table__row-data" key={assignment.id}>
                           <td headers="classroom assignments">{assignment.name}</td>
                           <td headers="classroom completed">{assignment.metadata.classifications_target}</td>
                           <td headers="classroom export">Export data link placeholder</td>

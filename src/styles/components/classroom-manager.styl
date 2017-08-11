@@ -1,7 +1,7 @@
 .classroom-manager
   &__table
     background-color: white
-    border: solid thin GREY_1
+    border: solid 2px #DEDEDE
 
   .table
     &__caption
@@ -10,4 +10,11 @@
       position: relative
       text-align: left
 
-    // &__headers
+    &__row-header
+      background-color: GREY_5
+      border-top: solid 2px #DEDEDE !important
+      border-bottom: solid 2px #DEDEDE !important
+
+    &__row-data:not(:last-child)
+      border-bottom: solid 2px #DEDEDE
+

@@ -14,10 +14,9 @@ export default function AstroHomeSignedIn() {
       align="center"
       colorIndex="accent-3"
       direction="column"
-      size="full"
-      margin={{ vertical: 'none', horizontal: 'medium' }}
+      margin={{ vertical: 'none', horizontal: 'none' }}
+      pad={{ vertical: 'none', horizontal: 'none' }}
       justify="center"
-      responsive={false}
     >
       <Box align="center" direction="row" justify="center">
         <Button href="#" type="button" label="Google Drive" />
