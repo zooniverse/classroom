@@ -26,6 +26,7 @@
     "debounce": "~1.0.2",
     "grommet": "~1.5.0",
     "jumpstate": "^2.2.2",
+    "leaflet": "1.2.0",
     "panoptes-client": "~2.7.2",
     "prop-types": "~15.5.10",
     "react": "~15.6.1",
