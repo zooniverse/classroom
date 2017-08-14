@@ -14,12 +14,14 @@ const CLASSROOMS_STATUS = {
 const CLASSROOMS_INITIAL_STATE = {
   classrooms: [],
   error: null,
+  showCreateForm: false,
   status: CLASSROOMS_STATUS.IDLE,
 };
 
 const CLASSROOMS_PROPTYPES = {
   classrooms: PropTypes.arrayOf(PropTypes.object),  //OPTIONAL TODO: Transform this into PropTypes.shape.
   error: PropTypes.object,
+  showCreateForm: PropTypes.bool,
   status: PropTypes.string,
 };
 
@@ -34,6 +36,10 @@ const setClassrooms = (state, classrooms) => {
 
 const setError = (state, error) => {
   return { ...state, error };
+};
+
+const setCreateFormVisibility = (state) => {
+  return { ...state, showCreateForm: !state.showCreateForm };
 };
 
 // Effects are for async actions and get automatically to the global Actions list
@@ -66,6 +72,7 @@ const classrooms = State('classrooms', {
   setStatus,
   setClassrooms,
   setError,
+  setCreateFormVisibility
 });
 
 export default classrooms;

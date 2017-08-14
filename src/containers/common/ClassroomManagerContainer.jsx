@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import {
@@ -13,6 +12,16 @@ import ClassroomManager from '../../components/common/ClassroomManager';
 class ClassroomManagerContainer extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      toast: {
+        message: null,
+        status: null
+      }
+    };
+
+    this.copyJoinLink = this.copyJoinLink.bind(this);
+    this.resetToastState = this.resetToastState.bind(this);
   }
 
   componentDidMount() {
@@ -23,6 +32,14 @@ class ClassroomManagerContainer extends React.Component {
     });
   }
 
+  copyJoinLink() {
+    this.setState({ toast: { message: 'Link copied', status: 'ok' } });
+  }
+
+  resetToastState() {
+    this.setState({ toast: { message: null, status: null } });
+  }
+
   render() {
     return (
       <ClassroomManager
@@ -31,6 +48,10 @@ class ClassroomManagerContainer extends React.Component {
         classrooms={this.props.classrooms}
         classroomInstructions={this.props.classroomInstructions}
         classroomsStatus={this.props.classroomsStatus}
+        copyJoinLink={this.copyJoinLink}
+        resetToastState={this.resetToastState}
+        showCreateForm={this.props.showCreateForm}
+        toast={this.state.toast}
       />
     );
   }
@@ -50,7 +71,8 @@ const mapStateToProps = (state) => ({
   assignments: state.assignments.assignments,
   assignmentsStatus: state.assignments.status,
   classrooms: state.classrooms.classrooms,
-  classroomsStatus: state.classrooms.status
+  classroomsStatus: state.classrooms.status,
+  showCreateForm: state.classrooms.showCreateForm
 });
 
 export default connect(mapStateToProps)(ClassroomManagerContainer);
