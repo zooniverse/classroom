@@ -16,20 +16,25 @@ class MapExplorer extends React.Component {
   constructor(props) {
     super(props);
     
-    console.log('!!!'.repeat(80));
-    console.log(L);
-    
     this.map = null;
-    this.dataLayer = null;
+    this.tileLayers = null;
+    this.dataLayers = null;
   }
 
   componentDidMount() {
     if (this.map) return;
     
+    this.tileLayers = [
+      L.tileLayer(
+        '//server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+        { attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community' }
+      ),
+    ];
+    
     this.map = new L.Map('mapVisuals', {
       center: [0, 0],  //Lat-Long
       zoom: 12,
-      layers: null  //Set the default base layer
+      layers: this.tileLayers[0]  //Set the default base layer
     });
   }
 
