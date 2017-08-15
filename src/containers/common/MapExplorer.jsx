@@ -17,58 +17,110 @@ class MapExplorer extends React.Component {
     super(props);
     
     this.initMapExplorer = this.initMapExplorer.bind(this);
+    this.renderMarker = this.renderMarker.bind(this);
+    this.updateDataLayer = this.updateDataLayer.bind(this);
     
     this.map = null;
     this.dataLayer = null;
   }
   
-  componentDidMount() {
-    this.initMapExplorer();
-  }
+  //----------------------------------------------------------------
 
   initMapExplorer() {
-    if (this.map) return;
+    if (this.map) return;  //Don't initialise the map if a map already exists.
     
-    let defaultTileLayer = null;
+    //Prepare the actual map. POWERED BY LEAFLET!
+    //--------------------------------
+    this.map = new L.Map('mapVisuals', {
+      center: [this.props.mapConfig.centre.latitude, this.props.mapConfig.centre.longitude],  //Lat-Long
+      zoom: this.props.mapConfig.centre.zoom,
+    });
+    //--------------------------------
+    
+    //Prepare the tile (map base) layers.
+    //--------------------------------
     const tileLayers = {};
     this.props.mapConfig.tileLayers.map((layer, index) => {
       const tl = L.tileLayer(layer.url, { attribution: layer.attribution, });
       tileLayers[layer.name] = tl;
-      if (index === 0) defaultTileLayer = tl;
+      if (index === 0) tl.addTo(this.map);  //Use the first tile layer as the default tile layer.
     });
+    //--------------------------------
     
-    this.map = new L.Map('mapVisuals', {
-      center: [this.props.mapConfig.centre.latitude, this.props.mapConfig.centre.longitude],  //Lat-Long
-      zoom: this.props.mapConfig.centre.zoom,
-      layers: defaultTileLayer  //Set the default base layer
-    });
+    //Prepare the dynamic data layer.
+    //Starts off empty, but is populated by updateDataLayer().
+    //--------------------------------
+    this.dataLayer = L.geoJson(null, {
+      pointToLayer: this.renderMarker
+    }).addTo(this.map);
+    this.updateDataLayer(this.props);
+    //--------------------------------
     
+    //Prepare additional geographic information layers (park boundaries, etc)
+    //--------------------------------
     const geomapLayers = {};
+    //--------------------------------
     
-    //Bonus: Add the Layer Controls
+    //Add standard 'Layer' controls
+    //--------------------------------
     L.control.layers(tileLayers, {
-      //'Data': dataLayers,
+      'Data': this.dataLayer,
       //...geomapLayers
     }, {
       position: 'topleft',
       collapsed: true,
     }).addTo(this.map);
+    //--------------------------------
   }
-
+  
+  //----------------------------------------------------------------
+  
+  updateDataLayer(props = this.props) {
+    const TEST_SQL = 'SELECT * FROM cameras'
+    const TEST_URL = 'http://wildcam-darien.carto.com/api/v2/sql?format=GeoJSON&q=' + encodeURIComponent(TEST_SQL);
+    
+    console.log('!'.repeat(80));
+    
+    //this.dataLayer.clearLayers();
+    //this.dataLayer.addData(geojson);
+  }
+  
+  renderMarker(feature, latlng) {
+    const marker = L.circleMarker(latlng, {
+      color: '#fff',
+      fillColor: '#c33',
+      fillOpacity: 0.8,
+      radius: 5,
+    });
+    return marker;
+  }
+  
+  //----------------------------------------------------------------
+  
   render() {
     return (
       <div className="map-explorer" style={{height: '90vh'}}>
-        <link
-           rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
-           integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
-           crossOrigin=""
-        />
         <section ref="mapVisuals" className="map-visuals">
+          <link
+            rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+            integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+            crossOrigin=""
+          />
           <div id="mapVisuals"></div>
         </section>
       </div>
     );
   }
+  
+  componentDidMount() {
+    this.initMapExplorer();
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    //this.updateDataLayer(nextProps);
+  }
+  
+  //----------------------------------------------------------------
 }
 
 MapExplorer.propTypes = {
