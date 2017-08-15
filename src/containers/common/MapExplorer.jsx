@@ -9,6 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
+import superagent from 'superagent';
 
 import L from 'leaflet';
 
@@ -79,7 +80,20 @@ class MapExplorer extends React.Component {
     const TEST_SQL = 'SELECT * FROM cameras'
     const TEST_URL = 'http://wildcam-darien.carto.com/api/v2/sql?format=GeoJSON&q=' + encodeURIComponent(TEST_SQL);
     
-    console.log('!'.repeat(80));
+    superagent.get(TEST_URL)
+    .then(response => {
+      if (response.ok && response.body) {
+        return response.body;
+      }
+      throw 'ERROR (MapExplorer): invalid response';
+    })
+    .then(geojson => {
+      this.dataLayer.clearLayers();
+      this.dataLayer.addData(geojson);
+    })
+    .catch(err => {
+      console.error(err);
+    });
     
     //this.dataLayer.clearLayers();
     //this.dataLayer.addData(geojson);
