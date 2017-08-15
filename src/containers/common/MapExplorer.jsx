@@ -19,6 +19,7 @@ class MapExplorer extends React.Component {
     this.initMapExplorer = this.initMapExplorer.bind(this);
     
     this.map = null;
+    this.dataLayer = null;
   }
   
   componentDidMount() {
@@ -28,23 +29,24 @@ class MapExplorer extends React.Component {
   initMapExplorer() {
     if (this.map) return;
     
-    const tileLayersForControls = {};
-    const tileLayers = this.props.mapConfig.tileLayers.map((layer) => {
+    let defaultTileLayer = null;
+    const tileLayers = {};
+    this.props.mapConfig.tileLayers.map((layer, index) => {
       const tl = L.tileLayer(layer.url, { attribution: layer.attribution, });
-      tileLayersForControls[layer.name] = tl;
-      return tl;
+      tileLayers[layer.name] = tl;
+      if (index === 0) defaultTileLayer = tl;
     });
     
     this.map = new L.Map('mapVisuals', {
       center: [this.props.mapConfig.centre.latitude, this.props.mapConfig.centre.longitude],  //Lat-Long
       zoom: this.props.mapConfig.centre.zoom,
-      layers: tileLayers[0]  //Set the default base layer
+      layers: defaultTileLayer  //Set the default base layer
     });
     
     const geomapLayers = {};
     
     //Bonus: Add the Layer Controls
-    L.control.layers(tileLayersForControls, {
+    L.control.layers(tileLayers, {
       //'Data': dataLayers,
       //...geomapLayers
     }, {
