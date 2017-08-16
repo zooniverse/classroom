@@ -2,6 +2,8 @@ import React from 'react';
 import MapExplorer from '../../containers/common/MapExplorer';
 import { connect } from 'react-redux';
 
+const mapConfig = require('../../lib/wildcam-darien.mapConfig.json');
+
 class TesterHome extends React.Component {
   constructor(props) {
     super(props);
@@ -11,10 +13,11 @@ class TesterHome extends React.Component {
 
   render() {
     return (
-      <MapExplorer />
+      <MapExplorer
+        mapConfig={mapConfig}
+      />
     );
   }
-
 }
 
 TesterHome.propTypes = {};
