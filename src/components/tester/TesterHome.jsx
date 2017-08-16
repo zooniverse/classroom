@@ -1,5 +1,5 @@
 import React from 'react';
-import MapExplorer from '../../containers/common/MapExplorer';
+import MapExplorer from '../../containers/maps/MapExplorer';
 import { connect } from 'react-redux';
 
 const mapConfig = require('../../lib/wildcam-darien.mapConfig.json');
