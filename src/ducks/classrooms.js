@@ -1,6 +1,6 @@
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
-import { get } from '../lib/edu-api';
+import { get, post } from '../lib/edu-api';
 
 // Constants
 const CLASSROOMS_STATUS = {
@@ -23,6 +23,13 @@ const CLASSROOMS_PROPTYPES = {
   error: PropTypes.object,
   showCreateForm: PropTypes.bool,
   status: PropTypes.string,
+};
+
+// Helper Functions
+function handleError(error) {
+  Actions.classrooms.setStatus(CLASSROOMS_STATUS.ERROR);
+  Actions.classrooms.setError(error);
+  console.error(error);
 };
 
 // Synchonous actions
@@ -59,9 +66,22 @@ Effect('getClassrooms', () => {
       Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
       Actions.classrooms.setClassrooms(data);
     }).catch((error) => {
-      Actions.classrooms.setStatus(CLASSROOMS_STATUS.ERROR);
-      Actions.classrooms.setError(error);
-      console.error(error);
+      handleError(error);
+    });
+});
+
+Effect('createClassroom', (data) => {
+  return post('teachers/classrooms/', data)
+    .then((response) => {
+      if (!response) { throw 'ERROR (ducks/classrooms/getClassrooms): No response'; }
+      if (response.ok &&
+          response.body && response.body.data) {
+        Actions.getClassrooms();
+      }
+      throw 'ERROR (ducks/classrooms/getClassrooms): Invalid response';
+    })
+    .catch((error) => {
+      handleError(error);
     });
 });
 

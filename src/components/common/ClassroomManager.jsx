@@ -33,7 +33,7 @@ const ClassroomManager = (props) => {
         <Button type="button" primary={true} label="Create New Classroom" onClick={Actions.classrooms.setCreateFormVisibility} />
       </Box>
       {props.showCreateForm &&
-        <Layer closer={true}>
+        <Layer closer={true} onClose={Actions.classrooms.setCreateFormVisibility}>
           <ClassroomCreateFormContainer />
         </Layer>}
       {props.toast && props.toast.message &&

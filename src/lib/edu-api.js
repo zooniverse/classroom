@@ -17,4 +17,12 @@ export function get(endpoint, query) {
   return request.then(response => response);
 }
 
+export function post(endpoint, data) {
+  return superagent.post(`${config.root}${endpoint}`)
+    .set('Content-Type', 'application/json')
+    .set('Authorization', apiClient.headers.Authorization)
+    .send(data)
+    .then(response => response);
+}
+
 window.eduAPI = superagent;
