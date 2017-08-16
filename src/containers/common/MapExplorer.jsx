@@ -29,19 +29,20 @@ class MapExplorer extends React.Component {
 
   initMapExplorer() {
     if (this.map) return;  //Don't initialise the map if a map already exists.
+    if (!this.props.mapConfig) return;
     
     //Prepare the actual map. POWERED BY LEAFLET!
     //--------------------------------
     this.map = new L.Map('mapVisuals', {
-      center: [this.props.mapConfig.centre.latitude, this.props.mapConfig.centre.longitude],  //Lat-Long
-      zoom: this.props.mapConfig.centre.zoom,
+      center: [this.props.mapConfig.map.centre.latitude, this.props.mapConfig.map.centre.longitude],  //Lat-Long
+      zoom: this.props.mapConfig.map.centre.zoom,
     });
     //--------------------------------
     
     //Prepare the tile (map base) layers.
     //--------------------------------
     const tileLayers = {};
-    this.props.mapConfig.tileLayers.map((layer, index) => {
+    this.props.mapConfig.map.tileLayers.map((layer, index) => {
       const tl = L.tileLayer(layer.url, { attribution: layer.attribution, });
       tileLayers[layer.name] = tl;
       if (index === 0) tl.addTo(this.map);  //Use the first tile layer as the default tile layer.
@@ -77,8 +78,14 @@ class MapExplorer extends React.Component {
   //----------------------------------------------------------------
   
   updateDataLayer(props = this.props) {
-    const TEST_SQL = 'SELECT * FROM cameras'
-    const TEST_URL = 'http://wildcam-darien.carto.com/api/v2/sql?format=GeoJSON&q=' + encodeURIComponent(TEST_SQL);
+    if (!this.map || !this.props.mapConfig || !this.dataLayer) return;
+    
+    //const TEST_SQL = 'SELECT * FROM cameras'
+    //const TEST_URL = 'http://wildcam-darien.carto.com/api/v2/sql?format=GeoJSON&q=' + encodeURIComponent(TEST_SQL);
+    const TEST_URL = this.props.mapConfig.database.url.replace(
+      '{SQLQUERY}',
+      this.props.mapConfig.database.queries.selectCameras.replace('{WHERE}', '')
+    );
     
     superagent.get(TEST_URL)
     .then(response => {
@@ -142,38 +149,46 @@ MapExplorer.propTypes = {
 };
 MapExplorer.defaultProps = {
   mapConfig: {
-    centre: {
-      "latitude": 7.895,
-      "longitude": -77.561,
-      "zoom": 8
+    "database": {
+      "url": "http://wildcam-darien.carto.com/api/v2/sql?format=GeoJSON&q={SQLQUERY}",
+      "queries": {
+        "selectCameras": "SELECT * FROM cameras {WHERE}",
+      },
     },
-    "tileLayers": [
-      {
-        "name": "Terrain",
-        "url": "//server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
-        "attribution": "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
+    "map": {
+      centre: {
+        "latitude": 7.895,
+        "longitude": -77.561,
+        "zoom": 8
       },
-      {
-        "name": "Terrain (Shaded)",
-        "url": "//server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
-        "attribution": "Tiles &copy; Esri &mdash; Source: Esri"
-      },
-      {
-        "name": "Roads",
-        "url": "http://{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png",
-        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"
-      },
-      {
-        "name": "Satellite",
-        "url": "//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
-      },
-      {
-        "name": "Plain",
-        "url": "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> &copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>"
-      }
-    ],    
+      "tileLayers": [
+        {
+          "name": "Terrain",
+          "url": "//server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+          "attribution": "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
+        },
+        {
+          "name": "Terrain (Shaded)",
+          "url": "//server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
+          "attribution": "Tiles &copy; Esri &mdash; Source: Esri"
+        },
+        {
+          "name": "Roads",
+          "url": "http://{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png",
+          "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"
+        },
+        {
+          "name": "Satellite",
+          "url": "//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+          "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+        },
+        {
+          "name": "Plain",
+          "url": "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+          "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> &copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>"
+        }
+      ],
+    }
   },
 };
 const mapStateToProps = (state) => ({});
