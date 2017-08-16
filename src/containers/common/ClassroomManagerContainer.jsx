@@ -25,11 +25,7 @@ class ClassroomManagerContainer extends React.Component {
   }
 
   componentDidMount() {
-    Actions.getClassrooms().then(() => {
-      this.props.classrooms.forEach((classroom) => {
-        Actions.getAssignments(classroom.id);
-      });
-    });
+    Actions.getClassroomsAndAssignments();
   }
 
   copyJoinLink() {
@@ -38,6 +34,15 @@ class ClassroomManagerContainer extends React.Component {
 
   resetToastState() {
     this.setState({ toast: { message: null, status: null } });
+  }
+
+  deleteClassroom(id) {
+    // TODO: Add alert to ask if user is sure
+    Actions.deleteClassroom(id).then(() => {
+      // TODO: For API optimization, do we want to instead manually remove the classroom
+      // out of local app state instead of making another API call
+      Actions.getClassroomsAndAssignments();
+    });
   }
 
   render() {
@@ -49,6 +54,7 @@ class ClassroomManagerContainer extends React.Component {
         classroomInstructions={this.props.classroomInstructions}
         classroomsStatus={this.props.classroomsStatus}
         copyJoinLink={this.copyJoinLink}
+        deleteClassroom={this.deleteClassroom}
         resetToastState={this.resetToastState}
         showCreateForm={this.props.showCreateForm}
         toast={this.state.toast}

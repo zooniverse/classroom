@@ -1,11 +1,13 @@
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
-import { get, post } from '../lib/edu-api';
+import { get, post, httpDelete } from '../lib/edu-api';
 
 // Constants
 const CLASSROOMS_STATUS = {
   IDLE: 'idle',
   FETCHING: 'fetching',
+  POSTING: 'posting',
+  DELETING: 'deleting',
   SUCCESS: 'success',
   ERROR: 'error',
 };
@@ -65,20 +67,51 @@ Effect('getClassrooms', () => {
     .then((data) => {
       Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
       Actions.classrooms.setClassrooms(data);
+      return data;
     }).catch((error) => {
       handleError(error);
     });
 });
 
+Effect('getClassroomsAndAssignments', () => {
+  Actions.getClassrooms().then((classrooms) => {
+    classrooms.forEach((classroom) => {
+      // TODO: If many pages of assignments exist,
+      // loop through the number of pages to request all of the data
+      // and concatenate the response data together for the app state
+      // Neither Pagination nor infinite scroll would be good UX for current table design.
+      Actions.getAssignments(classroom.id);
+    });
+  });
+});
+
 Effect('createClassroom', (data) => {
+  Actions.classrooms.setStatus(CLASSROOMS_STATUS.POSTING);
+
   return post('teachers/classrooms/', data)
     .then((response) => {
-      if (!response) { throw 'ERROR (ducks/classrooms/getClassrooms): No response'; }
+      if (!response) { throw 'ERROR (ducks/classrooms/createClassroom): No response'; }
       if (response.ok &&
           response.body && response.body.data) {
-        Actions.getClassrooms();
+        return Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
       }
-      throw 'ERROR (ducks/classrooms/getClassrooms): Invalid response';
+      throw 'ERROR (ducks/classrooms/createClassroom): Invalid response';
+    })
+    .catch((error) => {
+      handleError(error);
+    });
+});
+
+Effect('deleteClassroom', (id) => {
+  Actions.classrooms.setStatus(CLASSROOMS_STATUS.DELETING);
+
+  return httpDelete(`teachers/classrooms/${id}`)
+    .then((response) => {
+      if (!response) { throw 'ERROR (ducks/classrooms/deleteClassroom): No response'; }
+      if (response.ok) {
+        return Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
+      }
+      throw 'ERROR (ducks/classrooms/deleteClassroom): Invalid response';
     })
     .catch((error) => {
       handleError(error);

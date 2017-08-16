@@ -29,12 +29,18 @@ class ClassroomCreateFormContainer extends React.Component {
 
   onSubmit(event) {
     event.preventDefault();
+    // TODO: Add project id(s) associated to classroom create
     Actions.createClassroom(this.state.fields)
       .then(() => {
         Actions.classrooms.setCreateFormVisibility();
         if (this.props.projectCollection === config.astroProjects) {
           console.log('TODO: Auto create assignments for I2A');
-          // Actions.assignments.createAssignment()
+          // TODO: Actions.assignments.createAssignment().then(Actions.getClassroomsAndAssignments());
+          // For API optimization, we could merge the returned classroom into the local app state
+          // Then only call for the linked assignments for that one classroom
+          Actions.getClassroomsAndAssignments();
+        } else {
+          Actions.getClassroomsAndAssignments();
         }
       });
   }

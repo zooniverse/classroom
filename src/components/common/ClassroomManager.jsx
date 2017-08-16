@@ -10,6 +10,7 @@ import TableRow from 'grommet/components/TableRow';
 import Toast from 'grommet/components/Toast';
 import Anchor from 'grommet/components/Anchor';
 import Layer from 'grommet/components/Layer';
+import CloseIcon from 'grommet/components/icons/base/Close';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import {
   CLASSROOMS_STATUS, CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
@@ -20,6 +21,7 @@ import {
 import ClassroomCreateFormContainer from '../../containers/common/ClassroomCreateFormContainer';
 
 const ClassroomManager = (props) => {
+  // TODO: Pagination for Classrooms
   return (
     <Box
       className="classroom-manager"
@@ -64,16 +66,25 @@ const ClassroomManager = (props) => {
               <tbody className="manager-table__body" key={classroom.id}>
                 <TableRow>
                   <th className="manager-table__row-header" id="classroom" colSpan="4" scope="colgroup">
-                    {classroom.name}{' '}
-                    <CopyToClipboard text={joinURL} onCopy={props.copyJoinLink}>
-                      <Button type="button" className="manager-table__button--as-link" plain={true} onClick={() => {}}>
-                        Copy Join Link
+                    <Box pad="none" margin="none" justify="between" direction="row">
+                      <span>
+                        {classroom.name}{' '}
+                        <CopyToClipboard text={joinURL} onCopy={props.copyJoinLink}>
+                          <Button type="button" className="manager-table__button--as-link" plain={true} onClick={() => {}}>
+                            Copy Join Link
+                          </Button>
+                        </CopyToClipboard>
+                      </span>
+                      <Button className="manager-table__button--delete" type="button" onClick={props.deleteClassroom.bind(null, classroom.id)}>
+                        <CloseIcon size="small" />
                       </Button>
-                    </CopyToClipboard>
+                    </Box>
                   </th>
                 </TableRow>
                 {(!props.assignments && props.assignmentsStatus === ASSIGNMENTS_STATUS.FETCHING) &&
-                  <Spinning />}
+                  <TableRow className="manager-table__row-data">
+                    <td colSpan="4"><Spinning /></td>
+                  </TableRow>}
                 {(props.assignments[classroom.id] && props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS) &&
                   props.assignments[classroom.id].map((assignment) => {
                     return (
