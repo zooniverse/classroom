@@ -9,8 +9,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
-import superagent from 'superagent';
 
+import superagent from 'superagent';
 import L from 'leaflet';
 
 class MapExplorer extends React.Component {
@@ -101,9 +101,6 @@ class MapExplorer extends React.Component {
     .catch(err => {
       console.error(err);
     });
-    
-    //this.dataLayer.clearLayers();
-    //this.dataLayer.addData(geojson);
   }
   
   renderMarker(feature, latlng) {
@@ -138,7 +135,7 @@ class MapExplorer extends React.Component {
   }
   
   componentWillReceiveProps(nextProps) {
-    //this.updateDataLayer(nextProps);
+    this.updateDataLayer(nextProps);
   }
   
   //----------------------------------------------------------------
@@ -148,48 +145,7 @@ MapExplorer.propTypes = {
   mapConfig: PropTypes.object,
 };
 MapExplorer.defaultProps = {
-  mapConfig: {
-    "database": {
-      "url": "http://wildcam-darien.carto.com/api/v2/sql?format=GeoJSON&q={SQLQUERY}",
-      "queries": {
-        "selectCameras": "SELECT * FROM cameras {WHERE}",
-      },
-    },
-    "map": {
-      centre: {
-        "latitude": 7.895,
-        "longitude": -77.561,
-        "zoom": 8
-      },
-      "tileLayers": [
-        {
-          "name": "Terrain",
-          "url": "//server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
-          "attribution": "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
-        },
-        {
-          "name": "Terrain (Shaded)",
-          "url": "//server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
-          "attribution": "Tiles &copy; Esri &mdash; Source: Esri"
-        },
-        {
-          "name": "Roads",
-          "url": "http://{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png",
-          "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"
-        },
-        {
-          "name": "Satellite",
-          "url": "//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-          "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
-        },
-        {
-          "name": "Plain",
-          "url": "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-          "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> &copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>"
-        }
-      ],
-    }
-  },
+  mapConfig: null,
 };
 const mapStateToProps = (state) => ({});
 
