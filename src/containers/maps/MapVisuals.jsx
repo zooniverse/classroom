@@ -10,8 +10,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
-import superagent from 'superagent';
 import L from 'leaflet';
+
+import {
+  MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES
+} from '../../ducks/mapexplorer';
 
 class MapVisuals extends React.Component {
   constructor(props) {
@@ -55,7 +58,7 @@ class MapVisuals extends React.Component {
     this.dataLayer = L.geoJson(null, {
       pointToLayer: this.renderMarker
     }).addTo(this.map);
-    this.updateDataLayer(this.props);
+    Actions.getMapMarkers(this.props.mapConfig);
     //--------------------------------
     
     //Prepare additional geographic information layers (park boundaries, etc)
@@ -78,27 +81,10 @@ class MapVisuals extends React.Component {
   //----------------------------------------------------------------
   
   updateDataLayer(props = this.props) {
-    if (!this.map || !this.props.mapConfig || !this.dataLayer) return;
+    if (!this.map || !this.dataLayer || !props.markersData) return;
     
-    const TEST_URL = this.props.mapConfig.database.url.replace(
-      '{SQLQUERY}',
-      this.props.mapConfig.database.queries.selectCameras.replace('{WHERE}', '')
-    );
-    
-    superagent.get(TEST_URL)
-    .then(response => {
-      if (response.ok && response.body) {
-        return response.body;
-      }
-      throw 'ERROR (MapExplorer): invalid response';
-    })
-    .then(geojson => {
-      this.dataLayer.clearLayers();
-      this.dataLayer.addData(geojson);
-    })
-    .catch(err => {
-      console.error(err);
-    });
+    this.dataLayer.clearLayers();
+    this.dataLayer.addData(props.markersData);  //Markers Data must be in GeoJSON format.
   }
   
   renderMarker(feature, latlng) {
@@ -139,10 +125,19 @@ class MapVisuals extends React.Component {
 
 MapVisuals.propTypes = {
   mapConfig: PropTypes.object,
+  ...MAPEXPLORER_PROPTYPES,
 };
 MapVisuals.defaultProps = {
   mapConfig: null,
+  ...MAPEXPLORER_INITIAL_STATE,
 };
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => {
+  console.log('1'.repeat(100), state.mapexplorer.markersData);
+  return ({
+    markersData: state.mapexplorer.markersData,
+    markersStatus: state.mapexplorer.markersStatus,
+    markersError: state.mapexplorer.markersError,
+  })
+};
 
 export default connect(mapStateToProps)(MapVisuals);

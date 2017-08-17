@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-//TEMPORARY FOR LOCALHOST TESTING
-//REMINDER TO SHAUN: Revert back to BrowserRouter before PR.
-//import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { HashRouter as Router, Route } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
