@@ -1,6 +1,6 @@
 /*
-Map Explorer
-============
+Map Explorer - Controls
+=======================
 
 ********************************************************************************
  */
@@ -8,35 +8,28 @@ Map Explorer
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Actions } from 'jumpstate';
 
-import MapVisuals from './MapVisuals'
-import MapControls from './MapControls'
-
-class MapExplorer extends React.Component {
+class MapControls extends React.Component {
   constructor(props) {
     super(props);
   }
   
   //----------------------------------------------------------------
-  
+
   render() {
     return (
-      <div className="map-explorer" style={{height: '90vh'}}>
-        <MapVisuals
-          mapConfig={this.props.mapConfig}
-        />
-        <MapControls />
-      </div>
+      null
     );
-  }
+  }  
 }
 
-MapExplorer.propTypes = {
+MapControls.propTypes = {
   mapConfig: PropTypes.object,
 };
-MapExplorer.defaultProps = {
+MapControls.defaultProps = {
   mapConfig: null,
 };
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps)(MapExplorer);
+export default connect(mapStateToProps)(MapControls);

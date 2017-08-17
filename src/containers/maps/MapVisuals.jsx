@@ -80,8 +80,6 @@ class MapVisuals extends React.Component {
   updateDataLayer(props = this.props) {
     if (!this.map || !this.props.mapConfig || !this.dataLayer) return;
     
-    //const TEST_SQL = 'SELECT * FROM cameras'
-    //const TEST_URL = 'http://wildcam-darien.carto.com/api/v2/sql?format=GeoJSON&q=' + encodeURIComponent(TEST_SQL);
     const TEST_URL = this.props.mapConfig.database.url.replace(
       '{SQLQUERY}',
       this.props.mapConfig.database.queries.selectCameras.replace('{WHERE}', '')
