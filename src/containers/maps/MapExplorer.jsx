@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import MapVisuals from './MapVisuals'
+import MapControls from './MapControls'
 
 class MapExplorer extends React.Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class MapExplorer extends React.Component {
         <MapVisuals
           mapConfig={this.props.mapConfig}
         />
+        <MapControls />
       </div>
     );
   }
