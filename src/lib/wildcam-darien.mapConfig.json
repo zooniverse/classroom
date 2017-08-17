@@ -2,7 +2,8 @@
   "database": {
     "url": "http://wildcam-darien.carto.com/api/v2/sql?format=GeoJSON&q={SQLQUERY}",
     "queries": {
-      "selectCameras": "SELECT * FROM cameras {WHERE}"
+      "selectCameras": "SELECT * FROM cameras {WHERE}",
+      "selectCameraCount": "SELECT cam.*, COUNT(sbjagg.*) as count FROM cameras AS cam LEFT JOIN (SELECT sbj.camera, sbj.location, sbj.date, sbj.season, sbj.time_period, agg.data_choice, agg.subject_id FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera GROUP BY cam.cartodb_id ORDER BY count DESC"
     }
   },
   "map": {

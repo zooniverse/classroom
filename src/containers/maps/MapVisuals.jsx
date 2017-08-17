@@ -16,12 +16,27 @@ import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES
 } from '../../ducks/mapexplorer';
 
+//Arbitrary values for a default map marker.
+//TODO / QUESTION: make this customisable?
+const DEFAULT_MARKER = {
+  color: '#fff',
+  fillColor: '#fc3',
+  emptyFillColor: '#999',
+  fillOpacity: 0.8,
+  radius: 10,
+  minRadius: 5,
+  maxRadius: 20,
+  minValue: 0,
+  maxValue: 1000,
+};
+
 class MapVisuals extends React.Component {
   constructor(props) {
     super(props);
     
     this.initMapExplorer = this.initMapExplorer.bind(this);
     this.renderMarker = this.renderMarker.bind(this);
+    this.examineMarker = this.examineMarker.bind(this);
     this.updateDataLayer = this.updateDataLayer.bind(this);
     
     this.map = null;
@@ -88,13 +103,29 @@ class MapVisuals extends React.Component {
   }
   
   renderMarker(feature, latlng) {
+    const count = (feature && feature.properties && feature.properties.count !== undefined)
+      ? feature.properties.count : 0;  //Warning: assumption is `count` is an integer.
+    const radius = 
+      Math.max(Math.min((count - DEFAULT_MARKER.minValue) / DEFAULT_MARKER.maxValue, 1), 0) *
+      (DEFAULT_MARKER.maxRadius - DEFAULT_MARKER.minRadius) +
+      DEFAULT_MARKER.minRadius;
+    
     const marker = L.circleMarker(latlng, {
-      color: '#fff',
-      fillColor: '#c33',
-      fillOpacity: 0.8,
-      radius: 5,
+      color: DEFAULT_MARKER.color,
+      fillColor: (count > 0) ? DEFAULT_MARKER.fillColor : DEFAULT_MARKER.emptyFillColor,
+      fillOpacity: DEFAULT_MARKER.fillOpacity,
+      radius,
     });
+    
+    marker.on('click', this.examineMarker);
     return marker;
+  }
+  
+  examineMarker(e) {
+    if (!e || !e.target || !e.target.feature || !e.target.feature.properties) return;
+    
+    const cameraId = e.target.feature.properties.id;
+    alert(`TODO: Examine camera ${cameraId}`);  //TODO: Make this a "View a single camera's photos" action.
   }
   
   //----------------------------------------------------------------
@@ -131,13 +162,10 @@ MapVisuals.defaultProps = {
   mapConfig: null,
   ...MAPEXPLORER_INITIAL_STATE,
 };
-const mapStateToProps = (state) => {
-  console.log('1'.repeat(100), state.mapexplorer.markersData);
-  return ({
-    markersData: state.mapexplorer.markersData,
-    markersStatus: state.mapexplorer.markersStatus,
-    markersError: state.mapexplorer.markersError,
-  })
-};
+const mapStateToProps = (state) => ({
+  markersData: state.mapexplorer.markersData,
+  markersStatus: state.mapexplorer.markersStatus,
+  markersError: state.mapexplorer.markersError,
+});
 
 export default connect(mapStateToProps)(MapVisuals);

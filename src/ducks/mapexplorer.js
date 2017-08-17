@@ -44,7 +44,7 @@ Effect('getMapMarkers', (mapConfig) => {
   const where = '';  //TODO: construct WHERE from 
   const url = mapConfig.database.url.replace(
     '{SQLQUERY}',
-    mapConfig.database.queries.selectCameras.replace('{WHERE}', where)
+    mapConfig.database.queries.selectCameraCount.replace('{WHERE}', where)
   );
 
   superagent.get(url)
@@ -56,11 +56,11 @@ Effect('getMapMarkers', (mapConfig) => {
     throw 'ERROR (ducks/mapexplorer/getMapMarkers): invalid response';
   })
   .then(geojson => {
+    Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.SUCCESS);
     Actions.mapexplorer.setMarkersData(geojson);
-    //this.dataLayer.clearLayers();
-    //this.dataLayer.addData(geojson);
   })
   .catch(err => {
+    Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.ERROR);
     console.error(err);
   });
 
