@@ -38,6 +38,205 @@
         "url": "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
         "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> &copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>"
       }
-    ]
+    ],
+    "filters": {
+      "species": {
+        "type": "multichoice",
+        "options": [
+          {
+            "value": "agouti",
+            "label": "Agouti"
+          },
+          {
+            "value": "armadillonakedtailed",
+            "label": "Armadillo, Naked-tailed"
+          },
+          {
+            "value": "armadilloninebanded",
+            "label": "Armadillo, Nine-banded"
+          },
+          {
+            "value": "bat",
+            "label": "Bat"
+          },
+          {
+            "value": "birdother",
+            "label": "Bird (other)"
+          },
+          {
+            "value": "capuchinmonkey",
+            "label": "Capuchin Monkey"
+          },
+          {
+            "value": "capybara",
+            "label": "Capybara"
+          },
+          {
+            "value": "coati",
+            "label": "Coati"
+          },
+          {
+            "value": "coyote",
+            "label": "Coyote"
+          },
+          {
+            "value": "crestedguan",
+            "label": "Crested Guan"
+          },
+          {
+            "value": "deerredbrocket",
+            "label": "Deer, Red Brocket"
+          },
+          {
+            "value": "deerwhitetailed",
+            "label": "Deer, White-tailed"
+          },
+          {
+            "value": "dogbush",
+            "label": "Dog, Bush"
+          },
+          {
+            "value": "dogdomestic",
+            "label": "Dog, Domestic"
+          },
+          {
+            "value": "foxcrabeating",
+            "label": "Fox, Crab-eating"
+          },
+          {
+            "value": "foxgray",
+            "label": "Fox, Gray"
+          },
+          {
+            "value": "giantanteater",
+            "label": "Giant Anteater"
+          },
+          {
+            "value": "greatcurassow",
+            "label": "Great Curassow"
+          },
+          {
+            "value": "greattinamou",
+            "label": "Great Tinamou"
+          },
+          {
+            "value": "grison",
+            "label": "Grison"
+          },
+          {
+            "value": "jaguar",
+            "label": "Jaguar"
+          },
+          {
+            "value": "jaguarundi",
+            "label": "Jaguarundi"
+          },
+          {
+            "value": "margay",
+            "label": "Margay"
+          },
+          {
+            "value": "monkeyother",
+            "label": "Monkey (other)"
+          },
+          {
+            "value": "ocelot",
+            "label": "Ocelot"
+          },
+          {
+            "value": "oncilla",
+            "label": "Oncilla"
+          },
+          {
+            "value": "opossumother",
+            "label": "Opossum (other)"
+          },
+          {
+            "value": "opossumcommon",
+            "label": "Opossum, Common"
+          },
+          {
+            "value": "otter",
+            "label": "Otter"
+          },
+          {
+            "value": "paca",
+            "label": "Paca"
+          },
+          {
+            "value": "peccarycollared",
+            "label": "Peccary, Collared"
+          },
+          {
+            "value": "peccarywhitelipped",
+            "label": "Peccary, White-lipped"
+          },
+          {
+            "value": "porcupine",
+            "label": "Porcupine"
+          },
+          {
+            "value": "puma",
+            "label": "Puma"
+          },
+          {
+            "value": "rabbit",
+            "label": "Rabbit"
+          },
+          {
+            "value": "raccoon",
+            "label": "Raccoon"
+          },
+          {
+            "value": "redtailedsquirrel",
+            "label": "Red-tailed Squirrel"
+          },
+          {
+            "value": "reptileamphibian",
+            "label": "Reptile / Amphibian"
+          },
+          {
+            "value": "rodentother",
+            "label": "Rodent (other)"
+          },
+          {
+            "value": "skunk",
+            "label": "Skunk"
+          },
+          {
+            "value": "spinyrat",
+            "label": "Spiny Rat"
+          },
+          {
+            "value": "tamandua",
+            "label": "Tamandua"
+          },
+          {
+            "value": "tapir",
+            "label": "Tapir"
+          },
+          {
+            "value": "tayra",
+            "label": "Tayra"
+          },
+          {
+            "value": "weasel",
+            "label": "Weasel"
+          },
+          {
+            "value": "humannotvehicles",
+            "label": "Human (not vehicles)"
+          },
+          {
+            "value": "vehicle",
+            "label": "Vehicle"
+          },
+          {
+            "value": "nothinghere",
+            "label": "Nothing here"
+          }
+        ]
+      }
+    }
   }
 }

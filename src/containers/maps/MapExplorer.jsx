@@ -25,11 +25,13 @@ class MapExplorer extends React.Component {
   
   render() {
     return (
-      <div className="map-explorer" style={{height: '90vh'}}>
+      <div className="map-explorer">
         <MapVisuals
           mapConfig={this.props.mapConfig}
         />
-        <MapControls />
+        <MapControls
+          mapConfig={this.props.mapConfig}
+        />
       </div>
     );
   }

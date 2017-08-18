@@ -15,7 +15,6 @@ import './styles/main.styl';
 
 const store = configureStore();
 
-// TODO: Make app ID dynamic between env
 oauth.init(config.panoptesAppId)
   .then(() => {
     ReactDOM.render((
