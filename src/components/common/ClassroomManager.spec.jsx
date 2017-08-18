@@ -31,7 +31,7 @@ const toast = {
   status: 'ok'
 };
 
-describe.only('<ClassroomManager />', function() {
+describe('<ClassroomManager />', function() {
   let wrapper;
   const copyJoinLinkSpy = sinon.spy();
   const deleteClassroomSpy = sinon.spy();
