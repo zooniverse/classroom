@@ -9,7 +9,7 @@ import {
 } from '../../ducks/assignments';
 import ClassroomManager from '../../components/common/ClassroomManager';
 
-class ClassroomManagerContainer extends React.Component {
+export class ClassroomManagerContainer extends React.Component {
   constructor(props) {
     super(props);
 

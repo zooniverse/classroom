@@ -32,10 +32,10 @@ const ClassroomManager = (props) => {
     >
       <Box align="center" direction="row" justify="between">
         <Paragraph align="start" size="small">{props.classroomInstructions}</Paragraph>
-        <Button type="button" primary={true} label="Create New Classroom" onClick={Actions.classrooms.setCreateFormVisibility} />
+        <Button type="button" primary={true} label="Create New Classroom" onClick={props.toggleFormVisibility} />
       </Box>
       {props.showCreateForm &&
-        <Layer closer={true} onClose={Actions.classrooms.setCreateFormVisibility}>
+        <Layer closer={true} onClose={props.toggleFormVisibility}>
           <ClassroomCreateFormContainer />
         </Layer>}
       {props.toast && props.toast.message &&
@@ -81,16 +81,27 @@ const ClassroomManager = (props) => {
                     </Box>
                   </th>
                 </TableRow>
-                {(!props.assignments && props.assignmentsStatus === ASSIGNMENTS_STATUS.FETCHING) &&
+                {(props.assignments[classroom.id] &&
+                  props.assignments[classroom.id].length === 0 &&
+                  props.assignmentsStatus === ASSIGNMENTS_STATUS.FETCHING) &&
                   <TableRow className="manager-table__row-data">
                     <td colSpan="4"><Spinning /></td>
+                  </TableRow>}
+                {(props.assignments[classroom.id] &&
+                  props.assignments[classroom.id].length === 0 &&
+                  props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS) &&
+                  <TableRow className="manager-table__row-data">
+                    <td colSpan="4"><Paragraph>No assignments have been created yet.</Paragraph></td>
                   </TableRow>}
                 {(props.assignments[classroom.id] && props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS) &&
                   props.assignments[classroom.id].map((assignment) => {
                     return (
                       <TableRow className="manager-table__row-data" key={assignment.id}>
                         <td headers="classroom assignments">{assignment.name}</td>
-                        <td headers="classroom completed">{assignment.metadata.classifications_target}</td>
+                        <td headers="classroom completed">
+                          {(assignment.metadata && assignment.metadata.classifications_target) ?
+                            assignment.metadata.classifications_target : ''}
+                        </td>
                         <td headers="classroom export">
                           <Button
                             type="button"
@@ -105,7 +116,6 @@ const ClassroomManager = (props) => {
                         <td headers="classroom view-project">
                           <Anchor
                             className="manager-table__link"
-                            reverse={true}
                             href="#"
                           >
                             Project Page{' '}
@@ -126,8 +136,10 @@ const ClassroomManager = (props) => {
 ClassroomManager.defaultProps = {
   classroomInstructions: '',
   copyJoinLink: () => {},
-  onCreateNewClassroom: () => {},
+  deleteClassroom: () => {},
   resetToastState: () => {},
+  showCreateForm: false,
+  toggleFormVisibility: Actions.classrooms.toggleCreateFormVisibility,
   toast: null,
   ...CLASSROOMS_INITIAL_STATE,
   ...ASSIGNMENTS_INITIAL_STATE
@@ -136,8 +148,10 @@ ClassroomManager.defaultProps = {
 ClassroomManager.propTypes = {
   classroomInstructions: PropTypes.string,
   copyJoinLink: PropTypes.func,
-  onCreateNewClassroom: PropTypes.func,
+  deleteClassroom: PropTypes.func,
   resetToastState: PropTypes.func,
+  showCreateForm: PropTypes.bool,
+  toggleFormVisibility: PropTypes.func,
   toast: PropTypes.shape({
     message: null,
     status: null

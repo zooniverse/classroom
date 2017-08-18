@@ -5,7 +5,7 @@ import { Actions } from 'jumpstate';
 import ClassroomCreateForm from '../../components/common/ClassroomCreateForm';
 import { config } from '../../lib/config';
 
-class ClassroomCreateFormContainer extends React.Component {
+export class ClassroomCreateFormContainer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -32,7 +32,7 @@ class ClassroomCreateFormContainer extends React.Component {
     // TODO: Add project id(s) associated to classroom create
     Actions.createClassroom(this.state.fields)
       .then(() => {
-        Actions.classrooms.setCreateFormVisibility();
+        Actions.classrooms.toggleCreateFormVisibility();
         if (this.props.projectCollection === config.astroProjects) {
           console.log('TODO: Auto create assignments for I2A');
           // TODO: Actions.assignments.createAssignment().then(Actions.getClassroomsAndAssignments());

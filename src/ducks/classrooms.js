@@ -32,7 +32,7 @@ function handleError(error) {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.ERROR);
   Actions.classrooms.setError(error);
   console.error(error);
-};
+}
 
 // Synchonous actions
 const setStatus = (state, status) => {
@@ -47,7 +47,7 @@ const setError = (state, error) => {
   return { ...state, error };
 };
 
-const setCreateFormVisibility = (state) => {
+const toggleCreateFormVisibility = (state) => {
   return { ...state, showCreateForm: !state.showCreateForm };
 };
 
@@ -75,13 +75,15 @@ Effect('getClassrooms', () => {
 
 Effect('getClassroomsAndAssignments', () => {
   Actions.getClassrooms().then((classrooms) => {
-    classrooms.forEach((classroom) => {
-      // TODO: If many pages of assignments exist,
-      // loop through the number of pages to request all of the data
-      // and concatenate the response data together for the app state
-      // Neither Pagination nor infinite scroll would be good UX for current table design.
-      Actions.getAssignments(classroom.id);
-    });
+    if (classrooms) {
+      classrooms.forEach((classroom) => {
+        // TODO: If many pages of assignments exist,
+        // loop through the number of pages to request all of the data
+        // and concatenate the response data together for the app state
+        // Neither Pagination nor infinite scroll would be good UX for current table design.
+        Actions.getAssignments(classroom.id);
+      });
+    }
   });
 });
 
@@ -125,7 +127,7 @@ const classrooms = State('classrooms', {
   setStatus,
   setClassrooms,
   setError,
-  setCreateFormVisibility
+  toggleCreateFormVisibility
 });
 
 export default classrooms;
