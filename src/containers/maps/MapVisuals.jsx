@@ -2,6 +2,12 @@
 Map Explorer - Visuals
 ======================
 
+Part of the Map Explorer feature.
+
+This feature has one function:
+* visually display the aggregated data from a specific Zooniverse project on a
+  geographical map.
+
 ********************************************************************************
  */
 

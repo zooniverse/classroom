@@ -1,3 +1,17 @@
+/*
+Map Explorer - Data Connection and Duck
+=======================================
+
+Part of the Map Explorer feature.
+
+This component has two functions:
+* store the common data values (e.g. the selected filters) used across each Map
+  Explorer component.
+* Connect to the external database containing the necessary map (geoJson) data.
+
+********************************************************************************
+ */
+
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
 import superagent from 'superagent';

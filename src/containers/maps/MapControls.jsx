@@ -2,6 +2,13 @@
 Map Explorer - Controls
 =======================
 
+Part of the Map Explorer feature.
+
+This component has two functions:
+* allow users to select the filters (e.g. by species) shown on the map.
+* allow users to download data from the external database, based on the selected
+  filters.
+
 ********************************************************************************
  */
 
@@ -18,6 +25,8 @@ class MapControls extends React.Component {
   //----------------------------------------------------------------
 
   render() {
+    
+    
     return (
       null
     );
