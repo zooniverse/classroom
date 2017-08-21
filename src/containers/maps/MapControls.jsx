@@ -17,6 +17,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
+import MultiChoiceFilter from '../../components/maps/MultiChoiceFilter';
+
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES
 } from '../../ducks/mapexplorer';
@@ -33,11 +35,21 @@ class MapControls extends React.Component {
     
     return (
       <div className="map-controls">
-        <div>
-          {(this.props.filters && this.props.filters.species)}
-        </div>
-        <button onClick={()=> Actions.mapexplorer.addFilterSelectionItem({ key: 'species', value: 'lion'})}>Add Lion</button>
-        <button onClick={()=> Actions.mapexplorer.removeFilterSelectionItem({ key: 'species', value: 'lion'})}>Remove Lion</button>
+        {Object.keys(this.props.mapConfig.map.filters).map(key =>{
+          const item = this.props.mapConfig.map.filters[key];
+          if (item.type === "multichoice") {
+            return (
+              <MultiChoiceFilter
+                key={`map-controls-${key}`}
+                filterKey={key}
+                filterLabel={item.label}
+                options={item.options}
+                selected={this.props.filters[key]}  //This will be undefined if the key doesn't exist.
+              />
+            );
+          }
+          //TODO: add more types
+        })}
       </div>
     );
   }  

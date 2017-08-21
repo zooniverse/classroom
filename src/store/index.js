@@ -5,7 +5,9 @@ import rootReducer from '../ducks/reducer';
 
 const createStoreWithMiddleware = applyMiddleware(
   CreateJumpstateMiddleware(),
-  //createLogger(),
+  
+  //TEMP: re-enabled for debugging.
+  createLogger(),
   
 )(createStore);
 
