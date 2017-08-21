@@ -105,8 +105,13 @@ const setFilterSelectionItem = (state, key, value) => {
  */
 
 // Effects are for async actions and get automatically to the global Actions list
-Effect('getMapMarkers', (mapConfig, filters = {}) => {
+Effect('getMapMarkers', (payload = {}) => {
+  const mapConfig = payload.mapConfig;
+  const filters = payload.filters;
+  
   if (!mapConfig) return;
+  
+  console.log('STEP 1\n', '='.repeat(100), '\n1 >', mapConfig, '\n2 >', filters);
   
   Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.FETCHING);
   const where = constructWhereClause(mapConfig, filters);
@@ -115,9 +120,6 @@ Effect('getMapMarkers', (mapConfig, filters = {}) => {
     mapConfig.database.queries.selectCameraCount.replace('{WHERE}', where)
   );
   
-  console.log('x'.repeat(100));
-  console.log(mapConfig.database.queries.selectCameraCount.replace('{WHERE}', where));
-
   superagent.get(url)
   .then(response => {
     if (!response) { throw 'ERROR (ducks/mapexplorer/getMapMarkers): No response'; }

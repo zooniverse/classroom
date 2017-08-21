@@ -39,7 +39,6 @@ class MultiChoicePanel extends React.Component {
                   key={`map-control-filter-item-${this.props.filterKey}-${item.value}`}
                   onClick={()=>{
                     Actions.mapexplorer.removeFilterSelectionItem({ key: this.props.filterKey, value: item.value });
-                    this.props.onChange && this.props.onChange();
                   }}
                   icon={<CheckboxSelectedIcon/>}
                 >
@@ -54,7 +53,6 @@ class MultiChoicePanel extends React.Component {
                   key={`map-control-filter-item-${this.props.filterKey}-${item.value}`}
                   onClick={()=>{
                     Actions.mapexplorer.addFilterSelectionItem({ key: this.props.filterKey, value: item.value });
-                    this.props.onChange && this.props.onChange();
                   }}
                   icon={<CheckboxIcon/>}
                 >
@@ -82,14 +80,12 @@ MultiChoicePanel.defaultProps = {
   filterLabel: '',
   options: [],
   selected: undefined,  //We assume undefined instead of null by default, because that's what you get when you call filterArray[keyThatDoesntExist]
-  onChange: null,
 };
 MultiChoicePanel.propTypes = {
   filterKey: PropTypes.string,
   filterLabel: PropTypes.string,
   options: PropTypes.array,
   selected: PropTypes.array,
-  onChange: PropTypes.function,
 };
 
 export default MultiChoicePanel;

@@ -9,32 +9,38 @@ This library contains general utility functions required by the Map Explorer.
 ********************************************************************************
  */
 
-export function constructWhereClause(mapConfig, filters) {
+export function constructWhereClause(mapConfig, selectedFilters) {
   
-  console.log('>'.repeat(40));
+  console.log('STEP 2\n', '='.repeat(100), '\n1 >', mapConfig, '\n2 >', selectedFilters);
   
-  if (!mapConfig || !mapConfig.map || !mapConfig.map.filter || !filters)
+  if (!mapConfig || !mapConfig.map || !mapConfig.map.filters || !selectedFilters)
     return '';
   
   let sqlWhere = '';
   
-  const keys = Object.keys(mapConfig.map.filters);
+  const keys = Object.keys(selectedFilters);
   
-  console.log('---'.repeat(40));
-  
-  let selectedFilters = filters.map((filter) => {
-    console.log(filter);
+  //For each filter type...
+  let sqlSelectedFilters = keys.map((key) => {
+    const filter = mapConfig.map.filters[key];
     
-    return '';
+    if (filter.type === 'multichoice') {
+      let sqlSelectedOptions = selectedFilters[key].map(val => `${sqlString(key)} LIKE '${sqlString(val)}'`);
+      sqlSelectedOptions = sqlSelectedOptions.join(' OR ');
+      return `(${sqlSelectedOptions})`;
+    }
+    //TODO: Add more choices
+
+    return '(1 = 1)';  //Default true statement
   });
   
-  console.log('!!!');
-  
-  
-  
-  
+  sqlWhere = sqlSelectedFilters.join(' AND ');
   
   if (sqlWhere !== '') sqlWhere = ' WHERE ' + sqlWhere + ' ';
   
   return sqlWhere;
+}
+
+function sqlString(str) {
+  return str.replace(/'/ig, "''");
 }
