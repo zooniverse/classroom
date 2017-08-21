@@ -10,8 +10,29 @@ This library contains general utility functions required by the Map Explorer.
  */
 
 export function constructWhereClause(mapConfig, filters) {
-  //let sqlWhere = ' data_choice LIKE \'nothinghere\' ';
+  
+  console.log('>'.repeat(40));
+  
+  if (!mapConfig || !mapConfig.map || !mapConfig.map.filter || !filters)
+    return '';
+  
   let sqlWhere = '';
+  
+  const keys = Object.keys(mapConfig.map.filters);
+  
+  console.log('---'.repeat(40));
+  
+  let selectedFilters = filters.map((filter) => {
+    console.log(filter);
+    
+    return '';
+  });
+  
+  console.log('!!!');
+  
+  
+  
+  
   
   if (sqlWhere !== '') sqlWhere = ' WHERE ' + sqlWhere + ' ';
   

@@ -27,6 +27,7 @@ import {
 class MapControls extends React.Component {
   constructor(props) {
     super(props);
+    this.confirmSelection = this.confirmSelection.bind(this);
   }
   
   //----------------------------------------------------------------
@@ -46,6 +47,7 @@ class MapControls extends React.Component {
                 filterLabel={item.label}
                 options={item.options}
                 selected={this.props.filters[key]}  //This will be undefined if the key doesn't exist.
+                onChange={this.confirmSelection}  //Trigger confirmation of selection on ANY changes.
               />
             );
           }
@@ -53,7 +55,11 @@ class MapControls extends React.Component {
         })}
       </Box>
     );
-  }  
+  }
+  
+  confirmSelection() {
+    Actions.getMapMarkers(this.props.mapConfig, this.props.filters);
+  }
 }
 
 MapControls.propTypes = {
