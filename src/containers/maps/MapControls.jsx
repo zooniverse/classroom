@@ -29,8 +29,6 @@ class MapControls extends React.Component {
   //----------------------------------------------------------------
 
   render() {
-    console.log('x'.repeat(40), this.props.filters);
-    
     return (
       <div className="map-controls">
         <div>

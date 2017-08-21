@@ -16,6 +16,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
+import Box from 'grommet/components/Box';
+
 import L from 'leaflet';
 
 import {
@@ -46,6 +48,7 @@ class MapVisuals extends React.Component {
     this.updateDataLayer = this.updateDataLayer.bind(this);
     
     this.map = null;
+    this.mapContainer = null;
     this.dataLayer = null;
   }
   
@@ -57,7 +60,7 @@ class MapVisuals extends React.Component {
     
     //Prepare the actual map. POWERED BY LEAFLET!
     //--------------------------------
-    this.map = new L.Map('mapVisuals', {
+    this.map = new L.Map(this.mapContainer.boxContainerRef, {
       center: [this.props.mapConfig.map.centre.latitude, this.props.mapConfig.map.centre.longitude],  //Lat-Long
       zoom: this.props.mapConfig.map.centre.zoom,
     });
@@ -101,6 +104,10 @@ class MapVisuals extends React.Component {
   
   //----------------------------------------------------------------
   
+  /*  This function acts as the "render()" action for the Leaflet map, since
+      the Leaflet map isn't tied into the React lifecycle and needs to be nudged
+      (via componentWillReceiveProps()) when the data state updates.
+   */
   updateDataLayer(props = this.props) {
     if (!this.map || !this.dataLayer || !props.markersData) return;
     
@@ -138,14 +145,7 @@ class MapVisuals extends React.Component {
   
   render() {
     return (
-      <section ref="mapVisuals" className="map-visuals">
-        <link
-          rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
-          integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
-          crossOrigin=""
-        />
-        <div id="mapVisuals"></div>
-      </section>
+      <Box className="map-visuals" ref={(c)=>{this.mapContainer=c}} full={true}></Box>
     );
   }
   

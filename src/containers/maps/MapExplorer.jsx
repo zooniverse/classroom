@@ -25,6 +25,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import Box from 'grommet/components/Box';
 import MapVisuals from './MapVisuals'
 import MapControls from './MapControls'
 
@@ -37,14 +38,14 @@ class MapExplorer extends React.Component {
   
   render() {
     return (
-      <div className="map-explorer">
+      <Box className="map-explorer" full={true}>
         <MapVisuals
           mapConfig={this.props.mapConfig}
         />
         <MapControls
           mapConfig={this.props.mapConfig}
         />
-      </div>
+      </Box>
     );
   }
 }
