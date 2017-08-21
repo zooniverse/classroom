@@ -12,6 +12,10 @@ import CheckboxSelectedIcon from 'grommet/components/icons/base/CheckboxSelected
 class MultiChoicePanel extends React.Component {
   constructor(props) {
     super(props);
+    
+    this.state = {
+      expanded: false,
+    };
   }
   
   render() {
@@ -36,8 +40,9 @@ class MultiChoicePanel extends React.Component {
                   onClick={()=>{
                     Actions.mapexplorer.removeFilterSelectionItem({ key: this.props.filterKey, value: item.value })
                   }}
+                  icon={<CheckboxSelectedIcon/>}
                 >
-                  <CheckboxSelectedIcon /> {item.label}
+                  {item.label}
                 </Button>
               );
               
@@ -49,8 +54,9 @@ class MultiChoicePanel extends React.Component {
                   onClick={()=>{
                     Actions.mapexplorer.addFilterSelectionItem({ key: this.props.filterKey, value: item.value })
                   }}
+                  icon={<CheckboxIcon/>}
                 >
-                  <CheckboxIcon /> {item.label}
+                  {item.label}
                 </Button>
               );
               

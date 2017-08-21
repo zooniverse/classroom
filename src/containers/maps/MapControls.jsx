@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
+import Box from 'grommet/components/Box';
 import MultiChoiceFilter from '../../components/maps/MultiChoiceFilter';
 
 import {
@@ -34,7 +35,7 @@ class MapControls extends React.Component {
     if (!this.props.mapConfig) return null;
     
     return (
-      <div className="map-controls">
+      <Box className="map-controls">
         {Object.keys(this.props.mapConfig.map.filters).map(key =>{
           const item = this.props.mapConfig.map.filters[key];
           if (item.type === "multichoice") {
@@ -50,7 +51,7 @@ class MapControls extends React.Component {
           }
           //TODO: add more types
         })}
-      </div>
+      </Box>
     );
   }  
 }
