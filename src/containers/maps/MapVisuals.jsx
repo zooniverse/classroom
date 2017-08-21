@@ -82,7 +82,7 @@ class MapVisuals extends React.Component {
     this.dataLayer = L.geoJson(null, {
       pointToLayer: this.renderMarker
     }).addTo(this.map);
-    Actions.getMapMarkers(this.props.mapConfig);
+    Actions.getMapMarkers(this.props.mapConfig, this.props.filters);
     //--------------------------------
     
     //Prepare additional geographic information layers (park boundaries, etc)
@@ -172,6 +172,7 @@ const mapStateToProps = (state) => ({
   markersData: state.mapexplorer.markersData,
   markersStatus: state.mapexplorer.markersStatus,
   markersError: state.mapexplorer.markersError,
+  filters: state.mapexplorer.filters,
 });
 
 export default connect(mapStateToProps)(MapVisuals);

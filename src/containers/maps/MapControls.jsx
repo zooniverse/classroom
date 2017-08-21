@@ -29,6 +29,8 @@ class MapControls extends React.Component {
   //----------------------------------------------------------------
 
   render() {
+    if (!this.props.mapConfig) return null;
+    
     return (
       <div className="map-controls">
         <div>

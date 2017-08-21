@@ -15,6 +15,7 @@ This component has two functions:
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
 import superagent from 'superagent';
+import { constructWhereClause } from '../lib/mapexplorer-helpers.js';
 
 // Constants
 const MAPEXPLORER_MARKERS_STATUS = {
@@ -104,15 +105,18 @@ const setFilterSelectionItem = (state, key, value) => {
  */
 
 // Effects are for async actions and get automatically to the global Actions list
-Effect('getMapMarkers', (mapConfig) => {
+Effect('getMapMarkers', (mapConfig, filters = {}) => {
   if (!mapConfig) return;
   
   Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.FETCHING);
-  const where = '';  //TODO: construct WHERE from 
+  const where = constructWhereClause(mapConfig, filters);
   const url = mapConfig.database.url.replace(
     '{SQLQUERY}',
     mapConfig.database.queries.selectCameraCount.replace('{WHERE}', where)
   );
+  
+  console.log('x'.repeat(100));
+  console.log(mapConfig.database.queries.selectCameraCount.replace('{WHERE}', where));
 
   superagent.get(url)
   .then(response => {

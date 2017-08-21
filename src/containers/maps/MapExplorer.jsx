@@ -17,6 +17,8 @@ Notable components:
 * MapControls: allows users to select the kind of data they want.
 * ducks/mapexplorer: stores the map explorer data (e.g. view state) AND connects
     to the external database.
+* lib/mapexplorer-helper: handles general utility features, such as constructing
+    SQL "where" clauses from selected filters.
 
 ********************************************************************************
  */

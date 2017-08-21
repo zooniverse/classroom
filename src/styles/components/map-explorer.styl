@@ -3,8 +3,12 @@
   position: relative
   
   .map-controls
-    background: white
     position: absolute
     top: 1em
     right: 1em
-    z-index: 1000
+    z-index: 500  //Required to place controls above .map-visuals's Leaflet map
+    
+    //TMP: Arbitrary styles
+    background: white
+    padding: 1em
+    border: 1px solid black
