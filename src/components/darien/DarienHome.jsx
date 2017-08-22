@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import mapConfig from '../../lib/wildcam-darien.mapConfig.json';
 
-class TesterHome extends React.Component {
+class DarienHome extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -18,8 +18,8 @@ class TesterHome extends React.Component {
   }
 }
 
-TesterHome.propTypes = {};
-TesterHome.defaultProps = {};
+DarienHome.propTypes = {};
+DarienHome.defaultProps = {};
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps)(TesterHome);
+export default connect(mapStateToProps)(DarienHome);

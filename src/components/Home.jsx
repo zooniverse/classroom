@@ -40,16 +40,7 @@ export default function Home() {
             heading="WildCam Darien Lab"
             description="A map for exploring camera trap data from the WildCam Darien project."
             link={
-              <Anchor path="/" onClick={handleSettingProjectCollection.bind(null, [])}>Enter</Anchor>
-            }
-          />
-        </Tile>
-        <Tile>
-          <Card
-            heading="Experimental Pages"
-            description="Features that are still in testing. Safety not guaranteed."
-            link={
-              <Anchor path="/tester" onClick={handleSettingProjectCollection.bind(null, [])}>Enter</Anchor>
+              <Anchor path="/darien" onClick={handleSettingProjectCollection.bind(null, [])}>Enter</Anchor>
             }
           />
         </Tile>

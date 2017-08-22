@@ -11,7 +11,7 @@ import Home from './Home';
 import AdminContainer from '../containers/layout/AdminContainer';
 import AuthContainer from '../containers/layout/AuthContainer';
 import AstroHome from './astro/AstroHome';
-import TesterHome from './tester/TesterHome';
+import DarienHome from './darien/DarienHome';
 
 const Main = ({ admin }) => {
   const mainHeaderNavList = [
@@ -33,7 +33,7 @@ const Main = ({ admin }) => {
           <Route exact path="/" component={Home} />
           <Route path="/about" component={AboutLayout} />
           <Route path="/astro" component={AstroHome} />
-          <Route path="/tester" component={TesterHome} />
+          <Route path="/darien" component={DarienHome} />
         </Switch>
         <ZooFooter adminContainer={<AdminContainer />} />
       </Box>
