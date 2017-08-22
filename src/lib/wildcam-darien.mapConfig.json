@@ -271,7 +271,7 @@
         ]
       },
       "time_period": {
-        "label": "",
+        "label": "Times of Day",
         "type": "multichoice",
         "options": [
           {
