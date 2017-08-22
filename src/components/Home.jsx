@@ -1,9 +1,12 @@
 import React from 'react';
 import Section from 'grommet/components/Section';
+import Box from 'grommet/components/Box';
 import Card from 'grommet/components/Card';
 import Anchor from 'grommet/components/Anchor';
 import Tiles from 'grommet/components/Tiles';
 import Tile from 'grommet/components/Tile';
+import Heading from 'grommet/components/Heading';
+import Paragraph from 'grommet/components/Paragraph';
 
 import { Actions } from 'jumpstate';
 import { Link } from 'react-router-dom';
@@ -20,6 +23,10 @@ export default function Home() {
 
   return (
     <Section colorIndex="light-2">
+      <Box align="center">
+        <Heading>Zooniverse Classrooms</Heading>
+        <Paragraph>Classrooms and educational tools built for students, teachers, and explorers of all kinds. Powered by the <Anchor href="https://www.zooniverse.org">Zooniverse.</Anchor></Paragraph>
+      </Box>
       <Tiles
         fill={true}
         flush={false}
