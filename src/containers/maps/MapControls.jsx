@@ -56,7 +56,6 @@ class MapControls extends React.Component {
   }
   
   componentWillReceiveProps(props = this.props) {
-    console.log('Step 0\n', '='.repeat(100), '\n1 > ', props.mapConfig, '\n2 > ', props.filters);
     Actions.getMapMarkers({
       mapConfig: props.mapConfig,
       filters: props.filters,

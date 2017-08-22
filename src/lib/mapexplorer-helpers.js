@@ -10,9 +10,6 @@ This library contains general utility functions required by the Map Explorer.
  */
 
 export function constructWhereClause(mapConfig, selectedFilters) {
-  
-  console.log('STEP 2\n', '='.repeat(100), '\n1 >', mapConfig, '\n2 >', selectedFilters);
-  
   if (!mapConfig || !mapConfig.map || !mapConfig.map.filters || !selectedFilters)
     return '';
   

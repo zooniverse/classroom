@@ -237,6 +237,116 @@
             "label": "Nothing here"
           }
         ]
+      },
+      "veg_type": {
+        "label": "Habitats",
+        "type": "multichoice",
+        "options": [
+          {
+            "value": "Mature Forest",
+            "label": "Mature Forest"
+          },
+          {
+            "value": "Lowland semideciduous tropical forest",
+            "label": "Lowland semideciduous tropical forest"
+          },
+          {
+            "value": "Lowland evergreen tropical forest",
+            "label": "Lowland evergreen tropical forest"
+          }
+        ]
+      },
+      "season": {
+        "label": "Seasons",
+        "type": "multichoice",
+        "options": [
+          {
+            "value": "Dry",
+            "label": "Dry"
+          },
+          {
+            "value": "Wet",
+            "label": "Wet"
+          }
+        ]
+      },
+      "time_period": {
+        "label": "",
+        "type": "multichoice",
+        "options": [
+          {
+            "value": "Dawn 0555-0616",
+            "label": "Dawn (05:55-06:16)"
+          },
+          {
+            "value": "Day 0617-1827",
+            "label": "Day (06:17-18:27)"
+          },
+          {
+            "value": "Dusk 1828-1849",
+            "label": "Dusk (18:28-18:49)"
+          },
+          {
+            "value": "Night 1850-0554",
+            "label": "Night (18:50-05:54)"
+          }
+        ]
+      },
+      "national_park": {
+        "label": "National Parks",
+        "type": "multichoice",
+        "options": [
+          {
+            "value": "Darien",
+            "label": "Darien"
+          },
+          {
+            "value": "Soberania",
+            "label": "Soberania"
+          }
+        ]
+      },
+      "land_use": {
+        "label": "Land Use",
+        "type": "multichoice",
+        "options": [
+          {
+            "value": "Tourism",
+            "label": "Tourism"
+          },
+          {
+            "value": "Wilderness",
+            "label": "Wilderness"
+          }
+        ]
+      },
+      "human_type": {
+        "label": "Nearby Humans",
+        "type": "multichoice",
+        "options": [
+          {
+            "value": "Road",
+            "label": "Road"
+          },
+          {
+            "value": "Village",
+            "label": "Village"
+          }
+        ]
+      },
+      "water_type": {
+        "label": "Nearby Water",
+        "type": "multichoice",
+        "options": [
+          {
+            "value": "River",
+            "label": "River"
+          },
+          {
+            "value": "Lake",
+            "label": "Lake"
+          }
+        ]
       }
     }
   }

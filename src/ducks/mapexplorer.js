@@ -107,14 +107,12 @@ const setFilterSelectionItem = (state, key, value) => {
 // Effects are for async actions and get automatically to the global Actions list
 Effect('getMapMarkers', (payload = {}) => {
   const mapConfig = payload.mapConfig;
-  const filters = payload.filters;
+  const selectedFilters = payload.filters;
   
-  if (!mapConfig) return;
-  
-  console.log('STEP 1\n', '='.repeat(100), '\n1 >', mapConfig, '\n2 >', filters);
+  if (!mapConfig) return;  //We absolutely need mapConfig, but we're fine if filters is null or undefined (i.e. user has not selected any filters.) 
   
   Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.FETCHING);
-  const where = constructWhereClause(mapConfig, filters);
+  const where = constructWhereClause(mapConfig, selectedFilters);
   const url = mapConfig.database.url.replace(
     '{SQLQUERY}',
     mapConfig.database.queries.selectCameraCount.replace('{WHERE}', where)

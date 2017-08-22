@@ -13,7 +13,7 @@ class MultiChoicePanel extends React.Component {
   constructor(props) {
     super(props);
     
-    this.state = {
+    this.state = {  //Keep the view state simple & local; storing this on Redux would be overkill.
       expanded: false,
     };
   }
@@ -21,13 +21,13 @@ class MultiChoicePanel extends React.Component {
   render() {
     return (
       <Form className="multi-choice filter">
-        <h3>--{this.props.filterLabel}--</h3>
-        <div>
+        <h3>{this.props.filterLabel}</h3>
+        <Box>
           {(this.props.selected && this.props.selected.length > 0)
             ? `Selected ${this.props.selected.length} out of ${this.props.options.length} options`
             : `Showing all options`
           }
-        </div>
+        </Box>
         <Box>
           {this.props.options && this.props.options.map(item => {
             const isSelected = this.props.selected && this.props.selected.indexOf(item.value) >= 0;
