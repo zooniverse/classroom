@@ -113,9 +113,9 @@ Effect('getMapMarkers', (payload = {}) => {
   
   Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.FETCHING);
   const where = constructWhereClause(mapConfig, selectedFilters);
-  const url = mapConfig.database.url.replace(
+  const url = mapConfig.database.urls.geojson.replace(
     '{SQLQUERY}',
-    mapConfig.database.queries.selectCameraCount.replace('{WHERE}', where)
+    encodeURIComponent(mapConfig.database.queries.selectCameraCount.replace('{WHERE}', where))
   );
   
   superagent.get(url)

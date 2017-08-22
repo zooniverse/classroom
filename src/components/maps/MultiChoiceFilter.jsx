@@ -36,7 +36,7 @@ class MultiChoicePanel extends React.Component {
                   onClick={()=>{
                     Actions.mapexplorer.removeFilterSelectionItem({ key: this.props.filterKey, value: item.value });
                   }}
-                  icon={<CheckboxSelectedIcon/>}
+                  icon={<CheckboxSelectedIcon size="small" />}
                 >
                   {item.label}
                 </Button>
@@ -50,7 +50,7 @@ class MultiChoicePanel extends React.Component {
                   onClick={()=>{
                     Actions.mapexplorer.addFilterSelectionItem({ key: this.props.filterKey, value: item.value });
                   }}
-                  icon={<CheckboxIcon/>}
+                  icon={<CheckboxIcon size="small" />}
                 >
                   {item.label}
                 </Button>

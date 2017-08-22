@@ -19,6 +19,9 @@ import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
 import MultiChoiceFilter from '../../components/maps/MultiChoiceFilter';
+import SuperDownloadButton from '../../components/common/SuperDownloadButton';
+
+import { constructWhereClause } from '../../lib/mapexplorer-helpers'
 
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES
@@ -34,10 +37,24 @@ class MapControls extends React.Component {
   render() {
     if (!this.props.mapConfig) return null;
     
+    const mapConfig = this.props.mapConfig;
+    
+    const where = constructWhereClause(mapConfig, this.props.filters);
+    const downloadUrl = mapConfig.database.urls.csv.replace(
+      '{SQLQUERY}',
+      encodeURIComponent(mapConfig.database.queries.selectForDownload.replace('{WHERE}', where))
+    );
+    
     return (
       <Box className="map-controls">
-        {Object.keys(this.props.mapConfig.map.filters).map(key =>{
-          const item = this.props.mapConfig.map.filters[key];
+        <div>
+          <SuperDownloadButton
+            url={downloadUrl}
+          />
+        </div>
+        
+        {Object.keys(mapConfig.map.filters).map(key =>{
+          const item = mapConfig.map.filters[key];
           if (item.type === "multichoice") {
             return (
               <MultiChoiceFilter
