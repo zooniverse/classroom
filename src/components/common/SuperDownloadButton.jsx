@@ -2,9 +2,17 @@
 SuperDownloadButton
 ===================
 
-Creates a download button that opens the 'Save As' dialog box for downloading
-data. Across all browsers. Yes, including Safari 9, which has such poor HTML5
-support that it doesn't support 'download' in <a href="file.csv" download>.
+Creates a download button that, when clicked, queries an external URL for data,
+then opens the 'Save As' dialog box for downloading said data.
+
+Usage:
+  <SuperDownloadButton
+    url="https://some.service.that/returns/csv"
+  />
+
+The "Super" part comes from the amount of work needed to get this working across
+all browsers, notably Safari 9, which has such poor HTML5 support that it
+doesn't support 'download' in <a href="file.csv" download>.
 
 This component creates a hidden <form> that submits the data you want Safari to
 download to EduAPI's download service, which echoes the content back as a HTTP
