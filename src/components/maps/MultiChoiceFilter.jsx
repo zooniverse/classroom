@@ -12,10 +12,6 @@ import CheckboxSelectedIcon from 'grommet/components/icons/base/CheckboxSelected
 class MultiChoicePanel extends React.Component {
   constructor(props) {
     super(props);
-    
-    this.state = {  //Keep the view state simple & local; storing this on Redux would be overkill.
-      expanded: false,
-    };
   }
   
   render() {
@@ -67,12 +63,6 @@ class MultiChoicePanel extends React.Component {
       </Form>
     );
   }
-  
-  renderButton() {
-    return 
-    
-  }
-  
 }
 
 MultiChoicePanel.defaultProps = {
