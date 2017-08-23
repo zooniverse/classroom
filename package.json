@@ -10,7 +10,8 @@
     "start": "BABEL_ENV=development check-engines && check-dependencies && webpack-dashboard -p 3999 -- webpack-dev-server --config ./webpack.config.js",
     "test": "NODE_ENV=development BABEL_ENV=test mocha mocha-setup.js $(find src -name *.spec.jsx) --compilers js:babel-core/register --require mock-local-storage || true",
     "eslint": "eslint .",
-    "build": "BABEL_ENV=production check-engines && check-dependencies && webpack --config webpack.production.config.js -p"
+    "build": "BABEL_ENV=production check-engines && check-dependencies && webpack --config webpack.production.config.js -p",
+    "deploy-production": "NODE_ENV=production npm run build && publisssh dist zooniverse-static/classroom.zooniverse.org"
   },
   "engines": {
     "node": "^8.1.2",
@@ -77,6 +78,7 @@
     "mocha": "~3.4.2",
     "mock-local-storage": "~1.0.4",
     "nib": "~1.1.2",
+    "publisssh": "^1.1.0",
     "react-hot-loader": "~3.0.0-beta.7",
     "react-test-renderer": "~15.6.1",
     "rimraf": "~2.6.1",
