@@ -13,11 +13,13 @@ import Button from 'grommet/components/Button';
 import Paragraph from 'grommet/components/Paragraph';
 import Anchor from 'grommet/components/Anchor';
 
+import backgroundImageUrl from '../../images/background.jpg'
+
 import AstroHomeSignedIn from './AstroHomeSignedIn';
 
 const AstroHome = (props) => {
   const signedIn = (props.user && props.initialised);
-  const backgroundImage = <Image alt="" src="/images/background.jpg" fit="cover" align={{ bottom: true }} />;
+  const backgroundImage = <Image alt="" src={backgroundImageUrl} fit="cover" align={{ bottom: true }} />;
 
   return (
     <Article className="home" colorIndex="accent-3">
