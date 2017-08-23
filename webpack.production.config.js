@@ -45,7 +45,7 @@ module.exports = {
   ],
 
   resolve: {
-    extensions: ['.js', '.jsx', '.styl', '.css'],
+    extensions: ['.js', '.jsx', '.styl', '.css', '.json'],
     modules: ['.', 'node_modules'],
   },
 
@@ -56,8 +56,7 @@ module.exports = {
       use: 'babel-loader',
     }, {
       test: /\.css$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
+      use: ['style-loader', {
         loader: 'css-loader',
         options: {
           includePaths: [
@@ -65,7 +64,7 @@ module.exports = {
             path.resolve(__dirname, 'node_modules/zooniverse-react-components/lib')
           ]
         }
-      }),
+      }]
     }, {
       test: /\.styl$/,
       use: ExtractTextPlugin.extract({
