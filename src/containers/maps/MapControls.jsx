@@ -95,10 +95,14 @@ class MapControls extends React.Component {
   }
   
   componentWillReceiveProps(props = this.props) {
-    Actions.getMapMarkers({
-      mapConfig: props.mapConfig,
-      filters: props.filters,
-    });
+    //Prevent infinite loops; only update when the selected filters are changed.
+    let areFiltersDifferent = JSON.stringify(this.props.filters) !== JSON.stringify(props.filters);
+    if (areFiltersDifferent) {
+      Actions.getMapMarkers({
+        mapConfig: props.mapConfig,
+        filters: props.filters,
+      });
+    }
   }
 }
 

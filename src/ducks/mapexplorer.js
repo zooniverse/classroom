@@ -73,12 +73,12 @@ const addFilterSelectionItem = (state, item) => {
   const filters = { ...state.filters };
   const key = item.key;
   const value = item.value;
-  if (!Array.isArray(filters[key])) filters[key] = [];  //If filter doesn't exist (undefined) or isn't an array, init an array.
-  if (filters[key].indexOf(value) === -1) {  //Add the item value if it doesn't exist.
-    filters[key].push(value);
+  let newValues = (Array.isArray(filters[key])) ? filters[key].slice() : [];  //If filter doesn't exist (undefined) or isn't an array, init an array. Also, make a new array.
+  if (newValues.indexOf(value) === -1) {  //Add the item value if it doesn't exist.
+    newValues.push(value);
+    filters[key] = newValues;
   }
   return { ...state, filters };
-  //Warning: existing filters[key] are changed as-is, no new object is created.
 };
 
 /*  Removes from a multi-choice filter selection.
@@ -88,10 +88,9 @@ const removeFilterSelectionItem = (state, item) => {
   const key = item.key;
   const value = item.value;
   if (!Array.isArray(filters[key])) filters[key] = [];  //If filter doesn't exist (undefined) or isn't an array, init an array.
-  filters[key] = filters[key].filter(cur => cur !== value);  //Remove the matching item value.
+  filters[key] = filters[key].filter(cur => cur !== value);  //Remove the matching item value. Note that this creates a new array.
   if (filters[key].length === 0) delete filters[key];
   return { ...state, filters };
-  //Warning: existing filters[key] are changed as-is, no new object is created.
 };
 
 /*  Sets (or delete) a filter selection.
@@ -124,6 +123,8 @@ Effect('getMapMarkers', (payload = {}) => {
     encodeURIComponent(mapConfig.database.queries.selectCameraCount.replace('{WHERE}', where))
   );
   
+  console.log('-'.repeat(40));
+  
   superagent.get(url)
   .then(response => {
     if (!response) { throw 'ERROR (ducks/mapexplorer/getMapMarkers): No response'; }
@@ -136,8 +137,7 @@ Effect('getMapMarkers', (payload = {}) => {
     Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.SUCCESS);
     Actions.mapexplorer.setMarkersData(geojson);
     
-    let count = 0;
-    
+    let count = 0;    
     if (geojson && geojson.features) {
       count = geojson.features.reduce((total, item) => {
         if (item.properties && item.properties.count) {
@@ -146,7 +146,6 @@ Effect('getMapMarkers', (payload = {}) => {
         return total;
       }, 0);
     }
-    
     Actions.mapexplorer.setMarkersDataCount(count);
   })
   .catch(err => {
