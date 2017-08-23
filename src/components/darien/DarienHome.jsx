@@ -2,7 +2,7 @@ import React from 'react';
 import MapExplorer from '../../containers/maps/MapExplorer';
 import { connect } from 'react-redux';
 
-import mapConfig from '../../lib/wildcam-darien.mapConfig.json';
+import mapConfig from '../../lib/wildcam-darien.mapConfig.js';
 
 class DarienHome extends React.Component {
   constructor(props) {
