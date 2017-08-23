@@ -62,7 +62,7 @@ class MapControls extends React.Component {
     return (
       <Box className="map-controls">
         <Accordion openMulti={true}>
-          <AccordionPanel heading={statusMessage} className={'map-controls-filters ' + ((hasAnySelections) ? 'selected' : '')}>
+          <AccordionPanel heading={statusMessage} className="map-controls-status">
             <SuperDownloadButton
               url={downloadUrl}
             />
