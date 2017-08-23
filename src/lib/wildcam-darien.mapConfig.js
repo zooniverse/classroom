@@ -16,8 +16,8 @@ const mapConfig = {
   //Connection details for the external data source.
   'database': {
     'urls': {
-      'geojson': 'http://wildcam-darien.carto.com/api/v2/sql?format=GeoJSON&q={SQLQUERY}',
-      'csv': 'http://wildcam-darien.carto.com/api/v2/sql?format=CSV&q={SQLQUERY}'
+      'geojson': '//wildcam-darien.carto.com/api/v2/sql?format=GeoJSON&q={SQLQUERY}',
+      'csv': '//wildcam-darien.carto.com/api/v2/sql?format=CSV&q={SQLQUERY}'
     },
     'queries': {
       //For each camera, show how many (filtered) results are available.
@@ -48,7 +48,7 @@ const mapConfig = {
       },
       {
         'name': 'Roads',
-        'url': 'http://{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png',
+        'url': '//{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png',
         'attribution': '&copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a>'
       },
       {
@@ -58,7 +58,7 @@ const mapConfig = {
       },
       {
         'name': 'Plain',
-        'url': 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        'url': '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
         'attribution': '&copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> &copy; <a href=\'http://cartodb.com/attributions\'>CartoDB</a>'
       }
     ],
