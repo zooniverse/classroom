@@ -21,27 +21,35 @@
     z-index: 500  //Required to place controls above .map-visuals's Leaflet map
     
     width: 80%
-    max-width: 32em
-    max-height: 80vh
-    overflow: auto
+    max-width: 24em
     
     //Visual styles
     background: white
     padding: 1em
     border: 1px solid black
+    
+    > .grommetux-accordion > div > .grommetux-collapsible__wrapper > .grommetux-collapsible
+      max-height: 60vh
+      overflow: auto
       
     .map-controls-filters
       background: #eee
     
+    .grommetux-control-icon
+      width: 1em
+      
     .grommetux-header
       min-height: 1em
     
     .selected .grommetux-header
-      background: #cee
+      background: #fc3
     
     .grommetux-button
     .grommetux-label
       font-size: inherit
+      
+      &--small
+        font-size: 0.8em
     
     .grommetux-button__icon
       padding: 0.1em 0.5em

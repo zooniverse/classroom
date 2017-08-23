@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
-import Paragraph from 'grommet/components/Paragraph';
+import Label from 'grommet/components/Label';
 import Button from 'grommet/components/Button';
 
 import CheckboxIcon from 'grommet/components/icons/base/Checkbox';
@@ -17,12 +17,12 @@ class MultiChoicePanel extends React.Component {
   render() {
     return (
       <Box className="multi-choice filter">
-        <Paragraph align="end" margin="none" size="small">
+        <Label align="end" margin="none" size="small">
           {(this.props.selected && this.props.selected.length > 0)
             ? `Selected ${this.props.selected.length} out of ${this.props.options.length} options`
             : `Showing all options`
           }
-        </Paragraph>
+        </Label>
         <Box>
           {this.props.options && this.props.options.map(item => {
             const isSelected = this.props.selected && this.props.selected.indexOf(item.value) >= 0;
