@@ -17,7 +17,7 @@ class MultiChoicePanel extends React.Component {
   render() {
     return (
       <Box className="multi-choice filter">
-        <Paragraph>
+        <Paragraph align="end" margin="none" size="small">
           {(this.props.selected && this.props.selected.length > 0)
             ? `Selected ${this.props.selected.length} out of ${this.props.options.length} options`
             : `Showing all options`

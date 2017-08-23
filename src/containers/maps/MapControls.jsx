@@ -63,7 +63,7 @@ class MapControls extends React.Component {
               const item = mapConfig.map.filters[key];
               if (item.type === "multichoice") {
                 return (
-                  <AccordionPanel heading={item.label} key={`map-controls-${key}`}>
+                  <AccordionPanel heading={item.label} key={`map-controls-${key}`} className={(this.props.filters[key]) ? 'selected' : ''}>
                     <MultiChoiceFilter
                       filterKey={key}
                       filterLabel={item.label}
