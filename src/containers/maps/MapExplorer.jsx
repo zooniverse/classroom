@@ -40,7 +40,7 @@ class MapExplorer extends React.Component {
   
   render() {
     return (
-      <Box className="map-explorer" full={true}>
+      <Box className="map-explorer">
         <MapVisuals
           mapConfig={this.props.mapConfig}
         />

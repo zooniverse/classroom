@@ -148,7 +148,7 @@ class MapVisuals extends React.Component {
   
   render() {
     return (
-      <Box className="map-visuals" ref={(c)=>{this.mapContainer=c}} full={true}></Box>
+      <Box className="map-visuals" ref={(c)=>{this.mapContainer=c}}></Box>
     );
   }
   
