@@ -30,6 +30,7 @@ const MAPEXPLORER_INITIAL_STATE = {
   markersData: null,
   markersStatus: MAPEXPLORER_MARKERS_STATUS.IDLE,
   markersError: null,
+  markersDataCount: 0,
   
   filters: {},  //Selected filtes
 };
@@ -38,6 +39,7 @@ const MAPEXPLORER_PROPTYPES = {
   markersData: PropTypes.object,  //GeoJSON object.
   markersError: PropTypes.object,
   markersStatus: PropTypes.string,
+  markersDataCount: PropTypes.number,
   
   filters: PropTypes.object,  //Dynamically constructed object.
 };
@@ -57,6 +59,10 @@ const setMarkersData = (state, markersData) => {
 
 const setMarkersError = (state, markersError) => {
   return { ...state, markersError };
+};
+
+const setMarkersDataCount = (state, markersDataCount) => {
+  return { ...state, markersDataCount };
 };
 
 // Synchonous actions: User-Selected Filters
@@ -129,6 +135,19 @@ Effect('getMapMarkers', (payload = {}) => {
   .then(geojson => {
     Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.SUCCESS);
     Actions.mapexplorer.setMarkersData(geojson);
+    
+    let count = 0;
+    
+    if (geojson && geojson.features) {
+      count = geojson.features.reduce((total, item) => {
+        if (item.properties && item.properties.count) {
+          return total + item.properties.count;
+        }
+        return total;
+      }, 0);
+    }
+    
+    Actions.mapexplorer.setMarkersDataCount(count);
   })
   .catch(err => {
     Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.ERROR);
@@ -147,6 +166,7 @@ const mapexplorer = State('mapexplorer', {
   setMarkersStatus,
   setMarkersData,
   setMarkersError,
+  setMarkersDataCount,
   addFilterSelectionItem,
   removeFilterSelectionItem,
   setFilterSelectionItem,

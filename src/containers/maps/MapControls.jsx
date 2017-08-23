@@ -27,7 +27,8 @@ import AccordionPanel from 'grommet/components/AccordionPanel';
 import { constructWhereClause } from '../../lib/mapexplorer-helpers'
 
 import {
-  MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES
+  MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
+  MAPEXPLORER_MARKERS_STATUS,
 } from '../../ducks/mapexplorer';
 
 class MapControls extends React.Component {
@@ -48,16 +49,27 @@ class MapControls extends React.Component {
       encodeURIComponent(mapConfig.database.queries.selectForDownload.replace('{WHERE}', where))
     );
     
+    const hasAnySelections = this.props.filters && Object.keys(this.props.filters).length > 0;
+    let statusMessage = '...';
+    if (this.props.markersStatus === MAPEXPLORER_MARKERS_STATUS.FETCHING) {
+      statusMessage = 'Loading...';
+    } else if (this.props.markersStatus === MAPEXPLORER_MARKERS_STATUS.ERROR) {
+      statusMessage = 'ERROR';
+    } else if (this.props.markersStatus === MAPEXPLORER_MARKERS_STATUS.SUCCESS) {
+      statusMessage = `${this.props.markersDataCount} result(s)`;
+    }
+    
     return (
       <Box className="map-controls">
-        <Box flex={false}>
-          <SuperDownloadButton
-            url={downloadUrl}
-          />
-        </Box>
-        
         <Accordion openMulti={true}>
-          <AccordionPanel heading="Filters" className="map-controls-filters">
+          <AccordionPanel heading={statusMessage} className={'map-controls-filters ' + ((hasAnySelections) ? 'selected' : '')}>
+            <SuperDownloadButton
+              url={downloadUrl}
+            />
+          </AccordionPanel>
+        </Accordion>
+        <Accordion openMulti={true}>
+          <AccordionPanel heading="Filters" className={'map-controls-filters ' + ((hasAnySelections) ? 'selected' : '')}>
             <Accordion openMulti={true}>
             {Object.keys(mapConfig.map.filters).map(key =>{
               const item = mapConfig.map.filters[key];
@@ -100,6 +112,8 @@ MapControls.defaultProps = {
 };
 const mapStateToProps = (state) => ({
   filters: state.mapexplorer.filters,
+  markersStatus: state.mapexplorer.markersStatus,
+  markersDataCount: state.mapexplorer.markersDataCount,
 });
 
 export default connect(mapStateToProps)(MapControls);
