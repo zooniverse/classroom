@@ -21,6 +21,9 @@ import Box from 'grommet/components/Box';
 import MultiChoiceFilter from '../../components/maps/MultiChoiceFilter';
 import SuperDownloadButton from '../../components/common/SuperDownloadButton';
 
+import Accordion from 'grommet/components/Accordion';
+import AccordionPanel from 'grommet/components/AccordionPanel';
+
 import { constructWhereClause } from '../../lib/mapexplorer-helpers'
 
 import {
@@ -47,27 +50,34 @@ class MapControls extends React.Component {
     
     return (
       <Box className="map-controls">
-        <div>
+        <Box flex={false}>
           <SuperDownloadButton
             url={downloadUrl}
           />
-        </div>
+        </Box>
         
-        {Object.keys(mapConfig.map.filters).map(key =>{
-          const item = mapConfig.map.filters[key];
-          if (item.type === "multichoice") {
-            return (
-              <MultiChoiceFilter
-                key={`map-controls-${key}`}
-                filterKey={key}
-                filterLabel={item.label}
-                options={item.options}
-                selected={this.props.filters[key]}  //This will be undefined if the key doesn't exist.
-              />
-            );
-          }
-          //TODO: add more types
-        })}
+        <Accordion openMulti={true}>
+          <AccordionPanel heading="Filters" className="map-controls-filters">
+            <Accordion openMulti={true}>
+            {Object.keys(mapConfig.map.filters).map(key =>{
+              const item = mapConfig.map.filters[key];
+              if (item.type === "multichoice") {
+                return (
+                  <AccordionPanel heading={item.label} key={`map-controls-${key}`}>
+                    <MultiChoiceFilter
+                      filterKey={key}
+                      filterLabel={item.label}
+                      options={item.options}
+                      selected={this.props.filters[key]}  //This will be undefined if the key doesn't exist.
+                    />
+                  </AccordionPanel>
+                );
+              }
+              //TODO: add more types
+            })}
+            </Accordion>
+          </AccordionPanel>
+        </Accordion>
       </Box>
     );
   }

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'jumpstate';
 
-import Form from 'grommet/components/Form';
 import Box from 'grommet/components/Box';
+import Paragraph from 'grommet/components/Paragraph';
 import Button from 'grommet/components/Button';
 
 import CheckboxIcon from 'grommet/components/icons/base/Checkbox';
@@ -16,20 +16,19 @@ class MultiChoicePanel extends React.Component {
   
   render() {
     return (
-      <Form className="multi-choice filter">
-        <h3>{this.props.filterLabel}</h3>
-        <Box>
+      <Box className="multi-choice filter">
+        <Paragraph>
           {(this.props.selected && this.props.selected.length > 0)
             ? `Selected ${this.props.selected.length} out of ${this.props.options.length} options`
             : `Showing all options`
           }
-        </Box>
+        </Paragraph>
         <Box>
           {this.props.options && this.props.options.map(item => {
             const isSelected = this.props.selected && this.props.selected.indexOf(item.value) >= 0;
-            
+
             if (isSelected) {
-              
+
               return (
                 <Button
                   key={`map-control-filter-item-${this.props.filterKey}-${item.value}`}
@@ -41,9 +40,9 @@ class MultiChoicePanel extends React.Component {
                   {item.label}
                 </Button>
               );
-              
+
             } else {
-              
+
               return (
                 <Button
                   key={`map-control-filter-item-${this.props.filterKey}-${item.value}`}
@@ -55,12 +54,11 @@ class MultiChoicePanel extends React.Component {
                   {item.label}
                 </Button>
               );
-              
+
             }
           })}
-        
         </Box>
-      </Form>
+      </Box>
     );
   }
 }
