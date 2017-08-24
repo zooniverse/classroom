@@ -15,10 +15,17 @@ This component has two functions:
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
 import superagent from 'superagent';
-import { constructWhereClause } from '../lib/mapexplorer-helpers.js';
+import { constructWhereClause, sqlString } from '../lib/mapexplorer-helpers.js';
 
 // Constants
 const MAPEXPLORER_MARKERS_STATUS = {
+  IDLE: 'idle',
+  FETCHING: 'fetching',
+  SUCCESS: 'success',
+  ERROR: 'error',
+};
+
+const MAPEXPLORER_CAMERA_STATUS = {
   IDLE: 'idle',
   FETCHING: 'fetching',
   SUCCESS: 'success',
@@ -32,6 +39,12 @@ const MAPEXPLORER_INITIAL_STATE = {
   markersError: null,
   markersDataCount: 0,
   
+  activeCamera: null,
+  activeCameraMetadata: null,
+  activeCameraMetadataStatus: MAPEXPLORER_CAMERA_STATUS.IDLE,
+  activeCameraData: null,
+  activeCameraDataStatus: MAPEXPLORER_CAMERA_STATUS.IDLE,
+  
   filters: {},  //Selected filtes
 };
 
@@ -40,6 +53,12 @@ const MAPEXPLORER_PROPTYPES = {
   markersError: PropTypes.object,
   markersStatus: PropTypes.string,
   markersDataCount: PropTypes.number,
+  
+  activeCamera: PropTypes.string,
+  activeCameraMetadata: PropTypes.object,
+  activeCameraMetadataStatus: PropTypes.string,
+  activeCameraData: PropTypes.object,
+  activeCameraDataStatus: PropTypes.string,
   
   filters: PropTypes.object,  //Dynamically constructed object.
 };
@@ -63,6 +82,37 @@ const setMarkersError = (state, markersError) => {
 
 const setMarkersDataCount = (state, markersDataCount) => {
   return { ...state, markersDataCount };
+};
+
+const resetActiveCamera = (state) => {
+  return {
+    ...state,
+    activeCamera: MAPEXPLORER_INITIAL_STATE.activeCamera,
+    activeCameraMetadata: MAPEXPLORER_INITIAL_STATE.activeCameraMetadata,
+    activeCameraMetadataStatus: MAPEXPLORER_INITIAL_STATE.activeCameraMetadataStatus,
+    activeCameraData: MAPEXPLORER_INITIAL_STATE.activeCameraData,
+    activeCameraDataStatus: MAPEXPLORER_INITIAL_STATE.activeCameraDataStatus,
+  };
+};
+
+const setActiveCameraId = (state, activeCameraId) => {
+  return { ...state, activeCameraId };
+};
+
+const setActiveCameraMetadata = (state, activeCameraMetadata) => {
+  return { ...state, activeCameraMetadata };
+};
+
+const setActiveCameraMetadataStatus = (state, activeCameraMetadataStatus) => {
+  return { ...state, activeCameraMetadataStatus };
+};
+
+const setActiveCameraData = (state, activeCameraData) => {
+  return { ...state, activeCameraData };
+};
+
+const setActiveCameraDataStatus = (state, activeCameraDataStatus) => {
+  return { ...state, activeCameraDataStatus };
 };
 
 // Synchonous actions: User-Selected Filters
@@ -118,12 +168,9 @@ Effect('getMapMarkers', (payload = {}) => {
   
   Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.FETCHING);
   const where = constructWhereClause(mapConfig, selectedFilters);
-  const url = mapConfig.database.urls.geojson.replace(
-    '{SQLQUERY}',
+  const url = mapConfig.database.urls.geojson.replace('{SQLQUERY}',
     encodeURIComponent(mapConfig.database.queries.selectCameraCount.replace('{WHERE}', where))
   );
-  
-  console.log('-'.repeat(40));
   
   superagent.get(url)
   .then(response => {
@@ -154,6 +201,44 @@ Effect('getMapMarkers', (payload = {}) => {
   });
 });
 
+Effect('getCameraData', (cameraID = null) => {
+  if (!cameraID) return;
+  
+  Actions.mapexplorer.setActiveCameraId(cameraID);
+  Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS_STATUS.FETCHING);
+  Actions.mapexplorer.setActiveCameraMetadataStatus(MAPEXPLORER_CAMERA_STATUS_STATUS.FETCHING);
+  
+  let where, url;
+  
+  //Get Camera Data
+  //----------------------------------------------------------------
+  where = constructWhereClause(mapConfig, selectedFilters);
+  where = (where === '')
+    ? ` WHERE camera LIKE '${sqlString(cameraID)}'`
+    : where + ` AND camera LIKE '${sqlString(cameraID)}'`;
+  url = mapConfig.database.urls.geojson.replace('{SQLQUERY}',
+    encodeURIComponent(mapConfig.database.queries.selectCameraData.replace('{WHERE}', where))
+  );
+  superagent.get(url)
+  .then(response => {
+    if (!response) { throw 'ERROR (ducks/mapexplorer/getCameraData): No response'; }
+    if (response.ok && response.body) {
+      return response.body;
+    }
+    throw 'ERROR (ducks/mapexplorer/getCameraData): invalid response';
+  })
+  .then(json => {
+    Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS_STATUS.SUCCESS);
+    console.log('-'.repeat(100));
+    console.log(json);
+  })
+  .catch(err => {
+    Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS_STATUS.ERROR);
+    console.error(err);
+  });
+  //----------------------------------------------------------------
+});
+
 /*
 --------------------------------------------------------------------------------
  */
@@ -166,6 +251,11 @@ const mapexplorer = State('mapexplorer', {
   setMarkersData,
   setMarkersError,
   setMarkersDataCount,
+  setActiveCameraId,
+  setActiveCameraMetadata,
+  setActiveCameraMetadataStatus,
+  setActiveCameraData,
+  setActiveCameraDataStatus,
   addFilterSelectionItem,
   removeFilterSelectionItem,
   setFilterSelectionItem,

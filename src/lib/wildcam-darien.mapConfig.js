@@ -16,6 +16,7 @@ const mapConfig = {
   //Connection details for the external data source.
   'database': {
     'urls': {
+      'json': '//wildcam-darien.carto.com/api/v2/sql?q={SQLQUERY}',
       'geojson': '//wildcam-darien.carto.com/api/v2/sql?format=GeoJSON&q={SQLQUERY}',
       'csv': '//wildcam-darien.carto.com/api/v2/sql?format=CSV&q={SQLQUERY}'
     },
@@ -24,15 +25,21 @@ const mapConfig = {
       'selectCameraCount': 'SELECT cam.*, COUNT(sbjagg.*) as count FROM cameras AS cam LEFT JOIN (SELECT sbj.camera, sbj.location, sbj.date, sbj.season, sbj.time_period, agg.data_choice, agg.subject_id FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE} GROUP BY cam.cartodb_id ORDER BY count DESC',
       
       //Get all the details for all the (filtered) results.
-      'selectForDownload': 'SELECT cam.*, sbjagg.* FROM cameras AS cam INNER JOIN (SELECT sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice, agg.data_answers_howmany_1, agg.data_answers_howmany_2, agg.data_answers_howmany_3, agg.data_answers_howmany_4, agg.data_answers_howmany_5, agg.data_answers_howmany_6, agg.data_answers_howmany_7, agg.data_answers_howmany_8, agg.data_answers_howmany_9, agg.data_answers_howmany_10, agg.data_answers_howmany_1120, agg.data_answers_howmany_21 FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE}'
+      'selectForDownload': 'SELECT cam.*, sbjagg.* FROM cameras AS cam INNER JOIN (SELECT sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice, agg.data_answers_howmany_1, agg.data_answers_howmany_2, agg.data_answers_howmany_3, agg.data_answers_howmany_4, agg.data_answers_howmany_5, agg.data_answers_howmany_6, agg.data_answers_howmany_7, agg.data_answers_howmany_8, agg.data_answers_howmany_9, agg.data_answers_howmany_10, agg.data_answers_howmany_1120, agg.data_answers_howmany_21 FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE}',
+      
+      //Select all the photos from a specific camera. Similar to selectForDownload
+      'selectCameraData': 'SELECT cam.*, sbjagg.* FROM cameras AS cam INNER JOIN (SELECT sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE}',
+      
+      //Select a single camera, mostly for the camera's metadata.
+      'selectCameraMetadata': 'SELECT * FROM cameras {WHERE}',
     }
   },
   
   //The map visualisation bits. Compatible with Leaflet tech.
   'map': {
     'centre': {  //Some arbitrary point between Soberania National Park and Darien National Park. 
-      'latitude': 7.895,
-      'longitude': -77.561,
+      'latitude': 8.300,
+      'longitude': -78.600,
       'zoom': 8
     },
     'tileLayers': [
