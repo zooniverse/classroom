@@ -302,6 +302,7 @@ const mapexplorer = State('mapexplorer', {
 export default mapexplorer;
 export {
   MAPEXPLORER_MARKERS_STATUS,
+  MAPEXPLORER_CAMERA_STATUS,
   MAPEXPLORER_INITIAL_STATE,
   MAPEXPLORER_PROPTYPES,
 };

@@ -57,6 +57,7 @@ class MapExplorer extends React.Component {
               mapConfig={this.props.mapConfig}
             />
           : <CameraViewer
+              mapConfig={this.props.mapConfig}
               activeCameraData={this.props.activeCameraData}
               activeCameraDataStatus={this.props.activeCameraDataStatus}
               activeCameraMetadata={this.props.activeCameraMetadata}
