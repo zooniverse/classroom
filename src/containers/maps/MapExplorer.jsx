@@ -45,8 +45,6 @@ class MapExplorer extends React.Component {
   //----------------------------------------------------------------
   
   render() {
-    console.log('='.repeat, this.props);
-    
     return (
       <Box className="map-explorer">
         <MapVisuals
@@ -86,15 +84,12 @@ MapExplorer.defaultProps = {
   mapConfig: null,
   ...MAPEXPLORER_INITIAL_STATE,
 };
-const mapStateToProps = (state) => {
-  console.log('*'.repeat(100), '\n', state);
-  return ({
-    activeCameraId: state.mapexplorer.activeCameraId,
-    activeCameraMetadata: state.mapexplorer.activeCameraMetadata,
-    activeCameraMetadataStatus: state.mapexplorer.activeCameraMetadataStatus,
-    activeCameraData: state.mapexplorer.activeCameraData,
-    activeCameraDataStatus: state.mapexplorer.activeCameraDataStatus,
-  });
-};
+const mapStateToProps = (state) => ({
+  activeCameraId: state.mapexplorer.activeCameraId,
+  activeCameraMetadata: state.mapexplorer.activeCameraMetadata,
+  activeCameraMetadataStatus: state.mapexplorer.activeCameraMetadataStatus,
+  activeCameraData: state.mapexplorer.activeCameraData,
+  activeCameraDataStatus: state.mapexplorer.activeCameraDataStatus,
+});
 
 export default connect(mapStateToProps)(MapExplorer);
