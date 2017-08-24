@@ -39,7 +39,7 @@ const MAPEXPLORER_INITIAL_STATE = {
   markersError: null,
   markersDataCount: 0,
   
-  activeCamera: null,
+  activeCameraId: null,
   activeCameraMetadata: null,
   activeCameraMetadataStatus: MAPEXPLORER_CAMERA_STATUS.IDLE,
   activeCameraData: null,
@@ -54,10 +54,10 @@ const MAPEXPLORER_PROPTYPES = {
   markersStatus: PropTypes.string,
   markersDataCount: PropTypes.number,
   
-  activeCamera: PropTypes.string,
+  activeCameraId: PropTypes.string,
   activeCameraMetadata: PropTypes.object,
   activeCameraMetadataStatus: PropTypes.string,
-  activeCameraData: PropTypes.object,
+  activeCameraData: PropTypes.arrayOf(PropTypes.object),
   activeCameraDataStatus: PropTypes.string,
   
   filters: PropTypes.object,  //Dynamically constructed object.
@@ -87,7 +87,7 @@ const setMarkersDataCount = (state, markersDataCount) => {
 const resetActiveCamera = (state) => {
   return {
     ...state,
-    activeCamera: MAPEXPLORER_INITIAL_STATE.activeCamera,
+    activeCameraId: MAPEXPLORER_INITIAL_STATE.activeCameraId,
     activeCameraMetadata: MAPEXPLORER_INITIAL_STATE.activeCameraMetadata,
     activeCameraMetadataStatus: MAPEXPLORER_INITIAL_STATE.activeCameraMetadataStatus,
     activeCameraData: MAPEXPLORER_INITIAL_STATE.activeCameraData,
@@ -220,7 +220,7 @@ Effect('getActiveCamera', (payload = {}) => {
   //Get Camera Data
   //--------------------------------
   where = constructWhereClause(mapConfig, selectedFilters);
-  where = (where === '')
+  where = (where === '')  //TODO: Move this to the project config. This is very project-specific.
     ? ` WHERE camera LIKE '${sqlString(cameraId)}'`
     : where + ` AND camera LIKE '${sqlString(cameraId)}'`;
   url = mapConfig.database.urls.json.replace('{SQLQUERY}',
@@ -228,18 +228,49 @@ Effect('getActiveCamera', (payload = {}) => {
   );
   superagent.get(url)
   .then(response => {
-    if (!response) { throw 'ERROR (ducks/mapexplorer/getCameraData): No response'; }
+    if (!response) { throw 'ERROR (ducks/mapexplorer/getActiveCamera Data): No response'; }
     if (response.ok && response.body) {
       return response.body;
     }
-    throw 'ERROR (ducks/mapexplorer/getCameraData): invalid response';
+    throw 'ERROR (ducks/mapexplorer/getActiveCamera Data): invalid response';
   })
   .then(json => {
     Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS.SUCCESS);
     Actions.mapexplorer.setActiveCameraData(json.rows);
+    
+    console.log('-'.repeat(80));
+    console.log(json.rows);
   })
   .catch(err => {
     Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS.ERROR);
+    console.error(err);
+  });
+  //--------------------------------
+  
+  //Get Camera Metadata
+  //--------------------------------
+  where = ` WHERE id LIKE '${sqlString(cameraId)}'`;  //TODO: Move this to the project config. This is very project-specific.
+  url = mapConfig.database.urls.json.replace('{SQLQUERY}',
+    encodeURIComponent(mapConfig.database.queries.selectCameraMetadata.replace('{WHERE}', where))
+  );
+  superagent.get(url)
+  .then(response => {
+    if (!response) { throw 'ERROR (ducks/mapexplorer/getActiveCamera Metadata): No response'; }
+    if (response.ok && response.body) {
+      return response.body;
+    }
+    throw 'ERROR (ducks/mapexplorer/getActiveCamera Metadata): invalid response';
+  })
+  .then(json => {
+    Actions.mapexplorer.setActiveCameraMetadataStatus(MAPEXPLORER_CAMERA_STATUS.SUCCESS);
+    if (json && json.rows) {
+      Actions.mapexplorer.setActiveCameraMetadata(json.rows[0]);  //SELECT query should only return one result.
+    } else {
+      Actions.mapexplorer.setActiveCameraMetadata(null);
+    }    
+  })
+  .catch(err => {
+    Actions.mapexplorer.setActiveCameraMetadataStatus(MAPEXPLORER_CAMERA_STATUS.ERROR);
     console.error(err);
   });
   //--------------------------------
@@ -257,6 +288,7 @@ const mapexplorer = State('mapexplorer', {
   setMarkersData,
   setMarkersError,
   setMarkersDataCount,
+  resetActiveCamera,
   setActiveCameraId,
   setActiveCameraMetadata,
   setActiveCameraMetadataStatus,

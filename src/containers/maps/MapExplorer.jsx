@@ -26,10 +26,16 @@ Notable components:
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Actions } from 'jumpstate';  //TEST
 
 import Box from 'grommet/components/Box';
-import MapVisuals from './MapVisuals'
-import MapControls from './MapControls'
+import MapVisuals from './MapVisuals';
+import MapControls from './MapControls';
+import CameraViewer from '../../components/maps/CameraViewer';
+
+import {
+  MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
+} from '../../ducks/mapexplorer';
 
 class MapExplorer extends React.Component {
   constructor(props) {
@@ -39,25 +45,55 @@ class MapExplorer extends React.Component {
   //----------------------------------------------------------------
   
   render() {
+    console.log('='.repeat, this.props);
+    
     return (
       <Box className="map-explorer">
         <MapVisuals
           mapConfig={this.props.mapConfig}
         />
-        <MapControls
-          mapConfig={this.props.mapConfig}
-        />
+        {(!this.props.activeCameraId)
+          ? <MapControls
+              mapConfig={this.props.mapConfig}
+            />
+          : <CameraViewer
+              activeCameraData={this.props.activeCameraData}
+              activeCameraDataStatus={this.props.activeCameraDataStatus}
+              activeCameraMetadata={this.props.activeCameraMetadata}
+              activeCameraMetadataStatus={this.props.activeCameraMetadataStatus}
+            />
+        }
       </Box>
     );
+  }
+  
+  componentDidMount() {
+    //TEST
+    Actions.getActiveCamera({
+      mapConfig: this.props.mapConfig,
+      filters: null,
+      cameraId: 'G01',
+    });
   }
 }
 
 MapExplorer.propTypes = {
   mapConfig: PropTypes.object,
+  ...MAPEXPLORER_PROPTYPES,
 };
 MapExplorer.defaultProps = {
   mapConfig: null,
+  ...MAPEXPLORER_INITIAL_STATE,
 };
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => {
+  console.log('*'.repeat(100), '\n', state);
+  return ({
+    activeCameraId: state.mapexplorer.activeCameraId,
+    activeCameraMetadata: state.mapexplorer.activeCameraMetadata,
+    activeCameraMetadataStatus: state.mapexplorer.activeCameraMetadataStatus,
+    activeCameraData: state.mapexplorer.activeCameraData,
+    activeCameraDataStatus: state.mapexplorer.activeCameraDataStatus,
+  });
+};
 
 export default connect(mapStateToProps)(MapExplorer);
