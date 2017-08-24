@@ -141,7 +141,11 @@ class MapVisuals extends React.Component {
     if (!e || !e.target || !e.target.feature || !e.target.feature.properties) return;
     
     const cameraId = e.target.feature.properties.id;
-    alert(`TODO: Examine camera ${cameraId}`);  //TODO: Make this a "View a single camera's photos" action.
+    Actions.getActiveCamera({
+      mapConfig: this.props.mapConfig,
+      filters: this.props.filters,
+      cameraId,
+    });
   }
   
   //----------------------------------------------------------------

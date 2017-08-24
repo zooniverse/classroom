@@ -201,22 +201,29 @@ Effect('getMapMarkers', (payload = {}) => {
   });
 });
 
-Effect('getCameraData', (cameraID = null) => {
-  if (!cameraID) return;
+//----------------------------------------------------------------
+
+Effect('getActiveCamera', (payload = {}) => {
+  const mapConfig = payload.mapConfig;
+  const selectedFilters = payload.filters;
+  const cameraId = payload.cameraId;
   
-  Actions.mapexplorer.setActiveCameraId(cameraID);
-  Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS_STATUS.FETCHING);
-  Actions.mapexplorer.setActiveCameraMetadataStatus(MAPEXPLORER_CAMERA_STATUS_STATUS.FETCHING);
+  if (!mapConfig) return;  
+  if (!cameraId) return;
+  
+  Actions.mapexplorer.setActiveCameraId(cameraId);
+  Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS.FETCHING);
+  Actions.mapexplorer.setActiveCameraMetadataStatus(MAPEXPLORER_CAMERA_STATUS.FETCHING);
   
   let where, url;
   
   //Get Camera Data
-  //----------------------------------------------------------------
+  //--------------------------------
   where = constructWhereClause(mapConfig, selectedFilters);
   where = (where === '')
-    ? ` WHERE camera LIKE '${sqlString(cameraID)}'`
-    : where + ` AND camera LIKE '${sqlString(cameraID)}'`;
-  url = mapConfig.database.urls.geojson.replace('{SQLQUERY}',
+    ? ` WHERE camera LIKE '${sqlString(cameraId)}'`
+    : where + ` AND camera LIKE '${sqlString(cameraId)}'`;
+  url = mapConfig.database.urls.json.replace('{SQLQUERY}',
     encodeURIComponent(mapConfig.database.queries.selectCameraData.replace('{WHERE}', where))
   );
   superagent.get(url)
@@ -228,15 +235,14 @@ Effect('getCameraData', (cameraID = null) => {
     throw 'ERROR (ducks/mapexplorer/getCameraData): invalid response';
   })
   .then(json => {
-    Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS_STATUS.SUCCESS);
-    console.log('-'.repeat(100));
-    console.log(json);
+    Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS.SUCCESS);
+    Actions.mapexplorer.setActiveCameraData(json.rows);
   })
   .catch(err => {
-    Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS_STATUS.ERROR);
+    Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS.ERROR);
     console.error(err);
   });
-  //----------------------------------------------------------------
+  //--------------------------------
 });
 
 /*
