@@ -83,6 +83,7 @@ export class ClassroomManagerContainer extends React.Component {
         <ClassroomEditor
           selectedClassroom={this.props.selectedClassroom}
           selectClassroom={this.selectClassroom}
+          showCreateForm={this.props.showCreateForm}
         />
       );
     }
