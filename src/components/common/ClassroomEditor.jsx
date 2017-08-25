@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'jumpstate';
+import { saveAs } from 'browser-filesaver';
+import { blobbifyData, generateFilename } from '../../lib/mapexplorer-helpers'; //TODO: Maybe not brand this as 'mapexplorer'?
 
 import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
@@ -12,7 +14,6 @@ import ListItem from 'grommet/components/ListItem';
 import Paragraph from 'grommet/components/Paragraph';
 import Table from 'grommet/components/Table';
 import TableRow from 'grommet/components/TableRow';
-import TextInput from 'grommet/components/TextInput';
 import Toast from 'grommet/components/Toast';
 
 import CloseIcon from 'grommet/components/icons/base/Close';
@@ -35,6 +36,8 @@ class ClassroomEditor extends React.Component {
 
     const joinURL = `https://${window.location.host}/students/classrooms/join?id=${props.selectedClassroom.id}&token=${props.selectedClassroom.joinToken}`;
     const students = (props.selectedClassroom.students) ? props.selectedClassroom.students : [];
+    
+    this.exportGrades = this.exportGrades.bind(this);
 
     console.log('--------');
     console.log(props);
@@ -51,6 +54,7 @@ class ClassroomEditor extends React.Component {
         {props.showCreateForm &&
           <Layer closer={true} onClose={props.toggleFormVisibility}>
             <Toast status="critical">
+              { /* //TODO */ }
               WARNING: Don't actually submit anything, this is a TODO. Clicking will create a new Classroom, not edit an existing one!
             </Toast>
             <ClassroomCreateFormContainer />
@@ -70,7 +74,7 @@ class ClassroomEditor extends React.Component {
             <b>Classroom Join Link</b>
             <span>{joinURL}</span>
           </Box>
-          <Button type="button" primary={true} label="Export Grades" onClick={()=>{}} />
+          <Button type="button" primary={true} label="Export Grades" onClick={this.exportGrades} />
         </Box>
         
         <Box className="manager-summary" pad="large">
@@ -152,6 +156,27 @@ class ClassroomEditor extends React.Component {
         </Table>
       </Box>
     );
+  }
+  
+  exportGrades() {
+    if (!this.props.selectedClassroom) return null;
+    
+    //TODO
+    //--------------------------------
+    let exampleData = 'id,name\n';
+    this.props.selectedClassroom.students &&
+    this.props.selectedClassroom.students.map((student) =>{
+      let studentName = (student.zooniverseDisplayName && student.zooniverseDisplayName.length > 0)
+        ? student.zooniverseDisplayName
+        : String(student.zooniverseLogin);
+      studentName = studentName.replace(/"/g, '""')
+      const row = `${student.id},"${studentName}"\n`;
+      exampleData += row;
+    });
+    saveAs(blobbifyData(exampleData, this.props.contentType), generateFilename('astro-', '.csv'));
+     
+    alert('TODO! Create a proper Export Grades function.');
+    //--------------------------------
   }
 };
 
