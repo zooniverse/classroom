@@ -68,11 +68,14 @@ const ClassroomManager = (props) => {
                 <TableRow>
                   <th className="manager-table__row-header" id="classroom" colSpan="4" scope="colgroup">
                     <Box pad="none" margin="none" justify="between" direction="row">
-                      <Button className="manager-table__button--edit" type="button" onClick={props.selectClassroom.bind(null, classroom)}>
-                        <EditIcon size="small" />
-                      </Button>
                       <span>
-                        {classroom.name}{' '}
+                        <Button
+                          className="manager-table__button--edit"
+                          type="button"
+                          onClick={props.selectClassroom.bind(null, classroom)}
+                          icon={<EditIcon size="small" />}
+                        ></Button>
+                        {' '}{classroom.name}{' '}
                         <CopyToClipboard text={joinURL} onCopy={props.copyJoinLink}>
                           <Button type="button" className="manager-table__button--as-link" plain={true} onClick={() => {}}>
                             Copy Join Link

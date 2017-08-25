@@ -26,8 +26,7 @@ export class ClassroomManagerContainer extends React.Component {
 
   componentDidMount() {
     Actions.getClassroomsAndAssignments();
-    
-    //TODO: Reset 
+    Actions.classrooms.selectClassroom(null);  //Reset selected classroom.
   }
 
   copyJoinLink() {
