@@ -81,11 +81,17 @@ export class ClassroomManagerContainer extends React.Component {
       return (
         <ClassroomEditor
           selectedClassroom={this.props.selectedClassroom}
-          selectClassroom={this.selectClassroom}
-          showCreateForm={this.props.showCreateForm}
           assignments={this.props.assignments}
           assignmentsStatus={this.props.assignmentsStatus}
+          
+          selectClassroom={this.selectClassroom}
           removeStudentFromClassroom={this.removeStudentFromClassroom}
+          
+          showCreateForm={this.props.showCreateForm}
+          
+          copyJoinLink={this.copyJoinLink}
+          resetToastState={this.resetToastState}
+          toast={this.state.toast}
         />
       );
     }

@@ -22,6 +22,7 @@ import EditIcon from 'grommet/components/icons/base/Edit';
 import Spinning from 'grommet/components/icons/Spinning';
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
 import ClassroomCreateFormContainer from '../../containers/common/ClassroomCreateFormContainer';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 import {
   CLASSROOMS_STATUS, CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES,
@@ -56,6 +57,11 @@ class ClassroomEditor extends React.Component {
         full={{ horizontal: true, vertical: false }}
         pad="large"
       >
+        {props.toast && props.toast.message &&
+          <Toast status={props.toast.status ? props.toast.status : 'unknown'} onClose={props.resetToastState}>
+            {props.toast.message}
+          </Toast>}
+        
         {props.showCreateForm &&
           <Layer closer={true} onClose={props.toggleFormVisibility}>
             <Toast status="critical">
@@ -75,10 +81,11 @@ class ClassroomEditor extends React.Component {
           <Box flex={true}>
             <Paragraph align="start" size="small">Click a project column to toggle between percentages and number of classifications.</Paragraph>
           </Box>
-          <Box align="center" className="join-link">
-            <b>Classroom Join Link</b>
-            <span>{joinURL}</span>
-          </Box>
+          
+          <CopyToClipboard className="join-link" text={joinURL} onCopy={props.copyJoinLink}>
+            <Button type="button" label="Copy Join Link"></Button>
+          </CopyToClipboard>
+          
           <Button type="button" primary={true} label="Export Grades" onClick={this.exportGrades} />
         </Box>
         
@@ -122,6 +129,10 @@ class ClassroomEditor extends React.Component {
                 <span>{props.selectedClassroom.description}</span>
               </ListItem>
             }
+            <ListItem>
+              <Label className="secondary">Join Link</Label>
+              <span>{joinURL}</span>
+            </ListItem>
           </List>
         </Box>
 
@@ -198,16 +209,31 @@ class ClassroomEditor extends React.Component {
 ClassroomEditor.defaultProps = {
   selectClassroom: () => {},
   removeStudentFromClassroom: () => {},
+  //----------------
   showCreateForm: false,
   toggleFormVisibility: Actions.classrooms.toggleCreateFormVisibility,
+  //----------------
+  copyJoinLink: () => {},
+  resetToastState: () => {},
+  toast: null,
+  //----------------
   ...CLASSROOMS_INITIAL_STATE,
 };
 
 ClassroomEditor.propTypes = {
   selectClassroom: PropTypes.func,
   removeStudentFromClassroom: PropTypes.func,
+  //----------------
   showCreateForm: PropTypes.bool,
   toggleFormVisibility: PropTypes.func,
+  //----------------
+  copyJoinLink: PropTypes.func,
+  resetToastState: PropTypes.func,
+  toast: PropTypes.shape({
+    message: null,
+    status: null
+  }),
+  //----------------
   ...CLASSROOMS_PROPTYPES,
 };
 
