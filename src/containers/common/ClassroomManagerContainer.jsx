@@ -8,6 +8,7 @@ import {
   ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES
 } from '../../ducks/assignments';
 import ClassroomManager from '../../components/common/ClassroomManager';
+import ClassroomEditor from '../../components/common/ClassroomEditor';
 
 export class ClassroomManagerContainer extends React.Component {
   constructor(props) {
@@ -78,7 +79,12 @@ export class ClassroomManagerContainer extends React.Component {
       
     //View a single class
     } else {
-      return null;
+      return (
+        <ClassroomEditor
+          selectedClassroom={this.props.selectedClassroom}
+          selectClassroom={this.selectClassroom}
+        />
+      );
     }
   }
 }

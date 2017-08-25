@@ -74,6 +74,14 @@ Effect('getClassrooms', () => {
     .then((data) => {
       Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
       Actions.classrooms.setClassrooms(data);
+    
+      //TEMP: FOR TESTING
+      //SHAUN, REMOVE THIS LATER
+      //--------
+      console.log('TEMP: FOR TESTING\n', '-'.repeat(100), '\n', data);
+      //Actions.classrooms.selectClassroom(data[0]);
+      //--------
+    
       return data;
     }).catch((error) => {
       handleError(error);
