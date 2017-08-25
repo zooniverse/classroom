@@ -1,7 +1,16 @@
 .classroom-editor
+  .manager-summary
+    background-color: white
+    border: solid 2px #DEDEDE
+    border-bottom: none  //Visually blend with manager-table
+    
+    .summary__return-link
+      font-size: 0.8em
+  
   .manager-table
     background-color: white
     border: solid 2px #DEDEDE
+    border-top: none  //Visually blend with .manager-summary
 
     &__link
       color: #00969c !important
@@ -21,10 +30,6 @@
       padding: 11px 12px 11px 24px
       // position: relative
       // text-align: left
-    
-    &__summary
-      .summary__return-link
-        font-size: 0.8em
 
     &__headers
       .headers__header

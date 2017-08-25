@@ -57,6 +57,12 @@ export class ClassroomManagerContainer extends React.Component {
     //  Actions.getClassroomsAndAssignments();
     //});
   }
+  
+  removeStudentFromClassroom(classroomId, studentId) {
+    //TODO
+    console.log('TODO!');
+    alert(`TODO! Remove student ${studentId} from classroom ${classroomId}`);
+  }
 
   render() {
     //View all classes
@@ -84,6 +90,7 @@ export class ClassroomManagerContainer extends React.Component {
           selectedClassroom={this.props.selectedClassroom}
           selectClassroom={this.selectClassroom}
           showCreateForm={this.props.showCreateForm}
+          removeStudentFromClassroom={this.removeStudentFromClassroom}
         />
       );
     }

@@ -15,6 +15,7 @@ import TableRow from 'grommet/components/TableRow';
 import TextInput from 'grommet/components/TextInput';
 import Toast from 'grommet/components/Toast';
 
+import CloseIcon from 'grommet/components/icons/base/Close';
 import EditIcon from 'grommet/components/icons/base/Edit';
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
 import ClassroomCreateFormContainer from '../../containers/common/ClassroomCreateFormContainer';
@@ -71,53 +72,54 @@ class ClassroomEditor extends React.Component {
           </Box>
           <Button type="button" primary={true} label="Export Grades" onClick={()=>{}} />
         </Box>
+        
+        <Box className="manager-summary" pad="large">
+          <Anchor
+            onClick={()=>{console.log(props.selectClassroom); props.selectClassroom(null)}}
+            icon={<LinkPreviousIcon size="small" />}
+            label="Back to Classroom List"
+            className="summary__return-link"
+          />
+          <Box direction="row">
+            <Button
+              className="manager-table__button--edit"
+              type="button"
+              onClick={props.toggleFormVisibility}
+              icon={<EditIcon size="small" />}
+            ></Button>
+            <Heading tag="h2" strong={true}>{props.selectedClassroom.name}</Heading>
+          </Box>
+          <List>
+            {(!(props.selectedClassroom.subject && props.selectedClassroom.subject.length > 0)) ? null :
+              <ListItem justify="between" separator="horizontal">
+                <span className="secondary">Subject</span>
+                <span>{props.selectedClassroom.subject}</span>
+              </ListItem>
+            }
+            {(!(props.selectedClassroom.school && props.selectedClassroom.school.length > 0)) ? null :
+              <ListItem justify="between" separator="horizontal">
+                <span className="secondary">Institution</span>
+                <span>{props.selectedClassroom.school}</span>
+              </ListItem>
+            }
+            {(!(props.selectedClassroom.description && props.selectedClassroom.description.length > 0)) ? null :
+              <ListItem justify="between" separator="horizontal">
+                <span className="secondary">Description</span>
+                <span>{props.selectedClassroom.description}</span>
+              </ListItem>
+            }
+          </List>
+        </Box>
 
         <Table className="manager-table">
           <thead className="manager-table__headers">
-            <TableRow>
-              <th id="classroom" className="manager-table__summary" colSpan="4">
-                <Anchor
-                  onClick={()=>{console.log(props.selectClassroom); props.selectClassroom(null)}}
-                  icon={<LinkPreviousIcon size="small" />}
-                  label="Back to Classroom List"
-                  className="summary__return-link"
-                />
-                <Box direction="row">
-                  <Button
-                    className="manager-table__button--edit"
-                    type="button"
-                    onClick={props.toggleFormVisibility}
-                    icon={<EditIcon size="small" />}
-                  ></Button>
-                  <Heading tag="h2" strong={true}>{props.selectedClassroom.name}</Heading>
-                </Box>
-                <List>
-                  {(!(props.selectedClassroom.subject && props.selectedClassroom.subject.length > 0)) ? null :
-                    <ListItem justify="between" separator="horizontal">
-                      <span className="secondary">Subject</span>
-                      <span>{props.selectedClassroom.subject}</span>
-                    </ListItem>
-                  }
-                  {(!(props.selectedClassroom.school && props.selectedClassroom.school.length > 0)) ? null :
-                    <ListItem justify="between" separator="horizontal">
-                      <span className="secondary">Institution</span>
-                      <span>{props.selectedClassroom.school}</span>
-                    </ListItem>
-                  }
-                  {(!(props.selectedClassroom.description && props.selectedClassroom.description.length > 0)) ? null :
-                    <ListItem justify="between" separator="horizontal">
-                      <span className="secondary">Description</span>
-                      <span>{props.selectedClassroom.description}</span>
-                    </ListItem>
-                  }
-                </List>
-              </th>
-            </TableRow>
+            
             <TableRow>
               <th id="student-name" scope="col" className="manager-table__row-header">Student Name/Zooniverse ID</th>
               <th id="assignment-intro" scope="col" className="manager-table__row-header">Introduction</th>
               <th id="assignment-galaxy" scope="col" className="manager-table__row-header">Galaxy Zoo 101</th>
               <th id="assignment-hubble" scope="col" className="manager-table__row-header">Hubble's Law</th>
+              <th id="student-remove" scope="col" className="manager-table__row-header">Remove Student</th>
             </TableRow>
           </thead>
 
@@ -133,6 +135,14 @@ class ClassroomEditor extends React.Component {
                   <td headers="assignment-intro">...</td>
                   <td headers="assignment-galaxy">...</td>
                   <td headers="assignment-hubble">...</td>
+                  <td headers="student-remove">
+                    <Button
+                      className="manager-table__button--delete"
+                      type="button"
+                      onClick={props.removeStudentFromClassroom.bind(null, props.selectedClassroom.id, student.id)}
+                      icon={<CloseIcon size="small" />}
+                    ></Button>
+                  </td>
                 </TableRow>
               </tbody>
             );
@@ -147,6 +157,7 @@ class ClassroomEditor extends React.Component {
 
 ClassroomEditor.defaultProps = {
   selectClassroom: () => {},
+  removeStudentFromClassroom: () => {},
   showCreateForm: false,
   toggleFormVisibility: Actions.classrooms.toggleCreateFormVisibility,
   ...CLASSROOMS_INITIAL_STATE,
@@ -154,6 +165,7 @@ ClassroomEditor.defaultProps = {
 
 ClassroomEditor.propTypes = {
   selectClassroom: PropTypes.func,
+  removeStudentFromClassroom: PropTypes.func,
   showCreateForm: PropTypes.bool,
   toggleFormVisibility: PropTypes.func,
   ...CLASSROOMS_PROPTYPES,
