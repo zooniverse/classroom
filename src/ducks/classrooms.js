@@ -14,6 +14,7 @@ const CLASSROOMS_STATUS = {
 
 // Initial State and PropTypes - usable in React components.
 const CLASSROOMS_INITIAL_STATE = {
+  selectedClassroom: null,
   classrooms: [],
   error: null,
   showCreateForm: false,
@@ -21,6 +22,7 @@ const CLASSROOMS_INITIAL_STATE = {
 };
 
 const CLASSROOMS_PROPTYPES = {
+  selectedClassroom: PropTypes.object,
   classrooms: PropTypes.arrayOf(PropTypes.object),  //OPTIONAL TODO: Transform this into PropTypes.shape.
   error: PropTypes.object,
   showCreateForm: PropTypes.bool,
@@ -37,6 +39,10 @@ function handleError(error) {
 // Synchonous actions
 const setStatus = (state, status) => {
   return { ...state, status };
+};
+
+const selectClassroom = (state, selectedClassroom) => {
+  return { ...state, selectedClassroom };
 };
 
 const setClassrooms = (state, classrooms) => {
@@ -125,6 +131,7 @@ const classrooms = State('classrooms', {
   initial: CLASSROOMS_INITIAL_STATE,
   // Actions
   setStatus,
+  selectClassroom,
   setClassrooms,
   setError,
   toggleCreateFormVisibility

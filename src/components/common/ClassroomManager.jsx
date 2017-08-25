@@ -10,6 +10,7 @@ import TableRow from 'grommet/components/TableRow';
 import Toast from 'grommet/components/Toast';
 import Anchor from 'grommet/components/Anchor';
 import Layer from 'grommet/components/Layer';
+import EditIcon from 'grommet/components/icons/base/Edit';
 import CloseIcon from 'grommet/components/icons/base/Close';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import {
@@ -67,6 +68,9 @@ const ClassroomManager = (props) => {
                 <TableRow>
                   <th className="manager-table__row-header" id="classroom" colSpan="4" scope="colgroup">
                     <Box pad="none" margin="none" justify="between" direction="row">
+                      <Button className="manager-table__button--edit" type="button" onClick={props.selectClassroom.bind(null, classroom)}>
+                        <EditIcon size="small" />
+                      </Button>
                       <span>
                         {classroom.name}{' '}
                         <CopyToClipboard text={joinURL} onCopy={props.copyJoinLink}>
@@ -136,6 +140,7 @@ const ClassroomManager = (props) => {
 ClassroomManager.defaultProps = {
   classroomInstructions: '',
   copyJoinLink: () => {},
+  selectClassroom: () => {},
   deleteClassroom: () => {},
   resetToastState: () => {},
   showCreateForm: false,
@@ -148,6 +153,7 @@ ClassroomManager.defaultProps = {
 ClassroomManager.propTypes = {
   classroomInstructions: PropTypes.string,
   copyJoinLink: PropTypes.func,
+  selectClassroom: PropTypes.func,
   deleteClassroom: PropTypes.func,
   resetToastState: PropTypes.func,
   showCreateForm: PropTypes.bool,
