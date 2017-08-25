@@ -4,6 +4,7 @@ import { Actions } from 'jumpstate';
 import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
+import TextInput from 'grommet/components/TextInput';
 import Heading from 'grommet/components/Heading';
 import Paragraph from 'grommet/components/Paragraph';
 import Table from 'grommet/components/Table';
@@ -38,10 +39,10 @@ const ClassroomEditor = (props) => {
         justify="between"
         pad="large"
       >
-        <Box flex="grow">
+        <Box flex={true}>
           <Paragraph align="start" size="small">Click a project column to toggle between percentages and number of classifications.</Paragraph>
         </Box>
-        <Box align="center">
+        <Box align="center" className="join-link">
           <b>Classroom Join Link</b>
           <span>{joinURL}</span>
         </Box>
