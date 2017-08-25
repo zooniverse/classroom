@@ -51,13 +51,6 @@ export class ClassroomManagerContainer extends React.Component {
     });
   }
   
-  editClassroom(payload) {
-    //TODO
-    //Actions.editClassroom(payload).then(() => {
-    //  Actions.getClassroomsAndAssignments();
-    //});
-  }
-  
   removeStudentFromClassroom(classroomId, studentId) {
     //TODO
     console.log('TODO!');
@@ -90,6 +83,8 @@ export class ClassroomManagerContainer extends React.Component {
           selectedClassroom={this.props.selectedClassroom}
           selectClassroom={this.selectClassroom}
           showCreateForm={this.props.showCreateForm}
+          assignments={this.props.assignments}
+          assignmentsStatus={this.props.assignmentsStatus}
           removeStudentFromClassroom={this.removeStudentFromClassroom}
         />
       );
@@ -99,12 +94,16 @@ export class ClassroomManagerContainer extends React.Component {
 
 ClassroomManagerContainer.propTypes = {
   ...ASSIGNMENTS_PROPTYPES,
-  ...CLASSROOMS_PROPTYPES
+  ...CLASSROOMS_PROPTYPES,
+  assignmentsStatus: ASSIGNMENTS_PROPTYPES.status,
+  classroomsStatus: CLASSROOMS_PROPTYPES.status,
 };
 
 ClassroomManagerContainer.defaultProps = {
   ...ASSIGNMENTS_INITIAL_STATE,
-  ...CLASSROOMS_INITIAL_STATE
+  ...CLASSROOMS_INITIAL_STATE,
+  assignmentsStatus: ASSIGNMENTS_INITIAL_STATE.status,
+  classroomsStatus: CLASSROOMS_INITIAL_STATE.status,
 };
 
 const mapStateToProps = (state) => ({

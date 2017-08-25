@@ -8,6 +8,7 @@ import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import Heading from 'grommet/components/Heading';
+import Label from 'grommet/components/Label';
 import Layer from 'grommet/components/Layer';
 import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
@@ -18,12 +19,16 @@ import Toast from 'grommet/components/Toast';
 
 import CloseIcon from 'grommet/components/icons/base/Close';
 import EditIcon from 'grommet/components/icons/base/Edit';
+import Spinning from 'grommet/components/icons/Spinning';
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
 import ClassroomCreateFormContainer from '../../containers/common/ClassroomCreateFormContainer';
 
 import {
-  CLASSROOMS_STATUS, CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
+  CLASSROOMS_STATUS, CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES,
 } from '../../ducks/classrooms';
+import {
+  ASSIGNMENTS_STATUS,
+} from '../../ducks/assignments';
 
 class ClassroomEditor extends React.Component {
   constructor(props) {
@@ -33,16 +38,16 @@ class ClassroomEditor extends React.Component {
   render() {
     const props = this.props;
     if (!props.selectedClassroom) return null;
-
-    const joinURL = `https://${window.location.host}/students/classrooms/join?id=${props.selectedClassroom.id}&token=${props.selectedClassroom.joinToken}`;
-    const students = (props.selectedClassroom.students) ? props.selectedClassroom.students : [];
-    
     this.exportGrades = this.exportGrades.bind(this);
 
-    console.log('--------');
-    console.log(props);
-    console.log('--------');
-
+    const joinURL = `https://${window.location.host}/students/classrooms/join?id=${props.selectedClassroom.id}&token=${props.selectedClassroom.joinToken}`;
+    
+    //Get students and assignments only for this classroom.
+    const students = (props.selectedClassroom.students) ? props.selectedClassroom.students : [];
+    const assignments = (props.assignments && props.assignments[props.selectedClassroom.id])
+      ? props.assignments[props.selectedClassroom.id]
+      : [];
+    
     return (
       <Box
         className="classroom-editor"
@@ -65,7 +70,7 @@ class ClassroomEditor extends React.Component {
           align="center"
           direction="row"
           justify="between"
-          pad="large"
+          pad="small"
         >
           <Box flex={true}>
             <Paragraph align="start" size="small">Click a project column to toggle between percentages and number of classifications.</Paragraph>
@@ -77,13 +82,18 @@ class ClassroomEditor extends React.Component {
           <Button type="button" primary={true} label="Export Grades" onClick={this.exportGrades} />
         </Box>
         
-        <Box className="manager-summary" pad="large">
-          <Anchor
-            onClick={()=>{console.log(props.selectClassroom); props.selectClassroom(null)}}
-            icon={<LinkPreviousIcon size="small" />}
-            label="Back to Classroom List"
-            className="summary__return-link"
-          />
+        <Box
+          className="manager-summary"
+          pad="small"
+        >
+          <Box pad="small">
+            <Anchor
+              onClick={()=>{console.log(props.selectClassroom); props.selectClassroom(null)}}
+              icon={<LinkPreviousIcon size="small" />}
+              label="Back to Classroom List"
+              className="summary__return-link"
+            />
+          </Box>
           <Box direction="row">
             <Button
               className="manager-table__button--edit"
@@ -95,20 +105,20 @@ class ClassroomEditor extends React.Component {
           </Box>
           <List>
             {(!(props.selectedClassroom.subject && props.selectedClassroom.subject.length > 0)) ? null :
-              <ListItem justify="between" separator="horizontal">
-                <span className="secondary">Subject</span>
+              <ListItem>
+                <Label className="secondary">Subject</Label>
                 <span>{props.selectedClassroom.subject}</span>
               </ListItem>
             }
             {(!(props.selectedClassroom.school && props.selectedClassroom.school.length > 0)) ? null :
-              <ListItem justify="between" separator="horizontal">
-                <span className="secondary">Institution</span>
+              <ListItem>
+                <Label className="secondary">Institution</Label>
                 <span>{props.selectedClassroom.school}</span>
               </ListItem>
             }
             {(!(props.selectedClassroom.description && props.selectedClassroom.description.length > 0)) ? null :
-              <ListItem justify="between" separator="horizontal">
-                <span className="secondary">Description</span>
+              <ListItem>
+                <Label className="secondary">Description</Label>
                 <span>{props.selectedClassroom.description}</span>
               </ListItem>
             }
@@ -117,28 +127,34 @@ class ClassroomEditor extends React.Component {
 
         <Table className="manager-table">
           <thead className="manager-table__headers">
-            
             <TableRow>
-              <th id="student-name" scope="col" className="manager-table__row-header">Student Name/Zooniverse ID</th>
-              <th id="assignment-intro" scope="col" className="manager-table__row-header">Introduction</th>
-              <th id="assignment-galaxy" scope="col" className="manager-table__row-header">Galaxy Zoo 101</th>
-              <th id="assignment-hubble" scope="col" className="manager-table__row-header">Hubble's Law</th>
-              <th id="student-remove" scope="col" className="manager-table__row-header">Remove Student</th>
+              <th id="student-name" scope="col" className="headers__header">Student Name/Zooniverse ID</th>
+              <th id="assignment-intro" scope="col" className="headers__header">Introduction</th>
+              <th id="assignment-galaxy" scope="col" className="headers__header">Galaxy Zoo 101</th>
+              <th id="assignment-hubble" scope="col" className="headers__header">Hubble's Law</th>
+              <th id="student-remove" scope="col" className="headers__header">Remove Student</th>
             </TableRow>
           </thead>
+          
+          <tbody className="manager-table__body">
+            {props.assignmentsStatus === ASSIGNMENTS_STATUS.FETCHING && (
+              <TableRow className="manager-table__row-data">
+                <td colSpan="4"><Spinning /></td>
+              </TableRow>
+            )}
 
-          {students.map((student) => {
-            return (
-              <tbody className="manager-table__body" key={`classroom-student-${student.id}`}>
-                <TableRow>
+            {props.assignmentsStatus !== ASSIGNMENTS_STATUS.FETCHING &&
+              students.map((student) => {
+              return (
+                <TableRow className="manager-table__row-data" key={`classroom-student-${student.id}`}>
                   <td headers="student-name">
                     {(student.zooniverseDisplayName && student.zooniverseDisplayName.length > 0)
                       ? <span>{student.zooniverseDisplayName}</span>
                       : <span className="secondary">{student.zooniverseLogin}</span> }
                   </td>
-                  <td headers="assignment-intro">...</td>
-                  <td headers="assignment-galaxy">...</td>
-                  <td headers="assignment-hubble">...</td>
+                  <td headers="assignment-intro">{Math.floor(Math.random() * 100)}%</td>
+                  <td headers="assignment-galaxy">{Math.floor(Math.random() * 100)}%</td>
+                  <td headers="assignment-hubble">{Math.floor(Math.random() * 100)}%</td>
                   <td headers="student-remove">
                     <Button
                       className="manager-table__button--delete"
@@ -148,10 +164,9 @@ class ClassroomEditor extends React.Component {
                     ></Button>
                   </td>
                 </TableRow>
-              </tbody>
-            );
-          })}
-
+              );
+            })}
+          </tbody>
 
         </Table>
       </Box>
