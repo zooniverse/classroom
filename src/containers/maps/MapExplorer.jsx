@@ -65,15 +65,6 @@ class MapExplorer extends React.Component {
       </Box>
     );
   }
-  
-  componentDidMount() {
-    //TEST
-    Actions.getActiveCamera({
-      mapConfig: this.props.mapConfig,
-      filters: null,
-      cameraId: 'G01',
-    });
-  }
 }
 
 MapExplorer.propTypes = {
