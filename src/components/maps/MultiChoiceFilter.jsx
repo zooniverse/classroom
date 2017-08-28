@@ -9,6 +9,8 @@ import Button from 'grommet/components/Button';
 import CheckboxIcon from 'grommet/components/icons/base/Checkbox';
 import CheckboxSelectedIcon from 'grommet/components/icons/base/CheckboxSelected';
 
+import { ZooTran } from '../../lib/zooniversal-translator.js';
+
 class MultiChoicePanel extends React.Component {
   constructor(props) {
     super(props);
@@ -19,8 +21,8 @@ class MultiChoicePanel extends React.Component {
       <Box className="multi-choice filter">
         <Label align="end" margin="none" size="small">
           {(this.props.selected && this.props.selected.length > 0)
-            ? `Selected ${this.props.selected.length} out of ${this.props.options.length} options`
-            : `Showing all options`
+            ? `${this.props.selected.length} / ${this.props.options.length} ${ZooTran('options selected')}`
+            : ZooTran('Showing all options')
           }
         </Label>
         <Box>
@@ -37,7 +39,7 @@ class MultiChoicePanel extends React.Component {
                   }}
                   icon={<CheckboxSelectedIcon size="small" />}
                 >
-                  {item.label}
+                  {ZooTran(item.label)}
                 </Button>
               );
 
@@ -51,7 +53,7 @@ class MultiChoicePanel extends React.Component {
                   }}
                   icon={<CheckboxIcon size="small" />}
                 >
-                  {item.label}
+                  {ZooTran(item.label)}
                 </Button>
               );
 

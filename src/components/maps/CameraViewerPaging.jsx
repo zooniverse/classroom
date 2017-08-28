@@ -7,6 +7,8 @@ import Label from 'grommet/components/Label';
 import FormNextIcon from 'grommet/components/icons/base/FormNext';
 import FormPreviousIcon from 'grommet/components/icons/base/FormPrevious';
 
+import { ZooTran } from '../../lib/zooniversal-translator.js';
+
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
   MAPEXPLORER_CAMERA_STATUS,
@@ -23,7 +25,7 @@ const CameraViewerData = (props) => {
           icon={<FormPreviousIcon size="xsmall" />}
         />
         <Label align="center" size="small">
-          Page {props.page+1} of {Math.ceil(props.activeCameraData.length / props.itemsPerPage)}
+          {ZooTran('Page')} {props.page+1} / {Math.ceil(props.activeCameraData.length / props.itemsPerPage)}
         </Label>
         <Button
           plain={true}

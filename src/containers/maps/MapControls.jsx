@@ -26,9 +26,7 @@ import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 
 import { constructWhereClause } from '../../lib/mapexplorer-helpers';
-import {
-  ZooTran, ZooTranSetLanguage, ZooTranGetLanguage,
-} from '../../lib/zooniversal-translator.js';
+import { ZooTran, ZooTranGetLanguage } from '../../lib/zooniversal-translator.js';
 
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
@@ -85,18 +83,12 @@ class MapControls extends React.Component {
               <Button
                 className={(lang !== 'es') ? 'selected' : ''}
                 label="English"
-                onClick={() => {
-                  ZooTranSetLanguage('en');
-                  this.forceUpdate();
-                }}
+                onClick={() => { this.props.setLanguage('en') }}
               />
               <Button
                 className={(lang === 'es') ? 'selected' : ''}
                 label="Español"
-                onClick={() => {
-                  ZooTranSetLanguage('es');
-                  this.forceUpdate();
-                }}
+                onClick={() => { this.props.setLanguage('es') }}
               />
             </Box>
           </AccordionPanel>
@@ -108,7 +100,7 @@ class MapControls extends React.Component {
               const item = mapConfig.map.filters[key];
               if (item.type === "multichoice") {
                 return (
-                  <AccordionPanel heading={item.label} key={`map-controls-${key}`} className={(this.props.filters[key]) ? 'selected' : ''}>
+                  <AccordionPanel heading={ZooTran(item.label)} key={`map-controls-${key}`} className={(this.props.filters[key]) ? 'selected' : ''}>
                     <MultiChoiceFilter
                       filterKey={key}
                       filterLabel={item.label}
@@ -141,10 +133,12 @@ class MapControls extends React.Component {
 
 MapControls.propTypes = {
   mapConfig: PropTypes.object,
+  setLanguage: PropTypes.func,
   ...MAPEXPLORER_PROPTYPES,
 };
 MapControls.defaultProps = {
   mapConfig: null,
+  setLanguage: () => {},
   ...MAPEXPLORER_INITIAL_STATE,
 };
 const mapStateToProps = (state) => ({

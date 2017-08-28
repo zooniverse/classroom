@@ -35,6 +35,8 @@ import Label from 'grommet/components/Label';
 import SpinningIcon from 'grommet/components/icons/Spinning';
 import DownloadIcon from 'grommet/components/icons/base/Download';
 
+import { ZooTran } from '../../lib/zooniversal-translator.js';
+
 const STATUS = {
   IDLE: 'idle',
   FETCHING: 'fetching',
@@ -63,8 +65,8 @@ class SuperDownloadButton extends React.Component {
         icon={(this.state.status === STATUS.FETCHING) ? <SpinningIcon size="small" /> : this.props.icon}
       >
         <Label>{this.props.text}</Label>
-        {(this.state.status !== STATUS.SUCCESS) ? null : <Toast status='ok'>Success: file downloaded.</Toast> }
-        {(this.state.status !== STATUS.ERROR) ? null : <Toast status='critical'>Error: could not download the file.</Toast> }
+        {(this.state.status !== STATUS.SUCCESS) ? null : <Toast status='ok'>{ZooTran('Success: file downloaded.')}</Toast> }
+        {(this.state.status !== STATUS.ERROR) ? null : <Toast status='critical'>{ZooTran('Error: could not download the file.')}</Toast> }
         <form style={{ 'display': 'none' }} action={config.root + 'downloads/'} method="POST" ref={c=>this.altForm=c} aria-hidden={true}>
           <textarea name="data" ref={c=>this.altFormData=c} readOnly aria-label="alt-data" />
           <input name="content_type" value={this.props.contentType} readOnly aria-label="alt-contenttype" />
@@ -118,7 +120,7 @@ SuperDownloadButton.propTypes = {
 SuperDownloadButton.defaultProps = { 
   url: '',
   className: '',
-  text: 'Download',
+  text: ZooTran('Download'),
   icon: <DownloadIcon size="small"/>,
   filename: generateFilename(),
   contentType: 'text/csv',
