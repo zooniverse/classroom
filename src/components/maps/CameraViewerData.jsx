@@ -22,13 +22,9 @@ const CameraViewerData = (props) => {
       props.activeCameraData) {
     const data = props.activeCameraData || [];
     
-    console.log(props.page, props.itemsPerPage);
-    console.log(data.slice(props.page * props.itemsPerPage, (props.page + 1) * props.itemsPerPage))
-    
     return (
       <Tiles fill={true} flush={true}>
         {data.slice(props.page * props.itemsPerPage, (props.page + 1) * props.itemsPerPage).map((item, i) => {
-          console.log('i:' + i);
           let location = item.location || '';
 
           //Thumbnails!
