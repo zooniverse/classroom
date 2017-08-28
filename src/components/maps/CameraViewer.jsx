@@ -40,17 +40,11 @@ class CameraViewer extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.setState({
-      page: 0,
-    });
-  }
-  
   render() {
     if (!this.props.mapConfig) return null;
     
     return (
-      <Layer className="camera-viewer">
+      <Layer className="camera-viewer" closer={true} onClose={()=>{Actions.mapexplorer.resetActiveCamera()}}>
         <Box className="content" align="center">
           <Box className="camera-metadata">
             {this.renderMetadata()}
@@ -59,7 +53,6 @@ class CameraViewer extends React.Component {
             {this.renderDataPaging()}
             {this.renderData()}
           </Box>
-          <Button label="Done" onClick={()=>{ Actions.mapexplorer.resetActiveCamera() }}></Button>
         </Box>
       </Layer>
     );
