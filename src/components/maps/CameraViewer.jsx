@@ -16,6 +16,9 @@ import FormNextIcon from 'grommet/components/icons/base/FormNext';
 import FormPreviousIcon from 'grommet/components/icons/base/FormPrevious';
 import SpinningIcon from 'grommet/components/icons/Spinning';
 
+import CameraViewerMetadata from './CameraViewerMetadata';
+import CameraViewerData from './CameraViewerData';
+
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
   MAPEXPLORER_CAMERA_STATUS,
@@ -30,8 +33,6 @@ class CameraViewer extends React.Component {
   constructor(props) {
     super(props);
   
-    this.renderData = this.renderData.bind(this);
-    this.renderMetadata = this.renderMetadata.bind(this);
     this.renderDataPaging = this.renderDataPaging.bind(this);
     this.changeDataPaging = this.changeDataPaging.bind(this);
   
@@ -47,89 +48,23 @@ class CameraViewer extends React.Component {
       <Layer className="camera-viewer" closer={true} onClose={()=>{Actions.mapexplorer.resetActiveCamera()}}>
         <Box className="content" align="center">
           <Box className="camera-metadata">
-            {this.renderMetadata()}
+            <CameraViewerMetadata
+              activeCameraMetadata={this.props.activeCameraMetadata}
+              activeCameraMetadataStatus={this.props.activeCameraMetadataStatus}
+            />
           </Box>
           <Box className="camera-data">
             {this.renderDataPaging()}
-            {this.renderData()}
+            <CameraViewerData
+              page={this.state.page}
+              itemsPerPage={ITEMS_PER_PAGE}
+              activeCameraData={this.props.activeCameraData}
+              activeCameraDataStatus={this.props.activeCameraDataStatus}
+            />
           </Box>
         </Box>
       </Layer>
     );
-  }
-
-  renderMetadata() {
-    if (this.props.activeCameraMetadataStatus === MAPEXPLORER_CAMERA_STATUS.FETCHING) {
-      return <SpinningIcon />;
-    } else if (this.props.activeCameraMetadataStatus === MAPEXPLORER_CAMERA_STATUS.ERROR) {
-      return <Notification message='ERROR' status='critical' />
-    }
-    
-    if (this.props.activeCameraMetadataStatus === MAPEXPLORER_CAMERA_STATUS.SUCCESS &&
-        this.props.activeCameraMetadata) {
-
-      return (
-        <List>
-        {Object.keys(this.props.activeCameraMetadata).map(key => (
-          <ListItem
-            key={`camera-metadata-${key}`}
-            justify='between'
-            separator='horizontal'
-          >
-            <span>{key}</span>
-            <span>{this.props.activeCameraMetadata[key]}</span>
-          </ListItem>
-        ))}
-        </List>
-      );
-    }
-
-    return null;
-  }
-
-  renderData() {
-    if (this.props.activeCameraDataStatus === MAPEXPLORER_CAMERA_STATUS.FETCHING) {
-      return <SpinningIcon />;
-    } else if (this.props.activeCameraDataStatus === MAPEXPLORER_CAMERA_STATUS.ERROR) {
-      return <Notification message='ERROR' status='critical' />
-    }
-    
-    if (this.props.activeCameraDataStatus === MAPEXPLORER_CAMERA_STATUS.SUCCESS &&
-        this.props.activeCameraData) {
-      const data = this.props.activeCameraData;
-      const items = [];
-      for (let i = this.state.page * ITEMS_PER_PAGE;
-           i < data.length && i < (this.state.page + 1) * ITEMS_PER_PAGE;
-           i++) {
-        let location = data[i].location || '';
-        
-        //Thumbnails!
-        //----------------
-        if (/zooniverse\.org/i.test(location)) {
-          location =
-            `${THUMBNAIL_SERVER_URL}${THUMBNAIL_WIDTH}x${THUMBNAIL_HEIGHT}/` +
-            location.replace(/^(https?|ftp):\/\//, '');
-        }
-        //----------------
-        
-        
-        items.push(
-          <Tile className="camera-data-item" key={`camera-data-${i}`}>
-            <Anchor href={data[i].location}>
-              <img src={location} />
-            </Anchor>
-          </Tile>
-        );
-      }
-
-      return (
-        <Tiles fill={true} flush={true}>
-          {items}
-        </Tiles>
-      );
-    }
-
-    return null;
   }
 
   renderDataPaging() {
@@ -139,7 +74,7 @@ class CameraViewer extends React.Component {
         <Box className="camera-data-paging" direction="row" pad="none" alignSelf="stretch" justify="center" separator="horizontal">
           <Button
             plain={true}
-            onClick={()=>{this.changeDataPaging.bind(-1)}}
+            onClick={()=>{this.changeDataPaging(-1)}}
             icon={<FormPreviousIcon size="xsmall" />}
           />
           <Label align="center" size="small">
