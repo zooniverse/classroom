@@ -16,9 +16,6 @@ import {
 } from '../../ducks/mapexplorer';
 
 const ITEMS_PER_PAGE = 6;
-const THUMBNAIL_SERVER_URL = 'https://thumbnails.zooniverse.org/';
-const THUMBNAIL_WIDTH = 320;
-const THUMBNAIL_HEIGHT = 200;
 
 class CameraViewer extends React.Component {
   constructor(props) {
