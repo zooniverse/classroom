@@ -26,7 +26,7 @@
     //Visual styles
     background: white
     padding: 1em
-    border: 1px solid black
+    border: 1px solid GREY_3
     
     > .grommetux-accordion > div > .grommetux-collapsible__wrapper > .grommetux-collapsible
       max-height: 60vh
@@ -34,11 +34,11 @@
     
     .map-controls-status
     .map-controls-filters
-      background: #eee
+      background: GREY_5
       padding: 0 0.5em
       
       &.selected
-        background: #fc3
+        background: TEAL_LIGHT  //#fc3
     
     .grommetux-control-icon
       width: 1em
@@ -47,7 +47,7 @@
       min-height: 1em
     
     .selected .grommetux-header
-      background: #fc3
+      background: TEAL_LIGHT  //#fc3
     
     .grommetux-button
     .grommetux-label
@@ -62,15 +62,41 @@
     .grommetux-accordion .grommetux-accordion
       padding-left: 1em
   
-  .camera-viewer
-    background: #fff
-    top: 0
-    left: 0
-    width: 90%
-    height: 90%
-    margin: 5%
-    position: absolute
-    z-index: 1000  //Required to place controls above .map-visuals's Leaflet map
-    
+.camera-viewer
+  z-index: 2000  //Required to place controls above .map-visuals's Leaflet map
+  padding: 1em
+  
+  > .grommetux-layer__container
+    background: none
+  
+  .content
+    background: GREY_5
+    border: 1px solid GREY_1
     padding: 1em
-    border: 1px solid #333
+  
+  .camera-metadata
+  .camera-data
+    overflow: auto
+    margin-bottom: 0.5em
+    
+  .camera-metadata
+    border: 1px solid GREY_1
+    max-height: 12em
+    
+    li
+      padding: 0
+      
+      span:first-child
+        color: GREY_3
+        margin-right: 1em
+        max-width: 16em
+
+  .camera-data
+    max-height: 32em
+    border: 1px solid GREY_1
+    
+    .camera-data-item
+      max-width: 30%
+      
+      img
+        width: 100%

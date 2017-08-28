@@ -236,10 +236,7 @@ Effect('getActiveCamera', (payload = {}) => {
   })
   .then(json => {
     Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS.SUCCESS);
-    Actions.mapexplorer.setActiveCameraData(json.rows);
-    
-    console.log('-'.repeat(80));
-    console.log(json.rows);
+    Actions.mapexplorer.setActiveCameraData(json.rows);    
   })
   .catch(err => {
     Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS.ERROR);
