@@ -99,7 +99,6 @@ const mapConfig = {
         'label': 'Habitats',
         'query': 'SELECT * FROM vegetation_map',
         'style': function (feature) {
-          console.log(feature);
           let color = '#ccc';
           if (feature && feature.properties) {
             switch (feature.properties.veg_type) {
@@ -135,6 +134,21 @@ const mapConfig = {
         },
       },
     ],
+    'legend': {
+      'type': 'simple',
+      'items': {
+        '#9c3': 'Evergreen tropical ombrophilous broadleaf submontane (500 - 1,000 m Caribbean, 700 - 1,200 m Pacific)',
+        '#993': 'Production system with significant natural or spontaneous woody vegetation (10 - 50%)',
+        '#693': 'Production system with significant natural or spontaneous woody vegetation (<10%)',
+        '#663': 'Evergreen ombrophylous tropical lowland broadleaf forest - heavily logged',
+        '#393': 'Tropical lowland semi-deciduous forest - heavily logged',
+        '#39c': 'Water',
+        '#9c6': 'Tropical lowland semi-deciduous forest',
+        '#6c6': 'Tropical lowland semi-deciduous forest - minimally logged',
+        '#cc6': 'Evergreen tropical ombrophilous broadleaf montane montane (1,000 - 1,500 m Caribbean, 1,200 - 1,800 m Pacific)',
+        '#9c9': 'Evergreen, broad-leaved tropical broad-leaved evergreen forest',
+      },
+    },
     'filters': {
       'data_choice': {
         'label': 'Species',

@@ -12,10 +12,12 @@ This feature has one function:
  */
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
+import SimpleMapLegend from '../../components/maps/SimpleMapLegend';
 import Box from 'grommet/components/Box';
 
 import L from 'leaflet';
@@ -96,7 +98,7 @@ class MapVisuals extends React.Component {
       : [];
     
     const geomapLayers = {};
-    extraLayers.map(item => {
+    extraLayers.map(item => {  //TODO: Maybe move this to an external duck?
       geomapLayers[item.label] = L.geoJson(null, { style: item.style }).addTo(this.map);
       
       const url = this.props.mapConfig.database.urls.geojson.replace('{SQLQUERY}', encodeURIComponent(item.query));
@@ -119,6 +121,23 @@ class MapVisuals extends React.Component {
       });
     });
     //--------------------------------
+    
+    //Add a map legend, if applicable.
+    //--------------------------------
+    if (this.props.mapConfig.map && this.props.mapConfig.map.legend) {
+      if (this.props.mapConfig.map.legend.type === 'simple') {
+        const legend = L.control({position: 'bottomleft'});
+        legend.onAdd = (map) => {
+          let div = L.DomUtil.create('div', 'map-legend');
+          ReactDOM.render(<SimpleMapLegend items={this.props.mapConfig.map.legend.items} />, div);
+          return div;
+        };
+        legend.addTo(this.map);
+        
+      }
+    }
+    //--------------------------------
+    
     
     //Add standard 'Layer' controls
     //--------------------------------
