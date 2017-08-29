@@ -4,6 +4,8 @@ import ListItem from 'grommet/components/ListItem';
 import Notification from 'grommet/components/Notification';
 import SpinningIcon from 'grommet/components/icons/Spinning';
 
+import { ZooTran, ZooTranExists } from '../../lib/zooniversal-translator.js';
+
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
   MAPEXPLORER_CAMERA_STATUS,
@@ -21,16 +23,22 @@ const CameraViewerMetadata = (props) => {
 
     return (
       <List>
-      {Object.keys(props.activeCameraMetadata).map(key => (
-        <ListItem
-          key={`camera-metadata-${key}`}
-          justify='between'
-          separator='horizontal'
-        >
-          <span>{key}</span>
-          <span>{props.activeCameraMetadata[key]}</span>
-        </ListItem>
-      ))}
+      {Object.keys(props.activeCameraMetadata).map(key => {
+        console.log(key, ZooTran(key));  
+        
+        if (!ZooTranExists(key)) return null;
+        
+        return (
+          <ListItem
+            key={`camera-metadata-${key}`}
+            justify='between'
+            separator='horizontal'
+          >
+            <span>{ZooTran(key)}</span>
+            <span>{ZooTran(props.activeCameraMetadata[key])}</span>
+          </ListItem>
+        );
+      })}
       </List>
     );
   }

@@ -1,12 +1,10 @@
 const EnglishTranslations = {
-  'result(s)': 'result(s)',
-  
   //Database
   'cartodb_id': null,
   'the_geom': null,
   'the_geom_webmercator': null,
   'dist_humans_m': 'Distance from humans (m)',
-  'dist_water_m':  'Distance from humans (m)',
+  'dist_water_m':  'Distance from water (m)',
   'land_use': 'Land Use',
   'national_park': 'National Park',
   'human_type': 'Nearby Humans',
@@ -37,7 +35,6 @@ const EnglishTranslations = {
   'data_answers_howmany_10': 'Count 10',
   'data_answers_howmany_1120': 'Count 11-20',
   'data_answers_howmany_21': 'Count 21+',
-  
 };
 
 export default EnglishTranslations;
