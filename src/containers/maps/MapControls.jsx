@@ -69,6 +69,7 @@ class MapControls extends React.Component {
           <AccordionPanel heading={statusMessage} className="map-controls-status">
             <SuperDownloadButton
               url={downloadUrl}
+              text={ZooTran('Download')}
             />
             <Box
               className="zooniversal-translator"
