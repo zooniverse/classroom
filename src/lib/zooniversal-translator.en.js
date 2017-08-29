@@ -1,4 +1,4 @@
-const EnglishTranslations = {
+let EnglishTranslations = {
   //Database
   'cartodb_id': null,
   'the_geom': null,
@@ -36,5 +36,15 @@ const EnglishTranslations = {
   'data_answers_howmany_1120': 'Count 11-20',
   'data_answers_howmany_21': 'Count 21+',
 };
+
+//HACK: database support for WildCam Darien.
+import mapConfig from './wildcam-darien.mapConfig.js';
+const databaseAdditions = {};
+mapConfig.map.filters.data_choice.options.map(item => {
+  const databaseValue = item.value;
+  const englishLabel = item.label;
+  if (englishLabel) databaseAdditions[databaseValue] = englishLabel;
+});
+EnglishTranslations = {...EnglishTranslations, ...databaseAdditions};
 
 export default EnglishTranslations;

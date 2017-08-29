@@ -1,4 +1,4 @@
-const SpanishTranslations = {
+let SpanishTranslations = {
   //MapControls
   'result(s)': 'resultado(s)',
   'ERROR': 'ERROR',
@@ -119,6 +119,10 @@ const SpanishTranslations = {
   'Day (06:17-18:27)': 'Día (06:17-18:27)',
   'Dusk (18:28-18:49)': 'Crepúsculo (18:28-18:49)',
   'Night (18:50-05:54)': 'Noche (18:50-05:54)',
+  'Dawn 0555-0616': 'Amanecer (05:55-06:16)',
+  'Day 0617-1827': 'Día (06:17-18:27)',
+  'Dusk 1828-1849': 'Crepúsculo (18:28-18:49)',
+  'Night 1850-0554': 'Noche (18:50-05:54)',
   
   'National Parks': 'Parques Nacionales',
   'Darien': 'Darien',
@@ -136,6 +140,17 @@ const SpanishTranslations = {
   'River': 'Río',
   'Lake': 'Lago',
 };
+
+//HACK: database support for WildCam Darien.
+import mapConfig from './wildcam-darien.mapConfig.js';
+const databaseAdditions = {};
+mapConfig.map.filters.data_choice.options.map(item => {
+  const databaseValue = item.value;
+  const englishLabel = item.label;
+  const spanishLabel = SpanishTranslations[englishLabel];
+  if (spanishLabel) databaseAdditions[databaseValue] = spanishLabel;
+});
+SpanishTranslations = {...SpanishTranslations, ...databaseAdditions};
 
 export default SpanishTranslations;
 
