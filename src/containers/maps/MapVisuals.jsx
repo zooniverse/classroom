@@ -19,6 +19,7 @@ import { Actions } from 'jumpstate';
 import Box from 'grommet/components/Box';
 
 import L from 'leaflet';
+import superagent from 'superagent';
 
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES
@@ -90,14 +91,44 @@ class MapVisuals extends React.Component {
     
     //Prepare additional geographic information layers (park boundaries, etc)
     //--------------------------------
+    const extraLayers = {
+      'national_park': {
+        'label': 'National Parks',
+        'query': 'SELECT * FROM darien_national_park',
+      }
+    };
+    
     const geomapLayers = {};
+    Object.keys(extraLayers).map(key => {
+      const item = extraLayers[key];
+      geomapLayers[item.label] = L.geoJson(null).addTo(this.map);
+      
+      const url = this.props.mapConfig.database.urls.geojson.replace('{SQLQUERY}', encodeURIComponent(item.query));
+      superagent.get(url)
+      .then(response => {
+        if (!response) { throw 'ERROR (MapVisuals/getExtraLayers): No response'; }
+        if (response.ok && response.body) {
+          return response.body;
+        }
+        throw 'ERROR (MapVisuals/getExtraLayers): invalid response';
+      })
+      .then(geojson => {
+        if (!geomapLayers[item.label]) return;
+        geomapLayers[item.label].clearLayers();
+        geomapLayers[item.label].addData(geojson);  //Markers Data must be in GeoJSON format.
+      })
+      .catch(err => {
+        console.error(err);
+      });
+      
+    });
     //--------------------------------
     
     //Add standard 'Layer' controls
     //--------------------------------
     L.control.layers(tileLayers, {
       'Data': this.dataLayer,
-      //...geomapLayers
+      ...geomapLayers
     }, {
       position: 'topleft',
       collapsed: true,
