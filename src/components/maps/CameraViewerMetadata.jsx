@@ -24,8 +24,6 @@ const CameraViewerMetadata = (props) => {
     return (
       <List>
       {Object.keys(props.activeCameraMetadata).map(key => {
-        console.log(key, ZooTran(key));  
-        
         if (!ZooTranExists(key)) return null;
         
         return (
