@@ -72,7 +72,7 @@ const mapConfig = {
     extraLayers: [
       {
         'name': 'darien_national_park',
-        'label': 'Darien National Parks',
+        'label': 'Darien National Park',
         'query': 'SELECT * FROM darien_national_park',
         'style': function (feature) {
           return {
@@ -84,7 +84,7 @@ const mapConfig = {
       },
       {
         'name': 'soberania_national_park',
-        'label': 'Soberania National Parks',
+        'label': 'Soberania National Park',
         'query': 'SELECT * FROM soberania_national_park',
         'style': function (feature) {
           return {
@@ -130,7 +130,7 @@ const mapConfig = {
             stroke: false,
             fill: true,
             fillColor: color,
-            fillOpacity: 0.2,
+            fillOpacity: 0.5,
           };
         },
       },
