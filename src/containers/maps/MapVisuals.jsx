@@ -111,7 +111,8 @@ class MapVisuals extends React.Component {
       .then(geojson => {
         if (!geomapLayers[item.label]) return;
         geomapLayers[item.label].clearLayers();
-        geomapLayers[item.label].addData(geojson);  //Markers Data must be in GeoJSON format.
+        geomapLayers[item.label].addData(geojson);
+        this.dataLayer && this.dataLayer.bringToFront();  //Always keep the data layer at the forefront.
       })
       .catch(err => {
         console.error(err);
