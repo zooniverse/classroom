@@ -70,6 +70,7 @@ class MapControls extends React.Component {
             <SuperDownloadButton
               url={downloadUrl}
               text={ZooTran('Download')}
+              useZooniversalTranslator={true}
             />
             <Box
               className="zooniversal-translator"

@@ -35,7 +35,7 @@ import Label from 'grommet/components/Label';
 import SpinningIcon from 'grommet/components/icons/Spinning';
 import DownloadIcon from 'grommet/components/icons/base/Download';
 
-import { ZooTran } from '../../lib/zooniversal-translator.js';
+import { ZooTran, ZooTranCSV } from '../../lib/zooniversal-translator.js';
 
 const STATUS = {
   IDLE: 'idle',
@@ -88,6 +88,10 @@ class SuperDownloadButton extends React.Component {
     })
     .then(data => {
       
+      if (this.props.useZooniversalTranslator && this.props.contentType === 'text/csv') {
+        data = ZooTranCSV(data); 
+      }
+      
       const enableSafariWorkaround =
         !(/Chrome/i.test(navigator.userAgent)) &&
         /Safari/i.test(navigator.userAgent);
@@ -116,6 +120,7 @@ SuperDownloadButton.propTypes = {
   icon: PropTypes.node,
   filename: PropTypes.string,
   contentType: PropTypes.string,
+  useZooniversalTranslator: PropTypes.bool,
 };
 SuperDownloadButton.defaultProps = { 
   url: '',
@@ -124,5 +129,6 @@ SuperDownloadButton.defaultProps = {
   icon: <DownloadIcon size="small"/>,
   filename: generateFilename(),
   contentType: 'text/csv',
+  useZooniversalTranslator: true,
 };
 export default SuperDownloadButton;

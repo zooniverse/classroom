@@ -26,7 +26,7 @@ export function ZooTran(text) {
     : text;
 }
 
-export function ZooTranAll(lotsOfText) {
+export function ZooTranCSV(lotsOfText) {
   const translations = ZooTranGetTranslationsObject();
   if (!translations) return lotsOfText;
   

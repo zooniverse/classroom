@@ -16,6 +16,21 @@ const SpanishTranslations = {
   
   //CameraViewerPaging
   'Page': 'Página',
+
+  //Database
+  'cartodb_id': null,
+  'the_geom': null,
+  'the_geom_webmercator': null,
+  'dist_humans_m': 'Distance from humans (m)',
+  'dist_water_m':  'Distance from humans (m)',
+  'land_use': 'Land Use',
+  'national_park': 'National Park',
+  'human_type': 'Nearby Humans',
+  'water_type': 'Nearby Water',
+  'veg_type': 'Habitat',
+  'id': null,
+  'longitude': 'Longitude',
+  'latitude': 'Latitude',
   
   //wildcam-darien.mapConfig
   'Species': 'Especies',
