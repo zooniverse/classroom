@@ -91,34 +91,12 @@ class MapVisuals extends React.Component {
     
     //Prepare additional geographic information layers (park boundaries, etc)
     //--------------------------------
-    const extraLayers = {
-      'darien_national_park': {
-        'label': 'Darien National Parks',
-        'query': 'SELECT * FROM darien_national_park',
-        'style': function (feature) {
-          return {
-            stroke: true,
-            color: '#3cc',
-            fill: false,
-          };
-        },
-      },
-      'soberania_national_park': {
-        'label': 'Soberania National Parks',
-        'query': 'SELECT * FROM soberania_national_park',
-        'style': function (feature) {
-          return {
-            stroke: true,
-            color: '#3cc',
-            fill: false,
-          };
-        },
-      },
-    };
+    const extraLayers = (this.props.mapConfig.map && this.props.mapConfig.map.extraLayers)
+      ? this.props.mapConfig.map.extraLayers
+      : [];
     
     const geomapLayers = {};
-    Object.keys(extraLayers).map(key => {
-      const item = extraLayers[key];
+    extraLayers.map(item => {
       geomapLayers[item.label] = L.geoJson(null, { style: item.style }).addTo(this.map);
       
       const url = this.props.mapConfig.database.urls.geojson.replace('{SQLQUERY}', encodeURIComponent(item.query));
@@ -138,7 +116,6 @@ class MapVisuals extends React.Component {
       .catch(err => {
         console.error(err);
       });
-      
     });
     //--------------------------------
     
