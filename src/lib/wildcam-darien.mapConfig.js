@@ -112,7 +112,7 @@ const mapConfig = {
                 color = '#663'; break;
               case 'Tropical lowland semi-deciduous forest - heavily logged':
                 color = '#393'; break;
-              case 'Water':
+              case 'Water region':
                 color = '#39c'; break;
               case 'Tropical lowland semi-deciduous forest':
                 color = '#9c6'; break;
@@ -142,7 +142,7 @@ const mapConfig = {
         '#693': 'Production system with significant natural or spontaneous woody vegetation (<10%)',
         '#663': 'Evergreen ombrophylous tropical lowland broadleaf forest - heavily logged',
         '#393': 'Tropical lowland semi-deciduous forest - heavily logged',
-        '#39c': 'Water',
+        '#39c': 'Water region',
         '#9c6': 'Tropical lowland semi-deciduous forest',
         '#6c6': 'Tropical lowland semi-deciduous forest - minimally logged',
         '#cc6': 'Evergreen tropical ombrophilous broadleaf montane montane (1,000 - 1,500 m Caribbean, 1,200 - 1,800 m Pacific)',

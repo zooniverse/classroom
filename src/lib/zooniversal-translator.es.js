@@ -16,6 +16,23 @@ let SpanishTranslations = {
   
   //CameraViewerPaging
   'Page': 'Página',
+  
+  //Map Layers, etc
+  'Terrain': 'Terreno',
+  'Terrain (Shaded)': 'Terreno (Sombreado)',
+  'Roads': 'Carreteras',
+  'Satellite': 'Satélite',
+  'Plain': 'Llanura',
+  'Evergreen tropical ombrophilous broadleaf submontane (500 - 1,000 m Caribbean, 700 - 1,200 m Pacific)': 'Submontano de hoja ancha ombrófila tropical perenne (500 - 1,000 m Caribe, 700 - 1,200 m Pacífico)',
+  'Production system with significant natural or spontaneous woody vegetation (10 - 50%)': 'Sistema de producción con significativa vegetación leñosa natural o espontánea (10 - 50%)',
+  'Production system with significant natural or spontaneous woody vegetation (<10%)': 'Sistema de producción con significativa vegetación leñosa natural o espontánea (<10%)',
+  'Evergreen ombrophylous tropical lowland broadleaf forest - heavily logged': 'Bosque de hoja ancha tropical ombrófilo tropical de hoja perenne - densamente explotado',
+  'Tropical lowland semi-deciduous forest - heavily logged': 'Bosque semi-deciduo de tierras bajas tropicales - muy explotado',
+  'Water region': 'Región del agua',
+  'Tropical lowland semi-deciduous forest': 'Bosque semi-deciduo tropical de tierras bajas',
+  'Tropical lowland semi-deciduous forest - minimally logged': 'Bosque semi-deciduo de tierras bajas tropicales',
+  'Evergreen tropical ombrophilous broadleaf montane montane (1,000 - 1,500 m Caribbean, 1,200 - 1,800 m Pacific)': 'Montano montana de hoja ancha ombrófila tropical de hoja perenne (1,000 - 1,500 m Caribe, 1,200 - 1,800 m Pacífico)',
+  'Evergreen, broad-leaved tropical broad-leaved evergreen forest': 'Evergreen, de hoja ancha de hoja ancha de hoja perenne de hoja perenne',
 
   //Database
   'cartodb_id': null,

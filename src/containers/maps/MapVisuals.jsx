@@ -22,6 +22,7 @@ import Box from 'grommet/components/Box';
 
 import L from 'leaflet';
 import superagent from 'superagent';
+import { ZooTran } from '../../lib/zooniversal-translator.js';
 
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES
@@ -74,7 +75,7 @@ class MapVisuals extends React.Component {
     const tileLayers = {};
     this.props.mapConfig.map.tileLayers.map((layer, index) => {
       const tl = L.tileLayer(layer.url, { attribution: layer.attribution, });
-      tileLayers[layer.name] = tl;
+      tileLayers[ZooTran(layer.name)] = tl;
       if (index === 0) tl.addTo(this.map);  //Use the first tile layer as the default tile layer.
     });
     //--------------------------------
