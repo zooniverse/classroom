@@ -100,7 +100,7 @@ class MapVisuals extends React.Component {
     
     const geomapLayers = {};
     extraLayers.map(item => {  //TODO: Maybe move this to an external duck?
-      geomapLayers[item.label] = L.geoJson(null, { style: item.style }).addTo(this.map);
+      geomapLayers[ZooTran(item.label)] = L.geoJson(null, { style: item.style }).addTo(this.map);
       
       const url = this.props.mapConfig.database.urls.geojson.replace('{SQLQUERY}', encodeURIComponent(item.query));
       superagent.get(url)
@@ -112,9 +112,9 @@ class MapVisuals extends React.Component {
         throw 'ERROR (MapVisuals/getExtraLayers): invalid response';
       })
       .then(geojson => {
-        if (!geomapLayers[item.label]) return;
-        geomapLayers[item.label].clearLayers();
-        geomapLayers[item.label].addData(geojson);
+        if (!geomapLayers[ZooTran(item.label)]) return;
+        geomapLayers[ZooTran(item.label)].clearLayers();
+        geomapLayers[ZooTran(item.label)].addData(geojson);
         this.dataLayer && this.dataLayer.bringToFront();  //Always keep the data layer at the forefront.
       })
       .catch(err => {
@@ -142,10 +142,11 @@ class MapVisuals extends React.Component {
     
     //Add standard 'Layer' controls
     //--------------------------------
-    L.control.layers(tileLayers, {
-      'Data': this.dataLayer,
-      ...geomapLayers,
-    }, {
+    let controllableLayers = {};
+    controllableLayers[ZooTran('Cameras')] = this.dataLayer;
+    controllableLayers = { ...controllableLayers, ...geomapLayers };
+    
+    L.control.layers(tileLayers, controllableLayers, {
       position: 'topleft',
       collapsed: true,
     }).addTo(this.map);

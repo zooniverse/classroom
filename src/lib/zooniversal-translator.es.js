@@ -33,6 +33,10 @@ let SpanishTranslations = {
   'Tropical lowland semi-deciduous forest - minimally logged': 'Bosque semi-deciduo de tierras bajas tropicales',
   'Evergreen tropical ombrophilous broadleaf montane montane (1,000 - 1,500 m Caribbean, 1,200 - 1,800 m Pacific)': 'Montano montana de hoja ancha ombrófila tropical de hoja perenne (1,000 - 1,500 m Caribe, 1,200 - 1,800 m Pacífico)',
   'Evergreen, broad-leaved tropical broad-leaved evergreen forest': 'Evergreen, de hoja ancha de hoja ancha de hoja perenne de hoja perenne',
+  
+  'Cameras': 'Cámaras',
+  'Darien National Park': 'Parque Nacional Darien',
+  'Soberania National Park': 'Parque Nacional Soberania',
 
   //Database
   'cartodb_id': null,
