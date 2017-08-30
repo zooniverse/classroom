@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Box from 'grommet/components/Box';
+import List from 'grommet/components/List';
+import ListItem from 'grommet/components/ListItem';
 
 const SimpleMapLegend = (props) => {
   return (
-    <Box className="map-legend-simple">
+    <List className="map-legend-simple">
       {Object.keys(props.items).map(key => {
         const value = props.items[key];
         return (
-          <Box className="map-legend-item" key={`map-legend-item-${key}`} direction="row">
+          <ListItem className="map-legend-item" key={`map-legend-item-${key}`} direction="row">
             <svg height="10" width="10"><circle cx="5" cy="5" r="5" fill={key} fillOpacity="0.5" /></svg> <span>{value}</span>
-          </Box>
+          </ListItem>
         );
       })}
-    </Box>
+    </List>
   );
 }
 

@@ -11,58 +11,52 @@ import CheckboxSelectedIcon from 'grommet/components/icons/base/CheckboxSelected
 
 import { ZooTran } from '../../lib/zooniversal-translator.js';
 
-class MultiChoicePanel extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  
-  render() {
-    return (
-      <Box className="multi-choice filter">
-        <Label align="end" margin="none" size="small">
-          {(this.props.selected && this.props.selected.length > 0)
-            ? `${this.props.selected.length} / ${this.props.options.length} ${ZooTran('options selected')}`
-            : ZooTran('Showing all options')
+const MultiChoicePanel = (props) => {
+  return (
+    <Box className="multi-choice filter">
+      <Label align="end" margin="none" size="small">
+        {(props.selected && props.selected.length > 0)
+          ? `${props.selected.length} / ${props.options.length} ${ZooTran('options selected')}`
+          : ZooTran('Showing all options')
+        }
+      </Label>
+      <Box>
+        {props.options && props.options.map(item => {
+          const isSelected = props.selected && props.selected.indexOf(item.value) >= 0;
+
+          if (isSelected) {
+
+            return (
+              <Button
+                key={`map-control-filter-item-${props.filterKey}-${item.value}`}
+                onClick={()=>{
+                  Actions.mapexplorer.removeFilterSelectionItem({ key: props.filterKey, value: item.value });
+                }}
+                icon={<CheckboxSelectedIcon size="small" />}
+              >
+                {ZooTran(item.label)}
+              </Button>
+            );
+
+          } else {
+
+            return (
+              <Button
+                key={`map-control-filter-item-${props.filterKey}-${item.value}`}
+                onClick={()=>{
+                  Actions.mapexplorer.addFilterSelectionItem({ key: props.filterKey, value: item.value });
+                }}
+                icon={<CheckboxIcon size="small" />}
+              >
+                {ZooTran(item.label)}
+              </Button>
+            );
+
           }
-        </Label>
-        <Box>
-          {this.props.options && this.props.options.map(item => {
-            const isSelected = this.props.selected && this.props.selected.indexOf(item.value) >= 0;
-
-            if (isSelected) {
-
-              return (
-                <Button
-                  key={`map-control-filter-item-${this.props.filterKey}-${item.value}`}
-                  onClick={()=>{
-                    Actions.mapexplorer.removeFilterSelectionItem({ key: this.props.filterKey, value: item.value });
-                  }}
-                  icon={<CheckboxSelectedIcon size="small" />}
-                >
-                  {ZooTran(item.label)}
-                </Button>
-              );
-
-            } else {
-
-              return (
-                <Button
-                  key={`map-control-filter-item-${this.props.filterKey}-${item.value}`}
-                  onClick={()=>{
-                    Actions.mapexplorer.addFilterSelectionItem({ key: this.props.filterKey, value: item.value });
-                  }}
-                  icon={<CheckboxIcon size="small" />}
-                >
-                  {ZooTran(item.label)}
-                </Button>
-              );
-
-            }
-          })}
-        </Box>
+        })}
       </Box>
-    );
-  }
+    </Box>
+  );
 }
 
 MultiChoicePanel.defaultProps = {
