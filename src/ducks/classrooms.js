@@ -9,24 +9,38 @@ const CLASSROOMS_STATUS = {
   POSTING: 'posting',
   DELETING: 'deleting',
   SUCCESS: 'success',
-  ERROR: 'error',
+  ERROR: 'error'
 };
 
 // Initial State and PropTypes - usable in React components.
 const CLASSROOMS_INITIAL_STATE = {
-  selectedClassroom: null,
   classrooms: [],
   error: null,
-  showCreateForm: false,
-  status: CLASSROOMS_STATUS.IDLE,
+  formFields: {
+    name: '',
+    subject: '',
+    school: '',
+    description: ''
+  },
+  selectedClassroom: null,
+  showForm: false,
+  status: CLASSROOMS_STATUS.IDLE
+};
+
+const classroomPropTypes = {
+  description: PropTypes.string,
+  name: PropTypes.string,
+  school: PropTypes.string,
+  students: PropTypes.array,
+  subject: PropTypes.string
 };
 
 const CLASSROOMS_PROPTYPES = {
-  selectedClassroom: PropTypes.object,
-  classrooms: PropTypes.arrayOf(PropTypes.object),  //OPTIONAL TODO: Transform this into PropTypes.shape.
+  selectedClassroom: PropTypes.shape(classroomPropTypes),
+  classrooms: PropTypes.arrayOf(PropTypes.shape(classroomPropTypes)),  //OPTIONAL TODO: Transform this into PropTypes.shape.
   error: PropTypes.object,
-  showCreateForm: PropTypes.bool,
-  status: PropTypes.string,
+  showForm: PropTypes.bool,
+  status: PropTypes.string
 };
 
 // Helper Functions
@@ -41,7 +55,7 @@ const setStatus = (state, status) => {
   return { ...state, status };
 };
 
-//Sets the active classroom. Use null to deselect active classroom.
+// Sets the active classroom. Use null to deselect active classroom.
 const selectClassroom = (state, selectedClassroom) => {
   return { ...state, selectedClassroom };
 };
@@ -54,8 +68,12 @@ const setError = (state, error) => {
   return { ...state, error };
 };
 
-const toggleCreateFormVisibility = (state) => {
-  return { ...state, showCreateForm: !state.showCreateForm };
+const toggleFormVisibility = (state) => {
+  return { ...state, showForm: !state.showForm };
+};
+
+const updateFormFields = (state, formFields) => {
+  return { ...state, formFields };
 };
 
 // Effects are for async actions and get automatically to the global Actions list
@@ -94,17 +112,17 @@ Effect('getClassroomsAndAssignments', () => {
   });
 });
 
-Effect('createClassroom', (data) => {
+Effect('postClassroom', (data) => {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.POSTING);
 
   return post('teachers/classrooms/', data)
     .then((response) => {
-      if (!response) { throw 'ERROR (ducks/classrooms/createClassroom): No response'; }
+      if (!response) { throw 'ERROR (ducks/classrooms/postClassroom): No response'; }
       if (response.ok &&
           response.body && response.body.data) {
         return Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
       }
-      throw 'ERROR (ducks/classrooms/createClassroom): Invalid response';
+      throw 'ERROR (ducks/classrooms/postClassroom): Invalid response';
     })
     .catch((error) => {
       handleError(error);
@@ -135,12 +153,13 @@ const classrooms = State('classrooms', {
   selectClassroom,
   setClassrooms,
   setError,
-  toggleCreateFormVisibility
+  toggleFormVisibility,
+  updateFormFields
 });
 
 export default classrooms;
 export {
   CLASSROOMS_STATUS,
   CLASSROOMS_INITIAL_STATE,
-  CLASSROOMS_PROPTYPES,
+  CLASSROOMS_PROPTYPES
 };

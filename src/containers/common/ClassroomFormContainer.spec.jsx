@@ -5,7 +5,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { ClassroomCreateFormContainer } from './ClassroomCreateFormContainer';
+import { ClassroomFormContainer } from './ClassroomFormContainer';
 
 const fields = {
   name: 'My classroom',
@@ -16,12 +16,12 @@ const fields = {
 
 const mockChangeEvent = { target: { id: 'name', value: 'My classroom' } };
 
-describe('<ClassroomCreateFormContainer />', function() {
+describe('<ClassroomFormContainer />', function() {
   let wrapper;
-  const onChangeSpy = sinon.spy(ClassroomCreateFormContainer.prototype, 'onChange');
-  const onSubmitStub = sinon.stub(ClassroomCreateFormContainer.prototype, 'onSubmit').callsFake(() => {});
+  const onChangeSpy = sinon.spy(ClassroomFormContainer.prototype, 'onChange');
+  const onSubmitStub = sinon.stub(ClassroomFormContainer.prototype, 'onSubmit').callsFake(() => {});
   before(function() {
-    wrapper = shallow(<ClassroomCreateFormContainer />);
+    wrapper = shallow(<ClassroomFormContainer />);
   });
 
   it('without crashing', function() {});

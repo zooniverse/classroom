@@ -9,6 +9,7 @@ import {
 } from '../../ducks/assignments';
 import ClassroomManager from '../../components/common/ClassroomManager';
 import ClassroomEditor from '../../components/common/ClassroomEditor';
+import { blobbifyData, generateFilename } from '../../lib/mapexplorer-helpers'; // TODO: Maybe not brand this as 'mapexplorer'?
 
 export class ClassroomManagerContainer extends React.Component {
   constructor(props) {
@@ -22,12 +23,18 @@ export class ClassroomManagerContainer extends React.Component {
     };
 
     this.copyJoinLink = this.copyJoinLink.bind(this);
+    this.editClassroom = this.editClassroom.bind(this);
+    this.exportGrades = this.exportGrades.bind(this);
     this.resetToastState = this.resetToastState.bind(this);
   }
 
   componentDidMount() {
     Actions.getClassroomsAndAssignments();
-    Actions.classrooms.selectClassroom(null);  //Reset selected classroom.
+  }
+
+  componentWillUnmount() {
+    Actions.classrooms.selectClassroom(CLASSROOMS_INITIAL_STATE.selectedClassroom);
+    Actions.classrooms.setClassrooms(CLASSROOMS_INITIAL_STATE.classrooms);
   }
 
   copyJoinLink() {
@@ -37,9 +44,24 @@ export class ClassroomManagerContainer extends React.Component {
   resetToastState() {
     this.setState({ toast: { message: null, status: null } });
   }
-  
+
   selectClassroom(classroom) {
     Actions.classrooms.selectClassroom(classroom);
+  }
+
+  editClassroom() {
+    if (this.props.selectedClassroom) {
+      const formFields = {
+        name: this.props.selectedClassroom.name,
+        subject: this.props.selectedClassroom.subject,
+        school: this.props.selectedClassroom.school,
+        description: this.props.selectedClassroom.description
+      };
+      Actions.classrooms.updateFormFields(formFields);
+      Actions.classrooms.toggleFormVisibility();
+    }
+
+    return null;
   }
 
   deleteClassroom(id) {
@@ -50,11 +72,32 @@ export class ClassroomManagerContainer extends React.Component {
       Actions.getClassroomsAndAssignments();
     });
   }
-  
+
   removeStudentFromClassroom(classroomId, studentId) {
     //TODO
     console.log('TODO!');
     alert(`TODO! Remove student ${studentId} from classroom ${classroomId}`);
+  }
+
+  exportGrades() {
+    if (!this.props.selectedClassroom) return null;
+
+    //TODO
+    //--------------------------------
+    let exampleData = 'id,name\n';
+    this.props.selectedClassroom.students &&
+    this.props.selectedClassroom.students.map((student) =>{
+      let studentName = (student.zooniverseDisplayName && student.zooniverseDisplayName.length > 0)
+        ? student.zooniverseDisplayName
+        : String(student.zooniverseLogin);
+      studentName = studentName.replace(/"/g, '""')
+      const row = `${student.id},"${studentName}"\n`;
+      exampleData += row;
+    });
+    saveAs(blobbifyData(exampleData, this.props.contentType), generateFilename('astro-', '.csv'));
+
+    alert('TODO! Create a proper Export Grades function.');
+    //--------------------------------
   }
 
   render() {
@@ -71,11 +114,11 @@ export class ClassroomManagerContainer extends React.Component {
           selectClassroom={this.selectClassroom}
           deleteClassroom={this.deleteClassroom}
           resetToastState={this.resetToastState}
-          showCreateForm={this.props.showCreateForm}
+          showForm={this.props.showForm}
           toast={this.state.toast}
         />
       );
-      
+
     //View a single class
     } else {
       return (
@@ -83,12 +126,11 @@ export class ClassroomManagerContainer extends React.Component {
           selectedClassroom={this.props.selectedClassroom}
           assignments={this.props.assignments}
           assignmentsStatus={this.props.assignmentsStatus}
-          
+          editClassroom={this.editClassroom}
           selectClassroom={this.selectClassroom}
           removeStudentFromClassroom={this.removeStudentFromClassroom}
-          
-          showCreateForm={this.props.showCreateForm}
-          
+          showForm={this.props.showForm}
+          exportGrades={this.exportGrades}
           copyJoinLink={this.copyJoinLink}
           resetToastState={this.resetToastState}
           toast={this.state.toast}
@@ -118,7 +160,7 @@ const mapStateToProps = (state) => ({
   classrooms: state.classrooms.classrooms,
   classroomsStatus: state.classrooms.status,
   selectedClassroom: state.classrooms.selectedClassroom,
-  showCreateForm: state.classrooms.showCreateForm,
+  showForm: state.classrooms.showForm,
 });
 
 export default connect(mapStateToProps)(ClassroomManagerContainer);

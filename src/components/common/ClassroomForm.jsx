@@ -8,11 +8,11 @@ import Heading from 'grommet/components/Heading';
 import Footer from 'grommet/components/Footer';
 import Paragraph from 'grommet/components/Paragraph';
 
-const ClassroomCreateForm = (props) => {
+const ClassroomForm = (props) => {
   const optional = props.optionalFormFields;
   return (
     <Form onSubmit={props.onSubmit} pad="medium">
-      <Heading tag="h2">Create a Classroom</Heading>
+      <Heading tag="h2">{props.heading}</Heading>
       <fieldset>
         <legend><Paragraph size="small">Input the class name and if applicable the section name</Paragraph></legend>
         <FormField htmlFor="name" label="Name" help="required">
@@ -58,13 +58,13 @@ const ClassroomCreateForm = (props) => {
         </FormField>
       </fieldset>
       <Footer>
-        <Button type="submit" label="Create" primary={true} />
+        <Button type="submit" label={props.submitLabel} primary={true} />
       </Footer>
     </Form>
   );
 };
 
-ClassroomCreateForm.defaultProps = {
+ClassroomForm.defaultProps = {
   optionalFormFields: true,
   onChange: () => {},
   fields: {
@@ -73,10 +73,12 @@ ClassroomCreateForm.defaultProps = {
     school: '',
     description: ''
   },
-  onSubmit: () => {}
+  heading: '',
+  onSubmit: () => {},
+  submitLabel: 'Submit'
 };
 
-ClassroomCreateForm.propTypes = {
+ClassroomForm.propTypes = {
   optionalFormFields: PropTypes.bool,
   onChange: PropTypes.func,
   fields: PropTypes.shape({
@@ -85,7 +87,9 @@ ClassroomCreateForm.propTypes = {
     school: PropTypes.string,
     description: PropTypes.string
   }),
-  onSubmit: PropTypes.func
+  heading: PropTypes.string,
+  onSubmit: PropTypes.func,
+  submitLabel: PropTypes.string
 };
 
-export default ClassroomCreateForm;
+export default ClassroomForm;

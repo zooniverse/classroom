@@ -2,38 +2,34 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
-import ClassroomCreateForm from '../../components/common/ClassroomCreateForm';
-import { config } from '../../lib/config';
 
-export class ClassroomCreateFormContainer extends React.Component {
+import ClassroomForm from '../../components/common/ClassroomForm';
+import { config } from '../../lib/config';
+import {
+  CLASSROOMS_STATUS, CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
+} from '../../ducks/classrooms';
+
+export class ClassroomFormContainer extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      fields: {
-        name: '',
-        subject: '',
-        school: '',
-        description: ''
-      }
-    };
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
   onChange(event) {
-    const fields = { ...this.state.fields, [event.target.id]: event.target.value };
-    this.setState({ fields });
+    const fields = { ...this.props.formFields, [event.target.id]: event.target.value };
+    Actions.classrooms.updateFormFields(fields);
   }
 
   onSubmit(event) {
     event.preventDefault();
     // TODO: Add project id(s) associated to classroom create
-    Actions.createClassroom(this.state.fields)
+
+    Actions.postClassroom(this.props.formFields)
       .then(() => {
         Actions.classrooms.toggleCreateFormVisibility();
-        if (this.props.projectCollection === config.astroProjects) {
+        if (this.props.projectCollection === config.astroProjects && !this.props.selectedClassroom) {
           console.log('TODO: Auto create assignments for I2A');
           // TODO: Actions.assignments.createAssignment().then(Actions.getClassroomsAndAssignments());
           // For API optimization, we could merge the returned classroom into the local app state
@@ -47,27 +43,33 @@ export class ClassroomCreateFormContainer extends React.Component {
 
   render() {
     return (
-      <ClassroomCreateForm
-        fields={this.state.fields}
+      <ClassroomForm
+        heading={this.props.heading}
+        fields={this.props.formFields}
         onChange={this.onChange}
         onSubmit={this.onSubmit}
+        submitLabel={this.props.submitLabel}
       />
     );
   }
 }
 
-ClassroomCreateFormContainer.defaultProps = {
-  projectCollection: []
+ClassroomFormContainer.defaultProps = {
+  ...CLASSROOMS_INITIAL_STATE,
+  projectCollection: [],
 };
 
-ClassroomCreateFormContainer.propTypes = {
+ClassroomFormContainer.propTypes = {
+  ...CLASSROOMS_PROPTYPES,
   projectCollection: PropTypes.arrayOf(PropTypes.string)
 };
 
 function mapStateToProps(state) {
   return {
-    projectCollection: state.projectCollection
+    formFields: state.classrooms.formFields,
+    projectCollection: state.projectCollection,
+    selectedClassroom: state.classrooms.selectedClassroom
   };
 }
 
-export default connect(mapStateToProps)(ClassroomCreateFormContainer);
+export default connect(mapStateToProps)(ClassroomFormContainer);

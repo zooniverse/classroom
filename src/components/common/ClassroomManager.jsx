@@ -19,7 +19,7 @@ import {
 import {
   ASSIGNMENTS_STATUS, ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES
 } from '../../ducks/assignments';
-import ClassroomCreateFormContainer from '../../containers/common/ClassroomCreateFormContainer';
+import ClassroomFormContainer from '../../containers/common/ClassroomFormContainer';
 
 const ClassroomManager = (props) => {
   // TODO: Pagination for Classrooms
@@ -35,9 +35,9 @@ const ClassroomManager = (props) => {
         <Paragraph align="start" size="small">{props.classroomInstructions}</Paragraph>
         <Button type="button" primary={true} label="Create New Classroom" onClick={props.toggleFormVisibility} />
       </Box>
-      {props.showCreateForm &&
+      {props.showForm &&
         <Layer closer={true} onClose={props.toggleFormVisibility}>
-          <ClassroomCreateFormContainer />
+          <ClassroomFormContainer heading="Create Classroom" submitLabel="Create" />
         </Layer>}
       {props.toast && props.toast.message &&
         <Toast status={props.toast.status ? props.toast.status : 'unknown'} onClose={props.resetToastState}>
@@ -146,8 +146,8 @@ ClassroomManager.defaultProps = {
   selectClassroom: () => {},
   deleteClassroom: () => {},
   resetToastState: () => {},
-  showCreateForm: false,
-  toggleFormVisibility: Actions.classrooms.toggleCreateFormVisibility,
+  showForm: false,
+  toggleFormVisibility: Actions.classrooms.toggleFormVisibility,
   toast: null,
   ...CLASSROOMS_INITIAL_STATE,
   ...ASSIGNMENTS_INITIAL_STATE
@@ -159,7 +159,7 @@ ClassroomManager.propTypes = {
   selectClassroom: PropTypes.func,
   deleteClassroom: PropTypes.func,
   resetToastState: PropTypes.func,
-  showCreateForm: PropTypes.bool,
+  showForm: PropTypes.bool,
   toggleFormVisibility: PropTypes.func,
   toast: PropTypes.shape({
     message: null,
