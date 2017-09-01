@@ -13,9 +13,9 @@ import Button from 'grommet/components/Button';
 import Paragraph from 'grommet/components/Paragraph';
 import Anchor from 'grommet/components/Anchor';
 
-import backgroundImageUrl from '../../images/background.jpg'
+import backgroundImageUrl from '../../images/background.jpg';
 
-import AstroHomeSignedIn from './AstroHomeSignedIn';
+import ClassroomsLayout from '../../components/classrooms/ClassroomsLayout';
 
 const AstroHome = (props) => {
   const signedIn = (props.user && props.initialised);
@@ -34,7 +34,7 @@ const AstroHome = (props) => {
           <Section align="center">
             <Box align="center" direction={signedIn ? 'row' : 'column'} size="xxlarge">
               <span className="hero__big-circle"><span className="hero__small-circle" /></span>
-              <Heading align="center" tag="h1" className="home__header">Introduction to Astronomy</Heading>
+              <Heading align="center" tag="h1" className="home__header">Astro 101 with Galaxy Zoo</Heading>
             </Box>
             <Box align={signedIn ? 'start' : 'center'} textAlign={signedIn ? 'left' : 'center'} size="xlarge">
               <Paragraph className="home__description" margin="small">
@@ -50,7 +50,23 @@ const AstroHome = (props) => {
         </Box>
       </Hero>
       {signedIn &&
-        <AstroHomeSignedIn />}
+        <Section
+          className="home__section"
+          align="center"
+          colorIndex="accent-3"
+          direction="column"
+          margin={{ vertical: 'none', horizontal: 'none' }}
+          pad={{ vertical: 'none', horizontal: 'none' }}
+          justify="center"
+        >
+          <Box align="center" direction="row" justify="center">
+            <Button href="#" type="button" label="Google Drive" />
+            <Paragraph align="start">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+            </Paragraph>
+          </Box>
+          <ClassroomsLayout match={props.match} />
+        </Section>}
       <Section className="home__section" align="center" colorIndex="accent-2">
         <Paragraph className="section__paragraph" align="center">
           Need help? Have questions?<br />

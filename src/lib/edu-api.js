@@ -25,6 +25,14 @@ export function post(endpoint, data) {
     .then(response => response);
 }
 
+export function put(endpoint, data) {
+  return superagent.put(`${config.root}${endpoint}`)
+    .set('Content-Type', 'application/json')
+    .set('Authorization', apiClient.headers.Authorization)
+    .send({ data: { attributes: data } })
+    .then(response => response);
+}
+
 export function httpDelete(endpoint) {
   return superagent.delete(`${config.root}${endpoint}`)
     .set('Content-Type', 'application/json')

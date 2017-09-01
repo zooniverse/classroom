@@ -1,12 +1,13 @@
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
-import { get, post, httpDelete } from '../lib/edu-api';
+import { get, post, put, httpDelete } from '../lib/edu-api';
 
 // Constants
 const CLASSROOMS_STATUS = {
   IDLE: 'idle',
   FETCHING: 'fetching',
-  POSTING: 'posting',
+  CREATING: 'creating',
+  UPDATING: 'updating',
   DELETING: 'deleting',
   SUCCESS: 'success',
   ERROR: 'error'
@@ -24,7 +25,11 @@ const CLASSROOMS_INITIAL_STATE = {
   },
   selectedClassroom: null,
   showForm: false,
-  status: CLASSROOMS_STATUS.IDLE
+  status: CLASSROOMS_STATUS.IDLE,
+  toast: {
+    message: null,
+    status: null
+  }
 };
 
 const classroomPropTypes = {
@@ -47,6 +52,7 @@ const CLASSROOMS_PROPTYPES = {
 function handleError(error) {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.ERROR);
   Actions.classrooms.setError(error);
+  Actions.notification.setNotification({ status: 'critical' , message: 'Something went wrong.' });
   console.error(error);
 }
 
@@ -57,6 +63,7 @@ const setStatus = (state, status) => {
 
 // Sets the active classroom. Use null to deselect active classroom.
 const selectClassroom = (state, selectedClassroom) => {
+  console.log('selected', selectedClassroom)
   return { ...state, selectedClassroom };
 };
 
@@ -66,6 +73,10 @@ const setClassrooms = (state, classrooms) => {
 
 const setError = (state, error) => {
   return { ...state, error };
+};
+
+const setToastState = (state, toast) => {
+  return { ...state, toast };
 };
 
 const toggleFormVisibility = (state) => {
@@ -98,6 +109,29 @@ Effect('getClassrooms', () => {
     });
 });
 
+Effect('getClassroom', (id) => {
+  Actions.classrooms.setStatus(CLASSROOMS_STATUS.FETCHING);
+
+  return get(`teachers/classrooms/${id}`)
+    .then((response) => {
+      if (!response) { throw 'ERROR (ducks/classrooms/getClassroom): No response'; }
+      if (response.ok &&
+          response.body && response.body.data) {
+        return response.body.data;
+      }
+      throw 'ERROR (ducks/classrooms/getClassroom): Invalid response';
+    })
+    .then((classroom) => {
+      Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
+      Actions.classrooms.selectClassroom(classroom);
+      return classroom;
+    }).then((classroom) => {
+      Actions.getAssignments(classroom.id);
+    }).catch((error) => {
+      handleError(error);
+    });
+});
+
 Effect('getClassroomsAndAssignments', () => {
   Actions.getClassrooms().then((classrooms) => {
     if (classrooms) {
@@ -112,17 +146,33 @@ Effect('getClassroomsAndAssignments', () => {
   });
 });
 
-Effect('postClassroom', (data) => {
-  Actions.classrooms.setStatus(CLASSROOMS_STATUS.POSTING);
+Effect('createClassroom', (data) => {
+  Actions.classrooms.setStatus(CLASSROOMS_STATUS.CREATING);
 
   return post('teachers/classrooms/', data)
     .then((response) => {
-      if (!response) { throw 'ERROR (ducks/classrooms/postClassroom): No response'; }
+      if (!response) { throw 'ERROR (ducks/classrooms/createClassroom): No response'; }
       if (response.ok &&
           response.body && response.body.data) {
         return Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
       }
-      throw 'ERROR (ducks/classrooms/postClassroom): Invalid response';
+      throw 'ERROR (ducks/classrooms/createClassroom): Invalid response';
+    })
+    .catch((error) => {
+      handleError(error);
+    });
+});
+
+// Hmm.... Effects can only take one argument?
+Effect('updateClassroom', (data) => {
+  Actions.classrooms.setStatus(CLASSROOMS_STATUS.UPDATING);
+  return put(`teachers/classrooms/${data.id}`, data.payload)
+    .then((response) => {
+      if (!response) { throw 'ERROR (ducks/classrooms/updateClassroom): No response'; }
+      if (response.ok) {
+        return Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
+      }
+      throw 'ERROR (ducks/classrooms/updateClassroom): Invalid response';
     })
     .catch((error) => {
       handleError(error);
@@ -153,6 +203,7 @@ const classrooms = State('classrooms', {
   selectClassroom,
   setClassrooms,
   setError,
+  setToastState,
   toggleFormVisibility,
   updateFormFields
 });

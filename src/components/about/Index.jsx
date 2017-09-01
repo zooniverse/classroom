@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
-import About from './About'
+import About from './About';
 import NestedComponent from './NestedComponent';
 
 export default function AboutLayout({ match }) {

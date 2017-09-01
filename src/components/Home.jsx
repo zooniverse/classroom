@@ -34,10 +34,10 @@ export default function Home() {
         <Tile>
           <Card
             thumbnail={thumbnailAstro}
-            heading="Introduction to Astronomy"
+            heading="Astro 101 with Galaxy Zoo"
             description="Classroom tools for teaching Astronomy."
             link={
-              <Anchor path="/astro" onClick={handleSettingProjectCollection.bind(null, config.astroProjects)}>Enter</Anchor>
+              <Link to="/astro-101-with-galaxy-zoo/educators/" onClick={handleSettingProjectCollection.bind(null, config.astroProjects)}>Enter</Link>
             }
           />
         </Tile>
@@ -47,7 +47,7 @@ export default function Home() {
             heading="WildCam Darien Lab"
             description="A map for exploring camera trap data from the WildCam Darien project."
             link={
-              <Anchor path="/darien" onClick={handleSettingProjectCollection.bind(null, [])}>Enter</Anchor>
+              <Link to="/darien" onClick={handleSettingProjectCollection.bind(null, [])}>Enter</Link>
             }
           />
         </Tile>
