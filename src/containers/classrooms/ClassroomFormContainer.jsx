@@ -27,7 +27,7 @@ export class ClassroomFormContainer extends React.Component {
     // TODO: Add project id(s) associated to classroom create
 
     if (this.props.selectedClassroom) {
-      Actions.updateClassroom({ id: this.props.selectedClassroom.id, payload: this.props.formFields})
+      Actions.updateClassroom({ id: this.props.selectedClassroom.id, payload: this.props.formFields })
         .then(() => {
           Actions.classrooms.toggleFormVisibility();
         }).then(() => {

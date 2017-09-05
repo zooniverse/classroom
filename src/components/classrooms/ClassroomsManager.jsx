@@ -56,6 +56,9 @@ const ClassroomsManager = (props) => {
             // Can we get linked assignments with classrooms in single get request?
             // No, if we want this, then we need to open an issue with the API
             // TODO replace classifications_target with calculated percentage
+
+            // The trailing slash is inconsistent in React Router 4's match.url property...
+            const editURL = (props.match.url[props.match.url.length - 1] === '/') ? props.match.url : `${props.match.url}/`;
             return (
               <tbody className="manager-table__body" key={classroom.id}>
                 <TableRow>
@@ -64,8 +67,8 @@ const ClassroomsManager = (props) => {
                       <span>
                         <Button
                           className="manager-table__button--edit"
-                          path={`${props.match.url}/classrooms/${classroom.id}`}
-                          onClick={() => { console.log('heyo'); Actions.classrooms.selectClassroom(classroom); }}
+                          path={`${editURL}classrooms/${classroom.id}`}
+                          onClick={() => { Actions.classrooms.selectClassroom(classroom); }}
                           icon={<EditIcon size="small" />}
                         />
                         {' '}{classroom.name}{' '}

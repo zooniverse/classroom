@@ -18,16 +18,18 @@ export class ClassroomEditorContainer extends React.Component {
 
     this.editClassroom = this.editClassroom.bind(this);
     this.exportGrades = this.exportGrades.bind(this);
+    this.returnToManager = this.returnToManager.bind(this);
   }
 
   componentDidMount() {
     if (!this.props.selectedClassroom) {
+      // TODO Why does this 404 when directly navigating to an classroom edit view?
       Actions.getClassroom(this.props.match.params.id);
     }
   }
 
   componentWillUnmount() {
-    Actions.classrooms.selectClassroom(null);
+    Actions.classrooms.selectClassroom(CLASSROOMS_INITIAL_STATE.selectedClassroom);
   }
 
   editClassroom() {
@@ -72,18 +74,26 @@ export class ClassroomEditorContainer extends React.Component {
     alert(`TODO! Remove student ${studentId} from classroom ${classroomId}`);
   }
 
+  returnToManager() {
+    // Grommet's Anchor path doesn't seem to work correctly with React Router v4
+    const programURL = this.props.match.url.split('/'); // Remove once programs is in place with API
+
+    this.props.history.push(`/${programURL[1]}/educators`); // Manually navigating to correct page
+  }
+
   render() {
     return (
       <ClassroomEditor
         assignments={this.props.assignments}
         assignmentsStatus={this.props.assignmentsStatus}
+        classroomsStatus={this.props.classroomsStatus}
         editClassroom={this.editClassroom}
         exportGrades={this.exportGrades}
+        match={this.props.match}
+        returnToManager={this.returnToManager}
         removeStudentFromClassroom={this.removeStudentFromClassroom}
-        resetToastState={this.props.resetToastState}
         selectedClassroom={this.props.selectedClassroom}
         showForm={this.props.showForm}
-        toast={this.props.toast}
       />
     );
   }
@@ -91,16 +101,12 @@ export class ClassroomEditorContainer extends React.Component {
 
 ClassroomEditorContainer.propTypes = {
   ...ASSIGNMENTS_PROPTYPES,
-  ...CLASSROOMS_PROPTYPES,
-  assignmentsStatus: ASSIGNMENTS_PROPTYPES.status,
-  classroomsStatus: CLASSROOMS_PROPTYPES.status,
+  ...CLASSROOMS_PROPTYPES
 };
 
 ClassroomEditorContainer.defaultProps = {
   ...ASSIGNMENTS_INITIAL_STATE,
-  ...CLASSROOMS_INITIAL_STATE,
-  assignmentsStatus: ASSIGNMENTS_INITIAL_STATE.status,
-  classroomsStatus: CLASSROOMS_INITIAL_STATE.status,
+  ...CLASSROOMS_INITIAL_STATE
 };
 
 const mapStateToProps = (state) => ({
@@ -109,7 +115,7 @@ const mapStateToProps = (state) => ({
   classrooms: state.classrooms.classrooms,
   classroomsStatus: state.classrooms.status,
   selectedClassroom: state.classrooms.selectedClassroom,
-  showForm: state.classrooms.showForm,
+  showForm: state.classrooms.showForm
 });
 
 export default connect(mapStateToProps)(ClassroomEditorContainer);

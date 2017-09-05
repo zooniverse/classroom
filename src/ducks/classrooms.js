@@ -63,7 +63,6 @@ const setStatus = (state, status) => {
 
 // Sets the active classroom. Use null to deselect active classroom.
 const selectClassroom = (state, selectedClassroom) => {
-  console.log('selected', selectedClassroom)
   return { ...state, selectedClassroom };
 };
 
