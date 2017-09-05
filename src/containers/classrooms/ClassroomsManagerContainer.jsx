@@ -13,6 +13,15 @@ import {
 export class ClassroomsManagerContainer extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      classroomToDelete: null,
+      showConfirmationDialog: false
+    };
+
+    this.closeConfirmationDialog = this.closeConfirmationDialog.bind(this);
+    this.deleteClassroom = this.deleteClassroom.bind(this);
+    this.maybeDeleteClassroom = this.maybeDeleteClassroom.bind(this);
   }
 
   componentDidMount() {
@@ -27,12 +36,23 @@ export class ClassroomsManagerContainer extends React.Component {
     Actions.classrooms.selectClassroom(classroom);
   }
 
-  deleteClassroom(id) {
-    // TODO: Add alert to ask if user is sure
-    Actions.deleteClassroom(id).then(() => {
+  maybeDeleteClassroom(id) {
+    this.setState({ classroomToDelete: id, showConfirmationDialog: true });
+  }
+
+  closeConfirmationDialog() {
+    this.setState({ classroomToDelete: null, showConfirmationDialog: false });
+  }
+
+  deleteClassroom() {
+    if (this.state.classroomToDelete === null) return;
+
+    Actions.deleteClassroom(this.state.classroomToDelete).then(() => {
       // TODO: For API optimization, do we want to instead manually remove the classroom
       // out of local app state instead of making another API call
       Actions.getClassroomsAndAssignments();
+      this.closeConfirmationDialog();
+      Actions.classrooms.setToastState({ status: 'ok', message: 'Classroom deleted' });
     });
   }
 
@@ -44,10 +64,13 @@ export class ClassroomsManagerContainer extends React.Component {
         classrooms={this.props.classrooms}
         classroomInstructions={this.props.classroomInstructions}
         classroomsStatus={this.props.classroomsStatus}
-        copyJoinLink={this.copyJoinLink}
+        classroomToDelete={this.state.classroomToDelete}
+        closeConfirmationDialog={this.closeConfirmationDialog}
         deleteClassroom={this.deleteClassroom}
         match={this.props.match}
+        maybeDeleteClassroom={this.maybeDeleteClassroom}
         selectClassroom={this.selectClassroom}
+        showConfirmationDialog={this.state.showConfirmationDialog}
         showForm={this.props.showForm}
       />
     );
@@ -70,6 +93,7 @@ const mapStateToProps = (state) => ({
   classrooms: state.classrooms.classrooms,
   classroomsStatus: state.classrooms.status,
   selectedClassroom: state.classrooms.selectedClassroom,
+  showConfirmationDialog: state.classrooms.showConfirmationDialog,
   showForm: state.classrooms.showForm
 });
 

@@ -21,6 +21,7 @@ import Status from 'grommet/components/icons/Status';
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import ClassroomFormContainer from '../../containers/classrooms/ClassroomFormContainer';
+import ConfirmationDialog from '../common/ConfirmationDialog';
 
 import {
   CLASSROOMS_STATUS, CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
@@ -74,6 +75,15 @@ const ClassroomEditor = (props) => {
         className="classroom-editor"
         direction="column"
       >
+        <ConfirmationDialog
+          confirmationButtonLabel="Delete"
+          onConfirmation={props.removeStudentFromClassroom}
+          onClose={props.closeConfirmationDialog}
+          showConfirmationDialog={props.showConfirmationDialog}
+        >
+          <Paragraph size="small">This will delete the student record and their progress.</Paragraph>
+        </ConfirmationDialog>
+
         {props.showForm &&
           <Layer closer={true} onClose={props.toggleFormVisibility}>
             <ClassroomFormContainer heading="Edit Classroom" submitLabel="Update" />
@@ -180,7 +190,7 @@ const ClassroomEditor = (props) => {
                     <Button
                       className="manager-table__button--delete"
                       type="button"
-                      onClick={props.removeStudentFromClassroom.bind(null, props.selectedClassroom.id, student.id)}
+                      onClick={props.maybeRemoveStudentFromClassroom.bind(null, props.selectedClassroom.id, student.id)}
                       icon={<CloseIcon size="small" />}
                     />
                   </td>

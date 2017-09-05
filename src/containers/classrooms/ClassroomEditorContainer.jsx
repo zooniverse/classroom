@@ -16,8 +16,18 @@ export class ClassroomEditorContainer extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      showConfirmationDialog: false,
+      studentToDelete: {
+        classroomId: null,
+        studentId: null
+      }
+    };
+
     this.editClassroom = this.editClassroom.bind(this);
     this.exportGrades = this.exportGrades.bind(this);
+    this.maybeRemoveStudentFromClassroom = this.maybeRemoveStudentFromClassroom.bind(this);
+    this.closeConfirmationDialog = this.closeConfirmationDialog.bind(this);
   }
 
   componentDidMount() {
@@ -67,6 +77,14 @@ export class ClassroomEditorContainer extends React.Component {
     //--------------------------------
   }
 
+  maybeRemoveStudentFromClassroom(classroomId, studentId) {
+    this.setState({ studentToDelete: { classroomId, studentId }, showConfirmationDialog: true });
+  }
+
+  closeConfirmationDialog() {
+    this.setState({ studentToDelete: null, showConfirmationDialog: false });
+  }
+
   removeStudentFromClassroom(classroomId, studentId) {
     //TODO
     console.log('TODO!');
@@ -79,12 +97,15 @@ export class ClassroomEditorContainer extends React.Component {
         assignments={this.props.assignments}
         assignmentsStatus={this.props.assignmentsStatus}
         classroomsStatus={this.props.classroomsStatus}
+        closeConfirmationDialog={this.closeConfirmationDialog}
         editClassroom={this.editClassroom}
         exportGrades={this.exportGrades}
         match={this.props.match}
+        maybeRemoveStudentFromClassroom={this.maybeRemoveStudentFromClassroom}
         removeStudentFromClassroom={this.removeStudentFromClassroom}
         selectedClassroom={this.props.selectedClassroom}
         showForm={this.props.showForm}
+        showConfirmationDialog={this.state.showConfirmationDialog}
       />
     );
   }

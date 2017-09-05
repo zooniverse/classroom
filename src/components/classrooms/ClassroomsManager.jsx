@@ -20,7 +20,9 @@ import {
 import {
   ASSIGNMENTS_STATUS, ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES
 } from '../../ducks/assignments';
+
 import ClassroomFormContainer from '../../containers/classrooms/ClassroomFormContainer';
+import ConfirmationDialog from '../common/ConfirmationDialog';
 
 const ClassroomsManager = (props) => {
   // TODO: Pagination for Classrooms
@@ -32,6 +34,14 @@ const ClassroomsManager = (props) => {
         <Paragraph align="start" size="small">{classroomInstructions}</Paragraph>
         <Button type="button" primary={true} label="Create New Classroom" onClick={props.toggleFormVisibility} />
       </Box>
+      <ConfirmationDialog
+        confirmationButtonLabel="Delete"
+        onConfirmation={props.deleteClassroom}
+        onClose={props.closeConfirmationDialog}
+        showConfirmationDialog={props.showConfirmationDialog}
+      >
+        <Paragraph size="small">Deleting a classroom will also delete the associated assignments.</Paragraph>
+      </ConfirmationDialog>
       {props.showForm &&
         <Layer closer={true} onClose={props.toggleFormVisibility}>
           <ClassroomFormContainer heading="Create Classroom" submitLabel="Create" />
@@ -78,7 +88,7 @@ const ClassroomsManager = (props) => {
                           </Button>
                         </CopyToClipboard>
                       </span>
-                      <Button className="manager-table__button--delete" type="button" onClick={props.deleteClassroom.bind(null, classroom.id)}>
+                      <Button className="manager-table__button--delete" type="button" onClick={props.maybeDeleteClassroom.bind(null, classroom.id)}>
                         <CloseIcon size="small" />
                       </Button>
                     </Box>
@@ -138,8 +148,10 @@ const ClassroomsManager = (props) => {
 
 ClassroomsManager.defaultProps = {
   classroomInstructions: '',
-  selectClassroom: () => {},
+  closeConfirmationDialog: () => {},
   deleteClassroom: () => {},
+  maybeDeleteClassroom: () => {},
+  selectClassroom: () => {},
   showForm: false,
   toggleFormVisibility: Actions.classrooms.toggleFormVisibility,
   ...CLASSROOMS_INITIAL_STATE,
@@ -148,8 +160,10 @@ ClassroomsManager.defaultProps = {
 
 ClassroomsManager.propTypes = {
   classroomInstructions: PropTypes.string,
-  selectClassroom: PropTypes.func,
+  closeConfirmationDialog: PropTypes.func,
   deleteClassroom: PropTypes.func,
+  maybeDeleteClassroom: PropTypes.func,
+  selectClassroom: PropTypes.func,
   showForm: PropTypes.bool,
   toggleFormVisibility: PropTypes.func,
   ...CLASSROOMS_PROPTYPES,
