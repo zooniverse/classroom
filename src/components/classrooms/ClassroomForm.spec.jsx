@@ -32,8 +32,7 @@ describe('<ClassroomForm />', function() {
     const textInput = wrapper.find('#name');
     const value = 'My Classroom';
     const change = { target: { value } };
-    // Why is grommet using oninput and not onchange as the handler?
-    textInput.simulate('input', change);
+    textInput.simulate('change', change);
     expect(onChangeSpy.called).to.be.true();
   });
 

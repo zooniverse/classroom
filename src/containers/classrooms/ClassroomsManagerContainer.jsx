@@ -47,10 +47,8 @@ export class ClassroomsManagerContainer extends React.Component {
         copyJoinLink={this.copyJoinLink}
         deleteClassroom={this.deleteClassroom}
         match={this.props.match}
-        resetToastState={this.resetToastState}
         selectClassroom={this.selectClassroom}
         showForm={this.props.showForm}
-        toast={this.props.toast}
       />
     );
   }
@@ -58,16 +56,12 @@ export class ClassroomsManagerContainer extends React.Component {
 
 ClassroomsManagerContainer.propTypes = {
   ...ASSIGNMENTS_PROPTYPES,
-  ...CLASSROOMS_PROPTYPES,
-  assignmentsStatus: ASSIGNMENTS_PROPTYPES.status,
-  classroomsStatus: CLASSROOMS_PROPTYPES.status
+  ...CLASSROOMS_PROPTYPES
 };
 
 ClassroomsManagerContainer.defaultProps = {
   ...ASSIGNMENTS_INITIAL_STATE,
-  ...CLASSROOMS_INITIAL_STATE,
-  assignmentsStatus: ASSIGNMENTS_INITIAL_STATE.status,
-  classroomsStatus: CLASSROOMS_INITIAL_STATE.status
+  ...CLASSROOMS_INITIAL_STATE
 };
 
 const mapStateToProps = (state) => ({

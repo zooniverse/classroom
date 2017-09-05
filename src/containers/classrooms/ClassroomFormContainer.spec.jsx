@@ -7,13 +7,6 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { ClassroomFormContainer } from './ClassroomFormContainer';
 
-const fields = {
-  name: 'My classroom',
-  subject: '',
-  school: '',
-  description: ''
-};
-
 const mockChangeEvent = { target: { id: 'name', value: 'My classroom' } };
 
 describe('<ClassroomFormContainer />', function() {
@@ -26,14 +19,13 @@ describe('<ClassroomFormContainer />', function() {
 
   it('without crashing', function() {});
 
-  it('renders <ClassroomCreateForm />', function() {
-    expect(wrapper.find('ClassroomCreateForm')).to.have.lengthOf(1);
+  it('renders <ClassroomForm />', function() {
+    expect(wrapper.find('ClassroomForm')).to.have.lengthOf(1);
   });
 
-  it('sets fields state when onChange is called', function() {
+  it('calls onChange when change event happens', function() {
     wrapper.instance().onChange(mockChangeEvent);
     expect(onChangeSpy.calledOnce).to.be.true();
-    expect(wrapper.state('fields')).to.deep.equal(fields);
   });
 
   it('calls onSubmit', function() {

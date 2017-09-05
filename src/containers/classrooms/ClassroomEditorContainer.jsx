@@ -18,7 +18,6 @@ export class ClassroomEditorContainer extends React.Component {
 
     this.editClassroom = this.editClassroom.bind(this);
     this.exportGrades = this.exportGrades.bind(this);
-    this.returnToManager = this.returnToManager.bind(this);
   }
 
   componentDidMount() {
@@ -74,13 +73,6 @@ export class ClassroomEditorContainer extends React.Component {
     alert(`TODO! Remove student ${studentId} from classroom ${classroomId}`);
   }
 
-  returnToManager() {
-    // Grommet's Anchor path doesn't seem to work correctly with React Router v4
-    const programURL = this.props.match.url.split('/'); // Remove once programs is in place with API
-
-    this.props.history.push(`/${programURL[1]}/educators`); // Manually navigating to correct page
-  }
-
   render() {
     return (
       <ClassroomEditor
@@ -90,7 +82,6 @@ export class ClassroomEditorContainer extends React.Component {
         editClassroom={this.editClassroom}
         exportGrades={this.exportGrades}
         match={this.props.match}
-        returnToManager={this.returnToManager}
         removeStudentFromClassroom={this.removeStudentFromClassroom}
         selectedClassroom={this.props.selectedClassroom}
         showForm={this.props.showForm}

@@ -72,7 +72,7 @@ const ClassroomsManager = (props) => {
                           icon={<EditIcon size="small" />}
                         />
                         {' '}{classroom.name}{' '}
-                        <CopyToClipboard text={joinURL} onCopy={props.copyJoinLink}>
+                        <CopyToClipboard text={joinURL} onCopy={() => { Actions.classrooms.setToastState({ status: 'ok', message: 'Copied join link.' }); }}>
                           <Button type="button" className="manager-table__button--as-link" plain={true} onClick={() => {}}>
                             Copy Join Link
                           </Button>
@@ -138,29 +138,20 @@ const ClassroomsManager = (props) => {
 
 ClassroomsManager.defaultProps = {
   classroomInstructions: '',
-  copyJoinLink: () => {},
   selectClassroom: () => {},
   deleteClassroom: () => {},
-  resetToastState: () => {},
   showForm: false,
   toggleFormVisibility: Actions.classrooms.toggleFormVisibility,
-  toast: null,
   ...CLASSROOMS_INITIAL_STATE,
   ...ASSIGNMENTS_INITIAL_STATE
 };
 
 ClassroomsManager.propTypes = {
   classroomInstructions: PropTypes.string,
-  copyJoinLink: PropTypes.func,
   selectClassroom: PropTypes.func,
   deleteClassroom: PropTypes.func,
-  resetToastState: PropTypes.func,
   showForm: PropTypes.bool,
   toggleFormVisibility: PropTypes.func,
-  toast: PropTypes.shape({
-    message: null,
-    status: null
-  }),
   ...CLASSROOMS_PROPTYPES,
   ...ASSIGNMENTS_PROPTYPES
 };

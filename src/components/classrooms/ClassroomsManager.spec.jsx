@@ -26,9 +26,8 @@ const classrooms = [
   { id: '7', name: 'Another classroom', joinToken: 'token2' }
 ];
 
-const toast = {
-  message: 'Copy successful',
-  status: 'ok'
+const match = {
+  url: ''
 };
 
 describe('<ClassroomsManager />', function() {
@@ -41,11 +40,12 @@ describe('<ClassroomsManager />', function() {
     wrapper = shallow(
       <ClassroomsManager
         assignments={noAssignments}
+        assignmentsStatus={ASSIGNMENTS_STATUS.FETCHING}
         classroomInstructions={instructions}
         classroomsStatus={CLASSROOMS_STATUS.FETCHING}
-        assignmentsStatus={ASSIGNMENTS_STATUS.FETCHING}
         copyJoinLink={copyJoinLinkSpy}
         deleteClassroom={deleteClassroomSpy}
+        match={match}
         resetToastState={resetToastStateSpy}
         toggleFormVisibility={toggleFormVisibilitySpy}
       />
@@ -71,7 +71,7 @@ describe('<ClassroomsManager />', function() {
     expect(wrapper.find('Box')).to.have.lengthOf(4);
     expect(wrapper.find('Table')).to.have.lengthOf(1);
     expect(wrapper.find('TableRow')).to.have.lengthOf(5);
-    expect(wrapper.find('Button')).to.have.lengthOf(5);
+    expect(wrapper.find('Button')).to.have.lengthOf(7);
     expect(wrapper.find('CopyToClipboard')).to.have.lengthOf(2);
     expect(wrapper.find('Spinning')).to.have.lengthOf(2);
   });
@@ -83,7 +83,7 @@ describe('<ClassroomsManager />', function() {
 
   it('renders assignments data on successful load and there are some', function() {
     wrapper.setProps({ assignments });
-    expect(wrapper.find('Button')).to.have.lengthOf(7);
+    expect(wrapper.find('Button')).to.have.lengthOf(9);
     expect(wrapper.find('Anchor')).to.have.lengthOf(2);
     expect(wrapper.find('TableRow').last().find('td').first().text()).to.equal('Assignment 2');
   });
