@@ -76,12 +76,12 @@ const ClassroomEditor = (props) => {
         direction="column"
       >
         <ConfirmationDialog
-          confirmationButtonLabel="Delete"
+          confirmationButtonLabel="Remove"
           onConfirmation={props.removeStudentFromClassroom}
           onClose={props.closeConfirmationDialog}
           showConfirmationDialog={props.showConfirmationDialog}
         >
-          <Paragraph size="small">This will delete the student record and their progress.</Paragraph>
+          <Paragraph size="small">This will remove the student record and their progress from the classroom.</Paragraph>
         </ConfirmationDialog>
 
         {props.showForm &&

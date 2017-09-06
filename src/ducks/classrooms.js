@@ -9,6 +9,7 @@ const CLASSROOMS_STATUS = {
   CREATING: 'creating',
   UPDATING: 'updating',
   DELETING: 'deleting',
+  REMOVING_STUDENT: 'removing-student',
   SUCCESS: 'success',
   ERROR: 'error'
 };
@@ -90,7 +91,7 @@ const updateFormFields = (state, formFields) => {
 Effect('getClassrooms', () => {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.FETCHING);
 
-  return get('teachers/classrooms/')
+  return get('/teachers/classrooms/')
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/getClassrooms): No response'; }
       if (response.ok &&
@@ -111,7 +112,7 @@ Effect('getClassrooms', () => {
 Effect('getClassroom', (id) => {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.FETCHING);
 
-  return get(`teachers/classrooms/${id}`)
+  return get(`/teachers/classrooms/${id}`)
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/getClassroom): No response'; }
       if (response.ok &&
@@ -148,7 +149,7 @@ Effect('getClassroomsAndAssignments', () => {
 Effect('createClassroom', (data) => {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.CREATING);
 
-  return post('teachers/classrooms/', data)
+  return post('/teachers/classrooms/', data)
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/createClassroom): No response'; }
       if (response.ok &&
@@ -165,7 +166,7 @@ Effect('createClassroom', (data) => {
 // Hmm.... Effects can only take one argument?
 Effect('updateClassroom', (data) => {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.UPDATING);
-  return put(`teachers/classrooms/${data.id}`, data.payload)
+  return put(`/teachers/classrooms/${data.id}`, data.payload)
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/updateClassroom): No response'; }
       if (response.ok) {
@@ -181,7 +182,7 @@ Effect('updateClassroom', (data) => {
 Effect('deleteClassroom', (id) => {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.DELETING);
 
-  return httpDelete(`teachers/classrooms/${id}`)
+  return httpDelete(`/teachers/classrooms/${id}`)
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/deleteClassroom): No response'; }
       if (response.ok) {
@@ -192,6 +193,19 @@ Effect('deleteClassroom', (id) => {
     .catch((error) => {
       handleError(error);
     });
+});
+
+Effect('removeStudentFromClassroom', (data) => {
+  Actions.classrooms.setStatus(CLASSROOMS_STATUS.REMOVING_STUDENT);
+
+  return httpDelete(`/teachers/classrooms/${data.classroomId}/student_users/${data.studentId}`)
+    .then((response) => {
+      if (!response) { throw 'ERROR (ducks/classrooms/deleteClassroom): No response'; }
+      if (response.ok) {
+        return Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
+      }
+      throw 'ERROR (ducks/classrooms/deleteClassroom): Invalid response';
+    }).catch(error => handleError(error));
 });
 
 const classrooms = State('classrooms', {

@@ -24,10 +24,11 @@ export class ClassroomEditorContainer extends React.Component {
       }
     };
 
+    this.closeConfirmationDialog = this.closeConfirmationDialog.bind(this);
     this.editClassroom = this.editClassroom.bind(this);
     this.exportGrades = this.exportGrades.bind(this);
     this.maybeRemoveStudentFromClassroom = this.maybeRemoveStudentFromClassroom.bind(this);
-    this.closeConfirmationDialog = this.closeConfirmationDialog.bind(this);
+    this.removeStudentFromClassroom = this.removeStudentFromClassroom.bind(this);
   }
 
   componentDidMount() {
@@ -85,10 +86,14 @@ export class ClassroomEditorContainer extends React.Component {
     this.setState({ studentToDelete: null, showConfirmationDialog: false });
   }
 
-  removeStudentFromClassroom(classroomId, studentId) {
-    //TODO
-    console.log('TODO!');
-    alert(`TODO! Remove student ${studentId} from classroom ${classroomId}`);
+  removeStudentFromClassroom() {
+    if (this.state.studentToDelete === null) return;
+
+    Actions.removeStudentFromClassroom(this.state.studentToDelete).then(() => {
+      Actions.getClassroom(this.props.match.params.id);
+      this.closeConfirmationDialog();
+      Actions.classrooms.setToastState({ status: 'ok', message: 'Student removed' });
+    });
   }
 
   render() {

@@ -40,7 +40,7 @@ const setError = (state, error) => {
 // Effects are for async actions and get automatically to the global Actions list
 Effect('getAssignments', (classroomId) => {
   Actions.assignments.setStatus(ASSIGNMENTS_STATUS.FETCHING);
-  return get('assignments', [{ classroom_id: classroomId }])
+  return get('/assignments', [{ classroom_id: classroomId }])
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/getClassrooms): No response'; }
         if (response.ok &&
