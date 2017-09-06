@@ -47,7 +47,7 @@ const ClassroomsManager = (props) => {
           <ClassroomFormContainer heading="Create Classroom" submitLabel="Create" />
         </Layer>}
       {(props.classrooms.length === 0 && props.classroomsStatus === CLASSROOMS_STATUS.FETCHING) &&
-        <Spinning />}
+        <Box align="center"><Spinning /></Box>}
       {props.classrooms.length === 0 && props.classroomsStatus === CLASSROOMS_STATUS.SUCCESS &&
         <Paragraph>No classrooms have been created yet.</Paragraph>}
       {(props.classrooms.length > 0 && props.classroomsStatus === CLASSROOMS_STATUS.SUCCESS) &&

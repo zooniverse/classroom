@@ -9,9 +9,11 @@ import { ClassroomFormContainer } from './ClassroomFormContainer';
 
 const mockChangeEvent = { target: { id: 'name', value: 'My classroom' } };
 
+// This test block is throwing a warning from Jumpstate that it is being used without middleware
+// Why?
 describe('<ClassroomFormContainer />', function() {
   let wrapper;
-  const onChangeSpy = sinon.spy(ClassroomFormContainer.prototype, 'onChange');
+  const onChangeStub = sinon.stub(ClassroomFormContainer.prototype, 'onChange').callsFake(() => {});
   const onSubmitStub = sinon.stub(ClassroomFormContainer.prototype, 'onSubmit').callsFake(() => {});
   before(function() {
     wrapper = shallow(<ClassroomFormContainer />);
@@ -25,7 +27,7 @@ describe('<ClassroomFormContainer />', function() {
 
   it('calls onChange when change event happens', function() {
     wrapper.instance().onChange(mockChangeEvent);
-    expect(onChangeSpy.calledOnce).to.be.true();
+    expect(onChangeStub.calledOnce).to.be.true();
   });
 
   it('calls onSubmit', function() {

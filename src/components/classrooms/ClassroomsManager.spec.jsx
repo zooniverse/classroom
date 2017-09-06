@@ -32,9 +32,8 @@ const match = {
 
 describe('<ClassroomsManager />', function() {
   let wrapper;
-  const copyJoinLinkSpy = sinon.spy();
   const deleteClassroomSpy = sinon.spy();
-  const resetToastStateSpy = sinon.spy();
+  const maybeDeleteClassroomSpy = sinon.spy();
   const toggleFormVisibilitySpy = sinon.spy();
   before(function() {
     wrapper = shallow(
@@ -43,10 +42,9 @@ describe('<ClassroomsManager />', function() {
         assignmentsStatus={ASSIGNMENTS_STATUS.FETCHING}
         classroomInstructions={instructions}
         classroomsStatus={CLASSROOMS_STATUS.FETCHING}
-        copyJoinLink={copyJoinLinkSpy}
         deleteClassroom={deleteClassroomSpy}
+        maybeDeleteClassroom={maybeDeleteClassroomSpy}
         match={match}
-        resetToastState={resetToastStateSpy}
         toggleFormVisibility={toggleFormVisibilitySpy}
       />
     );
@@ -55,15 +53,15 @@ describe('<ClassroomsManager />', function() {
   it('renders without crashing', function() {});
 
   it('renders grommet components on initial component load', function() {
-    expect(wrapper.find('Box')).to.have.lengthOf(2);
-    expect(wrapper.find('Paragraph')).to.have.lengthOf(1);
+    expect(wrapper.find('Box')).to.have.lengthOf(3);
+    expect(wrapper.find('Paragraph')).to.have.lengthOf(2);
     expect(wrapper.find('Spinning')).to.have.lengthOf(1);
     expect(wrapper.find('Button')).to.have.lengthOf(1);
   });
 
-  it('renders two Paragraph components on successful classrooms load, but there are none', function() {
+  it('renders three Paragraph components on successful classrooms load, but there are none', function() {
     wrapper.setProps({ classroomsStatus: CLASSROOMS_STATUS.SUCCESS });
-    expect(wrapper.find('Paragraph')).to.have.lengthOf(2);
+    expect(wrapper.find('Paragraph')).to.have.lengthOf(3);
   });
 
   it('renders classroom manager table on successful classrooms load and there are some', function() {
@@ -76,9 +74,9 @@ describe('<ClassroomsManager />', function() {
     expect(wrapper.find('Spinning')).to.have.lengthOf(2);
   });
 
-  it('renders three Paragraphs on successful assignments load and there are none', function() {
+  it('renders four Paragraphs on successful assignments load and there are none', function() {
     wrapper.setProps({ assignmentsStatus: ASSIGNMENTS_STATUS.SUCCESS });
-    expect(wrapper.find('Paragraph')).to.have.lengthOf(3);
+    expect(wrapper.find('Paragraph')).to.have.lengthOf(4);
   });
 
   it('renders assignments data on successful load and there are some', function() {
@@ -104,6 +102,6 @@ describe('<ClassroomsManager />', function() {
   it('calls deleteClassroom when delete button is clicked', function() {
     const button = wrapper.find('.manager-table__button--delete').first();
     button.simulate('click');
-    expect(deleteClassroomSpy.called).to.be.true();
+    expect(maybeDeleteClassroomSpy.called).to.be.true();
   });
 });

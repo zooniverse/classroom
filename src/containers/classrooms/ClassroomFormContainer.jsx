@@ -66,7 +66,7 @@ export class ClassroomFormContainer extends React.Component {
 
 ClassroomFormContainer.defaultProps = {
   ...CLASSROOMS_INITIAL_STATE,
-  projectCollection: [],
+  projectCollection: []
 };
 
 ClassroomFormContainer.propTypes = {
