@@ -21,7 +21,7 @@ export function post(endpoint, data) {
   return superagent.post(`${config.root}${endpoint}`)
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
-    .send({ data: { attributes: data } })
+    .send(data)
     .then(response => response);
 }
 

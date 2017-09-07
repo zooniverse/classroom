@@ -32,7 +32,7 @@ import {
 
 const ClassroomEditor = (props) => {
   const joinURL = props.selectedClassroom ?
-    `https://${window.location.host}/students/classrooms/join?id=${props.selectedClassroom.id}&token=${props.selectedClassroom.joinToken}` :
+    `${window.location.host}/#${props.selectedProgram.slug}/students/classrooms/${props.selectedClassroom.id}/join?token=${props.selectedClassroom.joinToken}` :
     '';
 
   // Get students and assignments only for this classroom.
@@ -214,10 +214,6 @@ ClassroomEditor.defaultProps = {
   showForm: false,
   toggleFormVisibility: Actions.classrooms.toggleFormVisibility,
   //----------------
-  copyJoinLink: () => {},
-  resetToastState: () => {},
-  toast: null,
-  //----------------
   ...CLASSROOMS_INITIAL_STATE
 };
 
@@ -228,13 +224,6 @@ ClassroomEditor.propTypes = {
   //----------------
   showForm: PropTypes.bool,
   toggleFormVisibility: PropTypes.func,
-  //----------------
-  copyJoinLink: PropTypes.func,
-  resetToastState: PropTypes.func,
-  toast: PropTypes.shape({
-    message: null,
-    status: null
-  }),
   //----------------
   ...CLASSROOMS_PROPTYPES
 };

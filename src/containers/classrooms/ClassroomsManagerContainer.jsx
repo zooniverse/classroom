@@ -26,6 +26,11 @@ export class ClassroomsManagerContainer extends React.Component {
 
   componentDidMount() {
     Actions.getClassroomsAndAssignments();
+
+    if (!this.props.selectedProgram) {
+      // Fix routes to make this dynamic
+      Actions.getProgram({ programs: this.props.programs, param: 'astro-101-with-galaxy-zoo' });
+    }
   }
 
   componentWillUnmount() {
@@ -70,6 +75,7 @@ export class ClassroomsManagerContainer extends React.Component {
         match={this.props.match}
         maybeDeleteClassroom={this.maybeDeleteClassroom}
         selectClassroom={this.selectClassroom}
+        selectedProgram={this.props.selectedProgram}
         showConfirmationDialog={this.state.showConfirmationDialog}
         showForm={this.props.showForm}
       />
@@ -92,7 +98,9 @@ const mapStateToProps = (state) => ({
   assignmentsStatus: state.assignments.status,
   classrooms: state.classrooms.classrooms,
   classroomsStatus: state.classrooms.status,
+  programs: state.programs.programs,
   selectedClassroom: state.classrooms.selectedClassroom,
+  selectedProgram: state.programs.selectedProgram,
   showConfirmationDialog: state.classrooms.showConfirmationDialog,
   showForm: state.classrooms.showForm
 });

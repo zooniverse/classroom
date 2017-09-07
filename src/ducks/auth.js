@@ -40,6 +40,7 @@ const setError = (state, error) => {
 // Effects are for async actions and get automatically to the global Actions list
 Effect('checkLoginUser', () => {
   Actions.auth.setStatus(AUTH_STATUS.FETCHING);
+
   oauth.checkCurrent()
     .then((user) => {
       Actions.auth.setLoginUser(user);

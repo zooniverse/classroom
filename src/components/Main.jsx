@@ -7,14 +7,15 @@ import Box from 'grommet/components/Box';
 import { ZooniverseLogo, ZooFooter, AdminLayoutIndicator } from 'zooniverse-react-components';
 import AboutLayout from './about';
 import ZooHeader from './layout/ZooHeader';
-import Home from './Home';
+import HomeContainer from '../containers/common/HomeContainer';
 import AdminContainer from '../containers/layout/AdminContainer';
 import AuthContainer from '../containers/layout/AuthContainer';
 import AppNotification from '../containers/layout/AppNotification';
 import AstroHome from './astro/AstroHome';
 import DarienHome from './darien/DarienHome';
+import JoinPageContainer from '../containers/common/JoinPageContainer';
 
-const Main = ({ admin }) => {
+const Main = ({ admin, history }) => {
   const mainHeaderNavList = [
     <NavLink className="site-header__link--small" to="/about">About</NavLink>
   ];
@@ -24,6 +25,11 @@ const Main = ({ admin }) => {
       <ZooniverseLogo height="1.25em" width="1.25em" />
     </NavLink>);
 
+  const redirect = localStorage.getItem('classroomJoinRedirect');
+  if (redirect) {
+    return history.push(redirect);
+  }
+
   return (
     <App centered={false} className="app-layout" inline={true}>
       {admin &&
@@ -32,17 +38,18 @@ const Main = ({ admin }) => {
         <ZooHeader mainHeaderNavList={mainHeaderNavList} authContainer={<AuthContainer />} logoHomeLink={logoHomeLink} />
         <AppNotification />
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={HomeContainer} />
           <Route path="/about" component={AboutLayout} />
           <Route path="/astro-101-with-galaxy-zoo/educators/" component={AstroHome} />
-          <Redirect from="/astro-101-with-galaxy-zoo" to="/astro-101-with-galaxy-zoo/educators/" />
+          <Route path="/:program/students/classrooms/:classroomId/join" component={JoinPageContainer} />
           <Route path="/darien" component={DarienHome} />
+          <Redirect from="/astro-101-with-galaxy-zoo" to="/astro-101-with-galaxy-zoo/educators/" />
         </Switch>
         <ZooFooter adminContainer={<AdminContainer />} />
       </Box>
     </App>
   );
-}
+};
 
 Main.defaultProps = {
   admin: false
@@ -50,7 +57,7 @@ Main.defaultProps = {
 
 Main.propTypes = {
   admin: PropTypes.bool
-}
+};
 
 function mapStateToProps(state) {
   return {

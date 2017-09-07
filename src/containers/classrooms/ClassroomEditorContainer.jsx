@@ -36,6 +36,11 @@ export class ClassroomEditorContainer extends React.Component {
       // TODO Why does this 404 when directly navigating to an classroom edit view?
       Actions.getClassroom(this.props.match.params.id);
     }
+
+    if (!this.props.selectedProgram) {
+      // Fix routes to make this dynamic
+      Actions.getProgram({ programs: this.props.programs, param: 'astro-101-with-galaxy-zoo' });
+    }
   }
 
   componentWillUnmount() {
@@ -109,6 +114,7 @@ export class ClassroomEditorContainer extends React.Component {
         maybeRemoveStudentFromClassroom={this.maybeRemoveStudentFromClassroom}
         removeStudentFromClassroom={this.removeStudentFromClassroom}
         selectedClassroom={this.props.selectedClassroom}
+        selectedProgram={this.props.selectedProgram}
         showForm={this.props.showForm}
         showConfirmationDialog={this.state.showConfirmationDialog}
       />
@@ -131,7 +137,9 @@ const mapStateToProps = (state) => ({
   assignmentsStatus: state.assignments.status,
   classrooms: state.classrooms.classrooms,
   classroomsStatus: state.classrooms.status,
+  programs: state.programs.programs,
   selectedClassroom: state.classrooms.selectedClassroom,
+  selectedProgram: state.programs.selectedProgram,
   showForm: state.classrooms.showForm
 });
 

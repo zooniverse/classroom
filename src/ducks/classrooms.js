@@ -10,6 +10,7 @@ const CLASSROOMS_STATUS = {
   UPDATING: 'updating',
   DELETING: 'deleting',
   REMOVING_STUDENT: 'removing-student',
+  'JOINING': 'joining',
   SUCCESS: 'success',
   ERROR: 'error'
 };
@@ -149,7 +150,7 @@ Effect('getClassroomsAndAssignments', () => {
 Effect('createClassroom', (data) => {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.CREATING);
 
-  return post('/teachers/classrooms/', data)
+  return post('/teachers/classrooms/', { data: { attributes: data } })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/createClassroom): No response'; }
       if (response.ok &&
@@ -205,6 +206,20 @@ Effect('removeStudentFromClassroom', (data) => {
         return Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
       }
       throw 'ERROR (ducks/classrooms/deleteClassroom): Invalid response';
+    }).catch(error => handleError(error));
+});
+
+Effect('joinClassroom', (data) => {
+  Actions.classrooms.setStatus(CLASSROOMS_STATUS.JOINING);
+
+  return post(`/students/classrooms/${data.classroomId}/join`, { join_token: data.joinToken })
+    .then((response) => {
+      if (!response) { throw 'ERROR (ducks/classrooms/joinClassroom): No response'; }
+      if (response.ok &&
+          response.body && response.body.data) {
+        return Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
+      }
+      throw 'ERROR (ducks/classrooms/joinClassroom): Invalid response';
     }).catch(error => handleError(error));
 });
 
