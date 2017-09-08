@@ -57,7 +57,6 @@ export class JoinPageContainer extends React.Component {
   }
 
   joinClassroom() {
-    console.log('joining')
     const classroomId = this.props.match.params.classroomId;
     const joinToken = queryString.parse(this.props.location.search);
 
