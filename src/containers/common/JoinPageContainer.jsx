@@ -9,8 +9,14 @@ import {
   PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES
 } from '../../ducks/programs';
 
-function storeLocation(path) {
-  return localStorage.setItem('classroomJoinRedirect', path);
+function storeLocation(pathname, search) {
+  localStorage.setItem('redirectPathname', pathname);
+  localStorage.setItem('redirectSearch', search);
+}
+
+function removeLocation() {
+  localStorage.removeItem('redirectPathname');
+  localStorage.removeItem('redirectSearch');
 }
 
 export class JoinPageContainer extends React.Component {
@@ -26,7 +32,7 @@ export class JoinPageContainer extends React.Component {
     Actions.getProgram({ programs: this.props.programs, param: this.props.match.params.program })
       .then(() => {
         if (this.props.initialised && !this.props.user) {
-          storeLocation(`${this.props.location.pathname}${this.props.location.search}`);
+          storeLocation(this.props.location.pathname, this.props.location.search);
         }
 
         if (this.props.initialised && this.props.user) {
@@ -38,7 +44,7 @@ export class JoinPageContainer extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.initialised && !nextProps.user) {
       if (!localStorage.getItem('classroomJoinRedirect')) {
-        storeLocation(`${this.props.location.pathname}${this.props.location.search}`);
+        storeLocation(nextProps.location.pathname, nextProps.location.search);
       }
     }
 
@@ -55,10 +61,11 @@ export class JoinPageContainer extends React.Component {
     const classroomId = this.props.match.params.classroomId;
     const joinToken = queryString.parse(this.props.location.search);
 
-    Actions.joinClassroom({ classroomId, joinToken: joinToken.token });
+    Actions.joinClassroom({ classroomId, joinToken: joinToken.token })
+      .then(() => {
+        removeLocation();
+      });
   }
-
-
 
   render() {
     return (

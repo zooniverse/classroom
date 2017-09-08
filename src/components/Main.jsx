@@ -15,7 +15,7 @@ import AstroHome from './astro/AstroHome';
 import DarienHome from './darien/DarienHome';
 import JoinPageContainer from '../containers/common/JoinPageContainer';
 
-const Main = ({ admin, history }) => {
+const Main = ({ admin, location }) => {
   const mainHeaderNavList = [
     <NavLink className="site-header__link--small" to="/about">About</NavLink>
   ];
@@ -25,9 +25,14 @@ const Main = ({ admin, history }) => {
       <ZooniverseLogo height="1.25em" width="1.25em" />
     </NavLink>);
 
-  const redirect = localStorage.getItem('classroomJoinRedirect');
-  if (redirect) {
-    return history.push(redirect);
+  const redirect = localStorage.getItem('redirectPathname') && localStorage.getItem('redirectSearch');
+  const pathname = localStorage.getItem('redirectPathname');
+  const search = localStorage.getItem('redirectSearch');
+
+  if (redirect && location.pathname !== pathname) {
+    return (
+      <Redirect to={{ pathname, search }} />
+    );
   }
 
   return (
