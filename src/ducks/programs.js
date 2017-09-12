@@ -4,7 +4,7 @@ import { get, post, put, httpDelete } from '../lib/edu-api';
 
 // testing mocks
 const i2a = {
-  id: '2',
+  id: '1',
   name: 'Astro 101 with Galaxy Zoo',
   description: 'Classroom tools for teaching Astronomy.',
   slug: '/astro-101-with-galaxy-zoo',
@@ -35,7 +35,7 @@ const i2a = {
 };
 
 const darian = {
-  id: '3',
+  id: '2',
   name: 'Wildcam Darien Lab',
   description: 'A map for exploring camera trap data from the WildCam Darien project.',
   slug: '/darien',
@@ -124,7 +124,7 @@ Effect('getPrograms', () => {
     })
     .then((data) => {
       Actions.programs.setStatus(PROGRAMS_STATUS.SUCCESS);
-      Actions.programs.setClassrooms(data);
+      Actions.programs.setPrograms(data);
       return data;
     }).catch(error => handleError(error));
 });
@@ -140,6 +140,55 @@ Effect('getProgram', (data) => {
     }).then((program) => {
       // Actions.getClassroomsAndAssignments(program.id);
     }).catch(error => handleError(error));
+});
+
+// For a UI managed by Admins eventually
+Effect('createProgram', (data) => {
+  Actions.programs.setStatus(PROGRAMS_STATUS.CREATING);
+
+  return post('/programs/', { data: { attributes: data } })
+    .then((response) => {
+      if (!response) { throw 'ERROR (ducks/programs/createProgram): No response'; }
+      if (response.ok &&
+          response.body && response.body.data) {
+        return Actions.programs.setStatus(PROGRAMS_STATUS.SUCCESS);
+      }
+      throw 'ERROR (ducks/programs/createProgram): Invalid response';
+    })
+    .catch((error) => {
+      handleError(error);
+    });
+});
+
+Effect('updateProgram', (data) => {
+  Actions.programs.setStatus(PROGRAMS_STATUS.UPDATING);
+  return put(`/programs/${data.id}`, data.payload)
+    .then((response) => {
+      if (!response) { throw 'ERROR (ducks/programs/updateProgram): No response'; }
+      if (response.ok) {
+        return Actions.programs.setStatus(PROGRAMS_STATUS.SUCCESS);
+      }
+      throw 'ERROR (ducks/programs/updateProgram): Invalid response';
+    })
+    .catch((error) => {
+      handleError(error);
+    });
+});
+
+Effect('deleteProgram', (id) => {
+  Actions.programs.setStatus(PROGRAMS_STATUS.DELETING);
+
+  return httpDelete(`/programs/${id}`)
+    .then((response) => {
+      if (!response) { throw 'ERROR (ducks/programs/deleteProgram): No response'; }
+      if (response.ok) {
+        return Actions.classrooms.setStatus(PROGRAMS_STATUS.SUCCESS);
+      }
+      throw 'ERROR (ducks/programs/deleteProgram): Invalid response';
+    })
+    .catch((error) => {
+      handleError(error);
+    });
 });
 
 const programs = State('programs', {
