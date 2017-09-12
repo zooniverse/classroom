@@ -26,11 +26,6 @@ export class ClassroomsManagerContainer extends React.Component {
 
   componentDidMount() {
     Actions.getClassroomsAndAssignments();
-
-    if (!this.props.selectedProgram) {
-      // Fix routes to make this dynamic
-      Actions.getProgram({ programs: this.props.programs, param: 'astro-101-with-galaxy-zoo' });
-    }
   }
 
   componentWillUnmount() {

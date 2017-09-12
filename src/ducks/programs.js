@@ -38,7 +38,7 @@ const darian = {
   id: '2',
   name: 'Wildcam Darien Lab',
   description: 'A map for exploring camera trap data from the WildCam Darien project.',
-  slug: '/darien',
+  slug: '/wildcam-darien-lab',
   metadata: {
     backgroundImage: '',
     cardImage: 'home-card-wildcam-darien.jpg',

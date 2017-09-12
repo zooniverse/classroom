@@ -31,7 +31,7 @@ export default function Home(props) {
                 heading={program.name}
                 description={program.description}
                 link={
-                  <Link to="/astro-101-with-galaxy-zoo/educators/" onClick={() => { Actions.getProgram({ programs: props.programs, param: 'astro-101-with-galaxy-zoo' }); }}>Enter</Link>
+                  <Link to={program.slug} onClick={() => { Actions.getProgram({ programs: props.programs, param: 'astro-101-with-galaxy-zoo' }); }}>Enter</Link>
                 }
               />
             </Tile>
