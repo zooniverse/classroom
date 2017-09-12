@@ -50,6 +50,8 @@ const ClassroomsManager = (props) => {
         <Box align="center"><Spinning /></Box>}
       {props.classrooms.length === 0 && props.classroomsStatus === CLASSROOMS_STATUS.SUCCESS &&
         <Paragraph>No classrooms have been created yet.</Paragraph>}
+      {props.classrooms.length === 0 && props.classroomsStatus === CLASSROOMS_STATUS.ERROR &&
+        <Paragraph>Error: Classrooms could not be loaded.</Paragraph>}
       {(props.classrooms.length > 0 && props.classroomsStatus === CLASSROOMS_STATUS.SUCCESS) &&
         <Table className="manager-table">
           <thead className="manager-table__headers">

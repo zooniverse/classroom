@@ -17,7 +17,6 @@ import TableRow from 'grommet/components/TableRow';
 import CloseIcon from 'grommet/components/icons/base/Close';
 import EditIcon from 'grommet/components/icons/base/Edit';
 import Spinning from 'grommet/components/icons/Spinning';
-import Status from 'grommet/components/icons/Status';
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import ClassroomFormContainer from '../../containers/classrooms/ClassroomFormContainer';
@@ -61,8 +60,7 @@ const ClassroomEditor = (props) => {
           />
         </Box>
         <Box pad="small">
-          <Status value="critical" />
-          <Paragraph>Something went wrong.</Paragraph>
+          <Paragraph>Error: Classroom could not be loaded</Paragraph>
         </Box>
       </Box>
     );

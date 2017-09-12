@@ -10,7 +10,7 @@ const CLASSROOMS_STATUS = {
   UPDATING: 'updating',
   DELETING: 'deleting',
   REMOVING_STUDENT: 'removing-student',
-  'JOINING': 'joining',
+  JOINING: 'joining',
   SUCCESS: 'success',
   ERROR: 'error'
 };

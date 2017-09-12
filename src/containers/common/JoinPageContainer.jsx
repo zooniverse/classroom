@@ -8,6 +8,9 @@ import JoinPage from '../../components/common/JoinPage';
 import {
   PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES
 } from '../../ducks/programs';
+import {
+  CLASSROOMS_STATUS
+} from '../../ducks/classrooms';
 
 function storeLocation(pathname, search) {
   localStorage.setItem('redirectPathname', pathname);
@@ -49,6 +52,7 @@ export class JoinPageContainer extends React.Component {
     }
 
     if (nextProps.selectedProgram &&
+        nextProps.classroomsStatus === CLASSROOMS_STATUS.IDLE &&
         nextProps.initialised &&
         nextProps.user) {
       // TODO debug when you are attempt to join your own classroom. Getting 500 error?
@@ -90,7 +94,7 @@ JoinPageContainer.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    classroomsStatus: state.classrooms.classroomsStatus,
+    classroomsStatus: state.classrooms.status,
     initialised: state.auth.initialised,
     programs: state.programs.programs,
     programsStatus: state.programs.status,
