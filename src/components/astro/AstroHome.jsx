@@ -13,7 +13,6 @@ import Paragraph from 'grommet/components/Paragraph';
 
 import ProgramHome from '../common/ProgramHome';
 import NeedHelp from '../common/NeedHelp';
-
 import ClassroomsLayout from '../../components/classrooms/ClassroomsLayout';
 import {
   PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES, PROGRAMS_STATUS
