@@ -12,8 +12,9 @@ import Heading from 'grommet/components/Heading';
 import Button from 'grommet/components/Button';
 import Paragraph from 'grommet/components/Paragraph';
 import Anchor from 'grommet/components/Anchor';
-import ProgramHome from '../common/ProgramHome';
 
+import ProgramHome from '../common/ProgramHome';
+import NeedHelp from '../common/NeedHelp';
 import ClassroomsLayout from '../../components/classrooms/ClassroomsLayout';
 import {
   PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES, PROGRAMS_STATUS
@@ -77,6 +78,7 @@ const AstroHome = (props) => {
           </Box>
           <ClassroomsLayout match={props.match} />
         </Section>}
+        <NeedHelp />
     </ProgramHome>
   );
 };

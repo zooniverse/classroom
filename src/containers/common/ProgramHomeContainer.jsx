@@ -5,7 +5,8 @@ import { Actions } from 'jumpstate';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import AstroHome from '../../components/astro/AstroHome';
-import DarienHome from '../../components/darien/DarienHome';
+import DarienRoutesContainer from '../darien/DarienRoutesContainer';
+
 import {
   PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES
 } from '../../ducks/programs';
@@ -22,14 +23,18 @@ export class ProgramHomeContainer extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    Actions.programs.selectProgram(PROGRAMS_INITIAL_STATE.program);
+  }
+
   render() {
     // How do I pass props down consistently? They only get initial props, not the updated ones.
     // Check RR v.4 docs
     return (
       <Switch>
-        <Route {...this.props} path="/astro-101-with-galaxy-zoo/educators" component={AstroHome} />
+        <Route path="/astro-101-with-galaxy-zoo/educators" component={AstroHome} />
         <Redirect from="/astro-101-with-galaxy-zoo" to="/astro-101-with-galaxy-zoo/educators/" />
-        <Route {...this.props} path="/wildcam-darien-lab" component={DarienHome} />
+        <Route path="/wildcam-darien-lab" component={DarienRoutesContainer} />
       </Switch>
     );
   }
