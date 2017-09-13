@@ -6,6 +6,8 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import AstroHome from '../../components/astro/AstroHome';
 import DarienRoutesContainer from '../darien/DarienRoutesContainer';
+import DarienHome from '../../components/darien/DarienHome';
+import DarienExplorer from '../../components/darien/DarienExplorer';
 
 import {
   PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES
@@ -29,6 +31,7 @@ export class ProgramHomeContainer extends React.Component {
   render() {
     // How do I pass props down consistently? They only get initial props, not the updated ones.
     // Check RR v.4 docs
+    console.log('what is going on', this.props.match)
     return (
       <Switch>
         <Route path="/astro-101-with-galaxy-zoo/educators" component={AstroHome} />
