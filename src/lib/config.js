@@ -21,12 +21,14 @@ if (!env.match(/^(production|staging|development)$/)) {
 }
 
 const baseConfig = {
-  'development': {
+  development: {
+    caesar: 'https://caesar-staging.zooniverse.org',
     panoptesAppId: '397e9bf4e29e75c0a092261ebe3338d3ef2687f2c5935d55c7ca0f63ecc2dd33',
     root: 'https://education-api-staging.zooniverse.org',
     zooniverse: 'https://master.pfe-preview.zooniverse.org'
   },
-  'production': {
+  production: {
+    caesar: 'https://caesar.zooniverse.org',
     panoptesAppId: '47f9799996f91be6d0ee386dbcf044fcb43a37b4d07ac1b0787002111e61a152',
     root: 'https://education-api.zooniverse.org',
     zooniverse: 'https://www.zooniverse.org'
