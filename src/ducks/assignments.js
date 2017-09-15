@@ -1,6 +1,6 @@
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
-import { get } from '../lib/edu-api';
+import { get, post } from '../lib/edu-api';
 
 // Constants
 const ASSIGNMENTS_STATUS = {
@@ -23,6 +23,14 @@ const ASSIGNMENTS_PROPTYPES = {
   status: PropTypes.string
 };
 
+// Helper Functions
+function handleError(error) {
+  Actions.assignments.setStatus(ASSIGNMENTS_STATUS.ERROR);
+  Actions.assignments.setError(error);
+  Actions.notification.setNotification({ status: 'critical' , message: 'Something went wrong.' });
+  console.error(error);
+}
+
 // Synchonous actions
 const setStatus = (state, status) => {
   return { ...state, status };
@@ -43,20 +51,35 @@ Effect('getAssignments', (classroomId) => {
   return get('/assignments', [{ classroom_id: classroomId }])
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/getClassrooms): No response'; }
-        if (response.ok &&
-            response.body && response.body.data) {
-          return response.body.data;
-        }
-        throw 'ERROR (ducks/classrooms/getClassrooms): Invalid response';
-      })
+      if (response.ok &&
+          response.body && response.body.data) {
+        return response.body.data;
+      }
+      throw 'ERROR (ducks/classrooms/getClassrooms): Invalid response';
+    })
     .then((data) => {
       const assignmentsForClassroom = { [classroomId]: data };
       Actions.assignments.setStatus(ASSIGNMENTS_STATUS.SUCCESS);
       Actions.assignments.setAssignments(assignmentsForClassroom);
     }).catch((error) => {
-      Actions.assignments.setStatus(ASSIGNMENTS_STATUS.ERROR);
-      Actions.assignments.setError(error);
-      console.error(error);
+      handleError(error);
+    });
+});
+
+Effect('createAssignment', (data) => {
+  Actions.classrooms.setStatus(ASSIGNMENTS_STATUS.CREATING);
+
+  return post('/assignments', { data: { attributes: data } })
+    .then((response) => {
+      if (!response) { throw 'ERROR (ducks/assignments/createAssignment): No response'; }
+      if (response.ok &&
+          response.body && response.body.data) {
+        return Actions.assignments.setStatus(ASSIGNMENTS_STATUS.SUCCESS);
+      }
+      throw 'ERROR (ducks/assignments/createAssignment): Invalid response';
+    })
+    .catch((error) => {
+      handleError(error);
     });
 });
 

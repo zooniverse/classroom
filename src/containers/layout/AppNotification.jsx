@@ -11,7 +11,6 @@ export class AppNotification extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.notification && nextProps.notification.message) {
-      console.log('nextProps.notification', nextProps.notification)
       window.scrollTo(0, 0);
     }
   }

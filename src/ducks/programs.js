@@ -1,55 +1,109 @@
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
 import { get, post, put, httpDelete } from '../lib/edu-api';
+import { env } from '../lib/config';
 
 // testing mocks
 const i2a = {
-  id: '1',
-  name: 'Astro 101 with Galaxy Zoo',
-  description: 'Classroom tools for teaching Astronomy.',
-  slug: '/astro-101-with-galaxy-zoo',
-  metadata: {
-    backgroundImage: 'astro-background.jpg',
-    cardImage: 'home-card-intro-to-astro.jpg',
-    redirectOnJoin: false,
-    assignments: {
-      // workflow_id: { assignmentMetadata }
-      // used to relate the assignment resource that has a workflow id property
-      // back to a project without having to request that from Panoptes
-      // to then build the URL to the project in the UI.
-      // These are just test projects on staging...
-      1315: {
-        assignment: "Hubble's Law",
-        slug: 'srallen086/intro2astro-hubble-testing'
-      },
-      1771: {
-        assignment: 'Galaxy Zoo 101',
-        slug: 'srallen086/galaxy-zoo-in-astronomy-101'
-      },
-      3038: {
-        assignment: 'Introduction',
-        slug: 'srallen086/introduction-to-platform'
+  staging: {
+    id: '1',
+    name: 'Astro 101 with Galaxy Zoo',
+    description: 'Classroom tools for teaching Astronomy',
+    slug: '/astro-101-with-galaxy-zoo',
+    metadata: {
+      autoCreateAssignments: true,
+      backgroundImage: 'astro-background.jpg',
+      cardImage: 'home-card-intro-to-astro.jpg',
+      redirectOnJoin: false,
+      assignments: {
+        // workflow_id: { assignmentMetadata }
+        // used to relate the assignment resource that has a workflow id property
+        // back to a project without having to request that from Panoptes
+        // to then build the URL to the project in the UI.
+        // These are just test projects on staging...
+        2218: {
+          name: "Hubble's Law",
+          classification_target: 10,
+          slug: 'srallen086/intro2astro-hubble-testing'
+        },
+        3037: {
+          name: 'Galaxy Zoo 101',
+          classification_target: 22,
+          slug: 'srallen086/galaxy-zoo-in-astronomy-101'
+        },
+        3038: {
+          name: 'Introduction',
+          classification_target: 1,
+          slug: 'srallen086/introduction-to-platform'
+        }
+      }
+    }
+  },
+  production: {
+    id: '1',
+    name: 'Astro 101 with Galaxy Zoo',
+    description: 'Classroom tools for teaching Astronomy',
+    slug: '/astro-101-with-galaxy-zoo',
+    metadata: {
+      autoCreateAssignments: true,
+      backgroundImage: 'astro-background.jpg',
+      cardImage: 'home-card-intro-to-astro.jpg',
+      redirectOnJoin: false,
+      assignments: {
+        // workflow_id: { assignmentMetadata }
+        // used to relate the assignment resource that has a workflow id property
+        // back to a project without having to request that from Panoptes
+        // to then build the URL to the project in the UI.
+        // TODO: replace the workflow ids here with the production ids
+        1315: {
+          name: "Hubble's Law",
+          classification_target: 10,
+          slug: 'srallen086/intro2astro-hubble-testing'
+        },
+        1771: {
+          name: 'Galaxy Zoo 101',
+          classification_target: 22,
+          slug: 'srallen086/galaxy-zoo-in-astronomy-101'
+        },
+        3038: {
+          name: 'Introduction',
+          classification_target: 1,
+          slug: 'srallen086/introduction-to-platform'
+        }
       }
     }
   }
 };
 
 const darian = {
-  id: '2',
-  name: 'Wildcam Darien Lab',
-  description: 'A map for exploring camera trap data from the WildCam Darien project.',
-  slug: '/wildcam-darien-lab',
-  metadata: {
-    backgroundImage: '',
-    cardImage: 'home-card-wildcam-darien.jpg',
-    redirectOnJoin: true,
+  staging: {
+    id: '2',
+    name: 'Wildcam Darien Lab',
+    description: 'A map for exploring camera trap data from the WildCam Darien project.',
+    slug: '/wildcam-darien-lab',
+    metadata: {
+      backgroundImage: '',
+      cardImage: 'home-card-wildcam-darien.jpg',
+      redirectOnJoin: true,
+    }
+  },
+  production: {
+    id: '2',
+    name: 'Wildcam Darien Lab',
+    description: 'A map for exploring camera trap data from the WildCam Darien project.',
+    slug: '/wildcam-darien-lab',
+    metadata: {
+      backgroundImage: '',
+      cardImage: 'home-card-wildcam-darien.jpg',
+      redirectOnJoin: true,
+    }
   }
 };
 
 
 const programsArray = [
-  i2a,
-  darian
+  i2a[env],
+  darian[env]
 ];
 
 // Constants

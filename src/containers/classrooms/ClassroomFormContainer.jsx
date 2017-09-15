@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
 import ClassroomForm from '../../components/classrooms/ClassroomForm';
-import { config } from '../../lib/config';
 import {
   CLASSROOMS_STATUS, CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
 } from '../../ducks/classrooms';
+import {
+  PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES
+} from '../../ducks/programs';
 
 export class ClassroomFormContainer extends React.Component {
   constructor(props) {
@@ -35,19 +37,49 @@ export class ClassroomFormContainer extends React.Component {
         });
     } else {
       Actions.createClassroom(this.props.formFields)
-        .then(() => {
-          Actions.classrooms.toggleFormVisibility();
-        }).then(() => {
-          if (this.props.projectCollection === config.astroProjects) {
-            console.log('TODO: Auto create assignments for I2A');
+        .then((classroom) => {
+          console.log('classroom created', classroom)
+          if (this.props.selectedProgram.metadata.autoCreateAssignments) {
             // TODO: Actions.assignments.createAssignment().then(Actions.getClassroomsAndAssignments());
             // For API optimization, we could merge the returned classroom into the local app state
             // Then only call for the linked assignments for that one classroom
-            Actions.getClassroomsAndAssignments();
+            const assignments = this.props.selectedProgram.metadata.assignments;
+            Promise.resolve(Object.keys(assignments).forEach((workflowId) => {
+              // The classroom creation action won't have any students yet.
+              // How do I later associate these auto-created assignments with the new classroom
+              // with students who join later?
+              // Might have to include assigning the student to the assignments for I2A classrooms
+              // on the join classroom action.
+              const assignmentData = {
+                data: {
+                  program_id: this.props.selectedProgram.id,
+                  workflow_id: workflowId,
+                  attributes: {
+                    name: assignments[workflowId].name,
+                    metadata: {
+                      classification_target: assignments[workflowId].classification_target
+                    }
+                  },
+                  relationships: {
+                    classroom: {
+                      data: {
+                        id: classroom.id,
+                        type: 'classrooms'
+                      }
+                    }
+                  }
+                }
+              };
+
+              Actions.createAssignment(assignmentData);
+            })).then(() => {
+              Actions.classrooms.toggleFormVisibility();
+              Actions.getClassroomsAndAssignments();
+            });
           } else {
             Actions.getClassroomsAndAssignments();
           }
-        });
+        })
     }
   }
 
@@ -65,20 +97,20 @@ export class ClassroomFormContainer extends React.Component {
 }
 
 ClassroomFormContainer.defaultProps = {
-  ...CLASSROOMS_INITIAL_STATE,
-  projectCollection: []
+  ...PROGRAMS_INITIAL_STATE,
+  ...CLASSROOMS_INITIAL_STATE
 };
 
 ClassroomFormContainer.propTypes = {
-  ...CLASSROOMS_PROPTYPES,
-  projectCollection: PropTypes.arrayOf(PropTypes.string)
+  ...PROGRAMS_PROPTYPES,
+  ...CLASSROOMS_PROPTYPES
 };
 
 function mapStateToProps(state) {
   return {
     formFields: state.classrooms.formFields,
-    projectCollection: state.projectCollection,
-    selectedClassroom: state.classrooms.selectedClassroom
+    selectedClassroom: state.classrooms.selectedClassroom,
+    selectedProgram: state.programs.selectedProgram
   };
 }
 
