@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+<<<<<<< a375ad121e7e785ab243602f9f097a42ec4eadf7
 import { Route, Switch, NavLink } from 'react-router-dom';
+=======
+import { Route, Switch, Redirect } from 'react-router-dom';
+>>>>>>> A sign in modal and cleaned up main zooniverse header
 import App from 'grommet/components/App';
 import Box from 'grommet/components/Box';
-import { ZooniverseLogo, ZooFooter, AdminLayoutIndicator } from 'zooniverse-react-components';
-import AboutLayout from './about';
+import { ZooFooter, AdminLayoutIndicator } from 'zooniverse-react-components';
 import ZooHeader from './layout/ZooHeader';
 import HomeContainer from '../containers/common/HomeContainer';
 import AdminContainer from '../containers/layout/AdminContainer';
@@ -15,15 +18,6 @@ import ProgramHomeContainer from '../containers/common/ProgramHomeContainer';
 import JoinPageContainer from '../containers/common/JoinPageContainer';
 
 const Main = ({ admin, location }) => {
-  const mainHeaderNavList = [
-    <NavLink className="site-header__link--small" to="/about">About</NavLink>
-  ];
-
-  const logoHomeLink =
-    (<NavLink className="site-header__link" to='/'>
-      <ZooniverseLogo height="1.25em" width="1.25em" />
-    </NavLink>);
-
   const redirect = localStorage.getItem('redirectPathname') && localStorage.getItem('redirectSearch');
   const pathname = localStorage.getItem('redirectPathname');
   const search = localStorage.getItem('redirectSearch');
@@ -39,11 +33,10 @@ const Main = ({ admin, location }) => {
       {admin &&
         <AdminLayoutIndicator />}
       <Box>
-        <ZooHeader mainHeaderNavList={mainHeaderNavList} authContainer={<AuthContainer />} logoHomeLink={logoHomeLink} />
+        <ZooHeader authContainer={<AuthContainer />} />
         <AppNotification />
         <Switch>
           <Route exact path="/" component={HomeContainer} />
-          <Route path="/about" component={AboutLayout} />
           <Route path="/:program" component={ProgramHomeContainer} />
           <Route path="/:program/students/classrooms/:classroomId/join" component={JoinPageContainer} />
         </Switch>

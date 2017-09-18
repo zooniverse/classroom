@@ -3,7 +3,6 @@
 
   .grommetux-button
     @extends .site-header__link--small
-    // font-size: 1em
 
     &__label
       line-height: 2em
@@ -19,9 +18,13 @@
 
 
 .grommetux-menu__drop // this is not fantastic
+  .grommetux-button
+    &:hover, &:focus
+      border-bottom-color: transparent
+
   .grommetux-menu__control
     background-color: black
-    padding-bottom: 0.8em
+    padding-bottom: 9px
 
   .grommetux-menu__contents
     background-color: TEAL_MID

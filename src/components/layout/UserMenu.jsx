@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Anchor from 'grommet/components/Anchor';
 import Menu from 'grommet/components/Menu';
+import LogoutButton from '../../components/layout/LogoutButton';
 
 const UserMenu = (props) => {
   const createKeyedAnchorItem = (navItem, i) => {
@@ -8,7 +10,7 @@ const UserMenu = (props) => {
   };
 
   return (
-    <Menu className="user-menu" label={props.user.display_name}>
+    <Menu className="user-menu" label={props.user.display_name} dropAlign={{ right: 'right', top: 'top' }}>
       {props.userMenuNavItems.map((navItem, i) => {
         return createKeyedAnchorItem(navItem, i);
       })}

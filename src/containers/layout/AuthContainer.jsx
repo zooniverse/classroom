@@ -5,9 +5,10 @@ import { Actions } from 'jumpstate';
 import Anchor from 'grommet/components/Anchor';
 import LoginButton from '../../components/layout/LoginButton';
 import LogoutButton from '../../components/layout/LogoutButton';
-import RegisterButton from '../../components/layout/RegisterButton';
-import RegistrationFormContainer from './RegistrationFormContainer';
+import OauthModal from '../../components/layout/OauthModal';
 import UserMenu from '../../components/layout/UserMenu';
+import UserNavigation from '../../components/layout/UserNavigation';
+import { env } from '../../lib/config';
 
 export class AuthContainer extends React.Component {
   constructor(props) {
@@ -16,10 +17,12 @@ export class AuthContainer extends React.Component {
     if (!props.initialised) {
       Actions.checkLoginUser();
     }
+
+    this.loginWithGoogle = this.loginWithGoogle.bind(this);
   }
 
-  toggleRegistrationForm() {
-    Actions.auth.toggleRegistrationForm();
+  toggleOauthModal() {
+    Actions.auth.toggleOauthModal();
   }
 
   login() {
@@ -30,13 +33,22 @@ export class AuthContainer extends React.Component {
     Actions.logoutFromPanoptes();
   }
 
+  loginWithGoogle() {
+    let googleUrl = 'https://panoptes.zooniverse.org/users/auth/google_oauth2';
+
+    if (env === 'development') {
+      googleUrl = 'https://panoptes-staging.zooniverse.org/users/auth/google_oauth2';
+    }
+
+    window.location.href = googleUrl;
+  }
+
   render() {
     let userMenuNavItems;
     if (this.props.user && this.props.initialised) {
       const login = this.props.user.login;
       userMenuNavItems = [
         <Anchor href={`https://www.zooniverse.org/users/${login}`}>Profile</Anchor>,
-        <Anchor path="/">Home</Anchor>,
         <Anchor href="https://www.zooniverse.org/settings">Settings</Anchor>,
         <Anchor href={`https://www.zooniverse.org/collections/${login}`}>Collections</Anchor>,
         <Anchor href={`https://www.zooniverse.org/favorites/${login}`}>Favorites</Anchor>,
@@ -46,11 +58,13 @@ export class AuthContainer extends React.Component {
 
 
     return (this.props.user && this.props.initialised)
-      ? <UserMenu user={this.props.user} userMenuNavItems={userMenuNavItems} />
+      ? <div>
+          <UserNavigation />
+          <UserMenu user={this.props.user} userMenuNavItems={userMenuNavItems} />
+        </div>
       : <div>
-          <LoginButton login={this.login} />
-          <RegisterButton toggleForm={this.toggleRegistrationForm} />
-          {this.props.openRegistrationForm && <RegistrationFormContainer />}
+          <LoginButton toggleForm={this.toggleOauthModal} />
+          <OauthModal login={this.login} loginWithGoogle={this.loginWithGoogle} onClose={this.toggleOauthModal} showOauthModal={this.props.showOauthModal} />
         </div>;
   }
 }
@@ -58,19 +72,19 @@ export class AuthContainer extends React.Component {
 AuthContainer.propTypes = {
   user: PropTypes.shape({ login: PropTypes.string }),
   initialised: PropTypes.bool,
-  openRegistrationForm: PropTypes.bool
+  showOauthModal: PropTypes.bool
 };
 
 AuthContainer.defaultProps = {
   user: null,
   initialised: false,
-  openRegistrationForm: false
+  showOauthModal: false
 };
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
   initialised: state.auth.initialised,
-  openRegistrationForm: state.auth.openRegistrationForm
+  showOauthModal: state.auth.showOauthModal
 });
 
 export default connect(mapStateToProps)(AuthContainer);  // Connects the Component to the Redux Store

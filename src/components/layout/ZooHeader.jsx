@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Header from 'grommet/components/Header';
+import Anchor from 'grommet/components/Anchor';
 import Menu from 'grommet/components/Menu';
 import { ZooniverseLogo } from 'zooniverse-react-components';
 
@@ -12,7 +13,7 @@ const ZooHeader = (props) => {
           props.logoHomeLink}
         <ul className="site-header__nav-list">
           {props.mainHeaderNavList.map((navItem, i) =>
-            <li key={`navItem-${i}`} className="site-header__nav-list-item">{navItem}</li>)}
+            <li key={`navItem-${i}`} className="site-header__nav-list-item" style={{ display: 'inline-block' }}>{navItem}</li>)}
         </ul>
       </Menu>
       {props.authContainer &&
@@ -23,8 +24,14 @@ const ZooHeader = (props) => {
 
 ZooHeader.defaultProps = {
   authContainer: null,
-  logoHomeLink: <ZooniverseLogo height="1.25em" width="1.25em" />,
-  mainHeaderNavList: null
+  logoHomeLink: <Anchor className="site-header__link" href="http://www.zooniverse.org"><ZooniverseLogo height="1.25em" width="1.25em" /></Anchor>,
+  mainHeaderNavList: [
+    <Anchor className="site-header__link--small" href="http://www.zooniverse.org/projects" label="Projects" />,
+    <Anchor className="site-header__link--small" href="http://www.zooniverse.org/about" label="About" />,
+    <Anchor className="site-header__link--small" href="http://www.zooniverse.org/about" label="About" />,
+    <Anchor className="site-header__link--small" href="http://www.zooniverse.org/talk" label="Talk" />,
+    <Anchor className="site-header__link--small" href="http://www.zooniverse.org/lab" label="Build A Project" />
+  ]
 };
 
 ZooHeader.propTypes = {

@@ -17,8 +17,8 @@ const computeRedirectURL = (window) => {
 };
 
 // Synchronous Actions
-const toggleRegistrationForm = (state) => {
-  return { ...state, openRegistrationForm: !state.openRegistrationForm };
+const toggleOauthModal = (state) => {
+  return { ...state, showOauthModal: !state.showOauthModal };
 };
 
 const setLoginUser = (state, user) => {
@@ -72,7 +72,7 @@ const auth = State('auth', {
     admin: false,
     error: null,
     initialised: false,
-    openRegistrationForm: false,
+    showOauthModal: false,
     status: AUTH_STATUS.IDLE,
     user: null
   },
@@ -81,7 +81,7 @@ const auth = State('auth', {
   setError,
   setLoginUser,
   setStatus,
-  toggleRegistrationForm
+  toggleOauthModal
 });
 
 export default auth;
