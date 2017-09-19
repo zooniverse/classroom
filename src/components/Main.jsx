@@ -17,24 +17,21 @@ import {
   removeLocation,
   isRedirectStored,
   getRedirectPathname,
-  getRedirectSearch,
-  redirectErrorHandler
+  getRedirectSearch
 } from '../lib/redirect-manager';
 
 const Main = ({ admin, location }) => {
   const redirect = isRedirectStored();
   const pathname = getRedirectPathname();
   const search = getRedirectSearch();
-
   if (redirect && location.pathname !== pathname) {
-    Promise.resolve(() => {
-      if (search) {
-        return (<Redirect to={{ pathname, search }} />);
-      }
+    removeLocation();
 
-      return (<Redirect to={{ pathname }} />);
-    }).then(removeLocation())
-    .catch((error) => { redirectErrorHandler(error); });
+    if (search) {
+      return (<Redirect to={{ pathname, search }} />);
+    }
+
+    return (<Redirect to={{ pathname }} />);
   }
 
   return (
@@ -42,7 +39,7 @@ const Main = ({ admin, location }) => {
       {admin &&
         <AdminLayoutIndicator />}
       <Box>
-        <ZooHeader authContainer={<AuthContainer />} />
+        <ZooHeader authContainer={<AuthContainer location={location} />} />
         <AppHeader location={location} />
         <AppNotification />
         <Switch>

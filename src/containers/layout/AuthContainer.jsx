@@ -18,6 +18,8 @@ export class AuthContainer extends React.Component {
     if (!props.initialised) {
       Actions.checkLoginUser();
     }
+
+    this.login = this.login.bind(this);
   }
 
   toggleOauthModal() {
@@ -25,9 +27,12 @@ export class AuthContainer extends React.Component {
   }
 
   login() {
-    Promise.resolve(storeLocation(location.pathname, location.search))
-      .then(Actions.loginToPanoptes())
-      .catch((error) => { redirectErrorHandler(error); });
+    new Promise((resolve, reject) => {
+      const location = this.props.location;
+      if (location.pathname !== '/') resolve(storeLocation(location.pathname, location.search));
+    }).then(
+      Actions.loginToPanoptes()
+    ).catch((error) => { redirectErrorHandler(error); });
   }
 
   logout() {
