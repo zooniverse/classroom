@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-<<<<<<< a375ad121e7e785ab243602f9f097a42ec4eadf7
-import { Route, Switch, NavLink } from 'react-router-dom';
-=======
 import { Route, Switch, Redirect } from 'react-router-dom';
->>>>>>> A sign in modal and cleaned up main zooniverse header
 import App from 'grommet/components/App';
 import Box from 'grommet/components/Box';
 import { ZooFooter, AdminLayoutIndicator } from 'zooniverse-react-components';
