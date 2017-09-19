@@ -16,16 +16,29 @@ import AuthContainer from '../containers/layout/AuthContainer';
 import AppNotification from '../containers/layout/AppNotification';
 import ProgramHomeContainer from '../containers/common/ProgramHomeContainer';
 import JoinPageContainer from '../containers/common/JoinPageContainer';
+import AppHeader from './layout/AppHeader';
+import {
+  removeLocation,
+  isRedirectStored,
+  getRedirectPathname,
+  getRedirectSearch,
+  redirectErrorHandler
+} from '../lib/redirect-manager';
 
 const Main = ({ admin, location }) => {
-  const redirect = localStorage.getItem('redirectPathname') && localStorage.getItem('redirectSearch');
-  const pathname = localStorage.getItem('redirectPathname');
-  const search = localStorage.getItem('redirectSearch');
+  const redirect = isRedirectStored();
+  const pathname = getRedirectPathname();
+  const search = getRedirectSearch();
 
   if (redirect && location.pathname !== pathname) {
-    return (
-      <Redirect to={{ pathname, search }} />
-    );
+    Promise.resolve(() => {
+      if (search) {
+        return (<Redirect to={{ pathname, search }} />);
+      }
+
+      return (<Redirect to={{ pathname }} />);
+    }).then(removeLocation())
+    .catch((error) => { redirectErrorHandler(error); });
   }
 
   return (
@@ -34,6 +47,7 @@ const Main = ({ admin, location }) => {
         <AdminLayoutIndicator />}
       <Box>
         <ZooHeader authContainer={<AuthContainer />} />
+        <AppHeader location={location} />
         <AppNotification />
         <Switch>
           <Route exact path="/" component={HomeContainer} />

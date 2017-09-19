@@ -40,7 +40,7 @@ const JoinPage = (props) => {
         className="join-page"
       >
         <Paragraph size="large">You need to sign in to join a classroom.</Paragraph>
-        <LoginButton className="join-page__login-button" login={Actions.loginToPanoptes} plain={false} />
+        <LoginButton className="join-page__login-button" toggleForm={Actions.auth.toggleOauthModal} plain={false} />
       </Box>
     );
   }

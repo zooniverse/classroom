@@ -16,6 +16,13 @@ const computeRedirectURL = (window) => {
     `${location.protocol}//${location.hostname}:${location.port}`;
 };
 
+function handleError(error) {
+  Actions.auth.setStatus(AUTH_STATUS.ERROR);
+  Actions.auth.setError(error);
+  Actions.notification.setNotification({ status: 'critical' , message: 'Something went wrong.' });
+  console.error(error);
+}
+
 // Synchronous Actions
 const toggleOauthModal = (state) => {
   return { ...state, showOauthModal: !state.showOauthModal };
@@ -46,15 +53,16 @@ Effect('checkLoginUser', () => {
       Actions.auth.setLoginUser(user);
       Actions.auth.setStatus(AUTH_STATUS.SUCCESS);
     }).catch((error) => {
-      Actions.auth.setStatus(AUTH_STATUS.ERROR);
-      Actions.auth.setError(error);
-      console.error(error);
+      handleError(error);
     });
 });
 
 Effect('loginToPanoptes', () => {
   // Returns a login page URL for the user to navigate to.
-  oauth.signIn(computeRedirectURL(window));
+  oauth.signIn(computeRedirectURL(window))
+    .catch((error) => {
+      handleError(error);
+    });
 });
 
 Effect('logoutFromPanoptes', () => {
@@ -63,6 +71,8 @@ Effect('logoutFromPanoptes', () => {
     .then((user) => {
       Actions.auth.setLoginUser(user);
       Actions.auth.setStatus(AUTH_STATUS.SUCCESS);
+    }).catch((error) => {
+      handleError(error);
     });
 });
 

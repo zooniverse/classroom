@@ -12,16 +12,6 @@ import {
   CLASSROOMS_STATUS
 } from '../../ducks/classrooms';
 
-function storeLocation(pathname, search) {
-  localStorage.setItem('redirectPathname', pathname);
-  localStorage.setItem('redirectSearch', search);
-}
-
-function removeLocation() {
-  localStorage.removeItem('redirectPathname');
-  localStorage.removeItem('redirectSearch');
-}
-
 export class JoinPageContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -34,10 +24,6 @@ export class JoinPageContainer extends React.Component {
     // I2A doesn't have a student interface here.
     Actions.getProgram({ programs: this.props.programs, param: this.props.match.params.program })
       .then(() => {
-        if (this.props.initialised && !this.props.user) {
-          storeLocation(this.props.location.pathname, this.props.location.search);
-        }
-
         if (this.props.initialised && this.props.user) {
           this.joinClassroom();
         }
@@ -45,12 +31,6 @@ export class JoinPageContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.initialised && !nextProps.user) {
-      if (!localStorage.getItem('classroomJoinRedirect')) {
-        storeLocation(nextProps.location.pathname, nextProps.location.search);
-      }
-    }
-
     if (nextProps.selectedProgram &&
         nextProps.classroomsStatus === CLASSROOMS_STATUS.IDLE &&
         nextProps.initialised &&
@@ -64,10 +44,7 @@ export class JoinPageContainer extends React.Component {
     const classroomId = this.props.match.params.classroomId;
     const joinToken = queryString.parse(this.props.location.search);
 
-    Actions.joinClassroom({ classroomId, joinToken: joinToken.token })
-      .then(() => {
-        removeLocation();
-      });
+    Actions.joinClassroom({ classroomId, joinToken: joinToken.token });
   }
 
   render() {

@@ -9,6 +9,7 @@ import OauthModal from '../../components/layout/OauthModal';
 import UserMenu from '../../components/layout/UserMenu';
 import UserNavigation from '../../components/layout/UserNavigation';
 import { env } from '../../lib/config';
+import { storeLocation, redirectErrorHandler } from '../../lib/redirect-manager';
 
 export class AuthContainer extends React.Component {
   constructor(props) {
@@ -17,8 +18,6 @@ export class AuthContainer extends React.Component {
     if (!props.initialised) {
       Actions.checkLoginUser();
     }
-
-    this.loginWithGoogle = this.loginWithGoogle.bind(this);
   }
 
   toggleOauthModal() {
@@ -26,7 +25,9 @@ export class AuthContainer extends React.Component {
   }
 
   login() {
-    Actions.loginToPanoptes();
+    Promise.resolve(storeLocation(location.pathname, location.search))
+      .then(Actions.loginToPanoptes())
+      .catch((error) => { redirectErrorHandler(error); });
   }
 
   logout() {
@@ -40,7 +41,9 @@ export class AuthContainer extends React.Component {
       googleUrl = 'https://panoptes-staging.zooniverse.org/users/auth/google_oauth2';
     }
 
-    window.location.href = googleUrl;
+    Promise.resolve(storeLocation(location.pathname, location.search))
+      .then(() => { window.location.href = googleUrl; })
+      .catch((error) => { redirectErrorHandler(error); });
   }
 
   render() {

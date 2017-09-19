@@ -55,8 +55,7 @@ const AstroHome = (props) => {
           </Section>
           {!signedIn &&
             <Section align="center">
-              <Button type="button" className="button" onClick={Actions.loginToPanoptes} label="Sign In" />
-              <Paragraph align="center">New to Zooniverse? Create Account</Paragraph>
+              <Button type="button" className="button" onClick={Actions.auth.toggleOauthModal} label="Sign In" />
             </Section>}
         </Box>
       </Hero>
