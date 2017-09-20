@@ -6,9 +6,6 @@ import ClassroomsManager from '../../components/classrooms/ClassroomsManager';
 import {
   CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
 } from '../../ducks/classrooms';
-import {
-  ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES
-} from '../../ducks/assignments';
 
 export class ClassroomsManagerContainer extends React.Component {
   constructor(props) {
@@ -30,10 +27,6 @@ export class ClassroomsManagerContainer extends React.Component {
 
   componentWillUnmount() {
     Actions.classrooms.setClassrooms(CLASSROOMS_INITIAL_STATE.classrooms);
-  }
-
-  selectClassroom(classroom) {
-    Actions.classrooms.selectClassroom(classroom);
   }
 
   maybeDeleteClassroom(id) {
@@ -59,8 +52,6 @@ export class ClassroomsManagerContainer extends React.Component {
   render() {
     return (
       <ClassroomsManager
-        assignments={this.props.assignments}
-        assignmentsStatus={this.props.assignmentsStatus}
         classrooms={this.props.classrooms}
         classroomInstructions={this.props.classroomInstructions}
         classroomsStatus={this.props.classroomsStatus}
@@ -69,8 +60,6 @@ export class ClassroomsManagerContainer extends React.Component {
         deleteClassroom={this.deleteClassroom}
         match={this.props.match}
         maybeDeleteClassroom={this.maybeDeleteClassroom}
-        selectClassroom={this.selectClassroom}
-        selectedProgram={this.props.selectedProgram}
         showConfirmationDialog={this.state.showConfirmationDialog}
         showForm={this.props.showForm}
       />
@@ -79,23 +68,18 @@ export class ClassroomsManagerContainer extends React.Component {
 }
 
 ClassroomsManagerContainer.propTypes = {
-  ...ASSIGNMENTS_PROPTYPES,
   ...CLASSROOMS_PROPTYPES
 };
 
 ClassroomsManagerContainer.defaultProps = {
-  ...ASSIGNMENTS_INITIAL_STATE,
   ...CLASSROOMS_INITIAL_STATE
 };
 
 const mapStateToProps = (state) => ({
-  assignments: state.assignments.assignments,
-  assignmentsStatus: state.assignments.status,
   classrooms: state.classrooms.classrooms,
   classroomsStatus: state.classrooms.status,
   programs: state.programs.programs,
   selectedClassroom: state.classrooms.selectedClassroom,
-  selectedProgram: state.programs.selectedProgram,
   showConfirmationDialog: state.classrooms.showConfirmationDialog,
   showForm: state.classrooms.showForm
 });
