@@ -75,7 +75,7 @@ const i2a = {
   }
 };
 
-const darian = {
+const darien = {
   staging: {
     id: '2',
     name: 'Wildcam Darien Lab',
@@ -103,7 +103,7 @@ const darian = {
 
 const programsArray = [
   i2a[env],
-  darian[env]
+  darien[env]
 ];
 
 // Constants

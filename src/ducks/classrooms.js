@@ -156,7 +156,6 @@ Effect('createClassroom', (data) => {
       if (response.ok &&
           response.body && response.body.data) {
         Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
-        console.log(response.body.data)
         return response.body.data;
       }
       throw 'ERROR (ducks/classrooms/createClassroom): Invalid response';
