@@ -28,7 +28,7 @@ ZooHeader.defaultProps = {
   mainHeaderNavList: [
     <Anchor className="site-header__link--small" href="http://www.zooniverse.org/projects" label="Projects" />,
     <Anchor className="site-header__link--small" href="http://www.zooniverse.org/about" label="About" />,
-    <Anchor className="site-header__link--small" href="http://www.zooniverse.org/about" label="About" />,
+    <Anchor className="site-header__link--small" href="http://www.zooniverse.org/get-involved" label="Get Involved" />,
     <Anchor className="site-header__link--small" href="http://www.zooniverse.org/talk" label="Talk" />,
     <Anchor className="site-header__link--small" href="http://www.zooniverse.org/lab" label="Build A Project" />
   ]
