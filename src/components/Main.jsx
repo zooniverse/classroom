@@ -11,7 +11,6 @@ import AdminContainer from '../containers/layout/AdminContainer';
 import AuthContainer from '../containers/layout/AuthContainer';
 import AppNotification from '../containers/layout/AppNotification';
 import ProgramHomeContainer from '../containers/common/ProgramHomeContainer';
-import JoinPageContainer from '../containers/common/JoinPageContainer';
 import AppHeader from './layout/AppHeader';
 import {
   removeLocation,
@@ -45,7 +44,6 @@ const Main = ({ admin, location }) => {
         <Switch>
           <Route exact path="/" component={HomeContainer} />
           <Route path="/:program" component={ProgramHomeContainer} />
-          <Route path="/:program/students/classrooms/:classroomId/join" component={JoinPageContainer} />
         </Switch>
         <ZooFooter adminContainer={<AdminContainer />} />
       </Box>
