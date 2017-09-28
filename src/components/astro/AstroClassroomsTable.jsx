@@ -12,6 +12,7 @@ import Button from 'grommet/components/Button';
 import Paragraph from 'grommet/components/Paragraph';
 import Spinning from 'grommet/components/icons/Spinning';
 
+import { config } from '../../lib/config';
 import {
   ASSIGNMENTS_STATUS, ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES
 } from '../../ducks/assignments';
@@ -20,6 +21,8 @@ import {
 } from '../../ducks/classrooms';
 
 const AstroClassroomsTable = (props) => {
+  // TODO: Replace classroom.zooniverse_user_group_id with actual serialized user group id when available
+  const assignmentsMetadata = (props.selectedProgram && props.selectedProgram.metadata) ? props.selectedProgram.metadata.assignments : '';
   return (
     <Table className="manager-table">
       <thead className="manager-table__headers">
@@ -65,12 +68,14 @@ const AstroClassroomsTable = (props) => {
                 </Box>
               </th>
             </TableRow>
-            {(props.assignments[classroom.id] &&
+            {((props.assignments[classroom.id] &&
               props.assignments[classroom.id].length === 0 &&
-              props.assignmentsStatus === ASSIGNMENTS_STATUS.FETCHING) &&
-              <TableRow className="manager-table__row-data">
-                <td colSpan="4"><Spinning /></td>
-              </TableRow>}
+              props.assignmentsStatus === ASSIGNMENTS_STATUS.FETCHING) ||
+              (Object.keys(props.assignments).length === 0 &&
+              props.assignmentsStatus === ASSIGNMENTS_STATUS.FETCHING)) &&
+                <TableRow className="manager-table__row-data">
+                  <td colSpan="4"><Spinning /></td>
+                </TableRow>}
             {(props.assignments[classroom.id] &&
               props.assignments[classroom.id].length === 0 &&
               props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS) &&
@@ -79,6 +84,10 @@ const AstroClassroomsTable = (props) => {
               </TableRow>}
             {(props.assignments[classroom.id] && props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS) &&
               props.assignments[classroom.id].map((assignment) => {
+                const projectUrl = (assignmentsMetadata && assignmentsMetadata[assignment.workflowId]) ?
+                  `${config.zooniverse}/projects/${assignmentsMetadata[assignment.workflowId].slug}/classify?group=${classroom.zooniverse_user_group_id}` :
+                  null;
+
                 return (
                   <TableRow className="manager-table__row-data" key={assignment.id}>
                     <td headers="classroom assignments">{assignment.name}</td>
@@ -94,17 +103,20 @@ const AstroClassroomsTable = (props) => {
                         onClick={() => {}}
                       >
                         Export Data{' '}
-                        <i className="fa fa-arrow-down" aria-hidden="true"></i>
+                        <i className="fa fa-arrow-down" aria-hidden="true" />
                       </Button>
                     </td>
                     <td headers="classroom view-project">
-                      <Anchor
-                        className="manager-table__link"
-                        href="#"
-                      >
-                        Project Page{' '}
-                        <i className="fa fa-mail-forward" aria-hidden="true"></i>
-                      </Anchor>
+                      {projectUrl &&
+                        <Anchor
+                          className="manager-table__link"
+                          href={projectUrl}
+                        >
+                          Project Page{' '}
+                          <i className="fa fa-mail-forward" aria-hidden="true" />
+                        </Anchor>}
+                      {!projectUrl &&
+                        <span>Unavailable</span>}
                     </td>
                   </TableRow>
                 );

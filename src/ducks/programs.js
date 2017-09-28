@@ -1,3 +1,5 @@
+/* eslint quote-props: ["error", 0] */
+
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
 import { get, post, put, httpDelete } from '../lib/edu-api';
@@ -21,17 +23,17 @@ const i2a = {
         // back to a project without having to request that from Panoptes
         // to then build the URL to the project in the UI.
         // These are just test projects on staging...
-        2218: {
+        "2218": {
           name: "Hubble's Law",
           classification_target: 10,
           slug: 'srallen086/intro2astro-hubble-testing'
         },
-        3037: {
+        "3037": {
           name: 'Galaxy Zoo 101',
           classification_target: 22,
           slug: 'srallen086/galaxy-zoo-in-astronomy-101'
         },
-        3038: {
+        "3038": {
           name: 'Introduction',
           classification_target: 1,
           slug: 'srallen086/introduction-to-platform'
@@ -55,17 +57,17 @@ const i2a = {
         // back to a project without having to request that from Panoptes
         // to then build the URL to the project in the UI.
         // TODO: replace the workflow ids here with the production ids
-        1315: {
+        "1315": {
           name: "Hubble's Law",
           classification_target: 10,
           slug: 'srallen086/intro2astro-hubble-testing'
         },
-        1771: {
+        "1771": {
           name: 'Galaxy Zoo 101',
           classification_target: 22,
           slug: 'srallen086/galaxy-zoo-in-astronomy-101'
         },
-        3038: {
+        "3038": {
           name: 'Introduction',
           classification_target: 1,
           slug: 'srallen086/introduction-to-platform'
@@ -105,6 +107,11 @@ const programsArray = [
   i2a[env],
   darien[env]
 ];
+
+export const programsMocks = {
+  i2a: i2a[env],
+  darien: darien[env]
+};
 
 // Constants
 const PROGRAMS_STATUS = {
@@ -196,7 +203,7 @@ Effect('getProgram', (data) => {
     }).catch(error => handleError(error));
 });
 
-// For a UI managed by Admins eventually
+// For a UI managed by Admins eventually. Untested...
 Effect('createProgram', (data) => {
   Actions.programs.setStatus(PROGRAMS_STATUS.CREATING);
 
