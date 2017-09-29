@@ -6,7 +6,7 @@ import Paragraph from 'grommet/components/Paragraph';
 import Headline from 'grommet/components/Headline';
 import Status from 'grommet/components/icons/Status';
 
-import LoginButton from '../layout/LoginButton';
+import { LoginButton } from 'zooniverse-react-components';
 
 import {
   PROGRAMS_STATUS

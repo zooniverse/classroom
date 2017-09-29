@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
+import { LoginButton, LogoutButton, OauthModal, UserMenu, UserNavigation } from 'zooniverse-react-components';
 import Anchor from 'grommet/components/Anchor';
-import LoginButton from '../../components/layout/LoginButton';
-import LogoutButton from '../../components/layout/LogoutButton';
-import OauthModal from '../../components/layout/OauthModal';
-import UserMenu from '../../components/layout/UserMenu';
-import UserNavigation from '../../components/layout/UserNavigation';
+
 import { env } from '../../lib/config';
 import { storeLocation, redirectErrorHandler } from '../../lib/redirect-manager';
 
@@ -52,10 +49,10 @@ export class AuthContainer extends React.Component {
   }
 
   render() {
-    let userMenuNavItems;
+    let userMenuNavList;
     if (this.props.user && this.props.initialised) {
       const login = this.props.user.login;
-      userMenuNavItems = [
+      userMenuNavList = [
         <Anchor href={`https://www.zooniverse.org/users/${login}`}>Profile</Anchor>,
         <Anchor href="https://www.zooniverse.org/settings">Settings</Anchor>,
         <Anchor href={`https://www.zooniverse.org/collections/${login}`}>Collections</Anchor>,
@@ -68,10 +65,10 @@ export class AuthContainer extends React.Component {
     return (this.props.user && this.props.initialised)
       ? <div>
           <UserNavigation />
-          <UserMenu user={this.props.user} userMenuNavItems={userMenuNavItems} />
+          <UserMenu user={this.props.user} userMenuNavList={userMenuNavList} />
         </div>
       : <div>
-          <LoginButton toggleForm={this.toggleOauthModal} />
+          <LoginButton toggleModal={this.toggleOauthModal} />
           <OauthModal login={this.login} loginWithGoogle={this.loginWithGoogle} onClose={this.toggleOauthModal} showOauthModal={this.props.showOauthModal} />
         </div>;
   }
