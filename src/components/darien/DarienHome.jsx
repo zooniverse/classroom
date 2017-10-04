@@ -27,17 +27,17 @@ class DarienHome extends React.Component {
     const name = (selectedProgramExists && this.props.selectedProgram.name) ? this.props.selectedProgram.name : '';
 
     return (
-      <ProgramHome>
+      <ProgramHome className="darien-home">
         <Hero
-          className="home__hero"
+          className="program-home__hero"
           background={<Image src="https://placeimg.com/1000/1000/nature/any" fit="cover" />}
           backgroundColorIndex="dark"
           size="medium"
         >
-          <Box align="center"><Heading className="home__header">{name}</Heading></Box>
+          <Box align="center"><Heading className="program-home__header">{name}</Heading></Box>
         </Hero>
         <Section
-          className="home__section"
+          className="program-home__section"
           align="center"
           colorIndex="accent-3"
           direction="column"

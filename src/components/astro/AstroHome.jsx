@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import { ZooniverseLogotype } from 'zooniverse-react-components';
-import Article from 'grommet/components/Article';
 import Section from 'grommet/components/Section';
 import Box from 'grommet/components/Box';
 import Hero from 'grommet/components/Hero';
@@ -11,7 +10,6 @@ import Image from 'grommet/components/Image';
 import Heading from 'grommet/components/Heading';
 import Button from 'grommet/components/Button';
 import Paragraph from 'grommet/components/Paragraph';
-import Anchor from 'grommet/components/Anchor';
 
 import ProgramHome from '../common/ProgramHome';
 import NeedHelp from '../common/NeedHelp';
@@ -30,12 +28,12 @@ const AstroHome = (props) => {
       null;
 
   const name = (selectedProgramExists && props.selectedProgram.name) ? props.selectedProgram.name : '';
-  const description = (selectedProgramExists && props.selectedProgram.description) ? props.selectedProgram.description : '';
+  const classroomInstructions = 'Before your term begins, students will set up a Zooniverse account and you will create a classroom to share the classroom\'s unique URLs for students to join and to keep track of their progress as they work through each assignment. It is recommended to remind students that they must be logged in to their Zooniverse accounts to be able to use the link.';
 
   return (
-    <ProgramHome>
+    <ProgramHome className="astro-home">
       <Hero
-        className="home__hero"
+        className="program-home__hero"
         background={backgroundImage}
         backgroundColorIndex="dark"
         size={signedIn ? 'medium' : 'large'}
@@ -45,11 +43,11 @@ const AstroHome = (props) => {
           <Section align="center">
             <Box align="center" direction={signedIn ? 'row' : 'column'} size="xxlarge">
               <span className="hero__big-circle"><span className="hero__small-circle" /></span>
-              <Heading align="center" tag="h1" className="home__header">{name}</Heading>
+              <Heading align="center" tag="h1" className="program-home__header">{name}</Heading>
             </Box>
             <Box align={signedIn ? 'start' : 'center'} textAlign={signedIn ? 'left' : 'center'} size="xlarge">
-              <Paragraph className="home__description" margin="small">
-                {description}
+              <Paragraph className="program-home__description" margin="small">
+                Tools and curricula for introductory astronomy students to learn common astronomy concepts as well as view, analyze, manipulate and visualize Galaxy Zoo data.
               </Paragraph>
             </Box>
           </Section>
@@ -61,7 +59,7 @@ const AstroHome = (props) => {
       </Hero>
       {signedIn &&
         <Section
-          className="home__section"
+          className="program-home__section"
           align="center"
           colorIndex="accent-3"
           direction="column"
@@ -69,15 +67,15 @@ const AstroHome = (props) => {
           pad={{ vertical: 'none', horizontal: 'none' }}
           justify="center"
         >
-          <Box align="center" direction="row" justify="center">
-            <Button href="#" type="button" label="Google Drive" />
+          <Box className="astro-home__guide" align="center" direction="row" size="xxlarge">
+            <Button href="https://drive.google.com/open?id=0Bww9uOqqZbR_aEhCYkRoRU1GUXc" type="button" label="Instructors Guide" target="_blank" rel="noopener noreferrer" />
             <Paragraph align="start">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                Instructors Guide: This provides you with a suggested timeline, lesson plans and student instructions for the class activities that will  guide the students in how to use the tools and the research project where students demonstrate the skills they have learned.
             </Paragraph>
           </Box>
-          <ClassroomsLayout match={props.match} />
+          <ClassroomsLayout match={props.match} classroomInstructions={classroomInstructions} />
         </Section>}
-        <NeedHelp />
+      <NeedHelp />
     </ProgramHome>
   );
 };
@@ -85,13 +83,13 @@ const AstroHome = (props) => {
 AstroHome.propTypes = {
   ...PROGRAMS_PROPTYPES,
   initialised: PropTypes.bool,
-  user: PropTypes.shape({ login: PropTypes.string }),
+  user: PropTypes.shape({ login: PropTypes.string })
 };
 
 AstroHome.defaultProps = {
   ...PROGRAMS_INITIAL_STATE,
   initialised: false,
-  user: null,
+  user: null
 };
 
 function mapStateToProps(state) {

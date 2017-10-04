@@ -23,8 +23,14 @@ export class ProgramHomeContainer extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedProgram && nextProps.selectedProgram.slug !== nextProps.match.url) {
+      Actions.getProgram({ programs: this.props.programs, param: this.props.match.params.program });
+    }
+  }
+
   componentWillUnmount() {
-    Actions.programs.selectProgram(PROGRAMS_INITIAL_STATE.program);
+    Actions.programs.selectProgram(PROGRAMS_INITIAL_STATE.selectedProgram);
   }
 
   render() {

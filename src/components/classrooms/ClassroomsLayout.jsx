@@ -12,7 +12,7 @@ import {
   CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
 } from '../../ducks/classrooms';
 
-const ClassroomsLayout = ({ match, toast }) => {
+const ClassroomsLayout = ({ classroomInstructions, match, toast }) => {
   return (
     <Box
       className="classrooms-layout"
@@ -29,7 +29,7 @@ const ClassroomsLayout = ({ match, toast }) => {
           {toast.message}
         </Toast>}
       <Switch>
-        <Route exact path={`${match.url}`} component={ClassroomsManagerContainer} />
+        <Route exact path={`${match.url}`} component={ClassroomsManagerContainer} classroomInstructions={classroomInstructions} />
         <Route path={`${match.url}/classrooms/:id`} component={ClassroomEditorContainer} />
         <Redirect from={`${match.url}/classrooms`} to={`${match.url}`} />
       </Switch>

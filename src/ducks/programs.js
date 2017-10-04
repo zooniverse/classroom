@@ -10,7 +10,7 @@ const i2a = {
   staging: {
     id: '1',
     name: 'Astro 101 with Galaxy Zoo',
-    description: 'Classroom tools for teaching Astronomy',
+    description: 'Materials and tools for engaging introductory astronomy students in real research with Galaxy Zoo.',
     slug: '/astro-101-with-galaxy-zoo',
     metadata: {
       autoCreateAssignments: true,
@@ -44,7 +44,7 @@ const i2a = {
   production: {
     id: '1',
     name: 'Astro 101 with Galaxy Zoo',
-    description: 'Classroom tools for teaching Astronomy',
+    description: 'Materials and tools for engaging introductory astronomy students in real research with Galaxy Zoo.',
     slug: '/astro-101-with-galaxy-zoo',
     metadata: {
       autoCreateAssignments: true,

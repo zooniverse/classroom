@@ -18,12 +18,10 @@ import ClassroomsTableContainer from '../../containers/classrooms/ClassroomsTabl
 
 const ClassroomsManager = (props) => {
   // TODO: Pagination for Classrooms
-  const classroomInstructions = 'First, make sure your students have set up a Zooniverse account. Then create a classroom and share the classroom\'s unique join URL with your students to keep track of their progress as they work through each assignment. Students must be logged in to their Zooniverse accounts first to be able to use the join link. Share the URL under View Project with your students for them to complete the assignment.';
-
   return (
     <Box className="classrooms-manager">
-      <Box align="center" direction="row" justify="between">
-        <Paragraph align="start" size="small">{classroomInstructions}</Paragraph>
+      <Box className="classrooms-manager__instructions" align="center" direction="row" justify="between" size="xxlarge">
+        <Paragraph align="start" size="small">{props.classroomInstructions}</Paragraph>
         <Button type="button" primary={true} label="Create New Classroom" onClick={props.toggleFormVisibility} />
       </Box>
       {props.showForm &&
@@ -47,7 +45,7 @@ const ClassroomsManager = (props) => {
 };
 
 ClassroomsManager.defaultProps = {
-  classroomInstructions: '',
+  classroomInstructions: 'First, make sure your students have set up a Zooniverse account. Then create a classroom and share the classroom\'s unique join URL with your students to keep track of their progress as they work through each assignment. Students must be logged in to their Zooniverse accounts first to be able to use the join link. Share the URL under View Project with your students for them to complete the assignment.',
   closeConfirmationDialog: () => {},
   deleteClassroom: () => {},
   maybeDeleteClassroom: () => {},

@@ -25,8 +25,9 @@
   "homepage": "https://github.com/zooniverse/edu-api-front-end",
   "dependencies": {
     "browser-filesaver": "1.1.1",
+    "classnames": "~2.2.5",
     "debounce": "~1.0.2",
-    "grommet": "~1.7.0",
+    "grommet": "~1.8.2",
     "jumpstate": "^2.2.2",
     "leaflet": "1.2.0",
     "panoptes-client": "~2.7.2",
