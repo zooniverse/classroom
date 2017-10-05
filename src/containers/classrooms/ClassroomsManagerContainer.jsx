@@ -52,10 +52,6 @@ export class ClassroomsManagerContainer extends React.Component {
     });
   }
 
-  getAssignmentExport(assignment) {
-    // Actions.getCaesarExport();
-  }
-
   render() {
     return (
       <ClassroomsManager
@@ -65,7 +61,6 @@ export class ClassroomsManagerContainer extends React.Component {
         classroomToDelete={this.state.classroomToDelete}
         closeConfirmationDialog={this.closeConfirmationDialog}
         deleteClassroom={this.deleteClassroom}
-        getAssignmentExport={this.getAssignmentExport}
         match={this.props.match}
         maybeDeleteClassroom={this.maybeDeleteClassroom}
         showConfirmationDialog={this.state.showConfirmationDialog}
