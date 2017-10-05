@@ -13,6 +13,33 @@ import {
 import { programsMocks } from '../../ducks/programs';
 
 class ClassroomsTableContainer extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      toExport: {
+        assignment: {},
+        classroom: {}
+      }
+    };
+
+    this.onExportModalClose = this.onExportModalClose.bind(this);
+    this.showExportModal = this.showExportModal.bind(this);
+  }
+
+  onExportModalClose() {
+    this.setState({ toExport: { assignment: {}, classroom: {} } });
+
+    Actions.caesarExports.showModal();
+  }
+
+  showExportModal(assignment, classroom) {
+    this.setState({ toExport: { assignment, classroom } });
+
+    Actions.caesarExports.showModal();
+    Actions.getCaesarExport({ assignment, classroom });
+  }
+
   selectClassroom(classroom) {
     Actions.classrooms.selectClassroom(classroom);
   }
@@ -21,13 +48,16 @@ class ClassroomsTableContainer extends React.Component {
     if (this.props.selectedProgram && this.props.selectedProgram.slug === programsMocks.i2a.slug) {
       return (
         <AstroClassroomsTable
+          assignmentToExport={this.state.toExport.assignment}
           assignments={this.props.assignments}
           assignmentsStatus={this.props.assignmentsStatus}
           classrooms={this.props.classrooms}
           match={this.props.match}
           maybeDeleteClassroom={this.props.maybeDeleteClassroom}
+          onExportModalClose={this.onExportModalClose}
           selectClassroom={this.selectClassroom}
           selectedProgram={this.props.selectedProgram}
+          showExportModal={this.showExportModal}
         />
       );
     }

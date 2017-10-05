@@ -1,9 +1,7 @@
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
-import superagent from 'superagent';
-import ql from 'superagent-graphql';
+
 import { get, post } from '../lib/edu-api';
-import { config } from '../lib/config';
 
 // Constants
 const ASSIGNMENTS_STATUS = {
@@ -84,24 +82,6 @@ Effect('createAssignment', (data) => {
     })
     .catch((error) => {
       handleError(error);
-    });
-});
-
-Effect('getCaesarExports', (id) => {
-  // const query = {
-
-  // };
-
-  Actions.assignments.setStatus(ASSIGNMENTS_STATUS.FETCHING_EXPORTS);
-
-  // GraphQL request
-  superagent.get(`${config.caesar}/workflows/${id}/data_requests`)
-    .then((response) => {
-      console.log('response', response)
-    }).catch((error) => {
-      Actions.assignments.setStatus(ASSIGNMENTS_STATUS.ERROR);
-      Actions.assignments.setError(error);
-      console.error(error);
     });
 });
 

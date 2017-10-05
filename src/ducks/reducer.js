@@ -5,6 +5,7 @@ import classrooms from './classrooms';
 import assignments from './assignments';
 import mapexplorer from './mapexplorer';
 import notification from './notification';
+import caesarExports from 'caesar-exports';
 
 export default combineReducers({
   auth,
@@ -12,5 +13,6 @@ export default combineReducers({
   programs,
   assignments,
   mapexplorer,
-  notification
+  notification,
+  caesarExports
 });
