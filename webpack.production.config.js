@@ -4,8 +4,9 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const StatsPlugin = require('stats-webpack-plugin');
-const nib = require('nib');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const nib = require('nib');
 
 module.exports = {
 
@@ -42,6 +43,9 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
+    new CopyWebpackPlugin([
+      { from: 'src/images', to: 'images' }
+    ]),
   ],
 
   resolve: {
