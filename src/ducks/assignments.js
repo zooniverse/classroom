@@ -7,7 +7,6 @@ import { get, post } from '../lib/edu-api';
 const ASSIGNMENTS_STATUS = {
   IDLE: 'idle',
   FETCHING: 'fetching',
-  FETCHING_EXPORTS: 'fetchingExports',
   SUCCESS: 'success',
   ERROR: 'error'
 };
