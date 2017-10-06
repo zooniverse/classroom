@@ -24,7 +24,6 @@ class ClassroomsTableContainer extends React.Component {
           assignments={this.props.assignments}
           assignmentsStatus={this.props.assignmentsStatus}
           classrooms={this.props.classrooms}
-          deleteClassroom={this.props.deleteClassroom}
           match={this.props.match}
           maybeDeleteClassroom={this.props.maybeDeleteClassroom}
           selectClassroom={this.selectClassroom}

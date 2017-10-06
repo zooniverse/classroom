@@ -40,12 +40,15 @@ export class ClassroomsManagerContainer extends React.Component {
   deleteClassroom() {
     if (this.state.classroomToDelete === null) return;
 
-    Actions.deleteClassroom(this.state.classroomToDelete).then(() => {
+    Actions.deleteClassroom(this.state.classroomToDelete).then((response) => {
       // TODO: For API optimization, do we want to instead manually remove the classroom
       // out of local app state instead of making another API call
       Actions.getClassroomsAndAssignments();
       this.closeConfirmationDialog();
-      Actions.classrooms.setToastState({ status: 'ok', message: 'Classroom deleted' });
+
+      if (response) {
+        Actions.classrooms.setToastState({ status: 'ok', message: 'Classroom deleted' });
+      }
     });
   }
 

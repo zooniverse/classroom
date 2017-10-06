@@ -94,10 +94,13 @@ export class ClassroomEditorContainer extends React.Component {
   removeStudentFromClassroom() {
     if (this.state.studentToDelete === null) return;
 
-    Actions.removeStudentFromClassroom(this.state.studentToDelete).then(() => {
+    Actions.removeStudentFromClassroom(this.state.studentToDelete).then((response) => {
       Actions.getClassroom(this.props.match.params.id);
       this.closeConfirmationDialog();
-      Actions.classrooms.setToastState({ status: 'ok', message: 'Student removed' });
+
+      if (response) {
+        Actions.classrooms.setToastState({ status: 'ok', message: 'Student removed' });
+      }
     });
   }
 

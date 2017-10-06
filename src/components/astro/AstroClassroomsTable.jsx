@@ -131,7 +131,6 @@ const AstroClassroomsTable = (props) => {
 AstroClassroomsTable.defaultProps = {
   classroomInstructions: '',
   closeConfirmationDialog: () => {},
-  deleteClassroom: () => {},
   maybeDeleteClassroom: () => {},
   selectClassroom: () => {},
   ...CLASSROOMS_INITIAL_STATE,
@@ -141,7 +140,6 @@ AstroClassroomsTable.defaultProps = {
 AstroClassroomsTable.propTypes = {
   classroomInstructions: PropTypes.string,
   closeConfirmationDialog: PropTypes.func,
-  deleteClassroom: PropTypes.func,
   maybeDeleteClassroom: PropTypes.func,
   selectClassroom: PropTypes.func,
   ...CLASSROOMS_PROPTYPES,

@@ -24,6 +24,14 @@ const ClassroomsManager = (props) => {
         <Paragraph align="start" size="small">{props.classroomInstructions}</Paragraph>
         <Button type="button" primary={true} label="Create New Classroom" onClick={props.toggleFormVisibility} />
       </Box>
+      <ConfirmationDialog
+        confirmationButtonLabel="Delete"
+        onConfirmation={props.deleteClassroom}
+        onClose={props.closeConfirmationDialog}
+        showConfirmationDialog={props.showConfirmationDialog}
+      >
+        <Paragraph size="small">Deleting a classroom will also delete the associated assignments.</Paragraph>
+      </ConfirmationDialog>
       {props.showForm &&
         <Layer closer={true} onClose={props.toggleFormVisibility}>
           <ClassroomFormContainer heading="Create Classroom" submitLabel="Create" />
@@ -36,7 +44,6 @@ const ClassroomsManager = (props) => {
         <Paragraph>Error: Classrooms could not be loaded.</Paragraph>}
       {(props.classrooms.length > 0 && props.classroomsStatus === CLASSROOMS_STATUS.SUCCESS) &&
         <ClassroomsTableContainer
-          deleteClassroom={props.deleteClassroom}
           maybeDeleteClassroom={props.maybeDeleteClassroom}
           match={props.match}
         />}
