@@ -11,6 +11,7 @@ import Paragraph from 'grommet/components/Paragraph';
 import Button from 'grommet/components/Button';
 import Layer from 'grommet/components/Layer';
 
+import SuperDownloadButton from '../common/SuperDownloadButton';
 import {
   CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES, CAESAR_EXPORTS_STATUS
 } from '../../ducks/caesar-exports';
@@ -18,6 +19,8 @@ import {
 
 const CaesarExportModal = ({ caesarExport, caesarExportStatus, onClose, showModal }) => {
   // TODO replace Date.now() with timestamp in export response
+  // TODO add url prop to SuperDownloadButton
+  // TODO add button to send to Google Sheets
   if (showModal) {
     return (
       <Layer className="caesar-export-modal" closer={true} onClose={onClose}>
@@ -45,6 +48,11 @@ const CaesarExportModal = ({ caesarExport, caesarExportStatus, onClose, showModa
               <Status value="critical" />{' '}
               Something went wrong
             </Paragraph>}
+          <SuperDownloadButton
+            className="caesar-export-modal__download-button"
+            text="Download CSV"
+            primary={true}
+          />
         </Box>
       </Layer>
     );

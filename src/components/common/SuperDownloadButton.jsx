@@ -48,10 +48,10 @@ class SuperDownloadButton extends React.Component {
   constructor(props) {
     super(props);
     this.download = this.download.bind(this);
-    
+
     this.altForm = null;
     this.altFormData = null;
-    
+
     this.state = {  //Keep the state simple and local; no need for Redux connections.
       status: STATUS.IDLE,
     };
@@ -63,6 +63,7 @@ class SuperDownloadButton extends React.Component {
         className={this.props.className}
         onClick={this.download}
         icon={(this.state.status === STATUS.FETCHING) ? <SpinningIcon size="small" /> : this.props.icon}
+        primary={this.props.primary}
       >
         <Label>{this.props.text}</Label>
         {(this.state.status !== STATUS.SUCCESS) ? null : <Toast status='ok'>{ZooTran('Success: file downloaded.')}</Toast> }
@@ -75,7 +76,7 @@ class SuperDownloadButton extends React.Component {
       </Button>
     );
   }
-  
+
   download() {
     this.setState({ status: STATUS.FETCHING });
     superagent.get(this.props.url)
@@ -87,15 +88,15 @@ class SuperDownloadButton extends React.Component {
       throw 'ERROR (SuperDownloadButton): invalid response';
     })
     .then(data => {
-      
+
       if (this.props.useZooniversalTranslator && this.props.contentType === 'text/csv') {
-        data = ZooTranCSV(data); 
+        data = ZooTranCSV(data);
       }
-      
+
       const enableSafariWorkaround =
         !(/Chrome/i.test(navigator.userAgent)) &&
         /Safari/i.test(navigator.userAgent);
-      
+
       if (enableSafariWorkaround) {
         console.log('Downloading: Safari Workaround');
         this.altFormData.value = data;
@@ -103,7 +104,7 @@ class SuperDownloadButton extends React.Component {
       } else {
         saveAs(blobbifyData(data, this.props.contentType), this.props.filename);
       }
-      
+
       this.setState({ status: STATUS.SUCCESS });
     })
     .catch(err => {
@@ -121,8 +122,9 @@ SuperDownloadButton.propTypes = {
   filename: PropTypes.string,
   contentType: PropTypes.string,
   useZooniversalTranslator: PropTypes.bool,
+  primary: PropTypes.bool
 };
-SuperDownloadButton.defaultProps = { 
+SuperDownloadButton.defaultProps = {
   url: '',
   className: '',
   text: ZooTran('Download'),
@@ -130,5 +132,6 @@ SuperDownloadButton.defaultProps = {
   filename: generateFilename(),
   contentType: 'text/csv',
   useZooniversalTranslator: true,
+  primary: false
 };
 export default SuperDownloadButton;

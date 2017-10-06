@@ -7,6 +7,7 @@ import { config } from '../lib/config';
 
 // Constants
 const CAESAR_EXPORTS_STATUS = {
+  DOWNLOADING: 'downloading',
   IDLE: 'idle',
   FETCHING: 'fetching',
   SUCCESS: 'success',
