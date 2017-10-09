@@ -10,10 +10,10 @@ const i2a = {
   staging: {
     id: '1',
     name: 'Astro 101 with Galaxy Zoo',
+    custom: false,
     description: 'Materials and tools for engaging introductory astronomy students in real research with Galaxy Zoo.',
-    slug: '/astro-101-with-galaxy-zoo',
+    slug: 'astro-101-with-galaxy-zoo',
     metadata: {
-      autoCreateAssignments: true,
       backgroundImage: 'astro-background.jpg',
       cardImage: 'home-card-intro-to-astro.jpg',
       redirectOnJoin: false,
@@ -44,10 +44,10 @@ const i2a = {
   production: {
     id: '1',
     name: 'Astro 101 with Galaxy Zoo',
+    custom: false,
     description: 'Materials and tools for engaging introductory astronomy students in real research with Galaxy Zoo.',
-    slug: '/astro-101-with-galaxy-zoo',
+    slug: 'astro-101-with-galaxy-zoo',
     metadata: {
-      autoCreateAssignments: true,
       backgroundImage: 'astro-background.jpg',
       cardImage: 'home-card-intro-to-astro.jpg',
       redirectOnJoin: false,
@@ -81,8 +81,9 @@ const darien = {
   staging: {
     id: '2',
     name: 'Wildcam Darien Lab',
+    custom: true,
     description: 'A map for exploring camera trap data from the WildCam Darien project.',
-    slug: '/wildcam-darien-lab',
+    slug: 'wildcam-darien-lab',
     metadata: {
       backgroundImage: '',
       cardImage: 'home-card-wildcam-darien.jpg',
@@ -92,8 +93,9 @@ const darien = {
   production: {
     id: '2',
     name: 'Wildcam Darien Lab',
+    custom: true,
     description: 'A map for exploring camera trap data from the WildCam Darien project.',
-    slug: '/wildcam-darien-lab',
+    slug: 'wildcam-darien-lab',
     metadata: {
       backgroundImage: '',
       cardImage: 'home-card-wildcam-darien.jpg',
@@ -127,7 +129,7 @@ const PROGRAMS_STATUS = {
 // Initial State and PropTypes - usable in React components.
 const PROGRAMS_INITIAL_STATE = {
   error: null,
-  programs: programsArray, // temporary
+  programs: [],
   selectedProgram: null,
   status: PROGRAMS_STATUS.IDLE
 };
@@ -193,7 +195,7 @@ Effect('getPrograms', () => {
 Effect('getProgram', (data) => {
   Actions.programs.setStatus(PROGRAMS_STATUS.FETCHING);
 
-  return Promise.resolve(data.programs.filter(program => program.slug === `/${data.param}`))
+  return Promise.resolve(data.programs.filter(program => program.slug === data.param))
     .then(([program]) => {
       Actions.programs.setStatus(PROGRAMS_STATUS.SUCCESS);
       Actions.programs.selectProgram(program);

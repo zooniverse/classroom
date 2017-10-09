@@ -31,7 +31,7 @@ import {
 
 const ClassroomEditor = (props) => {
   const joinURL = props.selectedClassroom ?
-    `${window.location.host}/#${props.selectedProgram.slug}/students/classrooms/${props.selectedClassroom.id}/join?token=${props.selectedClassroom.joinToken}` :
+    `${window.location.host}/#/${props.selectedProgram.slug}/students/classrooms/${props.selectedClassroom.id}/join?token=${props.selectedClassroom.joinToken}` :
     '';
 
   // Get students and assignments only for this classroom.

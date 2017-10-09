@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
 import Home from '../../components/common/Home';
+import { post } from '../../lib/edu-api';
 
 class HomeContainer extends React.Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class HomeContainer extends React.Component {
   }
 
   componentDidMount() {
-    // Actions.getPrograms();
+    Actions.getPrograms();
   }
 
   render() {
