@@ -90,7 +90,7 @@ const AstroClassroomsTable = (props) => {
                 props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS) &&
                 props.assignments[classroom.id].map((assignment) => {
                   const projectUrl = (assignmentsMetadata && assignmentsMetadata[assignment.workflowId]) ?
-                    `${config.zooniverse}/projects/${assignmentsMetadata[assignment.workflowId].slug}/classify?group=${classroom.zooniverse_user_group_id}` :
+                    `${config.zooniverse}/projects/${assignmentsMetadata[assignment.workflowId].slug}/classify?group=${classroom.attributes.zooniverse_group_id}` :
                     null;
 
                   return (
@@ -116,6 +116,8 @@ const AstroClassroomsTable = (props) => {
                           <Anchor
                             className="manager-table__link"
                             href={projectUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
                           >
                             Project Page{' '}
                             <i className="fa fa-mail-forward" aria-hidden="true" />

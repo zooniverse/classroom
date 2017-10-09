@@ -36,7 +36,7 @@ const CaesarExportModal = ({ caesarExport, caesarExportStatus, onClose, showModa
               Export available since{' '}
               <TimeStamp value={Date.now()} />
             </Paragraph>}
-          {!caesarExport &&
+          {caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport &&
             caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS &&
             <Paragraph>
               <Status value="warning" />{' '}
@@ -52,6 +52,7 @@ const CaesarExportModal = ({ caesarExport, caesarExportStatus, onClose, showModa
             className="caesar-export-modal__download-button"
             text="Download CSV"
             primary={true}
+            disabled={!caesarExport}
           />
         </Box>
       </Layer>
