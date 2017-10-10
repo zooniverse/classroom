@@ -176,19 +176,17 @@ const setError = (state, error) => {
 Effect('getPrograms', () => {
   Actions.programs.setStatus(PROGRAMS_STATUS.FETCHING);
 
-  return get('/programs/') // TODO replace with actual. Only guess at endpoint
+  return get('/programs')
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/programs/getPrograms): No response'; }
       if (response.ok &&
           response.body && response.body.data) {
+        Actions.programs.setStatus(PROGRAMS_STATUS.SUCCESS);
+        Actions.programs.setPrograms(response.body.data);
+
         return response.body.data;
       }
       throw 'ERROR (ducks/programs/getPrograms): Invalid response';
-    })
-    .then((data) => {
-      Actions.programs.setStatus(PROGRAMS_STATUS.SUCCESS);
-      Actions.programs.setPrograms(data);
-      return data;
     }).catch(error => handleError(error));
 });
 
