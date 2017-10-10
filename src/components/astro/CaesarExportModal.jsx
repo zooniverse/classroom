@@ -21,6 +21,9 @@ const CaesarExportModal = ({ caesarExport, caesarExportStatus, onClose, showModa
   // TODO replace Date.now() with timestamp in export response
   // TODO add url prop to SuperDownloadButton
   // TODO add button to send to Google Sheets
+  const noExport = caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport &&
+    caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS;
+
   if (showModal) {
     return (
       <Layer className="caesar-export-modal" closer={true} onClose={onClose}>
@@ -36,8 +39,7 @@ const CaesarExportModal = ({ caesarExport, caesarExportStatus, onClose, showModa
               Export available since{' '}
               <TimeStamp value={Date.now()} />
             </Paragraph>}
-          {caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport &&
-            caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS &&
+          {noExport &&
             <Paragraph>
               <Status value="warning" />{' '}
               No export available for this classroom and assignment.
@@ -52,7 +54,7 @@ const CaesarExportModal = ({ caesarExport, caesarExportStatus, onClose, showModa
             className="caesar-export-modal__download-button"
             text="Download CSV"
             primary={true}
-            disabled={!caesarExport}
+            disabled={noExport}
           />
         </Box>
       </Layer>
