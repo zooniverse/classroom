@@ -69,7 +69,7 @@ Effect('getAssignments', (classroomId) => {
 Effect('createAssignment', (data) => {
   Actions.classrooms.setStatus(ASSIGNMENTS_STATUS.CREATING);
 
-  return post('/assignments', data)
+  return post('/assignments', { data })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/assignments/createAssignment): No response'; }
       if (response.ok &&

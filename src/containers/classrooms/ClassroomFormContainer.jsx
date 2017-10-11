@@ -38,14 +38,12 @@ export class ClassroomFormContainer extends React.Component {
 
   createClassroom() {
     const classroomData = {
-      data: {
-        attributes: this.props.formFields,
-        relationships: {
-          program: {
-            data: {
-              id: this.props.selectedProgram.id,
-              type: 'programs'
-            }
+      attributes: this.props.formFields,
+      relationships: {
+        program: {
+          data: {
+            id: this.props.selectedProgram.id,
+            type: 'programs'
           }
         }
       }
@@ -53,11 +51,9 @@ export class ClassroomFormContainer extends React.Component {
 
     Actions.createClassroom(classroomData)
       .then((classroom) => {
-        if (this.props.selectedProgram.metadata.autoCreateAssignments) {
+        if (!this.props.selectedProgram.custom) {
           const assignments = this.props.selectedProgram.metadata.assignments;
           if (classroom) this.autoCreateAssignments(assignments, classroom);
-        } else {
-          Actions.getClassroomsAndAssignments();
         }
       })
   }
@@ -79,21 +75,18 @@ export class ClassroomFormContainer extends React.Component {
       // Might have to include assigning the student to the assignments for I2A classrooms
       // on the join classroom action.
       const assignmentData = {
-        data: {
-          program_id: this.props.selectedProgram.id,
-          workflow_id: workflowId,
-          attributes: {
-            name: assignments[workflowId].name,
-            metadata: {
-              classification_target: assignments[workflowId].classification_target
-            }
-          },
-          relationships: {
-            classroom: {
-              data: {
-                id: classroom.id,
-                type: 'classrooms'
-              }
+        workflow_id: workflowId,
+        attributes: {
+          name: assignments[workflowId].name,
+          metadata: {
+            classification_target: assignments[workflowId].classification_target
+          }
+        },
+        relationships: {
+          classroom: {
+            data: {
+              id: classroom.id,
+              type: 'classrooms'
             }
           }
         }
@@ -101,11 +94,9 @@ export class ClassroomFormContainer extends React.Component {
 
       Actions.createAssignment(assignmentData);
     })).then(() => {
-      // For API optimization, we could merge the returned classroom into the local app state
-      // Then only call for the linked assignments for that one classroom
       Actions.classrooms.toggleFormVisibility();
       Actions.getClassroomsAndAssignments();
-    });
+    })
   }
 
   render() {
