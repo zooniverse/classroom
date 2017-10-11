@@ -150,7 +150,7 @@ Effect('getClassroomsAndAssignments', () => {
 Effect('createClassroom', (data) => {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.CREATING);
 
-  return post('/teachers/classrooms/', { data: { attributes: data } })
+  return post('/teachers/classrooms/', { data })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/createClassroom): No response'; }
       if (response.ok &&
