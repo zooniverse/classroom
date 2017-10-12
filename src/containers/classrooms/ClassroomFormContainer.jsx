@@ -75,12 +75,12 @@ export class ClassroomFormContainer extends React.Component {
       // Might have to include assigning the student to the assignments for I2A classrooms
       // on the join classroom action.
       const assignmentData = {
-        workflow_id: workflowId,
         attributes: {
           name: assignments[workflowId].name,
           metadata: {
             classification_target: assignments[workflowId].classification_target
-          }
+          },
+          workflow_id: workflowId,
         },
         relationships: {
           classroom: {
