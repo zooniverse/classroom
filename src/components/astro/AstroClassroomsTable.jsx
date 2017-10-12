@@ -12,7 +12,7 @@ import Button from 'grommet/components/Button';
 import Paragraph from 'grommet/components/Paragraph';
 import Spinning from 'grommet/components/icons/Spinning';
 
-import CaesarExportModal from './CaesarExportModal';
+import ExportModal from './ExportModal';
 import { config } from '../../lib/config';
 import {
   ASSIGNMENTS_STATUS, ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES
@@ -26,7 +26,7 @@ const AstroClassroomsTable = (props) => {
   const assignmentsMetadata = (props.selectedProgram && props.selectedProgram.metadata) ? props.selectedProgram.metadata.assignments : '';
   return (
     <Box>
-      <CaesarExportModal onClose={props.onExportModalClose} assignment={props.assignmentToExport} />
+      <ExportModal onClose={props.onExportModalClose} assignment={props.assignmentToExport} />
 
       <Table className="manager-table">
         <thead className="manager-table__headers">

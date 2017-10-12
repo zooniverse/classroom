@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
+
 import Box from 'grommet/components/Box';
 import Heading from 'grommet/components/Heading';
 import Spinning from 'grommet/components/icons/Spinning';
@@ -12,17 +13,20 @@ import Button from 'grommet/components/Button';
 import Layer from 'grommet/components/Layer';
 
 import SuperDownloadButton from '../common/SuperDownloadButton';
+import GoogleSheetsExportButton from './GoogleSheetsExportButton';
 import {
   CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES, CAESAR_EXPORTS_STATUS
 } from '../../ducks/caesar-exports';
 
 
-const CaesarExportModal = ({ caesarExport, caesarExportStatus, onClose, showModal }) => {
+const ExportModal = ({ caesarExport, caesarExportStatus, onClose, showModal }) => {
   // TODO replace Date.now() with timestamp in export response
   // TODO add url prop to SuperDownloadButton
   // TODO add button to send to Google Sheets
   const noExport = caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport &&
     caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS;
+
+  const disableButton = noExport || (caesarExportStatus === CAESAR_EXPORTS_STATUS.FETCHING &&caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport);
 
   if (showModal) {
     return (
@@ -54,8 +58,9 @@ const CaesarExportModal = ({ caesarExport, caesarExportStatus, onClose, showModa
             className="caesar-export-modal__download-button"
             text="Download CSV"
             primary={true}
-            disabled={noExport}
+            disabled={disableButton}
           />
+          <GoogleSheetsExportButton disabled={disableButton} />
         </Box>
       </Layer>
     );
@@ -64,12 +69,12 @@ const CaesarExportModal = ({ caesarExport, caesarExportStatus, onClose, showModa
   return null;
 };
 
-CaesarExportModal.defaultProps = {
+ExportModal.defaultProps = {
   ...CAESAR_EXPORTS_INITIAL_STATE,
   onClose: () => {}
 };
 
-CaesarExportModal.propTypes = {
+ExportModal.propTypes = {
   ...CAESAR_EXPORTS_PROPTYPES,
   onClose: PropTypes.func
 };
@@ -82,4 +87,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(CaesarExportModal);
+export default connect(mapStateToProps)(ExportModal);
