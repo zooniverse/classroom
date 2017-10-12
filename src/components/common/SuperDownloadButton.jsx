@@ -61,12 +61,12 @@ class SuperDownloadButton extends React.Component {
     // Grommet Button determines disabled state based on presence of onClick handler...
     return (
       <Button
-        className={this.props.className}
+        className={this.props.className || null}
         onClick={this.props.disabled ? null : this.download}
         icon={(this.state.status === STATUS.FETCHING) ? <SpinningIcon size="small" /> : this.props.icon}
         primary={this.props.primary}
+        label={this.props.text}
       >
-        <Label>{this.props.text}</Label>
         {(this.state.status !== STATUS.SUCCESS) ? null : <Toast status='ok'>{ZooTran('Success: file downloaded.')}</Toast> }
         {(this.state.status !== STATUS.ERROR) ? null : <Toast status='critical'>{ZooTran('Error: could not download the file.')}</Toast> }
         <form style={{ 'display': 'none' }} action={config.root + 'downloads/'} method="POST" ref={c=>this.altForm=c} aria-hidden={true}>

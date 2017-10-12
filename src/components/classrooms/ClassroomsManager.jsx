@@ -7,7 +7,7 @@ import Paragraph from 'grommet/components/Paragraph';
 import Button from 'grommet/components/Button';
 import Spinning from 'grommet/components/icons/Spinning';
 import Layer from 'grommet/components/Layer';
-import GoogleSheetsExportButton from '../astro/GoogleSheetsExportButton';
+
 import {
   CLASSROOMS_STATUS, CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
 } from '../../ducks/classrooms';
@@ -23,7 +23,6 @@ const ClassroomsManager = (props) => {
       <Box className="classrooms-manager__instructions" align="center" direction="row" justify="between" size="xxlarge">
         <Paragraph align="start" size="small">{props.classroomInstructions}</Paragraph>
         <Button type="button" primary={true} label="Create New Classroom" onClick={props.toggleFormVisibility} />
-        <GoogleSheetsExportButton />
       </Box>
       <ConfirmationDialog
         confirmationButtonLabel="Delete"

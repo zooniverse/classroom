@@ -114,7 +114,7 @@ class GoogleSheetsExportButton extends React.Component {
   render() {
     if (this.state.status === STATUS.SUCCESS) {
       return (
-        <Button label="Export to Google Sheets" onClick={this.props.disabled ? null : this.tryExport} />
+        <Button className={this.props.className || null} label="Export to Google Sheets" onClick={this.props.disabled ? null : this.tryExport} />
       );
     }
 

@@ -22,7 +22,8 @@ import {
 const ExportModal = ({ caesarExport, caesarExportStatus, onClose, showModal }) => {
   // TODO replace Date.now() with timestamp in export response
   // TODO add url prop to SuperDownloadButton
-  // TODO add button to send to Google Sheets
+  // TODO disable Export to Google Sheets button like the download button.
+  // It's not disabled for testing purposes at the moment
   const noExport = caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport &&
     caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS;
 
@@ -30,7 +31,7 @@ const ExportModal = ({ caesarExport, caesarExportStatus, onClose, showModal }) =
 
   if (showModal) {
     return (
-      <Layer className="caesar-export-modal" closer={true} onClose={onClose}>
+      <Layer className="export-modal" closer={true} onClose={onClose}>
         <Box pad="medium" justify="between">
           <Heading tag="h2">Data Export</Heading>
           {caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport &&
@@ -54,13 +55,15 @@ const ExportModal = ({ caesarExport, caesarExportStatus, onClose, showModal }) =
               <Status value="critical" />{' '}
               Something went wrong
             </Paragraph>}
-          <SuperDownloadButton
-            className="caesar-export-modal__download-button"
-            text="Download CSV"
-            primary={true}
-            disabled={disableButton}
-          />
-          <GoogleSheetsExportButton disabled={disableButton} />
+          <Box direction="row">
+            <SuperDownloadButton
+              className="export-modal__button"
+              text="Download CSV"
+              primary={true}
+              disabled={disableButton}
+            />
+            <GoogleSheetsExportButton className="export-modal__button" />
+          </Box>
         </Box>
       </Layer>
     );
