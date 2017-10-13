@@ -13,7 +13,7 @@ import Button from 'grommet/components/Button';
 import Layer from 'grommet/components/Layer';
 
 import SuperDownloadButton from '../common/SuperDownloadButton';
-import GoogleSheetsExportButton from './GoogleSheetsExportButton';
+import GoogleDriveExportButton from './GoogleDriveExportButton';
 import {
   CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES, CAESAR_EXPORTS_STATUS
 } from '../../ducks/caesar-exports';
@@ -62,7 +62,7 @@ const ExportModal = ({ caesarExport, caesarExportStatus, onClose, showModal }) =
               primary={true}
               disabled={disableButton}
             />
-            <GoogleSheetsExportButton className="export-modal__button" />
+            <GoogleDriveExportButton className="export-modal__button" />
           </Box>
         </Box>
       </Layer>

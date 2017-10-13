@@ -8,6 +8,7 @@ import { config } from '../lib/config';
 // Constants
 const CAESAR_EXPORTS_STATUS = {
   DOWNLOADING: 'downloading',
+  EXPORTING: 'exporting',
   IDLE: 'idle',
   FETCHING: 'fetching',
   SUCCESS: 'success',
@@ -77,6 +78,34 @@ Effect('getCaesarExport', (data) => {
         Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
       }
     });
+});
+
+Effect('exportToGoogleDrive', (csv) => {
+  const boundary = '-------314159265358979323846';
+  const delimiter = `\r\n--${boundary}\r\n`;
+  const closeDelim = `\r\n--${boundary}--`;
+  const metadata = {
+    name: 'Test', // Replace with actual file name
+    mimeType: 'application/vnd.google-apps.spreadsheet'
+  };
+  const multipartRequestBody = `${delimiter}Content-Type: application/json\r\n\r\n${JSON.stringify(metadata)}${delimiter}Content-Type: text/csv\r\n\r\n${csv}${closeDelim}`;
+
+  Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.EXPORTING);
+
+  // const metadata =
+  return gapi.client.request({
+      path: 'https://www.googleapis.com/upload/drive/v3/files',
+      method: 'POST',
+      params: { uploadType: 'multipart' },
+      headers: { 'Content-Type': `multipart/related; boundary="${boundary}"` },
+      body: multipartRequestBody
+    }).then((response) => {
+      if (response && response.body && response.status === 200) {
+        Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
+        Actions.classrooms.setToastState({ status: 'ok', message: 'Sent CSV to your Google Drive' })
+        Actions.caesarExports.showModal();
+      }
+    }).catch((error) => { handleError(error); })
 });
 
 const caesarExports = State('caesarExports', {

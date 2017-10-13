@@ -14,7 +14,7 @@ const STATUS = {
 
 let GoogleAuth = null;
 
-class GoogleSheetsExportButton extends React.Component {
+class GoogleDriveExportButton extends React.Component {
   constructor() {
     super();
 
@@ -33,6 +33,12 @@ class GoogleSheetsExportButton extends React.Component {
     this.setupGoogleClient();
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.isAuthorized !== this.state.isAuthorized) return false;
+
+    return true;
+  }
+
   componentWillUnmount() {
     if (this.state.isAuthorized) GoogleAuth.signOut();
     const script = document.querySelector('#google-api');
@@ -49,7 +55,6 @@ class GoogleSheetsExportButton extends React.Component {
   }
 
   setupGoogleClient() {
-    console.log('gapi', window.gapi)
     if (!document.querySelector('#google-api')) {
       this.setState({ status: STATUS.CONFIGURING });
       const script = document.createElement('script');
@@ -66,7 +71,6 @@ class GoogleSheetsExportButton extends React.Component {
             discoveryDocs: config.googleDiscoveryDocs
           }).then(() => {
             GoogleAuth = gapi.auth2.getAuthInstance();
-            window.googleAuth = GoogleAuth;
             GoogleAuth.isSignedIn.listen(this.updateSigninStatus)
 
             gapi.client.load('drive', 'v3', () => {
@@ -78,26 +82,13 @@ class GoogleSheetsExportButton extends React.Component {
 
       document.body.appendChild(script);
     }
-
   }
 
   export() {
     // TODO Replace body with the CSV from caesar request response
     const testCSV = new Blob([['test', 'csv'], ['hello', 'world']], { type: 'text/csv' });
 
-    gapi.client.drive.files.create({
-      resource: {
-        name: 'test.csv',
-        mimeType: 'application/vnd.google-apps.spreadsheet'
-      },
-      media: {
-        mimeType: 'text/csv',
-        body: testCSV
-      },
-      fields: 'id'
-    }).then((response) => {
-      console.log(response)
-    })
+    Actions.exportToGoogleDrive(testCSV);
   }
 
   tryExport() {
@@ -114,7 +105,7 @@ class GoogleSheetsExportButton extends React.Component {
   render() {
     if (this.state.status === STATUS.SUCCESS) {
       return (
-        <Button className={this.props.className || null} label="Export to Google Sheets" onClick={this.props.disabled ? null : this.tryExport} />
+        <Button className={this.props.className || null} label="Export to Google Drive" onClick={this.props.disabled ? null : this.tryExport} />
       );
     }
 
@@ -122,12 +113,12 @@ class GoogleSheetsExportButton extends React.Component {
   }
 }
 
-GoogleSheetsExportButton.defaultProps = {
+GoogleDriveExportButton.defaultProps = {
   disabled: false
 };
 
-GoogleSheetsExportButton.propTypes = {
+GoogleDriveExportButton.propTypes = {
   disabled: PropTypes.bool
 };
 
-export default GoogleSheetsExportButton;
+export default GoogleDriveExportButton;
