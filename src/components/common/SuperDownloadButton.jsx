@@ -61,7 +61,7 @@ class SuperDownloadButton extends React.Component {
     // Grommet Button determines disabled state based on presence of onClick handler...
     return (
       <Button
-        className={this.props.className || null}
+        className={this.props.className ? this.props.className : null}
         onClick={this.props.disabled ? null : this.download}
         icon={(this.state.status === STATUS.FETCHING) ? <SpinningIcon size="small" /> : this.props.icon}
         primary={this.props.primary}

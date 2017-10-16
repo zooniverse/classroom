@@ -81,6 +81,10 @@ Effect('getCaesarExport', (data) => {
 });
 
 Effect('exportToGoogleDrive', (csv) => {
+  // This is using the multipart upload as specified in the Google Drive v3 REST API documentation
+  // https://developers.google.com/drive/v3/web/multipart-upload
+  // And borrows a lot from this stack overflow example
+  // https://stackoverflow.com/questions/41539600/javascript-google-drive-api-v3-upload-a-file-to-a-folder
   const boundary = '-------314159265358979323846';
   const delimiter = `\r\n--${boundary}\r\n`;
   const closeDelim = `\r\n--${boundary}--`;
@@ -92,7 +96,7 @@ Effect('exportToGoogleDrive', (csv) => {
 
   Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.EXPORTING);
 
-  // const metadata =
+
   return gapi.client.request({
       path: 'https://www.googleapis.com/upload/drive/v3/files',
       method: 'POST',

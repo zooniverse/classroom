@@ -27,7 +27,7 @@ const ExportModal = ({ caesarExport, caesarExportStatus, onClose, showModal }) =
   const noExport = caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport &&
     caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS;
 
-  const disableButton = noExport || (caesarExportStatus === CAESAR_EXPORTS_STATUS.FETCHING &&caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport);
+  const disableButton = noExport || (caesarExportStatus === CAESAR_EXPORTS_STATUS.FETCHING && caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport);
 
   if (showModal) {
     return (
