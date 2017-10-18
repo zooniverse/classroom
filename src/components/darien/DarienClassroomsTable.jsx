@@ -25,7 +25,10 @@ import {
 const DarienClassroomsTable = (props) => {
   return (
     <Box>
+<<<<<<< 969abec88131d532ea6e236c940c112daaeb8518
       {props.children}
+=======
+>>>>>>> Refactoring to enable Darien's classrooms table
       <Table className="manager-table">
         <thead className="manager-table__headers">
           <TableRow>
@@ -87,6 +90,7 @@ const DarienClassroomsTable = (props) => {
                 props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS) &&
                 <TableRow className="manager-table__row-data">
                   <td colSpan="4">
+<<<<<<< 969abec88131d532ea6e236c940c112daaeb8518
                     <Box pad="none" margin="none" justify="between" direction="row">
                       <Paragraph>No assignments have been created yet.</Paragraph>
                       <Button
@@ -97,6 +101,14 @@ const DarienClassroomsTable = (props) => {
                         <AddIcon size="small" />
                       </Button>
                     </Box>
+=======
+                    <Paragraph>No assignments have been created yet.</Paragraph>
+                    <Button
+                      className="manager-table__button--edit"
+                      onClick={props.toggleAssignmentForm}
+                      icon={<AddIcon size="small" />}
+                    />
+>>>>>>> Refactoring to enable Darien's classrooms table
                   </td>
                 </TableRow>}
               {(props.assignments[classroom.id] &&
