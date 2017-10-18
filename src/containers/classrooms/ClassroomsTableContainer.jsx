@@ -1,82 +1,84 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
-import AstroClassroomsTable from '../../components/astro/AstroClassroomsTable';
+import Paragraph from 'grommet/components/Paragraph';
 
+import ConfirmationDialog from '../../components/common/ConfirmationDialog';
 import {
   CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
 } from '../../ducks/classrooms';
 import {
   ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES
 } from '../../ducks/assignments';
-import { programsMocks } from '../../ducks/programs';
 
 class ClassroomsTableContainer extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      toExport: {
-        assignment: {},
-        classroom: {}
-      }
+      classroomToDelete: null,
+      showConfirmationDialog: false
     };
 
-    this.onExportModalClose = this.onExportModalClose.bind(this);
-    this.showExportModal = this.showExportModal.bind(this);
+    this.closeConfirmationDialog = this.closeConfirmationDialog.bind(this);
+    this.deleteClassroom = this.deleteClassroom.bind(this);
+    this.maybeDeleteClassroom = this.maybeDeleteClassroom.bind(this);
   }
 
-  onExportModalClose() {
-    this.setState({ toExport: { assignment: {}, classroom: {} } });
-
-    Actions.caesarExports.showModal();
+  maybeDeleteClassroom(id) {
+    this.setState({ classroomToDelete: id, showConfirmationDialog: true });
   }
 
-  showExportModal(assignment, classroom) {
-    this.setState({ toExport: { assignment, classroom } });
-
-    Actions.caesarExports.showModal();
-    Actions.getCaesarExport({ assignment, classroom });
+  closeConfirmationDialog() {
+    this.setState({ classroomToDelete: null, showConfirmationDialog: false });
   }
 
-  selectClassroom(classroom) {
-    Actions.classrooms.selectClassroom(classroom);
+  deleteClassroom() {
+    if (this.state.classroomToDelete === null) return;
+
+    Actions.deleteClassroom(this.state.classroomToDelete).then((response) => {
+      // TODO: For API optimization, do we want to instead manually remove the classroom
+      // out of local app state instead of making another API call
+      Actions.getClassroomsAndAssignments();
+      this.closeConfirmationDialog();
+
+      if (response) {
+        Actions.classrooms.setToastState({ status: 'ok', message: 'Classroom deleted' });
+      }
+    });
   }
 
   render() {
-    if (this.props.selectedProgram && this.props.selectedProgram.slug === programsMocks.i2a.slug) {
-      return (
-        <AstroClassroomsTable
-          assignmentToExport={this.state.toExport.assignment}
-          assignments={this.props.assignments}
-          assignmentsStatus={this.props.assignmentsStatus}
-          classrooms={this.props.classrooms}
-          match={this.props.match}
-          maybeDeleteClassroom={this.props.maybeDeleteClassroom}
-          onExportModalClose={this.onExportModalClose}
-          selectClassroom={this.selectClassroom}
-          selectedProgram={this.props.selectedProgram}
-          showExportModal={this.showExportModal}
-        />
-      );
-    }
-
-    // TODO return the darien style classroom table
-    return null;
+    return (
+      <ClassroomsTable
+        assignments={this.props.assignments}
+        assignmentsStatus={this.props.assignmentsStatus}
+        classrooms={this.props.classrooms}
+        match={this.props.match}
+        maybeDeleteClassroom={this.props.maybeDeleteClassroom}
+        selectedProgram={this.props.selectedProgram}
+      >
+        <ConfirmationDialog
+          confirmationButtonLabel="Delete"
+          onConfirmation={this.deleteClassroom}
+          onClose={this.closeConfirmationDialog}
+          showConfirmationDialog={this.state.showConfirmationDialog}
+        >
+          <Paragraph size="small">Deleting a classroom will also delete the associated assignments.</Paragraph>
+        </ConfirmationDialog>
+      </ClassroomsTable>
+    );
   }
 }
 
 ClassroomsTableContainer.defaultProps = {
   ...ASSIGNMENTS_INITIAL_STATE,
-  ...CLASSROOMS_INITIAL_STATE,
-  selectClassroom: () => {}
+  ...CLASSROOMS_INITIAL_STATE
 };
 
 ClassroomsTableContainer.propTypes = {
   ...ASSIGNMENTS_PROPTYPES,
-  ...CLASSROOMS_PROPTYPES,
-  selectClassroom: PropTypes.func
+  ...CLASSROOMS_PROPTYPES
 };
 
 function mapStateToProps(state) {
@@ -89,3 +91,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(ClassroomsTableContainer);
+

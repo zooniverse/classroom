@@ -13,7 +13,6 @@ import {
 } from '../../ducks/classrooms';
 
 import ClassroomFormContainer from '../../containers/classrooms/ClassroomFormContainer';
-import ConfirmationDialog from '../common/ConfirmationDialog';
 import ClassroomsTableContainer from '../../containers/classrooms/ClassroomsTableContainer';
 
 const ClassroomsManager = (props) => {
@@ -24,14 +23,6 @@ const ClassroomsManager = (props) => {
         <Paragraph align="start" size="small">{props.classroomInstructions}</Paragraph>
         <Button type="button" primary={true} label="Create New Classroom" onClick={props.toggleFormVisibility} />
       </Box>
-      <ConfirmationDialog
-        confirmationButtonLabel="Delete"
-        onConfirmation={props.deleteClassroom}
-        onClose={props.closeConfirmationDialog}
-        showConfirmationDialog={props.showConfirmationDialog}
-      >
-        <Paragraph size="small">Deleting a classroom will also delete the associated assignments.</Paragraph>
-      </ConfirmationDialog>
       {props.showForm &&
         <Layer closer={true} onClose={props.toggleFormVisibility}>
           <ClassroomFormContainer heading="Create Classroom" submitLabel="Create" />
@@ -43,19 +34,13 @@ const ClassroomsManager = (props) => {
       {props.classrooms.length === 0 && props.classroomsStatus === CLASSROOMS_STATUS.ERROR &&
         <Paragraph>Error: Classrooms could not be loaded.</Paragraph>}
       {(props.classrooms.length > 0 && props.classroomsStatus === CLASSROOMS_STATUS.SUCCESS) &&
-        <ClassroomsTableContainer
-          maybeDeleteClassroom={props.maybeDeleteClassroom}
-          match={props.match}
-        />}
+        <ClassroomsTableContainer match={props.match} />}
     </Box>
   );
 };
 
 ClassroomsManager.defaultProps = {
   classroomInstructions: 'First, make sure your students have set up a Zooniverse account. Then create a classroom and share the classroom\'s unique join URL with your students to keep track of their progress as they work through each assignment. Students must be logged in to their Zooniverse accounts first to be able to use the join link. Share the URL under View Project with your students for them to complete the assignment.',
-  closeConfirmationDialog: () => {},
-  deleteClassroom: () => {},
-  maybeDeleteClassroom: () => {},
   showForm: false,
   toggleFormVisibility: Actions.classrooms.toggleFormVisibility,
   ...CLASSROOMS_INITIAL_STATE
@@ -63,9 +48,6 @@ ClassroomsManager.defaultProps = {
 
 ClassroomsManager.propTypes = {
   classroomInstructions: PropTypes.string,
-  closeConfirmationDialog: PropTypes.func,
-  deleteClassroom: PropTypes.func,
-  maybeDeleteClassroom: PropTypes.func,
   showForm: PropTypes.bool,
   toggleFormVisibility: PropTypes.func,
   ...CLASSROOMS_PROPTYPES

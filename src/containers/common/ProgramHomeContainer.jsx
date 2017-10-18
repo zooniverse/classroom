@@ -51,11 +51,11 @@ export class ProgramHomeContainer extends React.Component {
     // Check RR v.4 docs
 
     if (this.props.programsStatus === PROGRAMS_STATUS.FETCHING) {
-      return (<GenericStatusPage status={this.props.programsStatus} message="Loading" />)
+      return (<GenericStatusPage status={this.props.programsStatus} message="Loading" />);
     }
 
     if (this.props.programsStatus === PROGRAMS_STATUS.ERROR) {
-      return (<GenericStatusPage status="critical" message="Something went wrong" />)
+      return (<GenericStatusPage status="critical" message="Something went wrong" />);
     }
 
     return (

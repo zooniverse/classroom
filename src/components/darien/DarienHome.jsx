@@ -50,7 +50,7 @@ class DarienHome extends React.Component {
             <Paragraph>Are you an educator or a student/explorer? Make your selection to get started!</Paragraph>
           </Box>
           <Box align="center" direction="row" justify="between" pad="medium" size="medium">
-            <Button path="/wildcam-darien-lab/eduactors/" label="Educator" />
+            <Button path="/wildcam-darien-lab/educators/" label="Educator" />
             <Button path="/wildcam-darien-lab/students/" label="Explorer" />
           </Box>
         </Section>
