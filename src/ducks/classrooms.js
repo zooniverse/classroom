@@ -92,11 +92,7 @@ const updateFormFields = (state, formFields) => {
 Effect('getClassrooms', (selectedProgramId) => {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.FETCHING);
 
-<<<<<<< a1176a69c771beaef9d5be1ab7b99fc292f79de9
   return get('/teachers/classrooms/', [{ program_id: selectedProgramId }])
-=======
-  return get('/teachers/classrooms/', [{ 'filter[programs]': selectedProgramId }])
->>>>>>> Add program filter
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/getClassrooms): No response'; }
       if (response.ok &&
