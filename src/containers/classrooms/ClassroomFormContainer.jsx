@@ -95,8 +95,8 @@ export class ClassroomFormContainer extends React.Component {
       Actions.createAssignment(assignmentData);
     })).then(() => {
       Actions.classrooms.toggleFormVisibility();
-      Actions.getClassroomsAndAssignments();
-    })
+      Actions.getClassroomsAndAssignments(this.props.selectedProgram);
+    });
   }
 
   render() {
