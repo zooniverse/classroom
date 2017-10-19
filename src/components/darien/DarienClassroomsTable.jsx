@@ -86,12 +86,16 @@ const DarienClassroomsTable = (props) => {
                 props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS) &&
                 <TableRow className="manager-table__row-data">
                   <td colSpan="4">
-                    <Paragraph>No assignments have been created yet.</Paragraph>
-                    <Button
-                      className="manager-table__button--edit"
-                      onClick={props.toggleAssignmentForm}
-                      icon={<AddIcon size="small" />}
-                    />
+                    <Box pad="none" margin="none" justify="between" direction="row">
+                      <Paragraph>No assignments have been created yet.</Paragraph>
+                      <Button
+                        className="manager-table__button--create"
+                        onClick={props.toggleAssignmentForm}
+                        type="button"
+                      >
+                        <AddIcon size="small" />
+                      </Button>
+                    </Box>
                   </td>
                 </TableRow>}
               {(props.assignments[classroom.id] &&

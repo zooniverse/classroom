@@ -4,6 +4,8 @@ import { Actions } from 'jumpstate';
 import Paragraph from 'grommet/components/Paragraph';
 
 import ConfirmationDialog from '../../components/common/ConfirmationDialog';
+import DarienClassroomsTable from '../../components/darien/DarienClassroomsTable';
+import AstroClassroomsTableContainer from '../astro/AstroClassroomsTableContainer';
 import {
   CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
 } from '../../ducks/classrooms';
@@ -48,7 +50,8 @@ class ClassroomsTableContainer extends React.Component {
     });
   }
 
-  render() {
+  determineClassroomsTable() {
+    const ClassroomsTable = this.props.selectedProgram.custom ? DarienClassroomsTable : AstroClassroomsTableContainer;
     return (
       <ClassroomsTable
         assignments={this.props.assignments}
@@ -68,6 +71,10 @@ class ClassroomsTableContainer extends React.Component {
         </ConfirmationDialog>
       </ClassroomsTable>
     );
+  }
+
+  render() {
+    return (this.determineClassroomsTable());
   }
 }
 
