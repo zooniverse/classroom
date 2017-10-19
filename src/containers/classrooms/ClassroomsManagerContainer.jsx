@@ -6,6 +6,9 @@ import ClassroomsManager from '../../components/classrooms/ClassroomsManager';
 import {
   CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
 } from '../../ducks/classrooms';
+import {
+  PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES
+} from '../../ducks/programs';
 
 export class ClassroomsManagerContainer extends React.Component {
   constructor(props) {
@@ -22,7 +25,13 @@ export class ClassroomsManagerContainer extends React.Component {
   }
 
   componentDidMount() {
-    Actions.getClassroomsAndAssignments();
+    if (this.props.selectedProgram) Actions.getClassroomsAndAssignments(this.props.selectedProgram);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedProgram && this.props.selectedProgram !== nextProps.selectedProgram) {
+      Actions.getClassroomsAndAssignments(nextProps.selectedProgram);
+    }
   }
 
   componentWillUnmount() {
@@ -43,7 +52,7 @@ export class ClassroomsManagerContainer extends React.Component {
     Actions.deleteClassroom(this.state.classroomToDelete).then((response) => {
       // TODO: For API optimization, do we want to instead manually remove the classroom
       // out of local app state instead of making another API call
-      Actions.getClassroomsAndAssignments();
+      Actions.getClassroomsAndAssignments(this.props.selectedProgram);
       this.closeConfirmationDialog();
 
       if (response) {
@@ -71,11 +80,13 @@ export class ClassroomsManagerContainer extends React.Component {
 }
 
 ClassroomsManagerContainer.propTypes = {
-  ...CLASSROOMS_PROPTYPES
+  ...CLASSROOMS_PROPTYPES,
+  ...PROGRAMS_PROPTYPES
 };
 
 ClassroomsManagerContainer.defaultProps = {
-  ...CLASSROOMS_INITIAL_STATE
+  ...CLASSROOMS_INITIAL_STATE,
+  ...PROGRAMS_INITIAL_STATE
 };
 
 const mapStateToProps = (state) => ({
@@ -83,6 +94,7 @@ const mapStateToProps = (state) => ({
   classroomsStatus: state.classrooms.status,
   programs: state.programs.programs,
   selectedClassroom: state.classrooms.selectedClassroom,
+  selectedProgram: state.programs.selectedProgram,
   showConfirmationDialog: state.classrooms.showConfirmationDialog,
   showForm: state.classrooms.showForm
 });

@@ -89,10 +89,10 @@ const updateFormFields = (state, formFields) => {
 };
 
 // Effects are for async actions and get automatically to the global Actions list
-Effect('getClassrooms', () => {
+Effect('getClassrooms', (selectedProgramId) => {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.FETCHING);
 
-  return get('/teachers/classrooms/')
+  return get('/teachers/classrooms/', [{ 'filter[programs]': selectedProgramId }])
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/getClassrooms): No response'; }
       if (response.ok &&
@@ -133,8 +133,8 @@ Effect('getClassroom', (id) => {
     });
 });
 
-Effect('getClassroomsAndAssignments', () => {
-  Actions.getClassrooms().then((classrooms) => {
+Effect('getClassroomsAndAssignments', (selectedProgram) => {
+  Actions.getClassrooms(selectedProgram.id).then((classrooms) => {
     if (classrooms) {
       classrooms.forEach((classroom) => {
         // TODO: If many pages of assignments exist,
