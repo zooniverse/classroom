@@ -35,7 +35,7 @@ const ClassroomForm = (props) => {
             placeHolder="Class subject"
             onDOMChange={props.onChange}
             required={!optional}
-            value={props.fields.subject}
+            value={props.fields.subject || ''}
           />
         </FormField>
         <FormField htmlFor="school" label="Institution">
@@ -44,7 +44,7 @@ const ClassroomForm = (props) => {
             placeHolder="Name of institution or school"
             onDOMChange={props.onChange}
             required={!optional}
-            value={props.fields.school}
+            value={props.fields.school || ''}
           />
         </FormField>
         <FormField htmlFor="description" label="Description">
@@ -53,7 +53,7 @@ const ClassroomForm = (props) => {
             placeholder="Description of class"
             onChange={props.onChange}
             required={!optional}
-            value={props.fields.description}
+            value={props.fields.description || ''}
           />
         </FormField>
       </fieldset>
