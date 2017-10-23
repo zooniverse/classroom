@@ -18,8 +18,12 @@ export class ClassroomFormContainer extends React.Component {
     this.createClassroom = this.createClassroom.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.resetState = this.resetState.bind(this);
+    this.closeForm = this.closeForm.bind(this);
     this.updateClassroom = this.updateClassroom.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.resetFormFields();
   }
 
   onChange(event) {
@@ -32,19 +36,22 @@ export class ClassroomFormContainer extends React.Component {
     if (this.props.selectedClassroom) {
       this.updateClassroom().then(() => {
         Actions.getClassroom(this.props.selectedClassroom.id);
-        this.resetState();
+        this.closeForm();
       });
     } else {
       this.createClassroom().then(() => {
         Actions.getClassroomsAndAssignments(this.props.selectedProgram);
-        this.resetState();
+        this.closeForm();
       });
     }
   }
 
-  resetState() {
-    Actions.classrooms.toggleFormVisibility();
+  resetFormFields() {
     Actions.classrooms.updateFormFields(CLASSROOMS_INITIAL_STATE.formFields);
+  }
+
+  closeForm() {
+    Actions.classrooms.toggleFormVisibility();
   }
 
   createClassroom() {
