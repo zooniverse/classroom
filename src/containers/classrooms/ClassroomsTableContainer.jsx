@@ -25,6 +25,15 @@ class ClassroomsTableContainer extends React.Component {
     this.closeConfirmationDialog = this.closeConfirmationDialog.bind(this);
     this.deleteClassroom = this.deleteClassroom.bind(this);
     this.maybeDeleteClassroom = this.maybeDeleteClassroom.bind(this);
+    this.resetState = this.resetState.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.resetState();
+  }
+
+  resetState() {
+    this.setState({ classroomToDelete: null, showConfirmationDialog: false });
   }
 
   maybeDeleteClassroom(id) {
@@ -32,7 +41,7 @@ class ClassroomsTableContainer extends React.Component {
   }
 
   closeConfirmationDialog() {
-    this.setState({ classroomToDelete: null, showConfirmationDialog: false });
+    this.resetState();
   }
 
   deleteClassroom() {
@@ -41,7 +50,7 @@ class ClassroomsTableContainer extends React.Component {
     Actions.deleteClassroom(this.state.classroomToDelete).then((response) => {
       // TODO: For API optimization, do we want to instead manually remove the classroom
       // out of local app state instead of making another API call
-      Actions.getClassroomsAndAssignments();
+      Actions.getClassroomsAndAssignments(this.props.selectedProgram);
       this.closeConfirmationDialog();
 
       if (response) {
@@ -58,7 +67,7 @@ class ClassroomsTableContainer extends React.Component {
         assignmentsStatus={this.props.assignmentsStatus}
         classrooms={this.props.classrooms}
         match={this.props.match}
-        maybeDeleteClassroom={this.props.maybeDeleteClassroom}
+        maybeDeleteClassroom={this.maybeDeleteClassroom}
         selectedProgram={this.props.selectedProgram}
       >
         <ConfirmationDialog

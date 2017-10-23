@@ -55,7 +55,10 @@ export class ClassroomFormContainer extends React.Component {
           const assignments = this.props.selectedProgram.metadata.assignments;
           if (classroom) this.autoCreateAssignments(assignments, classroom);
         }
-      }).then(Actions.classrooms.toggleFormVisibility());
+      }).then(() => {
+        Actions.classrooms.toggleFormVisibility();
+        Actions.getClassroomsAndAssignments(this.props.selectedProgram);
+      });
   }
 
   updateClassroom() {
@@ -93,9 +96,7 @@ export class ClassroomFormContainer extends React.Component {
       };
 
       Actions.createAssignment(assignmentData);
-    })).then(() => {
-      Actions.getClassroomsAndAssignments(this.props.selectedProgram);
-    });
+    }));
   }
 
   render() {

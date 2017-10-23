@@ -27,7 +27,7 @@ const AstroClassroomsTable = (props) => {
   return (
     <Box>
       <ExportModal onClose={props.onExportModalClose} assignment={props.assignmentToExport} />
-
+      {props.children}
       <Table className="manager-table">
         <thead className="manager-table__headers">
           <TableRow>

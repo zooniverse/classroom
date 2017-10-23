@@ -25,6 +25,7 @@ import {
 const DarienClassroomsTable = (props) => {
   return (
     <Box>
+      {props.children}
       <Table className="manager-table">
         <thead className="manager-table__headers">
           <TableRow>
