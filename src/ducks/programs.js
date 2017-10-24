@@ -6,6 +6,12 @@ import { get, post, put, httpDelete } from '../lib/edu-api';
 import { env } from '../lib/config';
 
 // testing mocks
+export const i2aAssignmentNames = {
+  first: "Introduction",
+  second: "Galaxy Zoo 101",
+  third: "Hubble's Law"
+}
+
 const i2a = {
   staging: {
     id: '1',
@@ -24,17 +30,17 @@ const i2a = {
         // to then build the URL to the project in the UI.
         // These are just test projects on staging...
         "2218": {
-          name: "Hubble's Law",
+          name: i2aAssignmentNames.third,
           classification_target: 10,
           slug: 'srallen086/intro2astro-hubble-testing'
         },
         "3037": {
-          name: 'Galaxy Zoo 101',
+          name: i2aAssignmentNames.second,
           classification_target: 22,
           slug: 'srallen086/galaxy-zoo-in-astronomy-101'
         },
         "3038": {
-          name: 'Introduction',
+          name: i2aAssignmentNames.first,
           classification_target: 1,
           slug: 'srallen086/introduction-to-platform'
         }
@@ -58,17 +64,17 @@ const i2a = {
         // to then build the URL to the project in the UI.
         // TODO: replace the workflow ids here with the production ids
         "1315": {
-          name: "Hubble's Law",
+          name: i2aAssignmentNames.third,
           classification_target: 10,
           slug: 'srallen086/intro2astro-hubble-testing'
         },
         "1771": {
-          name: 'Galaxy Zoo 101',
+          name: i2aAssignmentNames.second,
           classification_target: 22,
           slug: 'srallen086/galaxy-zoo-in-astronomy-101'
         },
         "3038": {
-          name: 'Introduction',
+          name: i2aAssignmentNames.first,
           classification_target: 1,
           slug: 'srallen086/introduction-to-platform'
         }

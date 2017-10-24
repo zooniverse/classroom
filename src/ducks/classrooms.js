@@ -141,7 +141,7 @@ Effect('getClassroomsAndAssignments', (selectedProgram) => {
         // loop through the number of pages to request all of the data
         // and concatenate the response data together for the app state
         // Neither Pagination nor infinite scroll would be good UX for current table design.
-        Actions.getAssignments(classroom.id);
+        Actions.getAssignments({ classroomId: classroom.id, selectedProgram });
       });
     }
   });

@@ -1,6 +1,7 @@
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
 import { get, post } from '../lib/edu-api';
+import { i2aAssignmentNames } from './programs';
 
 // Constants
 const ASSIGNMENTS_STATUS = {
@@ -46,9 +47,9 @@ const setError = (state, error) => {
 };
 
 // Effects are for async actions and get automatically to the global Actions list
-Effect('getAssignments', (classroomId) => {
+Effect('getAssignments', (data) => {
   Actions.assignments.setStatus(ASSIGNMENTS_STATUS.FETCHING);
-  return get('/assignments', [{ classroom_id: classroomId }])
+  return get('/assignments', [{ classroom_id: data.classroomId }])
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/getClassrooms): No response'; }
       if (response.ok &&
@@ -57,9 +58,21 @@ Effect('getAssignments', (classroomId) => {
       }
       throw 'ERROR (ducks/classrooms/getClassrooms): Invalid response';
     })
-    .then((data) => {
-      const assignmentsForClassroom = { [classroomId]: data };
+    .then((assignments) => {
+      const assignmentsForClassroom = {};
       Actions.assignments.setStatus(ASSIGNMENTS_STATUS.SUCCESS);
+
+      // If I2A style program, then sort the assignments before setting them to the app state
+      if (!data.selectedProgram.custom) {
+        const firstAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.first);
+        const secondAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.second);
+        const thirdAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.third);
+
+        assignmentsForClassroom[data.classroomId] = [firstAssignment, secondAssignment, thirdAssignment];
+      } else {
+        assignmentsForClassroom[data.classroomId] = assignments;
+      }
+
       Actions.assignments.setAssignments(assignmentsForClassroom);
     }).catch((error) => {
       handleError(error);
