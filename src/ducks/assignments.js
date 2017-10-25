@@ -28,8 +28,20 @@ const ASSIGNMENTS_PROPTYPES = {
 function handleError(error) {
   Actions.assignments.setStatus(ASSIGNMENTS_STATUS.ERROR);
   Actions.assignments.setError(error);
-  Actions.notification.setNotification({ status: 'critical' , message: 'Something went wrong.' });
+  Actions.notification.setNotification({ status: 'critical', message: 'Something went wrong.' });
   console.error(error);
+}
+
+function sortAssignments(assignments) {
+  const firstAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.first);
+  const secondAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.second);
+  const thirdAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.third);
+
+  if (firstAssignment && secondAssignment && thirdAssignment) {
+    return [firstAssignment, secondAssignment, thirdAssignment];
+  }
+
+  return assignments;
 }
 
 // Synchonous actions
@@ -64,11 +76,7 @@ Effect('getAssignments', (data) => {
 
       // If I2A style program, then sort the assignments before setting them to the app state
       if (!data.selectedProgram.custom) {
-        const firstAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.first);
-        const secondAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.second);
-        const thirdAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.third);
-
-        assignmentsForClassroom[data.classroomId] = [firstAssignment, secondAssignment, thirdAssignment];
+        assignmentsForClassroom[data.classroomId] = sortAssignments(assignments);
       } else {
         assignmentsForClassroom[data.classroomId] = assignments;
       }
