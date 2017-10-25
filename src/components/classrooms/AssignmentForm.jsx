@@ -47,10 +47,11 @@ const AssignmentForm = (props) => {
         <FormField htmlFor="classifications_target" label="Number of images per student" help="required">
           <NumberInput
             id="classifications_target"
+            min={0}
             placeHolder="Number of images per student"
             onDOMChange={props.onChange}
             required={true}
-            value={props.fields.classificationsTarget}
+            value={props.fields.classifications_target}
           />
         </FormField>
       </fieldset>

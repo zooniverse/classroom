@@ -15,12 +15,31 @@ const ASSIGNMENTS_STATUS = {
 const ASSIGNMENTS_INITIAL_STATE = {
   assignments: {},
   error: null,
+  formFields: {
+    classifications_target: 0,
+    description: '',
+    duedate: '',
+    name: ''
+  },
   status: ASSIGNMENTS_STATUS.IDLE
 };
 
+const assignmentPropTypes = {
+  classifications_target: PropTypes.number,
+  description: PropTypes.string,
+  duedate: PropTypes.string,
+  name: PropTypes.string
+};
+
 const ASSIGNMENTS_PROPTYPES = {
-  assignments: PropTypes.shape({}),
+  assignments: PropTypes.shape(PropTypes.shape({ assignmentPropTypes })),
   error: PropTypes.object,
+  formFields: PropTypes.shape({
+    classifications_target: PropTypes.number,
+    description: PropTypes.string,
+    duedate: PropTypes.string,
+    name: PropTypes.string
+  }),
   status: PropTypes.string
 };
 

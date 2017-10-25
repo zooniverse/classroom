@@ -1,23 +1,23 @@
 import React from 'react';
 import { Actions } from 'jumpstate';
-import AstroClassroomsTable from '../../components/astro/AstroClassroomsTable';
+import Layer from 'grommet/components/Layer';
 
-class AstroClassroomsTableContainer extends React.Component {
+import DarienClassroomsTable from '../../components/darien/DarienClassroomsTable';
+import AssignmentFormContainer from '../classrooms/AssignmentFormContainer';
+
+class DarienClassroomsTableContainer extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      toExport: {
-        assignment: {},
-        classroom: {}
-      }
+      showForm: false
     };
 
     this.onExportModalClose = this.onExportModalClose.bind(this);
     this.showExportModal = this.showExportModal.bind(this);
   }
 
-  onExportModalClose() {
+  onClose() {
     this.setState({ toExport: { assignment: {}, classroom: {} } });
 
     Actions.caesarExports.showModal();
@@ -32,16 +32,17 @@ class AstroClassroomsTableContainer extends React.Component {
 
   render() {
     return (
-      <AstroClassroomsTable
+      <DarienClassroomsTable
         {...this.props}
-        assignmentToExport={this.state.toExport.assignment}
-        onExportModalClose={this.onExportModalClose}
-        showExportModal={this.showExportModal}
       >
+        {this.state.showForm &&
+          <Layer>
+            <AssignmentFormContainer />
+          </Layer>}
         {this.props.children}
-      </AstroClassroomsTable>
+      </DarienClassroomsTable>
     );
   }
 }
 
-export default AstroClassroomsTableContainer;
+export default DarienClassroomsTableContainer;
