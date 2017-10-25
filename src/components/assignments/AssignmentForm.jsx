@@ -11,7 +11,6 @@ import Footer from 'grommet/components/Footer';
 import Paragraph from 'grommet/components/Paragraph';
 
 const AssignmentForm = (props) => {
-  const optional = props.optionalFormFields;
   return (
     <Form onSubmit={props.onSubmit} pad="medium">
       <Heading tag="h2">{props.heading}</Heading>
@@ -30,7 +29,7 @@ const AssignmentForm = (props) => {
           <textarea
             id="description"
             placeHolder="Assignment description"
-            onDOMChange={props.onChange}
+            onChange={props.onChange}
             required={true}
             value={props.fields.description}
           />

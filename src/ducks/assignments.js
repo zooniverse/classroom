@@ -21,13 +21,18 @@ const ASSIGNMENTS_INITIAL_STATE = {
     duedate: '',
     name: ''
   },
+  selectedAssignment: null,
+  selectedClassroomToLink: null,
+  showForm: false,
   status: ASSIGNMENTS_STATUS.IDLE
 };
 
 const assignmentPropTypes = {
-  classifications_target: PropTypes.number,
-  description: PropTypes.string,
-  duedate: PropTypes.string,
+  metadata: {
+    classifications_target: PropTypes.number,
+    description: PropTypes.string,
+    duedate: PropTypes.string,
+  },
   name: PropTypes.string
 };
 
@@ -40,6 +45,9 @@ const ASSIGNMENTS_PROPTYPES = {
     duedate: PropTypes.string,
     name: PropTypes.string
   }),
+  selectedAssignment: PropTypes.shape(assignmentPropTypes),
+  selectedClassroomToLink: PropTypes.string,
+  showForm: PropTypes.bool,
   status: PropTypes.string
 };
 
@@ -63,6 +71,14 @@ function sortAssignments(assignments) {
 }
 
 // Synchonous actions
+const selectAssignment = (state, selectedAssignment) => {
+  return { ...state, selectedAssignment };
+};
+
+const selectClassroomToLink = (state, classroomId) => {
+  return { ...state, selectedClassroomToLink: classroomId };
+};
+
 const setStatus = (state, status) => {
   return { ...state, status };
 };
@@ -74,6 +90,14 @@ const setAssignments = (state, assignments) => {
 
 const setError = (state, error) => {
   return { ...state, error };
+};
+
+const toggleFormVisibility = (state) => {
+  return { ...state, showForm: !state.showForm };
+};
+
+const updateFormFields = (state, formFields) => {
+  return { ...state, formFields };
 };
 
 // Effects are for async actions and get automatically to the global Actions list
@@ -93,7 +117,7 @@ Effect('getAssignments', (data) => {
       Actions.assignments.setStatus(ASSIGNMENTS_STATUS.SUCCESS);
 
       // If I2A style program, then sort the assignments before setting them to the app state
-      if (!data.selectedProgram.custom) {
+      if (data.selectedProgram && !data.selectedProgram.custom) {
         assignmentsForClassroom[data.classroomId] = sortAssignments(assignments);
       } else {
         assignmentsForClassroom[data.classroomId] = assignments;
@@ -128,7 +152,11 @@ const assignments = State('assignments', {
   // Actions
   setStatus,
   setAssignments,
-  setError
+  setError,
+  selectAssignment,
+  selectClassroomToLink,
+  toggleFormVisibility,
+  updateFormFields
 });
 
 export default assignments;
