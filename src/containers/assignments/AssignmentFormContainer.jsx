@@ -20,8 +20,8 @@ export class AssignmentFormContainer extends React.Component {
     this.createAssignment = this.createAssignment.bind(this);
     this.updateAssignment = this.updateAssignment.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.onChangeDate = this.onChangeDate.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.resetFormFields = this.resetFormFields.bind(this);
   }
 
   componentWillUnmount() {
@@ -29,7 +29,16 @@ export class AssignmentFormContainer extends React.Component {
   }
 
   onChange(event) {
-    const fields = { ...this.props.formFields, [event.target.id]: event.target.value };
+    if (event.target && event.target.id && event.target.value) {
+      const fields = { ...this.props.formFields, [event.target.id]: event.target.value };
+      Actions.assignments.updateFormFields(fields);
+    }
+  }
+
+  onChangeDate(datetime) {
+    // Grommet's DateTime passes the value directly rather than the standard event object
+    // TODO: why?
+    const fields = { ...this.props.formFields, duedate: datetime };
     Actions.assignments.updateFormFields(fields);
   }
 
@@ -60,7 +69,7 @@ export class AssignmentFormContainer extends React.Component {
       relationships: {
         classroom: {
           data: {
-            id: this.props.selectedClassroomToLink,
+            id: this.props.selectedClassroomToLink.id,
             type: 'classrooms'
           }
         }
@@ -84,7 +93,9 @@ export class AssignmentFormContainer extends React.Component {
         heading={this.props.heading}
         fields={this.props.formFields}
         onChange={this.onChange}
+        onChangeDate={this.onChangeDate}
         onSubmit={this.onSubmit}
+        students={this.props.selectedClassroomToLink ? this.props.selectedClassroomToLink.students : []}
         submitLabel={this.props.submitLabel}
       />
     );
@@ -93,14 +104,12 @@ export class AssignmentFormContainer extends React.Component {
 
 AssignmentFormContainer.defaultProps = {
   ...ASSIGNMENTS_INITIAL_STATE,
-  ...CLASSROOMS_INITIAL_STATE,
-  ...PROGRAMS_INITIAL_STATE
+  ...CLASSROOMS_INITIAL_STATE
 };
 
 AssignmentFormContainer.propTypes = {
   ...ASSIGNMENTS_PROPTYPES,
-  ...CLASSROOMS_PROPTYPES,
-  ...PROGRAMS_PROPTYPES
+  ...CLASSROOMS_PROPTYPES
 };
 
 function mapStateToProps(state) {

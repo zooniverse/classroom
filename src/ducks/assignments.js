@@ -2,6 +2,7 @@ import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
 import { get, post } from '../lib/edu-api';
 import { i2aAssignmentNames } from './programs';
+import { CLASSROOMS_PROPTYPES } from './classrooms';
 
 // Constants
 const ASSIGNMENTS_STATUS = {
@@ -16,7 +17,7 @@ const ASSIGNMENTS_INITIAL_STATE = {
   assignments: {},
   error: null,
   formFields: {
-    classifications_target: 0,
+    classifications_target: "0",
     description: '',
     duedate: '',
     name: ''
@@ -29,7 +30,7 @@ const ASSIGNMENTS_INITIAL_STATE = {
 
 const assignmentPropTypes = {
   metadata: {
-    classifications_target: PropTypes.number,
+    classifications_target: PropTypes.string,
     description: PropTypes.string,
     duedate: PropTypes.string,
   },
@@ -40,13 +41,13 @@ const ASSIGNMENTS_PROPTYPES = {
   assignments: PropTypes.shape(PropTypes.shape({ assignmentPropTypes })),
   error: PropTypes.object,
   formFields: PropTypes.shape({
-    classifications_target: PropTypes.number,
+    classifications_target: PropTypes.string,
     description: PropTypes.string,
     duedate: PropTypes.string,
     name: PropTypes.string
   }),
   selectedAssignment: PropTypes.shape(assignmentPropTypes),
-  selectedClassroomToLink: PropTypes.string,
+  selectedClassroomToLink: CLASSROOMS_PROPTYPES.selectedClassroom,
   showForm: PropTypes.bool,
   status: PropTypes.string
 };

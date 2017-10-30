@@ -5,6 +5,7 @@ import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
 import DateTime from 'grommet/components/DateTime';
 import NumberInput from 'grommet/components/NumberInput';
+import CheckBox from 'grommet/components/CheckBox';
 import Button from 'grommet/components/Button';
 import Heading from 'grommet/components/Heading';
 import Footer from 'grommet/components/Footer';
@@ -37,7 +38,7 @@ const AssignmentForm = (props) => {
         <FormField htmlFor="duedate" label="Due date" help="required">
           <DateTime
             id="duedate"
-            onChange={props.onChange}
+            onChange={props.onChangeDate}
             required={true}
             value={props.fields.duedate}
           />
@@ -55,7 +56,13 @@ const AssignmentForm = (props) => {
 
       <fieldset>
         <legend><Paragraph size="small">Select the students to assign</Paragraph></legend>
-        <Button onClick={() => {}} label="Select all students" />
+        {props.students.length === 0 &&
+          <Paragraph>There are no students available to assign.</Paragraph>}
+        {props.students.length > 0 &&
+          props.students.map((student) => {
+            <CheckBox key={student.id} label="A student user" onChange={() => {}} />
+          })}
+        <Button onClick={props.students.length > 0 ? () => {} : null} label="Select all students" />
       </fieldset>
 
       <fieldset>
@@ -79,6 +86,7 @@ AssignmentForm.defaultProps = {
   },
   heading: '',
   onSubmit: () => {},
+  students: [],
   submitLabel: 'Submit'
 };
 
@@ -92,6 +100,7 @@ AssignmentForm.propTypes = {
   }),
   heading: PropTypes.string,
   onSubmit: PropTypes.func,
+  students: PropTypes.arrayOf(PropTypes.object),
   submitLabel: PropTypes.string
 };
 

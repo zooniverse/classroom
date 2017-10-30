@@ -28,6 +28,7 @@ const i2a = {
         // back to a project without having to request that from Panoptes
         // to then build the URL to the project in the UI.
         // These are just test projects on staging...
+        // classifications_target should be a string?
         "2218": {
           name: i2aAssignmentNames.second,
           classifications_target: "10",

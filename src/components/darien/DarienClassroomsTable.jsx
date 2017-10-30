@@ -92,7 +92,7 @@ const DarienClassroomsTable = (props) => {
                       <Button
                         className="manager-table__button--create"
                         onClick={() => {
-                          Actions.assignments.selectClassroomToLink(classroom.id);
+                          Actions.assignments.selectClassroomToLink(classroom);
                           Actions.assignments.toggleFormVisibility();
                         }}
                         type="button"
