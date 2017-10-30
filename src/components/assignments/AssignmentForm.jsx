@@ -28,7 +28,7 @@ const AssignmentForm = (props) => {
         <FormField htmlFor="description" label="Description" help="required">
           <textarea
             id="description"
-            placeHolder="Assignment description"
+            placeholder="Assignment description"
             onChange={props.onChange}
             required={true}
             value={props.fields.description}
@@ -37,8 +37,7 @@ const AssignmentForm = (props) => {
         <FormField htmlFor="duedate" label="Due date" help="required">
           <DateTime
             id="duedate"
-            placeHolder="Assignment due date"
-            onDOMChange={props.onChange}
+            onChange={props.onChange}
             required={true}
             value={props.fields.duedate}
           />
@@ -46,9 +45,8 @@ const AssignmentForm = (props) => {
         <FormField htmlFor="classifications_target" label="Number of images per student" help="required">
           <NumberInput
             id="classifications_target"
-            min={0}
-            placeHolder="Number of images per student"
-            onDOMChange={props.onChange}
+            min={1}
+            onChange={props.onChange}
             required={true}
             value={props.fields.classifications_target}
           />
