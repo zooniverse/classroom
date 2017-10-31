@@ -90,5 +90,9 @@ module.exports = {
         loader: 'image-webpack-loader',
       }],
     }],
+  },
+
+  node: {
+    fs: 'empty'
   }
 };
