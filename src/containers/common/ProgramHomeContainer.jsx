@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import JoinPageContainer from './JoinPageContainer';
 import AstroHome from '../../components/astro/AstroHome';
 import DarienRoutesContainer from '../darien/DarienRoutesContainer';
 import GenericStatusPage from '../../components/common/GenericStatusPage';
@@ -23,7 +22,7 @@ export class ProgramHomeContainer extends React.Component {
   componentDidMount() {
     if (this.props.programs.length === 0 && !this.props.selectedProgram) {
       Actions.getPrograms().then((programs) => {
-        this.getProgram(programs, this.props.match.params.program)
+        this.getProgram(programs, this.props.match.params.program);
       });
     }
 
@@ -60,7 +59,6 @@ export class ProgramHomeContainer extends React.Component {
 
     return (
       <Switch>
-        <Route path="/:program/students/classrooms/:classroomId/join" component={JoinPageContainer} />
         <Route path="/astro-101-with-galaxy-zoo/educators" component={AstroHome} />
         <Redirect from="/astro-101-with-galaxy-zoo" to="/astro-101-with-galaxy-zoo/educators/" />
         <Route path="/wildcam-darien-lab" component={DarienRoutesContainer} />
