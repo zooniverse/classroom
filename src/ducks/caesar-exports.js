@@ -34,7 +34,7 @@ const CAESAR_EXPORTS_PROPTYPES = {
 function handleError(error) {
   Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.ERROR);
   Actions.caesarExports.setError(error);
-  Actions.notification.setNotification({ status: 'critical' , message: 'Something went wrong.' });
+  Actions.notification.setNotification({ status: 'critical', message: 'Something went wrong.' });
   console.error(error);
 }
 
@@ -57,13 +57,19 @@ const showModal = (state) => {
 
 // Effects are for async actions and get automatically to the global Actions list
 Effect('getCaesarExport', (data) => {
+  let requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/new`;
   Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.FETCHING);
-  const requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests`;
+  if (data.id) {
+    requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/${data.id}`;
+  }
 
   return superagent.get(requestUrl)
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
-    .query({ subgroup: data.classroom.zooniverseGroupId })
+    .query({
+      requested_data: 'reductions',
+      subgroup: data.classroom.zooniverseGroupId
+    })
     .then((response) => {
       console.log('response', response.status)
       if (!response) { throw 'ERROR (ducks/caesarExports/getCaesarExport): No response'; };
@@ -73,7 +79,7 @@ Effect('getCaesarExport', (data) => {
 
       Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
     }).catch((error) => {
-      if (error.status !== 404) handleError(error)
+      if (error.status !== 404) handleError(error);
       if (error.status === 404) {
         Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
       }
@@ -106,10 +112,10 @@ Effect('exportToGoogleDrive', (csv) => {
     }).then((response) => {
       if (response && response.body && response.status === 200) {
         Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
-        Actions.classrooms.setToastState({ status: 'ok', message: 'Sent CSV to your Google Drive' })
+        Actions.classrooms.setToastState({ status: 'ok', message: 'Sent CSV to your Google Drive' });
         Actions.caesarExports.showModal();
       }
-    }).catch((error) => { handleError(error); })
+    }).catch((error) => { handleError(error); });
 });
 
 const caesarExports = State('caesarExports', {
