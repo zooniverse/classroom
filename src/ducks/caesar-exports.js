@@ -125,6 +125,7 @@ Effect('getCaesarExports', (data) => {
 });
 
 Effect('getCaesarExport', (data) => {
+  let requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/new`;
   Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.FETCHING);
   const requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/${data.id}`;
 
