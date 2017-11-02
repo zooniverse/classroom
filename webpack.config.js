@@ -52,7 +52,8 @@ module.exports = {
 
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.css', '.styl'],
-    modules: ['.', 'node_modules']
+    modules: ['.', 'node_modules'],
+    symlinks: false
   },
 
   module: {
