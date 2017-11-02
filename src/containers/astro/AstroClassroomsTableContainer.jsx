@@ -27,7 +27,13 @@ class AstroClassroomsTableContainer extends React.Component {
     this.setState({ toExport: { assignment, classroom } });
 
     Actions.caesarExports.showModal();
-    Actions.getCaesarExport({ assignment, classroom });
+    Actions.getCaesarExport({ assignment, classroom })
+      .then((response) => {
+        if (response.status === 404) {
+          Actions.createCaesarExport({ assignment, classroom });
+        }
+        console.log('response in then', response.status);
+      });
   }
 
   render() {

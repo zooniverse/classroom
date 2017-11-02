@@ -57,8 +57,9 @@ const showModal = (state) => {
 
 // Effects are for async actions and get automatically to the global Actions list
 Effect('getCaesarExport', (data) => {
-  let requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/new`;
   Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.FETCHING);
+  let requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/`;
+
   if (data.id) {
     requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/${data.id}`;
   }
@@ -71,10 +72,37 @@ Effect('getCaesarExport', (data) => {
       subgroup: data.classroom.zooniverseGroupId
     })
     .then((response) => {
-      console.log('response', response.status)
+      console.log('response', response.status);
       if (!response) { throw 'ERROR (ducks/caesarExports/getCaesarExport): No response'; };
       if (response.ok) {
-        console.log('its ok')
+        console.log('its ok');
+      }
+
+      Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
+    }).catch((error) => {
+      if (error.status !== 404) handleError(error);
+      if (error.status === 404) {
+        Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
+        return error;
+      }
+    });
+});
+
+Effect('createCaesarExport', (data) => {
+  const requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/`;
+
+  return superagent.post(requestUrl)
+    .set('Content-Type', 'application/json')
+    .set('Authorization', apiClient.headers.Authorization)
+    .query({
+      requested_data: 'reductions',
+      subgroup: data.classroom.zooniverseGroupId
+    })
+    .then((response) => {
+      console.log('response', response.status);
+      if (!response) { throw 'ERROR (ducks/caesarExports/getCaesarExport): No response'; }
+      if (response.ok) {
+        console.log('its ok');
       }
 
       Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
