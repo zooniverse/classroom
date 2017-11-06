@@ -65,6 +65,7 @@ Effect('getCaesarExport', (data) => {
   }
 
   return superagent.get(requestUrl)
+    .set('Accept', 'application/json')
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
     .query({
@@ -78,6 +79,7 @@ Effect('getCaesarExport', (data) => {
         console.log('its ok');
       }
 
+      return response.body;
       Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
     }).catch((error) => {
       if (error.status !== 404) handleError(error);
