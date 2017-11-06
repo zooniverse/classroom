@@ -193,7 +193,14 @@ Effect('getPrograms', () => {
         return response.body.data;
       }
       throw 'ERROR (ducks/programs/getPrograms): Invalid response';
-    }).catch(error => handleError(error));
+    }).catch((error) => {
+      if (error.status !== 404) handleError(error)
+      if (error.status === 404) {
+        // Fallback to showing the mocks
+        Actions.programs.setStatus(PROGRAMS_STATUS.SUCCESS);
+        Actions.programs.setPrograms(programsArray);
+      }
+    });
 });
 
 Effect('getProgram', (data) => {
