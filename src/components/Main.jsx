@@ -39,7 +39,7 @@ const Main = ({ admin, location }) => {
       {admin &&
         <AdminLayoutIndicator />}
       <Box>
-        <ZooHeader authContainer={<AuthContainer location={location} />} />
+        <ZooHeader authContainer={<AuthContainer location={location} />} isAdmin={admin} />
         <AppHeader location={location} />
         <AppNotification />
         <Switch>

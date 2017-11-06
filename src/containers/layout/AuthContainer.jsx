@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
-import { LoginButton, LogoutButton, OauthModal, UserMenu, UserNavigation } from 'zooniverse-react-components';
+import { LogoutButton, SignedInUserNavigation, SignedOutUserNavigation } from 'zooniverse-react-components';
 import Anchor from 'grommet/components/Anchor';
 
 import { env } from '../../lib/config';
@@ -62,31 +62,34 @@ export class AuthContainer extends React.Component {
     }
 
 
-    return (this.props.user && this.props.initialised)
-      ? <div>
-          <UserNavigation />
-          <UserMenu user={this.props.user} userMenuNavList={userMenuNavList} />
-        </div>
-      : <div>
-          <LoginButton toggleModal={this.toggleOauthModal} />
-          <OauthModal login={this.login} loginWithGoogle={this.loginWithGoogle} onClose={this.toggleOauthModal} showOauthModal={this.props.showOauthModal} />
-        </div>;
+    return (this.props.user && this.props.initialised) ?
+      <SignedInUserNavigation isAdmin={this.props.admin} user={this.props.user} userMenuNavList={userMenuNavList} /> :
+      <SignedOutUserNavigation
+        login={this.login}
+        loginWithGoogle={this.loginWithGoogle}
+        showOauthModal={this.props.showOauthModal}
+        toggleModal={this.toggleOauthModal}
+        useOauth={true}
+      />;
   }
 }
 
 AuthContainer.propTypes = {
+  admin: PropTypes.bool,
   user: PropTypes.shape({ login: PropTypes.string }),
   initialised: PropTypes.bool,
   showOauthModal: PropTypes.bool
 };
 
 AuthContainer.defaultProps = {
+  admin: false,
   user: null,
   initialised: false,
   showOauthModal: false
 };
 
 const mapStateToProps = (state) => ({
+  admin: state.auth.admin,
   user: state.auth.user,
   initialised: state.auth.initialised,
   showOauthModal: state.auth.showOauthModal
