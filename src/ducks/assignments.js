@@ -35,10 +35,9 @@ function handleError(error) {
 function sortAssignments(assignments) {
   const firstAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.first);
   const secondAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.second);
-  const thirdAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.third);
 
-  if (firstAssignment && secondAssignment && thirdAssignment) {
-    return [firstAssignment, secondAssignment, thirdAssignment];
+  if (firstAssignment && secondAssignment) {
+    return [firstAssignment, secondAssignment];
   }
 
   return assignments;

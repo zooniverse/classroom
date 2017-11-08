@@ -7,9 +7,8 @@ import { env } from '../lib/config';
 
 // testing mocks
 export const i2aAssignmentNames = {
-  first: "Introduction",
-  second: "Galaxy Zoo 101",
-  third: "Hubble's Law"
+  first: "Galaxy Zoo 101",
+  second: "Hubble's Law"
 }
 
 const i2a = {
@@ -30,19 +29,14 @@ const i2a = {
         // to then build the URL to the project in the UI.
         // These are just test projects on staging...
         "2218": {
-          name: i2aAssignmentNames.third,
-          classification_target: 10,
+          name: i2aAssignmentNames.second,
+          classifications_target: "10",
           slug: 'srallen086/intro2astro-hubble-testing'
         },
         "3037": {
-          name: i2aAssignmentNames.second,
-          classification_target: 22,
-          slug: 'srallen086/galaxy-zoo-in-astronomy-101'
-        },
-        "3038": {
           name: i2aAssignmentNames.first,
-          classification_target: 1,
-          slug: 'srallen086/introduction-to-platform'
+          classifications_target: "22",
+          slug: 'srallen086/galaxy-zoo-in-astronomy-101'
         }
       }
     }
@@ -64,19 +58,14 @@ const i2a = {
         // to then build the URL to the project in the UI.
         // TODO: replace the workflow ids here with the production ids
         "1315": {
-          name: i2aAssignmentNames.third,
-          classification_target: 10,
+          name: i2aAssignmentNames.second,
+          classifications_target: "10",
           slug: 'srallen086/intro2astro-hubble-testing'
         },
         "1771": {
-          name: i2aAssignmentNames.second,
-          classification_target: 22,
-          slug: 'srallen086/galaxy-zoo-in-astronomy-101'
-        },
-        "3038": {
           name: i2aAssignmentNames.first,
-          classification_target: 1,
-          slug: 'srallen086/introduction-to-platform'
+          classifications_target: "22",
+          slug: 'srallen086/galaxy-zoo-in-astronomy-101'
         }
       }
     }
