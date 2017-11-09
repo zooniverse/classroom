@@ -58,9 +58,10 @@ const ExportModal = ({ caesarExport, caesarExportStatus, onClose, showModal }) =
           <Box direction="row">
             <SuperDownloadButton
               className="export-modal__button"
-              text="Download CSV"
-              primary={true}
               disabled={disableButton}
+              fileNameBase="astro101-"
+              primary={true}
+              text="Download CSV"
             />
             <GoogleDriveExportButton className="export-modal__button" />
           </Box>

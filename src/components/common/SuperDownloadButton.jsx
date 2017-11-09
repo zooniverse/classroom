@@ -23,8 +23,6 @@ response with 'content-disposition' headers to force a download dialog.
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { config } from '../../lib/config';
-import { blobbifyData, generateFilename } from '../../lib/mapexplorer-helpers'
 
 import { saveAs } from 'browser-filesaver';
 import superagent from 'superagent';
@@ -35,13 +33,15 @@ import Label from 'grommet/components/Label';
 import SpinningIcon from 'grommet/components/icons/Spinning';
 import DownloadIcon from 'grommet/components/icons/base/Download';
 
+import { config } from '../../lib/config';
+import { blobbifyData, generateFilename } from '../../lib/file-download-helpers';
 import { ZooTran, ZooTranCSV } from '../../lib/zooniversal-translator.js';
 
 const STATUS = {
   IDLE: 'idle',
   FETCHING: 'fetching',
   SUCCESS: 'success',
-  ERROR: 'error',
+  ERROR: 'error'
 };
 
 class SuperDownloadButton extends React.Component {
@@ -52,44 +52,23 @@ class SuperDownloadButton extends React.Component {
     this.altForm = null;
     this.altFormData = null;
 
-    this.state = {  //Keep the state simple and local; no need for Redux connections.
-      status: STATUS.IDLE,
+    this.state = {  // Keep the state simple and local; no need for Redux connections.
+      status: STATUS.IDLE
     };
   }
 
-  render() {
-    // Grommet Button determines disabled state based on presence of onClick handler...
-    return (
-      <Button
-        className={this.props.className ? this.props.className : null}
-        onClick={this.props.disabled ? null : this.download}
-        icon={(this.state.status === STATUS.FETCHING) ? <SpinningIcon size="small" /> : this.props.icon}
-        primary={this.props.primary}
-        label={this.props.text}
-      >
-        {(this.state.status !== STATUS.SUCCESS) ? null : <Toast status='ok'>{ZooTran('Success: file downloaded.')}</Toast> }
-        {(this.state.status !== STATUS.ERROR) ? null : <Toast status='critical'>{ZooTran('Error: could not download the file.')}</Toast> }
-        <form style={{ 'display': 'none' }} action={config.root + 'downloads/'} method="POST" ref={c=>this.altForm=c} aria-hidden={true}>
-          <textarea name="data" ref={c=>this.altFormData=c} readOnly aria-label="alt-data" />
-          <input name="content_type" value={this.props.contentType} readOnly aria-label="alt-contenttype" />
-          <input name="filename" value={this.props.filename} readOnly aria-label="alt-filename" />
-        </form>
-      </Button>
-    );
-  }
-
   download() {
+    const filename = generateFilename(this.props.fileNameBase);
     this.setState({ status: STATUS.FETCHING });
     superagent.get(this.props.url)
-    .then(response => {
+    .then((response) => {
       if (!response) { throw 'ERROR (SuperDownloadButton): No response'; }
-      if (response.ok && response.text) {  //Use .text, not .body, for pure CSV data
+      if (response.ok && response.text) {  // Use .text, not .body, for pure CSV data
         return response.text;
       }
       throw 'ERROR (SuperDownloadButton): invalid response';
     })
-    .then(data => {
-
+    .then((data) => {
       if (this.props.useZooniversalTranslator && this.props.contentType === 'text/csv') {
         data = ZooTranCSV(data);
       }
@@ -103,15 +82,48 @@ class SuperDownloadButton extends React.Component {
         this.altFormData.value = data;
         this.altForm.submit();
       } else {
-        saveAs(blobbifyData(data, this.props.contentType), this.props.filename);
+        saveAs(blobbifyData(data, this.props.contentType), filename);
       }
 
       this.setState({ status: STATUS.SUCCESS });
     })
-    .catch(err => {
+    .catch((err) => {
       this.setState({ status: STATUS.ERROR });
       console.error(err);
     });
+  }
+
+  render() {
+    // Grommet Button determines disabled state based on presence of onClick handler...
+    return (
+      <Button
+        className={this.props.className ? this.props.className : null}
+        onClick={this.props.disabled ? null : this.download}
+        icon={(this.state.status === STATUS.FETCHING) ? <SpinningIcon size="small" /> : this.props.icon}
+        primary={this.props.primary}
+        label={this.props.text}
+      >
+        {(this.state.status !== STATUS.SUCCESS) ?
+          null :
+          <Toast status="ok">{ZooTran('Success: file downloaded.')}</Toast>
+        }
+        {(this.state.status !== STATUS.ERROR) ?
+          null :
+          <Toast status="critical">{ZooTran('Error: could not download the file.')}</Toast>
+        }
+        <form
+          style={{ display: 'none' }}
+          action={config.root + 'downloads/'}
+          method="POST"
+          ref={c => this.altForm = c}
+          aria-hidden={true}
+        >
+          <textarea name="data" ref={c => this.altFormData = c} readOnly aria-label="alt-data" />
+          <input name="content_type" value={this.props.contentType} readOnly aria-label="alt-contenttype" />
+          <input name="filename" value={this.props.filename} readOnly aria-label="alt-filename" />
+        </form>
+      </Button>
+    );
   }
 }
 
@@ -119,22 +131,24 @@ SuperDownloadButton.propTypes = {
   className: PropTypes.string,
   contentType: PropTypes.string,
   disabled: PropTypes.bool,
-  filename: PropTypes.string,
+  fileNameBase: PropTypes.string,
   icon: PropTypes.node,
   primary: PropTypes.bool,
   text: PropTypes.string,
   url: PropTypes.string,
-  useZooniversalTranslator: PropTypes.bool,
+  useZooniversalTranslator: PropTypes.bool
 };
+
 SuperDownloadButton.defaultProps = {
   className: '',
   contentType: 'text/csv',
   disabled: false,
-  filename: generateFilename(),
-  icon: <DownloadIcon size="small"/>,
+  fileNameBase: 'download-',
+  icon: <DownloadIcon size="small" />,
   primary: false,
   text: ZooTran('Download'),
   url: '',
-  useZooniversalTranslator: true,
+  useZooniversalTranslator: true
 };
+
 export default SuperDownloadButton;

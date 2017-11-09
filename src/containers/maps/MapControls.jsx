@@ -37,20 +37,20 @@ class MapControls extends React.Component {
   constructor(props) {
     super(props);
   }
-  
+
   //----------------------------------------------------------------
 
   render() {
     if (!this.props.mapConfig) return null;
-    
+
     const mapConfig = this.props.mapConfig;
-    
+
     const where = constructWhereClause(mapConfig, this.props.filters);
     const downloadUrl = mapConfig.database.urls.csv.replace(
       '{SQLQUERY}',
       encodeURIComponent(mapConfig.database.queries.selectForDownload.replace('{WHERE}', where))
     );
-    
+
     const hasAnySelections = this.props.filters && Object.keys(this.props.filters).length > 0;
     let statusMessage = '...';
     if (this.props.markersStatus === MAPEXPLORER_MARKERS_STATUS.FETCHING) {
@@ -60,14 +60,15 @@ class MapControls extends React.Component {
     } else if (this.props.markersStatus === MAPEXPLORER_MARKERS_STATUS.SUCCESS) {
       statusMessage = `${this.props.markersDataCount} ${ZooTran('result(s)')}`;
     }
-    
+
     const lang = ZooTranGetLanguage();
-    
+
     return (
       <Box className="map-controls">
         <Accordion openMulti={true}>
           <AccordionPanel heading={statusMessage} className="map-controls-status">
             <SuperDownloadButton
+              fileNameBase="wildcam-"
               url={downloadUrl}
               text={ZooTran('Download')}
               useZooniversalTranslator={true}
@@ -120,7 +121,7 @@ class MapControls extends React.Component {
       </Box>
     );
   }
-  
+
   componentWillReceiveProps(props = this.props) {
     //Prevent infinite loops; only update when the selected filters are changed.
     let areFiltersDifferent = JSON.stringify(this.props.filters) !== JSON.stringify(props.filters);
