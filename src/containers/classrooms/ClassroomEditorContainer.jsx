@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import { saveAs } from 'browser-filesaver';
 import ClassroomEditor from '../../components/classrooms/ClassroomEditor';
-import { blobbifyData, generateFilename } from '../../lib/mapexplorer-helpers'; // TODO: Maybe not brand this as 'mapexplorer'?
+import { blobbifyData, generateFilename } from '../../lib/file-download-helpers';
 
 import {
   CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
@@ -11,6 +11,9 @@ import {
 import {
   ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES
 } from '../../ducks/assignments';
+import {
+  PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES
+} from '../../ducks/programs';
 
 export class ClassroomEditorContainer extends React.Component {
   constructor(props) {
@@ -31,22 +34,11 @@ export class ClassroomEditorContainer extends React.Component {
     this.removeStudentFromClassroom = this.removeStudentFromClassroom.bind(this);
   }
 
-  componentDidMount() {
-    if (this.props.selectedProgram && !this.props.selectedClassroom) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedProgram &&
+        this.props.selectedProgram !== nextProps.selectedProgram &&
+        !this.props.selectedClassroom) {
       Actions.getClassroom(this.props.match.params.id);
-    }
-
-    if (!this.props.programs) {
-      Actions.getPrograms().then((programs) => {
-        Actions.getProgram({ programs, param: this.props.match.params.program })
-          .then(() => {
-            Actions.getClassroom(this.props.match.params.id);
-          });
-      });
-    }
-
-    if (!this.props.selectedProgram && this.props.programs) {
-      Actions.getProgram({ programs: this.props.programs, param: this.props.match.params.program });
     }
   }
 
@@ -76,11 +68,11 @@ export class ClassroomEditorContainer extends React.Component {
     //--------------------------------
     let exampleData = 'id,name\n';
     this.props.selectedClassroom.students &&
-    this.props.selectedClassroom.students.map((student) =>{
+    this.props.selectedClassroom.students.map((student) => {
       let studentName = (student.zooniverseDisplayName && student.zooniverseDisplayName.length > 0)
         ? student.zooniverseDisplayName
         : String(student.zooniverseLogin);
-      studentName = studentName.replace(/"/g, '""')
+      studentName = studentName.replace(/"/g, '""');
       const row = `${student.id},"${studentName}"\n`;
       exampleData += row;
     });
@@ -134,12 +126,14 @@ export class ClassroomEditorContainer extends React.Component {
 
 ClassroomEditorContainer.propTypes = {
   ...ASSIGNMENTS_PROPTYPES,
-  ...CLASSROOMS_PROPTYPES
+  ...CLASSROOMS_PROPTYPES,
+  ...PROGRAMS_PROPTYPES
 };
 
 ClassroomEditorContainer.defaultProps = {
   ...ASSIGNMENTS_INITIAL_STATE,
-  ...CLASSROOMS_INITIAL_STATE
+  ...CLASSROOMS_INITIAL_STATE,
+  ...PROGRAMS_INITIAL_STATE
 };
 
 const mapStateToProps = (state) => ({
