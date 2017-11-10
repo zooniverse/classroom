@@ -32,14 +32,22 @@ export class ClassroomEditorContainer extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.selectedClassroom) {
-      // TODO Why does this 404 when directly navigating to an classroom edit view?
+    console.log('cdm')
+    if (this.props.selectedProgram && !this.props.selectedClassroom) {
       Actions.getClassroom(this.props.match.params.id);
     }
 
-    if (!this.props.selectedProgram) {
-      // Fix routes to make this dynamic
-      Actions.getProgram({ programs: this.props.programs, param: 'astro-101-with-galaxy-zoo' });
+    if (!this.props.programs) {
+      Actions.getPrograms().then((programs) => {
+        Actions.getProgram({ programs, param: this.props.match.params.program })
+          .then(() => {
+            Actions.getClassroom(this.props.match.params.id);
+          });
+      });
+    }
+
+    if (!this.props.selectedProgram && this.props.programs) {
+      Actions.getProgram({ programs: this.props.programs, param: this.props.match.params.program });
     }
   }
 

@@ -6,11 +6,12 @@ import queryString from 'query-string';
 
 import JoinPage from '../../components/common/JoinPage';
 import {
-  PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES
+  PROGRAMS_STATUS, PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES
 } from '../../ducks/programs';
 import {
   CLASSROOMS_STATUS
 } from '../../ducks/classrooms';
+import { programsMocks } from '../../ducks/programs';
 
 export class JoinPageContainer extends React.Component {
   constructor(props) {
@@ -22,12 +23,14 @@ export class JoinPageContainer extends React.Component {
   componentDidMount() {
     // We want to know which program so we know how to redirect the student after joining.
     // I2A doesn't have a student interface here.
-    Actions.getProgram({ programs: this.props.programs, param: this.props.match.params.program })
+    Actions.getPrograms().then((programs) => {
+      Actions.getProgram({ programs, param: this.props.match.params.program })
       .then(() => {
         if (this.props.initialised && this.props.user) {
-          this.joinClassroom();
+          this.joinClassroom(this.props);
         }
       });
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,15 +39,22 @@ export class JoinPageContainer extends React.Component {
         nextProps.initialised &&
         nextProps.user) {
       // TODO debug when you are attempt to join your own classroom. Getting 500 error?
-      this.joinClassroom();
+      this.joinClassroom(nextProps);
     }
   }
 
-  joinClassroom() {
-    const classroomId = this.props.match.params.classroomId;
-    const joinToken = queryString.parse(this.props.location.search);
+  joinClassroom(props) {
+    const classroomId = props.match.params.classroomId;
+    const joinToken = queryString.parse(props.location.search);
 
-    Actions.joinClassroom({ classroomId, joinToken: joinToken.token });
+    Actions.joinClassroom({ classroomId, joinToken: joinToken.token })
+      .then(() => {
+        if ((props.programsStatus === PROGRAMS_STATUS.SUCCESS && props.classroomsStatus === CLASSROOMS_STATUS.SUCCESS) &&
+            (props.selectedProgram && props.selectedProgram.metadata && props.selectedProgram.metadata.redirectOnJoin)) {
+          // Make sure they see the success message before redirecting
+          setTimeout(props.history.replace(`/${props.selectedProgram.slug}/students`), 2000);
+        }
+      });
   }
 
   render() {

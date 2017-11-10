@@ -9,7 +9,7 @@ import Status from 'grommet/components/icons/Status';
 import { LoginButton } from 'zooniverse-react-components';
 
 import {
-  PROGRAMS_STATUS
+  PROGRAMS_STATUS, PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES
 } from '../../ducks/programs';
 import {
   CLASSROOMS_STATUS
@@ -40,7 +40,7 @@ const JoinPage = (props) => {
         className="join-page"
       >
         <Paragraph size="large">You need to sign in to join a classroom.</Paragraph>
-        <LoginButton className="join-page__login-button" toggleForm={Actions.auth.toggleOauthModal} plain={false} />
+        <LoginButton className="join-page__login-button" toggleModal={Actions.auth.toggleOauthModal} plain={false} />
       </Box>
     );
   }
@@ -72,12 +72,20 @@ const JoinPage = (props) => {
         {(props.programsStatus === PROGRAMS_STATUS.SUCCESS && props.classroomsStatus === CLASSROOMS_STATUS.SUCCESS) &&
           <Box>
             <Headline align="center" size="medium" strong={true}><Status value="ok" size="large" /> Joined classroom</Headline>
-            {props.selectedProgram && props.selectedProgram.metadata.redirect &&
+            {props.selectedProgram && props.selectedProgram.metadata && props.selectedProgram.metadata.redirectOnJoin &&
               <Paragraph align="center">Redirecting to activity...</Paragraph>}
           </Box>}
       </Box>
     );
   }
+};
+
+JoinPage.defaultProps = {
+  ...PROGRAMS_INITIAL_STATE
+};
+
+JoinPage.propTypes = {
+  ...PROGRAMS_PROPTYPES
 };
 
 export default JoinPage;

@@ -7,11 +7,13 @@ import ClassroomsLayout from '../../components/classrooms/ClassroomsLayout';
 
 export default class DarienRoutesContainer extends React.Component {
   render() {
+    console.log('darienroutescontainer', this.props.match)
+
     return (
       <Switch>
         <Route exact path={`${this.props.match.url}/`} component={DarienHome} />
-        <Route exact path={`${this.props.match.url}/educators`} component={ClassroomsLayout} />
-        <Route exact path={`${this.props.match.url}/students`} component={DarienExplorer} />
+        <Route path={`${this.props.match.url}/educators`} component={ClassroomsLayout} />
+        <Route path={`${this.props.match.url}/students`} component={DarienExplorer} />
       </Switch>
     );
   }
