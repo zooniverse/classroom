@@ -13,7 +13,6 @@ import {
 } from '../../ducks/classrooms';
 
 const ClassroomsLayout = ({ classroomInstructions, match, toast }) => {
-  console.log('layout match', match)
   return (
     <Box
       className="classrooms-layout"

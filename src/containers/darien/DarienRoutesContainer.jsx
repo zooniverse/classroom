@@ -7,8 +7,6 @@ import ClassroomsLayout from '../../components/classrooms/ClassroomsLayout';
 
 export default class DarienRoutesContainer extends React.Component {
   render() {
-    console.log('darienroutescontainer', this.props.match)
-
     return (
       <Switch>
         <Route exact path={`${this.props.match.url}/`} component={DarienHome} />

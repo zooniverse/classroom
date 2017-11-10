@@ -32,7 +32,6 @@ export class ClassroomEditorContainer extends React.Component {
   }
 
   componentDidMount() {
-    console.log('cdm')
     if (this.props.selectedProgram && !this.props.selectedClassroom) {
       Actions.getClassroom(this.props.match.params.id);
     }
