@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import { saveAs } from 'browser-filesaver';
 import ClassroomEditor from '../../components/classrooms/ClassroomEditor';
-import { blobbifyData, generateFilename } from '../../lib/file-download-helpers';
+import { blobbifyData, generateFilename } from '../../lib/mapexplorer-helpers'; // TODO: Maybe not brand this as 'mapexplorer'?
 
 import {
   CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
