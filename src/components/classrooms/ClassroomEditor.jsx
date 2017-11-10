@@ -159,7 +159,6 @@ const ClassroomEditor = (props) => {
           <thead className="manager-table__headers">
             <TableRow>
               <th id="student-name" scope="col" className="headers__header">Student Name/Zooniverse ID</th>
-              <th id="assignment-intro" scope="col" className="headers__header">Introduction</th>
               <th id="assignment-galaxy" scope="col" className="headers__header">Galaxy Zoo 101</th>
               <th id="assignment-hubble" scope="col" className="headers__header">Hubble's Law</th>
               <th id="student-remove" scope="col" className="headers__header">Remove Student</th>
@@ -173,7 +172,9 @@ const ClassroomEditor = (props) => {
               </TableRow>
             )}
 
-            {props.assignmentsStatus !== ASSIGNMENTS_STATUS.FETCHING &&
+            {props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS &&
+            props.assignments[props.selectedClassroom.id] &&
+            props.assignments[props.selectedClassroom.id].length > 0 &&
               students.map(student =>
                 (<TableRow className="manager-table__row-data" key={`classroom-student-${student.id}`}>
                   <td headers="student-name">
@@ -181,7 +182,6 @@ const ClassroomEditor = (props) => {
                       ? <span>{student.zooniverseDisplayName}</span>
                       : <span className="secondary">{student.zooniverseLogin}</span> }
                   </td>
-                  <td headers="assignment-intro">{Math.floor(Math.random() * 100)}%</td>
                   <td headers="assignment-galaxy">{Math.floor(Math.random() * 100)}%</td>
                   <td headers="assignment-hubble">{Math.floor(Math.random() * 100)}%</td>
                   <td headers="student-remove">

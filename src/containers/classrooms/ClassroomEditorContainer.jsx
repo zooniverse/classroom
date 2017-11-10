@@ -34,16 +34,27 @@ export class ClassroomEditorContainer extends React.Component {
     this.removeStudentFromClassroom = this.removeStudentFromClassroom.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.selectedProgram && !this.props.selectedClassroom) {
+      this.getClassroomAndAssignments(this.props);
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedProgram &&
         this.props.selectedProgram !== nextProps.selectedProgram &&
         !this.props.selectedClassroom) {
-      Actions.getClassroom(this.props.match.params.id);
+      this.getClassroomAndAssignments(nextProps);
     }
   }
 
   componentWillUnmount() {
     Actions.classrooms.selectClassroom(CLASSROOMS_INITIAL_STATE.selectedClassroom);
+  }
+
+  getClassroomAndAssignments(props) {
+    Actions.getClassroom(props.match.params.id)
+      .then(classroom => Actions.getAssignments({ classroomId: classroom.id, selectedProgram: props.selectedProgram }));
   }
 
   editClassroom() {

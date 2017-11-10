@@ -126,8 +126,6 @@ Effect('getClassroom', (id) => {
       Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
       Actions.classrooms.selectClassroom(classroom);
       return classroom;
-    }).then((classroom) => {
-      Actions.getAssignments(classroom.id);
     }).catch((error) => {
       handleError(error);
     });
