@@ -45,11 +45,7 @@
     "superagent": "~3.5.2",
     "superagent-jsonapify": "~1.4.5",
     "zoo-grommet": "~0.2.2",
-<<<<<<< 1f0a8193fd4c37c687c617c128589b623fb78be9
     "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.7.0"
-=======
-    "zooniverse-react-components": "github:zooniverse/zooniverse-react-components#header-updates"
->>>>>>> Install dev version
   },
   "devDependencies": {
     "babel-cli": "~6.24.1",
