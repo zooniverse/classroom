@@ -87,7 +87,7 @@ Effect('getAssignments', (data) => {
 });
 
 Effect('createAssignment', (data) => {
-  Actions.classrooms.setStatus(ASSIGNMENTS_STATUS.CREATING);
+  Actions.assignments.setStatus(ASSIGNMENTS_STATUS.CREATING);
 
   return post('/assignments', { data })
     .then((response) => {

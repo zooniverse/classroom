@@ -76,7 +76,8 @@ const AstroClassroomsTable = (props) => {
                 props.assignments[classroom.id].length === 0 &&
                 props.assignmentsStatus === ASSIGNMENTS_STATUS.FETCHING) ||
                 (Object.keys(props.assignments).length === 0 &&
-                props.assignmentsStatus === ASSIGNMENTS_STATUS.FETCHING)) &&
+                props.assignmentsStatus === ASSIGNMENTS_STATUS.FETCHING)) ||
+                (props.assignmentsStatus === ASSIGNMENTS_STATUS.CREATING) &&
                   <TableRow className="manager-table__row-data">
                     <td colSpan="4"><Spinning /></td>
                   </TableRow>}
@@ -87,6 +88,7 @@ const AstroClassroomsTable = (props) => {
                   <td colSpan="4"><Paragraph>No assignments have been created yet.</Paragraph></td>
                 </TableRow>}
               {(props.assignments[classroom.id] &&
+                props.assignments[classroom.id].length > 0 &&
                 props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS) &&
                 props.assignments[classroom.id].map((assignment) => {
                   const projectUrl = (assignmentsMetadata && assignmentsMetadata[assignment.workflowId]) ?

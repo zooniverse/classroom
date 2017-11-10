@@ -141,7 +141,12 @@ Effect('getClassroomsAndAssignments', (selectedProgram) => {
         // loop through the number of pages to request all of the data
         // and concatenate the response data together for the app state
         // Neither Pagination nor infinite scroll would be good UX for current table design.
-        Actions.getAssignments({ classroomId: classroom.id, selectedProgram });
+
+        // Sometimes the request to get assignments after the classroom create returns null
+        // even though a successful create happens. Give it some time...
+        // Probably a better way to deal with this.
+        // Maybe we should start using async/await?
+        setTimeout(() => { Actions.getAssignments({ classroomId: classroom.id, selectedProgram }); }, 500);
       });
     }
   });

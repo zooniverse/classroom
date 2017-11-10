@@ -35,7 +35,7 @@ const Main = ({ admin, location }) => {
   }
 
   return (
-    <App centered={false} className="app-layout" inline={true}>
+    <App centered={false} className="app-layout">
       {admin &&
         <AdminLayoutIndicator />}
       <Box>
