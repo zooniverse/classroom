@@ -43,6 +43,21 @@ function sortAssignments(assignments) {
   return assignments;
 }
 
+function joinStudentAssignmentsToAssignments(assignments, studentAssignments) {
+  const joinedData = assignments.map((assignment) => {
+    assignment.studentAssignmentsData = [];
+    assignment.relationships.student_assignments.data.forEach((student_assignment) => {
+      const assignedStudent = studentAssignments.filter(studentAssignment =>
+        student_assignment.id === studentAssignment.id
+      );
+      if (assignedStudent.length > 0) assignment.studentAssignmentsData.push(assignedStudent[0]);
+    });
+    return assignment;
+  });
+
+  return joinedData;
+}
+
 // Synchonous actions
 const setStatus = (state, status) => {
   return { ...state, status };
@@ -66,19 +81,25 @@ Effect('getAssignments', (data) => {
       if (!response) { throw 'ERROR (ducks/classrooms/getClassrooms): No response'; }
       if (response.ok &&
           response.body && response.body.data) {
-        return response.body.data;
+        return response.body;
       }
       throw 'ERROR (ducks/classrooms/getClassrooms): Invalid response';
     })
-    .then((assignments) => {
+    .then((responseData) => {
+      const assignments = responseData.data;
+      const studentAssignments = responseData.included;
       const assignmentsForClassroom = {};
       Actions.assignments.setStatus(ASSIGNMENTS_STATUS.SUCCESS);
 
+      // Student assignments data is side loaded by the assignments GET request
+      // Join the data together...
+      const joinedData = joinStudentAssignmentsToAssignments(assignments, studentAssignments);
+
       // If I2A style program, then sort the assignments before setting them to the app state
       if (!data.selectedProgram.custom) {
-        assignmentsForClassroom[data.classroomId] = sortAssignments(assignments);
+        assignmentsForClassroom[data.classroomId] = sortAssignments(joinedData);
       } else {
-        assignmentsForClassroom[data.classroomId] = assignments;
+        assignmentsForClassroom[data.classroomId] = joinedData;
       }
 
       Actions.assignments.setAssignments(assignmentsForClassroom);
