@@ -11,7 +11,9 @@ import Heading from 'grommet/components/Heading';
 import Footer from 'grommet/components/Footer';
 import Paragraph from 'grommet/components/Paragraph';
 
-const AssignmentForm = (props) => {
+import { ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES } from '../../ducks/assignments';
+
+function AssignmentForm(props) {
   return (
     <Form onSubmit={props.onSubmit} pad="medium">
       <Heading tag="h2">{props.heading}</Heading>
@@ -38,6 +40,7 @@ const AssignmentForm = (props) => {
         <FormField htmlFor="duedate" label="Due date" help="required">
           <DateTime
             id="duedate"
+            format="YYYY-MM-DD"
             onChange={props.onChangeDate}
             required={true}
             value={props.fields.duedate}
@@ -59,9 +62,9 @@ const AssignmentForm = (props) => {
         {props.students.length === 0 &&
           <Paragraph>There are no students available to assign.</Paragraph>}
         {props.students.length > 0 &&
-          props.students.map((student) => {
+          props.students.map(student =>
             <CheckBox key={student.id} label="A student user" onChange={() => {}} />
-          })}
+          )}
         <Button onClick={props.students.length > 0 ? () => {} : null} label="Select all students" />
       </fieldset>
 
@@ -77,28 +80,18 @@ const AssignmentForm = (props) => {
 };
 
 AssignmentForm.defaultProps = {
-  onChange: () => {},
-  fields: {
-    name: '',
-    subject: '',
-    school: '',
-    description: ''
-  },
+  ...ASSIGNMENTS_INITIAL_STATE,
   heading: '',
+  onChange: () => {},
   onSubmit: () => {},
   students: [],
   submitLabel: 'Submit'
 };
 
 AssignmentForm.propTypes = {
-  onChange: PropTypes.func,
-  fields: PropTypes.shape({
-    classificationsTarget: PropTypes.number,
-    name: PropTypes.string,
-    description: PropTypes.string,
-    duedate: PropTypes.string
-  }),
+  ...ASSIGNMENTS_PROPTYPES,
   heading: PropTypes.string,
+  onChange: PropTypes.func,
   onSubmit: PropTypes.func,
   students: PropTypes.arrayOf(PropTypes.object),
   submitLabel: PropTypes.string

@@ -61,7 +61,7 @@ export class AssignmentFormContainer extends React.Component {
       attributes: {
         name: this.props.formFields.name,
         metadata: {
-          classification_target: this.props.formFields.classification_target,
+          classifications_target: this.props.formFields.classifications_target.toString(),
           description: this.props.formFields.description,
           duedate: this.props.formFields.duedate
         }

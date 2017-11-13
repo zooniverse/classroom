@@ -50,11 +50,19 @@ class ClassroomsTableContainer extends React.Component {
   }
 
   maybeDeleteAssignment(id) {
-    this.setState({ assignmentToDelete: id, showConfirmationDialog: { assignment: true } });
+    this.setState({
+      assignmentToDelete: id,
+      classroomToDelete: null,
+      showConfirmationDialog: { classroom: false, assignment: true }
+    });
   }
 
   maybeDeleteClassroom(id) {
-    this.setState({ classroomToDelete: id, showConfirmationDialog: { classroom: true } });
+    this.setState({
+      assignmentToDelete: null,
+      classroomToDelete: id,
+      showConfirmationDialog: { classroom: true, assignment: false }
+    });
   }
 
   closeConfirmationDialog() {
