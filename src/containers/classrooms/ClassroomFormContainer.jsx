@@ -91,7 +91,7 @@ export class ClassroomFormContainer extends React.Component {
         attributes: {
           name: assignments[workflowId].name,
           metadata: {
-            classification_target: assignments[workflowId].classification_target
+            classifications_target: assignments[workflowId].classifications_target
           },
           workflow_id: workflowId
         },

@@ -44,7 +44,7 @@ const classroomPropTypes = {
 
 const CLASSROOMS_PROPTYPES = {
   selectedClassroom: PropTypes.shape(classroomPropTypes),
-  classrooms: PropTypes.arrayOf(PropTypes.shape(classroomPropTypes)),  //OPTIONAL TODO: Transform this into PropTypes.shape.
+  classrooms: PropTypes.arrayOf(PropTypes.shape(classroomPropTypes)),
   error: PropTypes.object,
   showForm: PropTypes.bool,
   status: PropTypes.string
@@ -54,7 +54,7 @@ const CLASSROOMS_PROPTYPES = {
 function handleError(error) {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.ERROR);
   Actions.classrooms.setError(error);
-  Actions.notification.setNotification({ status: 'critical' , message: 'Something went wrong.' });
+  Actions.notification.setNotification({ status: 'critical', message: 'Something went wrong.' });
   console.error(error);
 }
 

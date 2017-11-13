@@ -21,8 +21,15 @@ import {
   CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
 } from '../../ducks/classrooms';
 
-const AstroClassroomsTable = (props) => {
-  // TODO: Replace classroom.zooniverse_user_group_id with actual serialized user group id when available
+function calculateCompleteness(assignment, classroom) {
+  const classificationsTarget = +assignment.metadata.classifications_target;
+  const numberOfStudents = assignment.studentAssignments.length;
+  const numberOfCompletedClassifications = classroom.classificationsCount;
+  if (numberOfStudents === 0) return 0;
+  return (numberOfCompletedClassifications / (classificationsTarget * numberOfStudents)) * 100;
+}
+
+function AstroClassroomsTable(props) {
   const assignmentsMetadata = (props.selectedProgram && props.selectedProgram.metadata) ? props.selectedProgram.metadata.assignments : '';
   return (
     <Box>
@@ -38,8 +45,6 @@ const AstroClassroomsTable = (props) => {
           </TableRow>
         </thead>
         {props.classrooms.map((classroom) => {
-          // TODO update URL once we have staging/production hosts
-
           const joinURL = `${window.location.host}/#/${props.selectedProgram.slug}/students/classrooms/${classroom.id}/join?token=${classroom.joinToken}`;
           // Can we get linked assignments with classrooms in single get request?
           // No, if we want this, then we need to open an issue with the API
@@ -94,13 +99,14 @@ const AstroClassroomsTable = (props) => {
                   const projectUrl = (assignmentsMetadata && assignmentsMetadata[assignment.workflowId]) ?
                     `${config.zooniverse}/projects/${assignmentsMetadata[assignment.workflowId].slug}/classify?group=${classroom.attributes.zooniverse_group_id}` :
                     null;
-
+                  const calculatedCompleteness = calculateCompleteness(assignment, classroom);
                   return (
                     <TableRow className="manager-table__row-data" key={assignment.id}>
                       <td headers="classroom assignments">{assignment.name}</td>
                       <td headers="classroom completed">
                         {(assignment.metadata && assignment.metadata.classifications_target) ?
-                          assignment.metadata.classifications_target : ''}
+                          `${calculatedCompleteness}%` :
+                          ''}
                       </td>
                       <td headers="classroom export">
                         <Button

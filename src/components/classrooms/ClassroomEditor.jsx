@@ -28,6 +28,7 @@ import {
 import {
   ASSIGNMENTS_STATUS
 } from '../../ducks/assignments';
+import { i2aAssignmentNames } from '../../ducks/programs';
 
 const ClassroomEditor = (props) => {
   const joinURL = props.selectedClassroom ?
@@ -175,8 +176,13 @@ const ClassroomEditor = (props) => {
             {props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS &&
             props.assignments[props.selectedClassroom.id] &&
             props.assignments[props.selectedClassroom.id].length > 0 &&
-              students.map(student =>
-                (<TableRow className="manager-table__row-data" key={`classroom-student-${student.id}`}>
+              students.map((student) => {
+                const galaxyAssignment = props.assignments[props.selectedClassroom.id].filter(
+                  assignment => assignment.name === i2aAssignmentNames.first);
+                const hubbleAssignment = props.assignments[props.selectedClassroom.id].filter(
+                  assignment => assignment.name === i2aAssignmentNames.second);
+                console.log(galaxyAssignment, hubbleAssignment)
+                return (<TableRow className="manager-table__row-data" key={`classroom-student-${student.id}`}>
                   <td headers="student-name">
                     {(student.zooniverseDisplayName && student.zooniverseDisplayName.length > 0)
                       ? <span>{student.zooniverseDisplayName}</span>
@@ -192,8 +198,8 @@ const ClassroomEditor = (props) => {
                       icon={<CloseIcon size="small" />}
                     />
                   </td>
-                </TableRow>)
-              )}
+                </TableRow>);
+              })}
           </tbody>
 
         </Table>
