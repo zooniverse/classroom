@@ -99,15 +99,41 @@ const darien = {
   }
 };
 
+const gorongosa = {
+  staging: {
+    id: '3',
+    name: 'Wildcam Gorongosa Lab',
+    custom: true,
+    description: 'A map for exploring camera trap data from the WildCam Gorongosa project.',
+    slug: '',
+    metadata: {
+      cardImage: 'gorongosa-animals.jpg',
+      redirect: 'https://lab.wildcamgorongosa.org/'
+    }
+  },
+  production: {
+    id: '3',
+    name: 'Wildcam Gorongosa Lab',
+    custom: true,
+    description: 'A map for exploring camera trap data from the WildCam Gorongosa project.',
+    slug: '',
+    metadata: {
+      cardImage: 'gorongosa-animals.jpg',
+      redirect: 'https://lab.wildcamgorongosa.org/'
+    }
+  }
+}
 
 const programsArray = [
   i2a[env],
-  darien[env]
+  darien[env],
+  gorongosa[env]
 ];
 
 export const programsMocks = {
   i2a: i2a[env],
-  darien: darien[env]
+  darien: darien[env],
+  gorongosa: gorongosa[env]
 };
 
 // Constants
@@ -225,7 +251,7 @@ Effect('getProgram', (data) => {
 Effect('createProgram', (data) => {
   Actions.programs.setStatus(PROGRAMS_STATUS.CREATING);
 
-  return post('/programs/', { data: { attributes: data } })
+  return post('/programs', { data: { attributes: data } })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/programs/createProgram): No response'; }
       if (response.ok &&
