@@ -12,7 +12,7 @@ import {
   ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES
 } from '../../ducks/assignments';
 import {
-  PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES
+  PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES, i2aAssignmentNames
 } from '../../ducks/programs';
 
 export class ClassroomEditorContainer extends React.Component {
@@ -29,7 +29,7 @@ export class ClassroomEditorContainer extends React.Component {
 
     this.closeConfirmationDialog = this.closeConfirmationDialog.bind(this);
     this.editClassroom = this.editClassroom.bind(this);
-    this.exportGrades = this.exportGrades.bind(this);
+    this.exportStats = this.exportStats.bind(this);
     this.maybeRemoveStudentFromClassroom = this.maybeRemoveStudentFromClassroom.bind(this);
     this.removeStudentFromClassroom = this.removeStudentFromClassroom.bind(this);
   }
@@ -72,25 +72,38 @@ export class ClassroomEditorContainer extends React.Component {
     return null;
   }
 
-  exportGrades() {
-    if (!this.props.selectedClassroom) return null;
+  exportStats() {
+    if (!this.props.selectedClassroom && !this.props.selectedClassroom.students) return null;
+    const classroomName = this.props.selectedClassroom.name;
+    const galaxyAssignment = this.props.assignments[this.props.selectedClassroom.id].filter(
+      assignment => assignment.name === i2aAssignmentNames.first);
+    const hubbleAssignment = this.props.assignments[this.props.selectedClassroom.id].filter(
+      assignment => assignment.name === i2aAssignmentNames.second);
+    const galaxyClassificationTarget = galaxyAssignment[0].metadata.classifications_target;
+    const hubbleClassificationTarget = hubbleAssignment[0].metadata.classifications_target;
 
-    //TODO
-    //--------------------------------
-    let exampleData = 'id,name\n';
-    this.props.selectedClassroom.students &&
+    let exampleData = 'classroom,name,Galaxy Zoo 101 classification count,Hubble\'s Law classification count,Galaxy Zoo 101 percentage complete,Hubble\'s Law percentage complete\n';
+
     this.props.selectedClassroom.students.map((student) => {
       let studentName = (student.zooniverseDisplayName && student.zooniverseDisplayName.length > 0)
         ? student.zooniverseDisplayName
         : String(student.zooniverseLogin);
+
       studentName = studentName.replace(/"/g, '""');
-      const row = `${student.id},"${studentName}"\n`;
+      const galaxyStudentData = galaxyAssignment[0].studentAssignmentsData.filter(
+        data => data.attributes.student_user_id.toString() === student.id);
+      const hubbleStudentData = hubbleAssignment[0].studentAssignmentsData.filter(
+        data => data.attributes.student_user_id.toString() === student.id);
+      const studentGalaxyCount = galaxyStudentData[0].attributes.classifications_count;
+      const studentHubbleCount = hubbleStudentData[0].attributes.classifications_count;
+      const galaxyCountStat = `${studentGalaxyCount}/${galaxyClassificationTarget}`;
+      const hubbleCountStat = `${studentHubbleCount}/${hubbleClassificationTarget}`
+      const galaxyPercentageStat = (studentGalaxyCount / (+galaxyClassificationTarget)) * 100;
+      const hubblePercentageStat = (studentHubbleCount / (+hubbleClassificationTarget)) * 100;
+      const row = `"${classroomName}","${studentName}",${galaxyCountStat},${hubbleCountStat},${galaxyPercentageStat},${hubblePercentageStat}\n`;
       exampleData += row;
     });
     saveAs(blobbifyData(exampleData, this.props.contentType), generateFilename('astro-', '.csv'));
-
-    alert('TODO! Create a proper Export Grades function.');
-    //--------------------------------
   }
 
   maybeRemoveStudentFromClassroom(classroomId, studentId) {
@@ -122,7 +135,7 @@ export class ClassroomEditorContainer extends React.Component {
         classroomsStatus={this.props.classroomsStatus}
         closeConfirmationDialog={this.closeConfirmationDialog}
         editClassroom={this.editClassroom}
-        exportGrades={this.exportGrades}
+        exportStats={this.exportStats}
         match={this.props.match}
         maybeRemoveStudentFromClassroom={this.maybeRemoveStudentFromClassroom}
         removeStudentFromClassroom={this.removeStudentFromClassroom}

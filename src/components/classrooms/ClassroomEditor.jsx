@@ -106,7 +106,12 @@ const ClassroomEditor = (props) => {
             <Button type="button" label="Copy Join Link" />
           </CopyToClipboard>
 
-          <Button type="button" primary={true} label="Export Grades" onClick={props.exportGrades} />
+          <Button
+            type="button"
+            primary={true}
+            label="Export Stats"
+            onClick={props.selectedClassroom && props.selectedClassroom.students.length > 0 ? props.exportStats : null}
+          />
         </Box>
 
         <Box
@@ -177,9 +182,9 @@ const ClassroomEditor = (props) => {
             props.assignments[props.selectedClassroom.id] &&
             props.assignments[props.selectedClassroom.id].length > 0 &&
               students.map((student) => {
-                const galaxyAssignment = props.assignments[props.selectedClassroom.id].filter(
+                const galaxyAssignment = assignments.filter(
                   assignment => assignment.name === i2aAssignmentNames.first);
-                const hubbleAssignment = props.assignments[props.selectedClassroom.id].filter(
+                const hubbleAssignment = assignments.filter(
                   assignment => assignment.name === i2aAssignmentNames.second);
 
                 // Why are the ids in the student_user_id property numbers?!?!?!
@@ -218,6 +223,7 @@ const ClassroomEditor = (props) => {
 
 ClassroomEditor.defaultProps = {
   editClassroom: () => {},
+  exportStates: () => {},
   selectClassroom: () => {},
   removeStudentFromClassroom: () => {},
   //----------------
@@ -229,6 +235,7 @@ ClassroomEditor.defaultProps = {
 
 ClassroomEditor.propTypes = {
   editClassroom: PropTypes.func,
+  exportStats: PropTypes.func,
   selectClassroom: PropTypes.func,
   removeStudentFromClassroom: PropTypes.func,
   //----------------
