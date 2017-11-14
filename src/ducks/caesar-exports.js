@@ -57,13 +57,36 @@ const showModal = (state) => {
 
 // Effects are for async actions and get automatically to the global Actions list
 // Requests to caesar should include an Accept: 'application/json' header
+Effect('getCaesarExports', (data) => {
+  Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.FETCHING);
+  const requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/`;
+
+  return superagent.get(requestUrl)
+    .set('Accept', 'application/json')
+    .set('Content-Type', 'application/json')
+    .set('Authorization', apiClient.headers.Authorization)
+    .query({ requested_data: 'reductions' })
+    .then((response) => {
+      console.log('response', response.status);
+      if (!response) { throw 'ERROR (ducks/caesarExports/getCaesarExport): No response'; }
+      if (response.ok) {
+        console.log('its ok');
+      }
+
+      return response.body;
+      Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
+    }).catch((error) => {
+      if (error.status !== 404) handleError(error);
+      if (error.status === 404) {
+        Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
+        return error;
+      }
+    });
+});
+
 Effect('getCaesarExport', (data) => {
   Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.FETCHING);
-  let requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/`;
-
-  if (data.id) {
-    requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/${data.id}`;
-  }
+  const requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/${data.id}`;
 
   return superagent.get(requestUrl)
     .set('Accept', 'application/json')
