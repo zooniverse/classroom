@@ -150,6 +150,19 @@ function handleError(error) {
   console.error(error);
 }
 
+function sortPrograms(programs) {
+  programs.sort((a,b) => {
+    const programNameA = a.name.toUpperCase();
+    const programNameB = b.name.toUpperCase();
+
+    if (programNameA > programNameB) {
+      return 1;
+    }
+  });
+
+  return programs;
+}
+
 // Synchonous actions
 const setStatus = (state, status) => {
   return { ...state, status };
@@ -176,10 +189,11 @@ Effect('getPrograms', () => {
       if (!response) { throw 'ERROR (ducks/programs/getPrograms): No response'; }
       if (response.ok &&
           response.body && response.body.data) {
+        const sortedPrograms = sortPrograms(response.body.data);
         Actions.programs.setStatus(PROGRAMS_STATUS.SUCCESS);
-        Actions.programs.setPrograms(response.body.data);
+        Actions.programs.setPrograms(sortedPrograms);
 
-        return response.body.data;
+        return sortedPrograms;
       }
       throw 'ERROR (ducks/programs/getPrograms): Invalid response';
     }).catch((error) => {
