@@ -101,11 +101,11 @@ const darien = {
 
 const gorongosa = {
   staging: {
-    id: '3',
+    id: '4',
     name: 'Wildcam Gorongosa Lab',
     custom: true,
     description: 'A map for exploring camera trap data from the WildCam Gorongosa project.',
-    slug: '',
+    slug: 'wildcam-gorongosa-lab',
     metadata: {
       cardImage: 'gorongosa-animals.jpg',
       redirect: 'https://lab.wildcamgorongosa.org/'
@@ -116,7 +116,7 @@ const gorongosa = {
     name: 'Wildcam Gorongosa Lab',
     custom: true,
     description: 'A map for exploring camera trap data from the WildCam Gorongosa project.',
-    slug: '',
+    slug: 'wildcam-gorongosa-lab',
     metadata: {
       cardImage: 'gorongosa-animals.jpg',
       redirect: 'https://lab.wildcamgorongosa.org/'

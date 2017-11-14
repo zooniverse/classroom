@@ -24,15 +24,17 @@ export default function Home(props) {
         flush={false}
       >
         {props.programs.map((program) => {
+          const programLink = (program.metadata && program.metadata.redirect) ?
+            <Anchor href={program.metadata.redirect} label="Visit Lab" /> :
+            <Link to={program.slug} onClick={() => { Actions.getProgram({ programs: props.programs, param: program.slug }); }}>Enter</Link>;
+
           return (
             <Tile key={program.name}>
               <Card
                 thumbnail={`../images/${program.metadata.cardImage}`}
                 heading={program.name}
                 description={program.description}
-                link={
-                  <Link to={program.slug} onClick={() => { Actions.getProgram({ programs: props.programs, param: 'astro-101-with-galaxy-zoo' }); }}>Enter</Link>
-                }
+                link={programLink}
               />
             </Tile>
           );
