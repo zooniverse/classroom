@@ -55,6 +55,11 @@ function ExportModal({ caesarExport, caesarExports, caesarExportStatus, onClose,
               <Status value="warning" />{' '}
               Export request is processing. Please check again later.
             </Paragraph>}
+          {pending &&
+            <Paragraph>
+              <Status value="warning" />{' '}
+              Export request is processing.
+            </Paragraph>}
           {noExport &&
             <Paragraph>
               <Status value="warning" />{' '}
