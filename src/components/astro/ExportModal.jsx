@@ -19,30 +19,35 @@ import {
 } from '../../ducks/caesar-exports';
 
 
-const ExportModal = ({ caesarExport, caesarExportStatus, onClose, showModal }) => {
+const ExportModal = ({ caesarExport, caesarExportStatus, onClose, requestedExports, showModal }) => {
   // TODO replace Date.now() with timestamp in export response
   // TODO add url prop to SuperDownloadButton
   // TODO disable Export to Google Sheets button like the download button.
   // It's not disabled for testing purposes at the moment
   const noExport = caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport &&
     caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS;
-
-  const disableButton = noExport || (caesarExportStatus === CAESAR_EXPORTS_STATUS.FETCHING && caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport);
+  const fetching = caesarExportStatus === CAESAR_EXPORTS_STATUS.FETCHING && caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport;
+  const pending = Object.keys(requestedExports).length > 0 && caesarExportStatus === CAESAR_EXPORTS_STATUS.PENDING;
+  const disableButton = noExport || fetching || pending;
 
   if (showModal) {
     return (
       <Layer className="export-modal" closer={true} onClose={onClose}>
         <Box pad="medium" justify="between">
           <Heading tag="h2">Data Export</Heading>
-          {caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport &&
-            caesarExportStatus === CAESAR_EXPORTS_STATUS.FETCHING &&
+          {fetching &&
             <Paragraph align="center"><Spinning /></Paragraph>}
-          {Object.keys(caesarExport) > 0 &&
+          {Object.keys(caesarExport).length > 0 &&
             caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS &&
             <Paragraph>
               <Status value="ok" />{' '}
               Export available since{' '}
               <TimeStamp value={Date.now()} />
+            </Paragraph>}
+          {pending &&
+            <Paragraph>
+              <Status value="warning" />{' '}
+              Export request is processing.
             </Paragraph>}
           {noExport &&
             <Paragraph>
@@ -87,6 +92,7 @@ function mapStateToProps(state) {
   return {
     caesarExport: state.caesarExports.caesarExport,
     caesarExportStatus: state.caesarExports.status,
+    requestedExports: state.caesarExports.requestedExports,
     showModal: state.caesarExports.showModal
   };
 }

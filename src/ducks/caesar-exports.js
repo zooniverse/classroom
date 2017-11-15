@@ -11,6 +11,7 @@ const CAESAR_EXPORTS_STATUS = {
   EXPORTING: 'exporting',
   IDLE: 'idle',
   FETCHING: 'fetching',
+  PENDING: 'pending',
   SUCCESS: 'success',
   ERROR: 'error'
 };
@@ -19,6 +20,7 @@ const CAESAR_EXPORTS_STATUS = {
 const CAESAR_EXPORTS_INITIAL_STATE = {
   caesarExport: {},
   error: null,
+  requestedExports: {},
   showModal: false,
   status: CAESAR_EXPORTS_STATUS.IDLE
 };
@@ -51,6 +53,11 @@ const setError = (state, error) => {
   return { ...state, error };
 };
 
+const setRequestedExports = (state, newRequestedExport) => {
+  const mergedRequestedExports = Object.assign({}, state.requestedExports, newRequestedExport);
+  return { ...state, requestedExports: mergedRequestedExports };
+}
+
 const showModal = (state) => {
   return { ...state, showModal: !state.showModal };
 };
@@ -67,14 +74,12 @@ Effect('getCaesarExports', (data) => {
     .set('Authorization', apiClient.headers.Authorization)
     .query({ requested_data: 'reductions' })
     .then((response) => {
-      console.log('response', response.status);
       if (!response) { throw 'ERROR (ducks/caesarExports/getCaesarExport): No response'; }
-      if (response.ok) {
-        console.log('its ok');
-      }
+      if (response.ok && response.body) {
+        Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
 
-      return response.body;
-      Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
+        return response.body;
+      }
     }).catch((error) => {
       if (error.status !== 404) handleError(error);
       if (error.status === 404) {
@@ -97,14 +102,15 @@ Effect('getCaesarExport', (data) => {
       subgroup: data.classroom.zooniverseGroupId
     })
     .then((response) => {
-      console.log('response', response.status);
       if (!response) { throw 'ERROR (ducks/caesarExports/getCaesarExport): No response'; }
-      if (response.ok) {
-        console.log('its ok');
-      }
+      if (response.ok && response.body) {
+        const responseData = response.body;
+        if (responseData.status === 'complete') {
+          Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
+          return response.body;
+        }
 
-      return response.body;
-      Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
+      }
     }).catch((error) => {
       if (error.status !== 404) handleError(error);
       if (error.status === 404) {
@@ -121,18 +127,25 @@ Effect('createCaesarExport', (data) => {
     .set('Accept', 'application/json')
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
-    .query({
+    .send({
       requested_data: 'reductions',
       subgroup: data.classroom.zooniverseGroupId
     })
     .then((response) => {
-      console.log('response', response.status);
       if (!response) { throw 'ERROR (ducks/caesarExports/getCaesarExport): No response'; }
-      if (response.ok) {
-        console.log('its ok');
+      if (response.ok && response.body) {
+        const responseData = response.body;
+        if (responseData.status === 'pending') {
+          const requestedExport = { [data.classroom.id]: responseData };
+          Actions.caesarExports.setRequestedExports(requestedExport);
+          Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.PENDING);
+        }
+
+        if (responseData.status !== 'pending') {
+          Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
+        }
       }
 
-      Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
     }).catch((error) => {
       if (error.status !== 404) handleError(error);
       if (error.status === 404) {
@@ -180,6 +193,7 @@ const caesarExports = State('caesarExports', {
   setStatus,
   setCaesarExport,
   setError,
+  setRequestedExports,
   showModal
 });
 
