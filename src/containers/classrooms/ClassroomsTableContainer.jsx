@@ -4,6 +4,7 @@ import { Actions } from 'jumpstate';
 import Paragraph from 'grommet/components/Paragraph';
 
 import ConfirmationDialog from '../../components/common/ConfirmationDialog';
+import AssignmentFormDialog from '../assignments/AssignmentFormDialog';
 import DarienClassroomsTable from '../../components/darien/DarienClassroomsTable';
 import AstroClassroomsTableContainer from '../astro/AstroClassroomsTableContainer';
 
@@ -19,8 +20,12 @@ class ClassroomsTableContainer extends React.Component {
     super();
 
     this.state = {
+      assignmentToDelete: null,
       classroomToDelete: null,
-      showConfirmationDialog: false
+      showConfirmationDialog: {
+        assignment: false,
+        classroom: false
+      }
     };
 
     this.closeConfirmationDialog = this.closeConfirmationDialog.bind(this);
@@ -34,15 +39,46 @@ class ClassroomsTableContainer extends React.Component {
   }
 
   resetState() {
-    this.setState({ classroomToDelete: null, showConfirmationDialog: false });
+    this.setState({
+      assignmentToDelete: null,
+      classroomToDelete: null,
+      showConfirmationDialog: {
+        assignment: false,
+        classroom: false
+      }
+    });
+  }
+
+  maybeDeleteAssignment(id) {
+    this.setState({
+      assignmentToDelete: id,
+      classroomToDelete: null,
+      showConfirmationDialog: { classroom: false, assignment: true }
+    });
   }
 
   maybeDeleteClassroom(id) {
-    this.setState({ classroomToDelete: id, showConfirmationDialog: true });
+    this.setState({
+      assignmentToDelete: null,
+      classroomToDelete: id,
+      showConfirmationDialog: { classroom: true, assignment: false }
+    });
   }
 
   closeConfirmationDialog() {
     this.resetState();
+  }
+
+  deleteAssignment() {
+    if (this.state.assignmentToDelete === null) return;
+
+    Actions.deleteAssignment(this.state.assignmentToDelete).then((response) => {
+      this.closeConfirmationDialog();
+
+      if (response) {
+        Actions.classrooms.setToastState({ status: 'ok', message: 'Assignment deleted' });
+      }
+    });
   }
 
   deleteClassroom() {
@@ -68,14 +104,24 @@ class ClassroomsTableContainer extends React.Component {
         assignmentsStatus={this.props.assignmentsStatus}
         classrooms={this.props.classrooms}
         match={this.props.match}
+        maybeDeleteAssignment={this.maybeDeleteAssignment}
         maybeDeleteClassroom={this.maybeDeleteClassroom}
         selectedProgram={this.props.selectedProgram}
       >
+        <AssignmentFormDialog heading="Create Assignment" submitLabel="Create" />
+        <ConfirmationDialog
+          confirmationButtonLabel="Delete"
+          onConfirmation={this.deleteAssignment}
+          onClose={this.closeConfirmationDialog}
+          showConfirmationDialog={this.state.showConfirmationDialog.assignment}
+        >
+          <Paragraph size="small">Deleting an assignment will also delete any associated student progress.</Paragraph>
+        </ConfirmationDialog>
         <ConfirmationDialog
           confirmationButtonLabel="Delete"
           onConfirmation={this.deleteClassroom}
           onClose={this.closeConfirmationDialog}
-          showConfirmationDialog={this.state.showConfirmationDialog}
+          showConfirmationDialog={this.state.showConfirmationDialog.classroom}
         >
           <Paragraph size="small">Deleting a classroom will also delete the associated assignments.</Paragraph>
         </ConfirmationDialog>

@@ -91,7 +91,10 @@ const DarienClassroomsTable = (props) => {
                       <Paragraph>No assignments have been created yet.</Paragraph>
                       <Button
                         className="manager-table__button--create"
-                        onClick={props.toggleAssignmentForm}
+                        onClick={() => {
+                          Actions.assignments.selectClassroomToLink(classroom);
+                          Actions.assignments.toggleFormVisibility();
+                        }}
                         type="button"
                       >
                         <AddIcon size="small" />
@@ -108,7 +111,10 @@ const DarienClassroomsTable = (props) => {
                         {assignment.name}
                         <Button
                           className="manager-table__button--edit"
-                          onClick={props.toggleAssignmentForm}
+                          onClick={() => {
+                            Actions.assignments.selectAssignment(assignment);
+                            Actions.assignments.toggleFormVisibility();
+                          }}
                           icon={<EditIcon size="small" />}
                         />
                       </td>
@@ -153,7 +159,6 @@ DarienClassroomsTable.defaultProps = {
   maybeDeleteAssignment: () => {},
   maybeDeleteClassroom: () => {},
   selectClassroom: () => {},
-  toggleAssignmentForm: () => {},
   ...CLASSROOMS_INITIAL_STATE,
   ...ASSIGNMENTS_INITIAL_STATE
 };
@@ -163,7 +168,6 @@ DarienClassroomsTable.propTypes = {
   maybeDeleteAssignment: PropTypes.func,
   maybeDeleteClassroom: PropTypes.func,
   selectClassroom: PropTypes.func,
-  toggleAssignmentForm: PropTypes.func,
   ...CLASSROOMS_PROPTYPES,
   ...ASSIGNMENTS_PROPTYPES
 };

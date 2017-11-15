@@ -28,6 +28,7 @@ const i2a = {
         // back to a project without having to request that from Panoptes
         // to then build the URL to the project in the UI.
         // These are just test projects on staging...
+        // classifications_target should be a string?
         "2218": {
           name: i2aAssignmentNames.second,
           classifications_target: "10",
@@ -99,15 +100,41 @@ const darien = {
   }
 };
 
+const gorongosa = {
+  staging: {
+    id: '4',
+    name: 'Wildcam Gorongosa Lab',
+    custom: true,
+    description: 'A map for exploring camera trap data from the WildCam Gorongosa project.',
+    slug: 'wildcam-gorongosa-lab',
+    metadata: {
+      cardImage: 'gorongosa-animals.jpg',
+      redirect: 'https://lab.wildcamgorongosa.org/'
+    }
+  },
+  production: {
+    id: '3',
+    name: 'Wildcam Gorongosa Lab',
+    custom: true,
+    description: 'A map for exploring camera trap data from the WildCam Gorongosa project.',
+    slug: 'wildcam-gorongosa-lab',
+    metadata: {
+      cardImage: 'gorongosa-animals.jpg',
+      redirect: 'https://lab.wildcamgorongosa.org/'
+    }
+  }
+}
 
 const programsArray = [
   i2a[env],
-  darien[env]
+  darien[env],
+  gorongosa[env]
 ];
 
 export const programsMocks = {
   i2a: i2a[env],
-  darien: darien[env]
+  darien: darien[env],
+  gorongosa: gorongosa[env]
 };
 
 // Constants
@@ -225,7 +252,7 @@ Effect('getProgram', (data) => {
 Effect('createProgram', (data) => {
   Actions.programs.setStatus(PROGRAMS_STATUS.CREATING);
 
-  return post('/programs/', { data: { attributes: data } })
+  return post('/programs', { data: { attributes: data } })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/programs/createProgram): No response'; }
       if (response.ok &&
