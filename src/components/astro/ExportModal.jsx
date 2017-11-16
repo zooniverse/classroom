@@ -111,6 +111,7 @@ ExportModal.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    caesarExports: state.caesarExports.caesarExports,
     caesarExport: state.caesarExports.caesarExport,
     caesarExportStatus: state.caesarExports.status,
     requestedExports: state.caesarExports.requestedExports,

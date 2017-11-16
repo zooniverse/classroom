@@ -11,6 +11,10 @@ import {
 } from '../../ducks/caesar-exports';
 import { i2aAssignmentNames } from '../../ducks/programs';
 
+import {
+  CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES
+} from '../../ducks/caesar-exports';
+
 class AstroClassroomsTableContainer extends React.Component {
   constructor() {
     super();
@@ -64,7 +68,7 @@ class AstroClassroomsTableContainer extends React.Component {
     return Actions.getCaesarExport({ assignment, classroom, id: exportId });
   }
 
-  requestNewExport(assignment, classroom) {
+  requestNewExport(assignment = this.state.assignment, classroom = this.state.classroom) {
     return Actions.createCaesarExport({ assignment, classroom });
   }
 
@@ -149,7 +153,6 @@ class AstroClassroomsTableContainer extends React.Component {
   }
 }
 
-<<<<<<< 63a4dfcb8459bffbb23170d6b531039f496bf935
 AstroClassroomsTableContainer.defaultProps = {
   ...CAESAR_EXPORTS_INITIAL_STATE
 };
@@ -163,10 +166,6 @@ function mapStateToProps(state) {
     caesarExport: state.caesarExports.caesarExport,
     requestedExports: state.caesarExports.requestedExports
   };
-=======
-function mapStateToProps(state) {
-  return { requestedExports: state.caesarExports.requestedExports };
->>>>>>> Deal with export states
 }
 
 export default connect(mapStateToProps)(AstroClassroomsTableContainer);

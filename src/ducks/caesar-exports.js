@@ -18,6 +18,7 @@ const CAESAR_EXPORTS_STATUS = {
 
 // Initial State and PropTypes - usable in React components.
 const CAESAR_EXPORTS_INITIAL_STATE = {
+  caesarExports: [],
   caesarExport: {},
   error: null,
   requestedExports: {},
@@ -26,6 +27,7 @@ const CAESAR_EXPORTS_INITIAL_STATE = {
 };
 
 const CAESAR_EXPORTS_PROPTYPES = {
+  caesarExports: PropTypes.arrayOf(PropTypes.object),
   caesarExport: PropTypes.shape({}),
   error: PropTypes.object,
   requestedExports: PropTypes.object,
