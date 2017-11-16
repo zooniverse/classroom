@@ -55,11 +55,6 @@ function ExportModal({ caesarExport, caesarExports, caesarExportStatus, onClose,
               <Status value="warning" />{' '}
               Export request is processing. Please check again later.
             </Paragraph>}
-          {pending &&
-            <Paragraph>
-              <Status value="warning" />{' '}
-              Export request is processing.
-            </Paragraph>}
           {noExport &&
             <Paragraph>
               <Status value="warning" />{' '}
@@ -111,7 +106,6 @@ ExportModal.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    caesarExports: state.caesarExports.caesarExports,
     caesarExport: state.caesarExports.caesarExport,
     caesarExportStatus: state.caesarExports.status,
     requestedExports: state.caesarExports.requestedExports,

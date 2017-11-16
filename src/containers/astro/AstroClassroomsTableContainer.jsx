@@ -28,6 +28,7 @@ class AstroClassroomsTableContainer extends React.Component {
 
     this.handleRequestForNewExport = this.handleRequestForNewExport.bind(this);
     this.onExportModalClose = this.onExportModalClose.bind(this);
+    this.handleRequestForNewExport = this.handleRequestForNewExport.bind(this);
     this.showExportModal = this.showExportModal.bind(this);
     this.transformData = this.transformData.bind(this);
   }
@@ -40,9 +41,18 @@ class AstroClassroomsTableContainer extends React.Component {
   }
 
   showExportModal(assignment, classroom) {
+    const localStorageExport = JSON.parse(localStorage.getItem('pendingExport'));
     this.setState({ toExport: { assignment, classroom } });
 
     Actions.caesarExports.showModal();
+
+    if (localStorageExport &&
+        !this.props.requestNewExport[classroom.id] &&
+        localStorageExport[classroom.id] &&
+        localStorageExport[classroom.id].workflow_id.toString() === assignment.workflowId) {
+      console.log('pendingExport in localStorage')
+      this.checkPendingExport(assignment, classroom, localStorageExport[classroom.id].id);
+    }
 
     if (Object.keys(this.props.requestedExports).length > 0 &&
         this.props.requestedExports[classroom.id] &&
@@ -50,7 +60,8 @@ class AstroClassroomsTableContainer extends React.Component {
       this.checkPendingExport(assignment, classroom, this.props.requestedExports[classroom.id].id);
     }
 
-    if (Object.keys(this.props.requestedExports).length === 0) {
+    if (Object.keys(this.props.requestedExports).length === 0 && !localStorageExport) {
+      console.log('no requestedExports')
       this.checkExportExistence(assignment, classroom)
         .then((caesarExports) => {
           if (caesarExports && caesarExports.length === 0) {
@@ -68,7 +79,7 @@ class AstroClassroomsTableContainer extends React.Component {
     return Actions.getCaesarExport({ assignment, classroom, id: exportId });
   }
 
-  requestNewExport(assignment = this.state.assignment, classroom = this.state.classroom) {
+  requestNewExport(assignment, classroom) {
     return Actions.createCaesarExport({ assignment, classroom });
   }
 
