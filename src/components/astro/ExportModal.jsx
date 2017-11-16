@@ -53,7 +53,7 @@ const ExportModal = ({ caesarExport, caesarExports, caesarExportStatus, onClose,
           {pending &&
             <Paragraph>
               <Status value="warning" />{' '}
-              Export request is processing.
+              Export request is processing. Please check again later.
             </Paragraph>}
           {noExport &&
             <Paragraph>
@@ -62,10 +62,15 @@ const ExportModal = ({ caesarExport, caesarExports, caesarExportStatus, onClose,
             </Paragraph>}
           {caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport &&
             caesarExportStatus === CAESAR_EXPORTS_STATUS.ERROR &&
-            <Paragraph>
-              <Status value="critical" />{' '}
-              Something went wrong
-            </Paragraph>}
+            <Box>
+              <Paragraph>
+                <Status value="critical" />{' '}
+                Something went wrong. Either the export processing failed or the server is not available. Please try again.
+              </Paragraph>
+              <Paragraph>
+                <Button secondary={true} fill={false} onClick={requestNewExport} label="Request new export" />
+              </Paragraph>
+            </Box>}
           <Box direction="row">
             <SuperDownloadButton
               className="export-modal__button"
@@ -77,6 +82,7 @@ const ExportModal = ({ caesarExport, caesarExports, caesarExportStatus, onClose,
             />
             <GoogleDriveExportButton
               className="export-modal__button"
+              disabled={disableButton}
             />
           </Box>
         </Box>
@@ -99,7 +105,6 @@ ExportModal.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    caesarExports: state.caesarExports.caesarExports,
     caesarExport: state.caesarExports.caesarExport,
     caesarExportStatus: state.caesarExports.status,
     requestedExports: state.caesarExports.requestedExports,

@@ -19,27 +19,40 @@ class AstroClassroomsTableContainer extends React.Component {
     };
 
     this.onExportModalClose = this.onExportModalClose.bind(this);
+    this.handleRequestForNewExport = this.handleRequestForNewExport.bind(this);
     this.showExportModal = this.showExportModal.bind(this);
   }
 
   onExportModalClose() {
     this.setState({ toExport: { assignment: {}, classroom: {} } });
 
+    Actions.caesarExports.setCaesarExport(CAESAR_EXPORTS_INITIAL_STATE.caesarExport);
     Actions.caesarExports.showModal();
   }
 
   showExportModal(assignment, classroom) {
+    const localStorageExport = JSON.parse(localStorage.getItem('pendingExport'));
     this.setState({ toExport: { assignment, classroom } });
 
     Actions.caesarExports.showModal();
 
-    if (Object.keys(this.props.requestedExports).length > 0 &&
-      this.props.requestedExports[classroom.id] &&
-      this.props.requestedExports[classroom.id].workflow_id.toString() === assignment.workflowId) {
-      this.checkPendingExport(assignment, classroom);
+    if (localStorageExport &&
+        !this.props.requestNewExport[classroom.id] &&
+        localStorageExport[classroom.id] &&
+        localStorageExport[classroom.id].workflow_id.toString() === assignment.workflowId) {
+      console.log('pendingExport in localStorage')
+      this.checkPendingExport(assignment, classroom, localStorageExport[classroom.id].id);
     }
 
-    if (Object.keys(this.props.requestedExports).length === 0) {
+    if (Object.keys(this.props.requestedExports).length > 0 &&
+        this.props.requestedExports[classroom.id] &&
+        this.props.requestedExports[classroom.id].workflow_id.toString() === assignment.workflowId) {
+      console.log('pendingExport in component state')
+      this.checkPendingExport(assignment, classroom, this.props.requestedExports[classroom.id].id);
+    }
+
+    if (Object.keys(this.props.requestedExports).length === 0 && !localStorageExport) {
+      console.log('no requestedExports')
       this.checkExportExistence(assignment, classroom)
         .then((caesarExports) => {
           if (caesarExports && caesarExports.length === 0) {
@@ -53,14 +66,19 @@ class AstroClassroomsTableContainer extends React.Component {
     return Actions.getCaesarExports({ assignment, classroom });
   }
 
-  checkPendingExport(assignment, classroom) {
-    const exportId = this.props.requestedExports[classroom.id].id;
-
+  checkPendingExport(assignment, classroom, exportId) {
     return Actions.getCaesarExport({ assignment, classroom, id: exportId });
   }
 
-  requestNewExport(assignment = this.state.assignment, classroom = this.state.classroom) {
+  requestNewExport(assignment, classroom) {
     return Actions.createCaesarExport({ assignment, classroom });
+  }
+
+  handleRequestForNewExport() {
+    const assignment = this.state.toExport.assignment;
+    const classroom = this.state.toExport.classroom;
+
+    Actions.createCaesarExport({ assignment, classroom });
   }
 
   render() {
@@ -69,7 +87,7 @@ class AstroClassroomsTableContainer extends React.Component {
         {...this.props}
         assignmentToExport={this.state.toExport.assignment}
         onExportModalClose={this.onExportModalClose}
-        requestNewExport={this.requestNewExport}
+        requestNewExport={this.handleRequestForNewExport}
         showExportModal={this.showExportModal}
       >
         {this.props.children}

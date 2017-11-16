@@ -18,7 +18,6 @@ const CAESAR_EXPORTS_STATUS = {
 
 // Initial State and PropTypes - usable in React components.
 const CAESAR_EXPORTS_INITIAL_STATE = {
-  caesarExports: [],
   caesarExport: {},
   error: null,
   requestedExports: {},
@@ -27,7 +26,6 @@ const CAESAR_EXPORTS_INITIAL_STATE = {
 };
 
 const CAESAR_EXPORTS_PROPTYPES = {
-  caesarExports: PropTypes.arrayOf(PropTypes.object),
   caesarExport: PropTypes.shape({}),
   error: PropTypes.object,
   requestedExports: PropTypes.object,
@@ -88,18 +86,30 @@ Effect('getCaesarExports', (data) => {
     }).then((caesarExports) => {
       // We check if there are any complete exports and if there are, we use the most recent complete export
       if (caesarExports.length > 0) {
+        const pendingExports = caesarExports.filter((caesarExport) => {
+          return caesarExport.status === 'pending';
+        });
+
         const completedExports = caesarExports.filter((caesarExport) => {
           return caesarExport.status === 'complete';
         });
 
-        if (completedExports.length > 0) {
+        if (completedExports.length > 0 && pendingExports.length === 0) {
           Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
 
           // The API returns the exports in order of most recent
           Actions.caesarExports.setCaesarExport(completedExports[0]);
         }
 
-        if (completedExports.length === 0 || caesarExports.length === 0) {
+        if (pendingExports.length > 0) {
+          Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.PENDING);
+
+          // Store the most recent pending export
+          const requestedExport = { [data.classroom.id]: pendingExports[0] };
+          Actions.caesarExports.setRequestedExports(requestedExport);
+        }
+
+        if (completedExports.length === 0 || pendingExports.length === 0) {
           Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
         }
       }
@@ -115,6 +125,8 @@ Effect('getCaesarExports', (data) => {
 });
 
 Effect('getCaesarExport', (data) => {
+  if (localStorage.getItem('pendingExport')) localStorage.removeItem('pendingExport');
+
   Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.FETCHING);
   const requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/${data.id}`;
 
@@ -128,14 +140,23 @@ Effect('getCaesarExport', (data) => {
         const responseData = response.body;
         if (responseData.status === 'complete') {
           Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
-          Actions.caesasrExports.setCaesarExport(responseData);
+          Actions.caesarExports.setCaesarExport(responseData);
           return response.body;
         }
 
         if (responseData.status === 'pending') {
           Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.PENDING);
           const requestedExport = { [data.classroom.id]: responseData };
+          localStorage.setItem('pendingExport', JSON.stringify(requestedExport));
           Actions.caesarExports.setRequestedExports(requestedExport);
+        }
+
+        if (responseData.status === 'failed') {
+          Actions.caesarExports.setRequestedExports(CAESAR_EXPORTS_INITIAL_STATE.requestedExport);
+          Actions.caesarExports.setCaesarExport(CAESAR_EXPORTS_INITIAL_STATE.caesarExport);
+          Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.ERROR);
+          Actions.caesarExports.setError({ status: 'failed' });
+          Actions.notification.setNotification({ status: 'critical', message: 'Something went wrong.' });
         }
       }
     }).catch((error) => {
@@ -148,6 +169,7 @@ Effect('getCaesarExport', (data) => {
 });
 
 Effect('createCaesarExport', (data) => {
+  Actions.caesarExports.setCaesarExport(CAESAR_EXPORTS_INITIAL_STATE.caesarExport);
   const requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/`;
 
   return superagent.post(requestUrl)
