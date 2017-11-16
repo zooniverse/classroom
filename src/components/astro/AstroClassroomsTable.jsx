@@ -33,7 +33,11 @@ function AstroClassroomsTable(props) {
   const assignmentsMetadata = (props.selectedProgram && props.selectedProgram.metadata) ? props.selectedProgram.metadata.assignments : '';
   return (
     <Box>
-      <ExportModal onClose={props.onExportModalClose} assignment={props.assignmentToExport} />
+      <ExportModal
+        assignment={props.assignmentToExport}
+        onClose={props.onExportModalClose}
+        requestNewExport={props.requestNewExport}
+      />
       {props.children}
       <Table className="manager-table">
         <thead className="manager-table__headers">

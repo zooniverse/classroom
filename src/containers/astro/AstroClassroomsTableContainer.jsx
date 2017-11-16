@@ -3,6 +3,10 @@ import { Actions } from 'jumpstate';
 import { connect } from 'react-redux';
 import AstroClassroomsTable from '../../components/astro/AstroClassroomsTable';
 
+import {
+  CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES
+} from '../../ducks/caesar-exports';
+
 class AstroClassroomsTableContainer extends React.Component {
   constructor() {
     super();
@@ -36,29 +40,26 @@ class AstroClassroomsTableContainer extends React.Component {
     }
 
     if (Object.keys(this.props.requestedExports).length === 0) {
-
       this.checkExportExistence(assignment, classroom)
-      // this.requestNewExport(assignment, classroom);
+        .then((caesarExports) => {
+          if (caesarExports && caesarExports.length === 0) {
+            this.requestNewExport(assignment, classroom);
+          }
+        });
     }
   }
 
   checkExportExistence(assignment, classroom) {
-    return Actions.getCaesarExports({ assignment, classroom })
-      .then((caesarExports) => {
-        console.log('caesarExports', caesarExports)
-      })
+    return Actions.getCaesarExports({ assignment, classroom });
   }
 
   checkPendingExport(assignment, classroom) {
     const exportId = this.props.requestedExports[classroom.id].id;
 
-    return Actions.getCaesarExport({ assignment, classroom, id: exportId })
-      .then((caesarExport) => {
-        console.log('export', caesarExport)
-      })
+    return Actions.getCaesarExport({ assignment, classroom, id: exportId });
   }
 
-  requestNewExport(assignment, classroom) {
+  requestNewExport(assignment = this.state.assignment, classroom = this.state.classroom) {
     return Actions.createCaesarExport({ assignment, classroom });
   }
 
@@ -68,6 +69,7 @@ class AstroClassroomsTableContainer extends React.Component {
         {...this.props}
         assignmentToExport={this.state.toExport.assignment}
         onExportModalClose={this.onExportModalClose}
+        requestNewExport={this.requestNewExport}
         showExportModal={this.showExportModal}
       >
         {this.props.children}
@@ -75,6 +77,14 @@ class AstroClassroomsTableContainer extends React.Component {
     );
   }
 }
+
+AstroClassroomsTableContainer.defaultProps = {
+  ...CAESAR_EXPORTS_INITIAL_STATE
+};
+
+AstroClassroomsTableContainer.propTypes = {
+  ...CAESAR_EXPORTS_PROPTYPES
+};
 
 function mapStateToProps(state) {
   return { requestedExports: state.caesarExports.requestedExports };

@@ -18,6 +18,7 @@ const CAESAR_EXPORTS_STATUS = {
 
 // Initial State and PropTypes - usable in React components.
 const CAESAR_EXPORTS_INITIAL_STATE = {
+  caesarExports: [],
   caesarExport: {},
   error: null,
   requestedExports: {},
@@ -26,8 +27,10 @@ const CAESAR_EXPORTS_INITIAL_STATE = {
 };
 
 const CAESAR_EXPORTS_PROPTYPES = {
-  exports: PropTypes.shape({}),
+  caesarExports: PropTypes.arrayOf(PropTypes.object),
+  caesarExport: PropTypes.shape({}),
   error: PropTypes.object,
+  requestedExports: PropTypes.object,
   showModal: PropTypes.bool,
   status: PropTypes.string
 };
@@ -72,14 +75,36 @@ Effect('getCaesarExports', (data) => {
     .set('Accept', 'application/json')
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
-    .query({ requested_data: 'reductions' })
+    .query({
+      requested_data: 'reductions',
+      subgroup: data.classroom.zooniverseGroupId
+    })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/caesarExports/getCaesarExport): No response'; }
       if (response.ok && response.body) {
-        Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
 
         return response.body;
       }
+    }).then((caesarExports) => {
+      // We check if there are any complete exports and if there are, we use the most recent complete export
+      if (caesarExports.length > 0) {
+        const completedExports = caesarExports.filter((caesarExport) => {
+          return caesarExport.status === 'complete';
+        });
+
+        if (completedExports.length > 0) {
+          Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
+
+          // The API returns the exports in order of most recent
+          Actions.caesarExports.setCaesarExport(completedExports[0]);
+        }
+
+        if (completedExports.length === 0 || caesarExports.length === 0) {
+          Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
+        }
+      }
+
+      return caesarExports;
     }).catch((error) => {
       if (error.status !== 404) handleError(error);
       if (error.status === 404) {
@@ -97,19 +122,21 @@ Effect('getCaesarExport', (data) => {
     .set('Accept', 'application/json')
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
-    .query({
-      requested_data: 'reductions',
-      subgroup: data.classroom.zooniverseGroupId
-    })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/caesarExports/getCaesarExport): No response'; }
       if (response.ok && response.body) {
         const responseData = response.body;
         if (responseData.status === 'complete') {
           Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
+          Actions.caesasrExports.setCaesarExport(responseData);
           return response.body;
         }
 
+        if (responseData.status === 'pending') {
+          Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.PENDING);
+          const requestedExport = { [data.classroom.id]: responseData };
+          Actions.caesarExports.setRequestedExports(requestedExport);
+        }
       }
     }).catch((error) => {
       if (error.status !== 404) handleError(error);
@@ -140,16 +167,12 @@ Effect('createCaesarExport', (data) => {
           Actions.caesarExports.setRequestedExports(requestedExport);
           Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.PENDING);
         }
-
-        if (responseData.status !== 'pending') {
-          Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
-        }
       }
-
     }).catch((error) => {
       if (error.status !== 404) handleError(error);
       if (error.status === 404) {
         Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
+        return error;
       }
     });
 });

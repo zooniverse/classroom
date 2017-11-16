@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
 import Heading from 'grommet/components/Heading';
@@ -9,8 +8,8 @@ import Spinning from 'grommet/components/icons/Spinning';
 import Status from 'grommet/components/icons/Status';
 import Timestamp from 'grommet/components/Timestamp';
 import Paragraph from 'grommet/components/Paragraph';
-import Button from 'grommet/components/Button';
 import Layer from 'grommet/components/Layer';
+import Button from 'grommet/components/Button';
 
 import SuperDownloadButton from '../common/SuperDownloadButton';
 import GoogleDriveExportButton from './GoogleDriveExportButton';
@@ -19,16 +18,19 @@ import {
 } from '../../ducks/caesar-exports';
 
 
-const ExportModal = ({ caesarExport, caesarExportStatus, onClose, requestedExports, showModal }) => {
-  // TODO replace Date.now() with timestamp in export response
+const ExportModal = ({ caesarExport, caesarExports, caesarExportStatus, onClose, requestedExports, requestNewExport, showModal }) => {
   // TODO add url prop to SuperDownloadButton
   // TODO disable Export to Google Sheets button like the download button.
   // It's not disabled for testing purposes at the moment
   const noExport = caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport &&
+    caesarExports === CAESAR_EXPORTS_INITIAL_STATE.caesarExports &&
     caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS;
-  const fetching = caesarExportStatus === CAESAR_EXPORTS_STATUS.FETCHING && caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport;
+  const fetching = caesarExportStatus === CAESAR_EXPORTS_STATUS.FETCHING &&
+    (caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport ||
+    caesarExports === CAESAR_EXPORTS_INITIAL_STATE.caesarExports);
   const pending = Object.keys(requestedExports).length > 0 && caesarExportStatus === CAESAR_EXPORTS_STATUS.PENDING;
   const disableButton = noExport || fetching || pending;
+  const success = Object.keys(caesarExport).length > 0 && caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS;
 
   if (showModal) {
     return (
@@ -37,13 +39,17 @@ const ExportModal = ({ caesarExport, caesarExportStatus, onClose, requestedExpor
           <Heading tag="h2">Data Export</Heading>
           {fetching &&
             <Paragraph align="center"><Spinning /></Paragraph>}
-          {Object.keys(caesarExport).length > 0 &&
-            caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS &&
-            <Paragraph>
-              <Status value="ok" />{' '}
-              Export available since{' '}
-              <TimeStamp value={Date.now()} />
-            </Paragraph>}
+          {success &&
+            <Box>
+              <Paragraph>
+                <Status value="ok" />{' '}
+                Export available since{' '}
+                <Timestamp value={new Date(caesarExport.updated_at)} />
+              </Paragraph>
+              <Paragraph>
+                <Button secondary={true} fill={false} onClick={requestNewExport} label="Request new export" />
+              </Paragraph>
+            </Box>}
           {pending &&
             <Paragraph>
               <Status value="warning" />{' '}
@@ -67,8 +73,11 @@ const ExportModal = ({ caesarExport, caesarExportStatus, onClose, requestedExpor
               fileNameBase="astro101-"
               primary={true}
               text="Download CSV"
+              url={caesarExport.url}
             />
-            <GoogleDriveExportButton className="export-modal__button" />
+            <GoogleDriveExportButton
+              className="export-modal__button"
+            />
           </Box>
         </Box>
       </Layer>
@@ -90,6 +99,7 @@ ExportModal.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    caesarExports: state.caesarExports.caesarExports,
     caesarExport: state.caesarExports.caesarExport,
     caesarExportStatus: state.caesarExports.status,
     requestedExports: state.caesarExports.requestedExports,
