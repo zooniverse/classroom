@@ -1,11 +1,13 @@
 import React from 'react';
 import { Actions } from 'jumpstate';
 import { connect } from 'react-redux';
+import Papa from 'papaparse';
 import AstroClassroomsTable from '../../components/astro/AstroClassroomsTable';
 
 import {
   CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES
 } from '../../ducks/caesar-exports';
+import { i2aAssignmentNames } from '../../ducks/programs';
 
 class AstroClassroomsTableContainer extends React.Component {
   constructor() {
@@ -18,9 +20,11 @@ class AstroClassroomsTableContainer extends React.Component {
       }
     };
 
-    this.onExportModalClose = this.onExportModalClose.bind(this);
+    this.getCsvFile = this.getCsvFile.bind(this);
     this.handleRequestForNewExport = this.handleRequestForNewExport.bind(this);
+    this.onExportModalClose = this.onExportModalClose.bind(this);
     this.showExportModal = this.showExportModal.bind(this);
+    this.transformData = this.transformData.bind(this);
   }
 
   onExportModalClose() {
@@ -81,6 +85,34 @@ class AstroClassroomsTableContainer extends React.Component {
     Actions.createCaesarExport({ assignment, classroom });
   }
 
+  getCsvFile() {
+    console.log('getCsvFile called')
+    if (Object.keys(this.props.caesarExport).length === 0) return Promise.resolve(null);
+
+    return Promise.resolve(Papa.parse(this.props.caesarExport.url, { complete: this.transformData, download: true }));
+    // return Promise.resolve(this.transformData(data));
+  }
+
+  transformData(csvData) {
+    if (this.state.toExport.assignment.name === i2aAssignmentNames.galaxy) {
+      console.log('galaxy assignment')
+      return this.transformGalaxyDataCsv(csvData);
+    } else if (this.state.toExport.assignment.name === i2aAssignmentNames.hubble) {
+      console.log('hubble assignment')
+      return this.transformHubbleDataCsv(csvData);
+    }
+
+    return null;
+  }
+
+  transformGalaxyDataCsv(csvData) {
+    console.log(csvData);
+  }
+
+  transformHubbleDataCsv(csvData) {
+    console.log(csvData);
+  }
+
   render() {
     return (
       <AstroClassroomsTable
@@ -89,6 +121,7 @@ class AstroClassroomsTableContainer extends React.Component {
         onExportModalClose={this.onExportModalClose}
         requestNewExport={this.handleRequestForNewExport}
         showExportModal={this.showExportModal}
+        getCsvFile={this.getCsvFile}
       >
         {this.props.children}
       </AstroClassroomsTable>
@@ -105,7 +138,10 @@ AstroClassroomsTableContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
-  return { requestedExports: state.caesarExports.requestedExports };
+  return {
+    caesarExport: state.caesarExports.caesarExport,
+    requestedExports: state.caesarExports.requestedExports
+  };
 }
 
 export default connect(mapStateToProps)(AstroClassroomsTableContainer);

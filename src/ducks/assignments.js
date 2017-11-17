@@ -61,8 +61,8 @@ function handleError(error) {
 }
 
 function sortAssignments(assignments) {
-  const firstAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.first);
-  const secondAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.second);
+  const firstAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.galaxy);
+  const secondAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.hubble);
 
   if (firstAssignment && secondAssignment) {
     return [firstAssignment, secondAssignment];

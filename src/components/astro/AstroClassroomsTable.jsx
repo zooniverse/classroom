@@ -35,6 +35,7 @@ function AstroClassroomsTable(props) {
     <Box>
       <ExportModal
         assignment={props.assignmentToExport}
+        getCsvFile={props.getCsvFile}
         onClose={props.onExportModalClose}
         requestNewExport={props.requestNewExport}
       />
@@ -151,6 +152,7 @@ function AstroClassroomsTable(props) {
 AstroClassroomsTable.defaultProps = {
   assignmentToExport: {},
   closeConfirmationDialog: () => {},
+  getCsvFile: () => {},
   maybeDeleteClassroom: () => {},
   selectClassroom: () => {},
   showExportModal: () => {},
@@ -161,6 +163,7 @@ AstroClassroomsTable.defaultProps = {
 AstroClassroomsTable.propTypes = {
   assignmentToExport: PropTypes.object,
   closeConfirmationDialog: PropTypes.func,
+  getCsvFile: PropTypes.func,
   maybeDeleteClassroom: PropTypes.func,
   selectClassroom: PropTypes.func,
   showExportModal: PropTypes.func,

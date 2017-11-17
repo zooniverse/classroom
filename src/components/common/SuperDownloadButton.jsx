@@ -48,6 +48,7 @@ class SuperDownloadButton extends React.Component {
   constructor(props) {
     super(props);
     this.download = this.download.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 
     this.altForm = null;
     this.altFormData = null;
@@ -55,6 +56,26 @@ class SuperDownloadButton extends React.Component {
     this.state = {  // Keep the state simple and local; no need for Redux connections.
       status: STATUS.IDLE
     };
+  }
+
+  handleClick() {
+    console.log('handleClick')
+    if (this.props.transformData && typeof this.props.transformData === 'function') {
+      console.log('transformData defined')
+      return this.props.transformData()
+        .then((newCsvData) => {
+          if (newCsvData) {
+            console.log('newCsvData', newCsvData)
+            saveAs(blobbifyData(newCsvData, this.props.contentType), generateFilename('astro101-', '.csv'));
+          }
+        })
+        .catch((error) => {
+          console.error('ERROR (SuperDownloadButton): data transformation error', error);
+          this.setState({ status: STATUS.ERROR });
+        });
+    }
+
+    return this.download();
   }
 
   download() {
@@ -98,7 +119,7 @@ class SuperDownloadButton extends React.Component {
     return (
       <Button
         className={this.props.className ? this.props.className : null}
-        onClick={this.props.disabled ? null : this.download}
+        onClick={this.props.disabled ? null : this.handleClick}
         icon={(this.state.status === STATUS.FETCHING) ? <SpinningIcon size="small" /> : this.props.icon}
         primary={this.props.primary}
         label={this.props.text}
@@ -135,6 +156,10 @@ SuperDownloadButton.propTypes = {
   icon: PropTypes.node,
   primary: PropTypes.bool,
   text: PropTypes.string,
+  transformData: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.object
+  ]),
   url: PropTypes.string,
   useZooniversalTranslator: PropTypes.bool
 };
@@ -147,6 +172,7 @@ SuperDownloadButton.defaultProps = {
   icon: <DownloadIcon size="small" />,
   primary: false,
   text: ZooTran('Download'),
+  transformData: null,
   url: '',
   useZooniversalTranslator: true
 };

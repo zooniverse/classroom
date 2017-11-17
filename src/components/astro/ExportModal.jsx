@@ -18,7 +18,7 @@ import {
 } from '../../ducks/caesar-exports';
 
 
-const ExportModal = ({ caesarExport, caesarExports, caesarExportStatus, onClose, requestedExports, requestNewExport, showModal }) => {
+function ExportModal({ caesarExport, caesarExports, caesarExportStatus, getCsvFile, onClose, requestedExports, requestNewExport, showModal }) {
   // TODO add url prop to SuperDownloadButton
   // TODO disable Export to Google Sheets button like the download button.
   // It's not disabled for testing purposes at the moment
@@ -78,6 +78,7 @@ const ExportModal = ({ caesarExport, caesarExports, caesarExportStatus, onClose,
               fileNameBase="astro101-"
               primary={true}
               text="Download CSV"
+              transformData={getCsvFile}
               url={caesarExport.url}
             />
             <GoogleDriveExportButton

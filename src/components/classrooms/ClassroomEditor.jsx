@@ -182,10 +182,10 @@ const ClassroomEditor = (props) => {
             props.assignments[props.selectedClassroom.id] &&
             props.assignments[props.selectedClassroom.id].length > 0 &&
               students.map((student) => {
-                const galaxyAssignment = assignments.filter(
-                  assignment => assignment.name === i2aAssignmentNames.first);
-                const hubbleAssignment = assignments.filter(
-                  assignment => assignment.name === i2aAssignmentNames.second);
+                const galaxyAssignment = props.assignments[props.selectedClassroom.id].filter(
+                  assignment => assignment.name === i2aAssignmentNames.galaxy);
+                const hubbleAssignment = props.assignments[props.selectedClassroom.id].filter(
+                  assignment => assignment.name === i2aAssignmentNames.hubble);
 
                 // Why are the ids in the student_user_id property numbers?!?!?!
                 const galaxyStudentData = galaxyAssignment[0].studentAssignmentsData.filter(

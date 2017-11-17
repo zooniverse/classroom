@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import { get, post, put, httpDelete } from '../lib/edu-api';
 import { env } from '../lib/config';
 
-// testing mocks
+// testing mocks and constants
 export const i2aAssignmentNames = {
-  first: "Galaxy Zoo 101",
-  second: "Hubble's Law"
+  galaxy: "Galaxy Zoo 101",
+  hubble: "Hubble's Law"
 }
 
 const i2a = {
@@ -30,12 +30,12 @@ const i2a = {
         // These are just test projects on staging...
         // classifications_target should be a string?
         "2218": {
-          name: i2aAssignmentNames.second,
+          name: i2aAssignmentNames.hubble,
           classifications_target: "10",
           slug: 'srallen086/intro2astro-hubble-testing'
         },
         "3037": {
-          name: i2aAssignmentNames.first,
+          name: i2aAssignmentNames.galaxy,
           classifications_target: "22",
           slug: 'srallen086/galaxy-zoo-in-astronomy-101'
         }
@@ -59,12 +59,12 @@ const i2a = {
         // to then build the URL to the project in the UI.
         // TODO: replace the workflow ids here with the production ids
         "1315": {
-          name: i2aAssignmentNames.second,
+          name: i2aAssignmentNames.hubble,
           classifications_target: "10",
           slug: 'srallen086/intro2astro-hubble-testing'
         },
         "1771": {
-          name: i2aAssignmentNames.first,
+          name: i2aAssignmentNames.galaxy,
           classifications_target: "22",
           slug: 'srallen086/galaxy-zoo-in-astronomy-101'
         }
