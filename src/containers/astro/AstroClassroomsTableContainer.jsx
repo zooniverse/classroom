@@ -14,6 +14,7 @@ import { i2aAssignmentNames } from '../../ducks/programs';
 import {
   CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES
 } from '../../ducks/caesar-exports';
+import { i2aAssignmentNames } from '../../ducks/programs';
 
 class AstroClassroomsTableContainer extends React.Component {
   constructor() {
@@ -29,6 +30,7 @@ class AstroClassroomsTableContainer extends React.Component {
     this.handleRequestForNewExport = this.handleRequestForNewExport.bind(this);
     this.onExportModalClose = this.onExportModalClose.bind(this);
     this.handleRequestForNewExport = this.handleRequestForNewExport.bind(this);
+    this.onExportModalClose = this.onExportModalClose.bind(this);
     this.showExportModal = this.showExportModal.bind(this);
     this.transformData = this.transformData.bind(this);
   }
