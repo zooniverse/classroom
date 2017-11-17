@@ -82,7 +82,7 @@ export class ClassroomEditorContainer extends React.Component {
     const galaxyClassificationTarget = galaxyAssignment[0].metadata.classifications_target;
     const hubbleClassificationTarget = hubbleAssignment[0].metadata.classifications_target;
 
-    let exampleData = 'classroom,name,Galaxy Zoo 101 classification count,Hubble\'s Law classification count,Galaxy Zoo 101 percentage complete,Hubble\'s Law percentage complete\n';
+    let csvData = 'classroom,name,Galaxy Zoo 101 classification count,Hubble\'s Law classification count,Galaxy Zoo 101 percentage complete,Hubble\'s Law percentage complete\n';
 
     this.props.selectedClassroom.students.map((student) => {
       let studentName = (student.zooniverseDisplayName && student.zooniverseDisplayName.length > 0)
@@ -97,13 +97,13 @@ export class ClassroomEditorContainer extends React.Component {
       const studentGalaxyCount = galaxyStudentData[0].attributes.classifications_count;
       const studentHubbleCount = hubbleStudentData[0].attributes.classifications_count;
       const galaxyCountStat = `${studentGalaxyCount}/${galaxyClassificationTarget}`;
-      const hubbleCountStat = `${studentHubbleCount}/${hubbleClassificationTarget}`
+      const hubbleCountStat = `${studentHubbleCount}/${hubbleClassificationTarget}`;
       const galaxyPercentageStat = (studentGalaxyCount / (+galaxyClassificationTarget)) * 100;
       const hubblePercentageStat = (studentHubbleCount / (+hubbleClassificationTarget)) * 100;
       const row = `"${classroomName}","${studentName}",${galaxyCountStat},${hubbleCountStat},${galaxyPercentageStat},${hubblePercentageStat}\n`;
-      exampleData += row;
+      csvData += row;
     });
-    saveAs(blobbifyData(exampleData, this.props.contentType), generateFilename('astro-', '.csv'));
+    saveAs(blobbifyData(csvData, this.props.contentType), generateFilename('astro101-', '.csv'));
   }
 
   maybeRemoveStudentFromClassroom(classroomId, studentId) {

@@ -223,7 +223,7 @@ const ClassroomEditor = (props) => {
 
 ClassroomEditor.defaultProps = {
   editClassroom: () => {},
-  exportStates: () => {},
+  exportStats: () => {},
   selectClassroom: () => {},
   removeStudentFromClassroom: () => {},
   //----------------
