@@ -55,7 +55,6 @@ class AstroClassroomsTableContainer extends React.Component {
         !this.props.requestNewExport[classroom.id] &&
         localStorageExport[classroom.id] &&
         localStorageExport[classroom.id].workflow_id.toString() === assignment.workflowId) {
-      console.log('pendingExport in localStorage')
       this.checkPendingExport(assignment, classroom, localStorageExport[classroom.id].id);
     }
 
@@ -66,7 +65,6 @@ class AstroClassroomsTableContainer extends React.Component {
     }
 
     if (Object.keys(this.props.requestedExports).length === 0 && !localStorageExport) {
-      console.log('no requestedExports')
       this.checkExportExistence(assignment, classroom)
         .then((caesarExports) => {
           if (caesarExports && caesarExports.length === 0) {
