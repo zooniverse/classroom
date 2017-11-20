@@ -5,14 +5,11 @@ import { saveAs } from 'browser-filesaver';
 
 import AstroClassroomsTable from '../../components/astro/AstroClassroomsTable';
 import { blobbifyData, generateFilename } from '../../lib/file-download-helpers';
-<<<<<<< 8e051432828e13291b68113e43f72636c1b5415f
 
 import {
   CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES
 } from '../../ducks/caesar-exports';
 import { i2aAssignmentNames } from '../../ducks/programs';
-=======
->>>>>>> Hubble's Law export data transformation
 
 import {
   CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES
@@ -46,17 +43,9 @@ class AstroClassroomsTableContainer extends React.Component {
   }
 
   showExportModal(assignment, classroom) {
-    const localStorageExport = JSON.parse(localStorage.getItem('pendingExport'));
     this.setState({ toExport: { assignment, classroom } });
 
     Actions.caesarExports.showModal();
-
-    if (localStorageExport &&
-        !this.props.requestNewExport[classroom.id] &&
-        localStorageExport[classroom.id] &&
-        localStorageExport[classroom.id].workflow_id.toString() === assignment.workflowId) {
-      this.checkPendingExport(assignment, classroom, localStorageExport[classroom.id].id);
-    }
 
     if (Object.keys(this.props.requestedExports).length > 0 &&
         this.props.requestedExports[classroom.id] &&
@@ -64,7 +53,7 @@ class AstroClassroomsTableContainer extends React.Component {
       this.checkPendingExport(assignment, classroom, this.props.requestedExports[classroom.id].id);
     }
 
-    if (Object.keys(this.props.requestedExports).length === 0 && !localStorageExport) {
+    if (Object.keys(this.props.requestedExports).length === 0) {
       this.checkExportExistence(assignment, classroom)
         .then((caesarExports) => {
           if (caesarExports && caesarExports.length === 0) {
