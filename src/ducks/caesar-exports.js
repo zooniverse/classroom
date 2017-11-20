@@ -125,8 +125,6 @@ Effect('getCaesarExports', (data) => {
 });
 
 Effect('getCaesarExport', (data) => {
-  if (localStorage.getItem('pendingExport')) localStorage.removeItem('pendingExport');
-
   Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.FETCHING);
   const requestUrl = `${config.caesar}/workflows/${data.assignment.workflowId}/data_requests/${data.id}`;
 
@@ -149,7 +147,6 @@ Effect('getCaesarExport', (data) => {
         if (responseData.status === 'pending') {
           Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.PENDING);
           const requestedExport = { [data.classroom.id]: responseData };
-          localStorage.setItem('pendingExport', JSON.stringify(requestedExport));
           Actions.caesarExports.setRequestedExports(requestedExport);
         }
 
