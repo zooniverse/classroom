@@ -45,19 +45,16 @@ class AstroClassroomsTableContainer extends React.Component {
         !this.props.requestNewExport[classroom.id] &&
         localStorageExport[classroom.id] &&
         localStorageExport[classroom.id].workflow_id.toString() === assignment.workflowId) {
-      console.log('pendingExport in localStorage')
       this.checkPendingExport(assignment, classroom, localStorageExport[classroom.id].id);
     }
 
     if (Object.keys(this.props.requestedExports).length > 0 &&
         this.props.requestedExports[classroom.id] &&
         this.props.requestedExports[classroom.id].workflow_id.toString() === assignment.workflowId) {
-      console.log('pendingExport in component state')
       this.checkPendingExport(assignment, classroom, this.props.requestedExports[classroom.id].id);
     }
 
     if (Object.keys(this.props.requestedExports).length === 0 && !localStorageExport) {
-      console.log('no requestedExports')
       this.checkExportExistence(assignment, classroom)
         .then((caesarExports) => {
           if (caesarExports && caesarExports.length === 0) {
@@ -88,10 +85,8 @@ class AstroClassroomsTableContainer extends React.Component {
 
   transformData(csvData) {
     if (this.state.toExport.assignment.name === i2aAssignmentNames.galaxy) {
-      console.log('galaxy assignment')
-      return this.transformGalaxyDataCsv(csvData);
+      Promise.resolve(this.transformGalaxyDataCsv(csvData));
     } else if (this.state.toExport.assignment.name === i2aAssignmentNames.hubble) {
-      console.log('hubble assignment')
       Promise.resolve(this.transformHubbleDataCsv(csvData))
         .then((transformedData) => {
           const filename = generateFilename('astro101-');
@@ -103,7 +98,7 @@ class AstroClassroomsTableContainer extends React.Component {
   }
 
   transformGalaxyDataCsv(csvData) {
-    console.log(csvData);
+    console.log('TO DO: transform data for galaxy activity', csvData);
   }
 
   transformHubbleDataCsv(csvData) {

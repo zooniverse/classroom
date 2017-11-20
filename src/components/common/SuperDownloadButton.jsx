@@ -61,21 +61,7 @@ class SuperDownloadButton extends React.Component {
 
   handleClick() {
     if (this.props.transformData && typeof this.props.transformData === 'function') {
-      const transformedData = Papa.parse(this.props.url, { complete: this.props.transformData, download: true });
-      console.log('transformedData', transformedData);
-      // return
-      //   .then((newCsvData) => {
-      //     console.log('then of transformData')
-      //     if (newCsvData) {
-      //       console.log('newCsvData', newCsvData)
-      //       saveAs(blobbifyData(newCsvData, this.props.contentType), generateFilename('astro101-', '.csv'));
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.error('ERROR (SuperDownloadButton): data transformation error', error);
-      //     this.setState({ status: STATUS.ERROR });
-      //   });
-      return null;
+      return Papa.parse(this.props.url, { complete: this.props.transformData, download: true });
     }
 
     return this.download();
