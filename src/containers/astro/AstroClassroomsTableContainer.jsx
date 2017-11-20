@@ -1,8 +1,10 @@
 import React from 'react';
 import { Actions } from 'jumpstate';
 import { connect } from 'react-redux';
-import Papa from 'papaparse';
+import { saveAs } from 'browser-filesaver';
+
 import AstroClassroomsTable from '../../components/astro/AstroClassroomsTable';
+import { blobbifyData, generateFilename } from '../../lib/file-download-helpers';
 
 import {
   CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES
@@ -20,7 +22,6 @@ class AstroClassroomsTableContainer extends React.Component {
       }
     };
 
-    this.getCsvFile = this.getCsvFile.bind(this);
     this.handleRequestForNewExport = this.handleRequestForNewExport.bind(this);
     this.onExportModalClose = this.onExportModalClose.bind(this);
     this.showExportModal = this.showExportModal.bind(this);
@@ -85,21 +86,17 @@ class AstroClassroomsTableContainer extends React.Component {
     Actions.createCaesarExport({ assignment, classroom });
   }
 
-  getCsvFile() {
-    console.log('getCsvFile called')
-    if (Object.keys(this.props.caesarExport).length === 0) return Promise.resolve(null);
-
-    return Promise.resolve(Papa.parse(this.props.caesarExport.url, { complete: this.transformData, download: true }));
-    // return Promise.resolve(this.transformData(data));
-  }
-
   transformData(csvData) {
     if (this.state.toExport.assignment.name === i2aAssignmentNames.galaxy) {
       console.log('galaxy assignment')
       return this.transformGalaxyDataCsv(csvData);
     } else if (this.state.toExport.assignment.name === i2aAssignmentNames.hubble) {
       console.log('hubble assignment')
-      return this.transformHubbleDataCsv(csvData);
+      Promise.resolve(this.transformHubbleDataCsv(csvData))
+        .then((transformedData) => {
+          const filename = generateFilename('astro101-');
+          saveAs(blobbifyData(transformedData, 'text/csv'), filename);
+        });
     }
 
     return null;
@@ -110,7 +107,43 @@ class AstroClassroomsTableContainer extends React.Component {
   }
 
   transformHubbleDataCsv(csvData) {
-    console.log(csvData);
+    if (!csvData || (csvData && !csvData.data)) return null;
+
+    let csvRows = 'Galaxy ID,N Class,RA,Dec,Dist,lambda_av,lambda_err,Redshift,Velocity, URL\n';
+    const exportData = csvData.data;
+    // We don't care about the original headers
+    exportData.shift();
+
+    const lambdaReducerData = exportData.filter((row, index) => {
+      return row[1] === 'lambdacen';
+    });
+
+    const metadataReducerData = exportData.filter((row, index) => {
+      return row[1] === 'metadata';
+    });
+
+    lambdaReducerData.forEach((lambdaRow) => {
+      metadataReducerData.forEach((metadataRow) => {
+        // Same subject id
+        if (lambdaRow[3] === metadataRow[3]) {
+          const galaxyId = metadataRow[8];
+          const nClass = lambdaRow[15];
+          const ra = metadataRow[7];
+          const dec = metadataRow[18];
+          const dist = metadataRow[10];
+          const lambdaAv = lambdaRow[12];
+          const lambdaErr = lambdaRow[13];
+          const redshift = metadataRow[17];
+          const velocity = redshift.length > 0 ? (300000 * redshift) : '';
+          const url = metadataRow[16];
+
+          const row = `${galaxyId},${nClass},${ra},${dec},${dist},${lambdaAv},${lambdaErr},${redshift},${velocity},${url}\n`;
+          csvRows += row;
+        }
+      });
+    });
+
+    return csvRows;
   }
 
   render() {
@@ -121,7 +154,7 @@ class AstroClassroomsTableContainer extends React.Component {
         onExportModalClose={this.onExportModalClose}
         requestNewExport={this.handleRequestForNewExport}
         showExportModal={this.showExportModal}
-        getCsvFile={this.getCsvFile}
+        transformData={this.transformData}
       >
         {this.props.children}
       </AstroClassroomsTable>

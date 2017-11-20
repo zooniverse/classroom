@@ -103,7 +103,7 @@ export class ClassroomEditorContainer extends React.Component {
       const row = `"${classroomName}","${studentName}",${galaxyCountStat},${hubbleCountStat},${galaxyPercentageStat},${hubblePercentageStat}\n`;
       csvData += row;
     });
-    saveAs(blobbifyData(csvData, this.props.contentType), generateFilename('astro101-', '.csv'));
+    saveAs(blobbifyData(csvData, 'text/csv'), generateFilename('astro101-', '.csv'));
   }
 
   maybeRemoveStudentFromClassroom(classroomId, studentId) {

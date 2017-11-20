@@ -35,7 +35,7 @@ function AstroClassroomsTable(props) {
     <Box>
       <ExportModal
         assignment={props.assignmentToExport}
-        getCsvFile={props.getCsvFile}
+        transformData={props.transformData}
         onClose={props.onExportModalClose}
         requestNewExport={props.requestNewExport}
       />

@@ -26,6 +26,7 @@ import PropTypes from 'prop-types';
 
 import { saveAs } from 'browser-filesaver';
 import superagent from 'superagent';
+import Papa from 'papaparse';
 
 import Button from 'grommet/components/Button';
 import Toast from 'grommet/components/Toast';
@@ -59,20 +60,22 @@ class SuperDownloadButton extends React.Component {
   }
 
   handleClick() {
-    console.log('handleClick')
     if (this.props.transformData && typeof this.props.transformData === 'function') {
-      console.log('transformData defined')
-      return this.props.transformData()
-        .then((newCsvData) => {
-          if (newCsvData) {
-            console.log('newCsvData', newCsvData)
-            saveAs(blobbifyData(newCsvData, this.props.contentType), generateFilename('astro101-', '.csv'));
-          }
-        })
-        .catch((error) => {
-          console.error('ERROR (SuperDownloadButton): data transformation error', error);
-          this.setState({ status: STATUS.ERROR });
-        });
+      const transformedData = Papa.parse(this.props.url, { complete: this.props.transformData, download: true });
+      console.log('transformedData', transformedData);
+      // return
+      //   .then((newCsvData) => {
+      //     console.log('then of transformData')
+      //     if (newCsvData) {
+      //       console.log('newCsvData', newCsvData)
+      //       saveAs(blobbifyData(newCsvData, this.props.contentType), generateFilename('astro101-', '.csv'));
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.error('ERROR (SuperDownloadButton): data transformation error', error);
+      //     this.setState({ status: STATUS.ERROR });
+      //   });
+      return null;
     }
 
     return this.download();
