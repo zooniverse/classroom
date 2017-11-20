@@ -152,10 +152,10 @@ function AstroClassroomsTable(props) {
 AstroClassroomsTable.defaultProps = {
   assignmentToExport: {},
   closeConfirmationDialog: () => {},
-  getCsvFile: () => {},
   maybeDeleteClassroom: () => {},
   selectClassroom: () => {},
   showExportModal: () => {},
+  transformData: () => {},
   ...CLASSROOMS_INITIAL_STATE,
   ...ASSIGNMENTS_INITIAL_STATE
 };
@@ -163,10 +163,10 @@ AstroClassroomsTable.defaultProps = {
 AstroClassroomsTable.propTypes = {
   assignmentToExport: PropTypes.object,
   closeConfirmationDialog: PropTypes.func,
-  getCsvFile: PropTypes.func,
   maybeDeleteClassroom: PropTypes.func,
   selectClassroom: PropTypes.func,
   showExportModal: PropTypes.func,
+  transformData: PropTypes.func,
   ...CLASSROOMS_PROPTYPES,
   ...ASSIGNMENTS_PROPTYPES
 };
