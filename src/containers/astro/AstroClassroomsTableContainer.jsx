@@ -5,11 +5,14 @@ import { saveAs } from 'browser-filesaver';
 
 import AstroClassroomsTable from '../../components/astro/AstroClassroomsTable';
 import { blobbifyData, generateFilename } from '../../lib/file-download-helpers';
+<<<<<<< 8e051432828e13291b68113e43f72636c1b5415f
 
 import {
   CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES
 } from '../../ducks/caesar-exports';
 import { i2aAssignmentNames } from '../../ducks/programs';
+=======
+>>>>>>> Hubble's Law export data transformation
 
 import {
   CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES
