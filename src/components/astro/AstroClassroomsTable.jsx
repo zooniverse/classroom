@@ -34,7 +34,7 @@ function AstroClassroomsTable(props) {
   return (
     <Box>
       <ExportModal
-        assignment={props.assignmentToExport}
+        toExport={props.toExport}
         transformData={props.transformData}
         onClose={props.onExportModalClose}
         requestNewExport={props.requestNewExport}
@@ -150,22 +150,25 @@ function AstroClassroomsTable(props) {
 };
 
 AstroClassroomsTable.defaultProps = {
-  assignmentToExport: {},
   closeConfirmationDialog: () => {},
   maybeDeleteClassroom: () => {},
   selectClassroom: () => {},
   showExportModal: () => {},
+  toExport: {},
   transformData: () => {},
   ...CLASSROOMS_INITIAL_STATE,
   ...ASSIGNMENTS_INITIAL_STATE
 };
 
 AstroClassroomsTable.propTypes = {
-  assignmentToExport: PropTypes.object,
   closeConfirmationDialog: PropTypes.func,
   maybeDeleteClassroom: PropTypes.func,
   selectClassroom: PropTypes.func,
   showExportModal: PropTypes.func,
+  toExport: PropTypes.shape({
+    assignment: PropTypes.object,
+    classroom: PropTypes.object
+  }),
   transformData: PropTypes.func,
   ...CLASSROOMS_PROPTYPES,
   ...ASSIGNMENTS_PROPTYPES

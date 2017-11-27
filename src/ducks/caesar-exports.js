@@ -20,6 +20,7 @@ const CAESAR_EXPORTS_STATUS = {
 const CAESAR_EXPORTS_INITIAL_STATE = {
   caesarExport: {},
   error: null,
+  googleFileUrl: null,
   requestedExports: {},
   showModal: false,
   status: CAESAR_EXPORTS_STATUS.IDLE
@@ -28,6 +29,7 @@ const CAESAR_EXPORTS_INITIAL_STATE = {
 const CAESAR_EXPORTS_PROPTYPES = {
   caesarExport: PropTypes.shape({}),
   error: PropTypes.object,
+  googleFileUrl: PropTypes.string,
   requestedExports: PropTypes.object,
   showModal: PropTypes.bool,
   status: PropTypes.string
@@ -54,10 +56,14 @@ const setError = (state, error) => {
   return { ...state, error };
 };
 
+const setGoogleFileUrl = (state, googleFileUrl) => {
+  return { ...state, googleFileUrl };
+};
+
 const setRequestedExports = (state, newRequestedExport) => {
   const mergedRequestedExports = Object.assign({}, state.requestedExports, newRequestedExport);
   return { ...state, requestedExports: mergedRequestedExports };
-}
+};
 
 const showModal = (state) => {
   return { ...state, showModal: !state.showModal };
@@ -202,7 +208,7 @@ Effect('createCaesarExport', (data) => {
     });
 });
 
-Effect('exportToGoogleDrive', (csv) => {
+Effect('exportToGoogleDrive', (data) => {
   // This is using the multipart upload as specified in the Google Drive v3 REST API documentation
   // https://developers.google.com/drive/v3/web/multipart-upload
   // And borrows a lot from this stack overflow example
@@ -211,27 +217,32 @@ Effect('exportToGoogleDrive', (csv) => {
   const delimiter = `\r\n--${boundary}\r\n`;
   const closeDelim = `\r\n--${boundary}--`;
   const metadata = {
-    name: 'Test', // Replace with actual file name
+    name: data.filename,
     mimeType: 'application/vnd.google-apps.spreadsheet'
   };
-  const multipartRequestBody = `${delimiter}Content-Type: application/json\r\n\r\n${JSON.stringify(metadata)}${delimiter}Content-Type: text/csv\r\n\r\n${csv}${closeDelim}`;
+  const multipartRequestBody = `${delimiter}Content-Type: application/json\r\n\r\n${JSON.stringify(metadata)}${delimiter}Content-Type: text/csv\r\n\r\n${data.csv}${closeDelim}`;
 
   Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.EXPORTING);
 
-
-  return gapi.client.request({
+  const gapi = window.gapi;
+  if (gapi) {
+    return gapi.client.request({
       path: 'https://www.googleapis.com/upload/drive/v3/files',
       method: 'POST',
-      params: { uploadType: 'multipart' },
+      params: { uploadType: 'multipart', fields: 'webViewLink' },
       headers: { 'Content-Type': `multipart/related; boundary="${boundary}"` },
       body: multipartRequestBody
     }).then((response) => {
       if (response && response.body && response.status === 200) {
+        const parsedResponse = JSON.parse(response.body);
+
+        Actions.caesarExports.setGoogleFileUrl(parsedResponse.webViewLink);
         Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
-        Actions.classrooms.setToastState({ status: 'ok', message: 'Sent CSV to your Google Drive' });
-        Actions.caesarExports.showModal();
       }
     }).catch((error) => { handleError(error); });
+  }
+
+  return Promise.resolve(null);
 });
 
 const caesarExports = State('caesarExports', {
@@ -241,6 +252,7 @@ const caesarExports = State('caesarExports', {
   setStatus,
   setCaesarExport,
   setError,
+  setGoogleFileUrl,
   setRequestedExports,
   showModal
 });

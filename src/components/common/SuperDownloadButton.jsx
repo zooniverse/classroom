@@ -50,25 +50,48 @@ class SuperDownloadButton extends React.Component {
     super(props);
     this.download = this.download.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.saveFile = this.saveFile.bind(this);
 
     this.altForm = null;
     this.altFormData = null;
 
     this.state = {  // Keep the state simple and local; no need for Redux connections.
+      filename: generateFilename(this.props.fileNameBase),
       status: STATUS.IDLE
     };
   }
 
   handleClick() {
     if (this.props.transformData && typeof this.props.transformData === 'function') {
-      return Papa.parse(this.props.url, { complete: this.props.transformData, download: true });
+      this.setState({ status: STATUS.FETCHING });
+
+      new Promise((resolve, reject) => {
+        return Papa.parse(this.props.url, { complete: result => resolve(result), error: error => reject(error), download: true });
+      }).then((csvData) => {
+        if (csvData) {
+          this.props.transformData(csvData).then((transformedData) => {
+            this.setState({ status: STATUS.SUCCESS });
+            this.saveFile(transformedData);
+          });
+        }
+
+        throw 'ERROR (SuperDownloadButton): No CSV parsing result';
+      }).catch(error => this.handleError(error));
     }
 
     return this.download();
   }
 
+  handleError(error) {
+    this.setState({ status: STATUS.ERROR });
+    console.error(error);
+  }
+
+  saveFile(data) {
+    saveAs(blobbifyData(data, this.props.contentType), this.state.filename);
+  }
+
   download() {
-    const filename = generateFilename(this.props.fileNameBase);
     this.setState({ status: STATUS.FETCHING });
     superagent.get(this.props.url)
     .then((response) => {
@@ -92,15 +115,12 @@ class SuperDownloadButton extends React.Component {
         this.altFormData.value = data;
         this.altForm.submit();
       } else {
-        saveAs(blobbifyData(data, this.props.contentType), filename);
+        this.saveFile(data);
       }
 
       this.setState({ status: STATUS.SUCCESS });
     })
-    .catch((err) => {
-      this.setState({ status: STATUS.ERROR });
-      console.error(err);
-    });
+    .catch(error => this.handleError(error));
   }
 
   render() {
@@ -130,7 +150,7 @@ class SuperDownloadButton extends React.Component {
         >
           <textarea name="data" ref={c => this.altFormData = c} readOnly aria-label="alt-data" />
           <input name="content_type" value={this.props.contentType} readOnly aria-label="alt-contenttype" />
-          <input name="filename" value={this.props.filename} readOnly aria-label="alt-filename" />
+          <input name="filename" value={this.state.filename} readOnly aria-label="alt-filename" />
         </form>
       </Button>
     );

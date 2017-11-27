@@ -1,10 +1,8 @@
 import React from 'react';
 import { Actions } from 'jumpstate';
 import { connect } from 'react-redux';
-import { saveAs } from 'browser-filesaver';
 
 import AstroClassroomsTable from '../../components/astro/AstroClassroomsTable';
-import { blobbifyData, generateFilename } from '../../lib/file-download-helpers';
 
 import {
   CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES
@@ -84,13 +82,9 @@ class AstroClassroomsTableContainer extends React.Component {
 
   transformData(csvData) {
     if (this.state.toExport.assignment.name === i2aAssignmentNames.galaxy) {
-      Promise.resolve(this.transformGalaxyDataCsv(csvData));
+      return Promise.resolve(this.transformGalaxyDataCsv(csvData));
     } else if (this.state.toExport.assignment.name === i2aAssignmentNames.hubble) {
-      Promise.resolve(this.transformHubbleDataCsv(csvData))
-        .then((transformedData) => {
-          const filename = generateFilename('astro101-');
-          saveAs(blobbifyData(transformedData, 'text/csv'), filename);
-        });
+      return Promise.resolve(this.transformHubbleDataCsv(csvData));
     }
 
     return null;
@@ -144,7 +138,7 @@ class AstroClassroomsTableContainer extends React.Component {
     return (
       <AstroClassroomsTable
         {...this.props}
-        assignmentToExport={this.state.toExport.assignment}
+        toExport={this.state.toExport}
         onExportModalClose={this.onExportModalClose}
         requestNewExport={this.handleRequestForNewExport}
         showExportModal={this.showExportModal}

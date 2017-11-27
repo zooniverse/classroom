@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
 import Heading from 'grommet/components/Heading';
@@ -10,6 +11,7 @@ import Timestamp from 'grommet/components/Timestamp';
 import Paragraph from 'grommet/components/Paragraph';
 import Layer from 'grommet/components/Layer';
 import Button from 'grommet/components/Button';
+import Anchor from 'grommet/components/Anchor';
 
 import SuperDownloadButton from '../common/SuperDownloadButton';
 import GoogleDriveExportButton from './GoogleDriveExportButton';
@@ -18,10 +20,21 @@ import {
 } from '../../ducks/caesar-exports';
 
 
-function ExportModal({ caesarExport, caesarExports, caesarExportStatus, onClose, requestedExports, requestNewExport, showModal, transformData }) {
-  // TODO add url prop to SuperDownloadButton
-  // TODO disable Export to Google Sheets button like the download button.
-  // It's not disabled for testing purposes at the moment
+function prepStringForFilename(string) {
+  return string.replace(/\s+/g, '-').toLowerCase();
+}
+
+function ExportModal({
+  caesarExport,
+  caesarExports,
+  caesarExportStatus,
+  googleFileUrl,
+  onClose,
+  requestedExports,
+  requestNewExport,
+  showModal,
+  toExport,
+  transformData }) {
   const noExport = caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport &&
     caesarExports === CAESAR_EXPORTS_INITIAL_STATE.caesarExports &&
     caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS;
@@ -31,6 +44,9 @@ function ExportModal({ caesarExport, caesarExports, caesarExportStatus, onClose,
   const pending = Object.keys(requestedExports).length > 0 && caesarExportStatus === CAESAR_EXPORTS_STATUS.PENDING;
   const disableButton = noExport || fetching || pending;
   const success = Object.keys(caesarExport).length > 0 && caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS;
+  const assignmentName = (toExport.assignment && toExport.assignment.name) ? prepStringForFilename(toExport.assignment.name) : null;
+  const classroomName = (toExport.classroom && toExport.classroom.name) ? prepStringForFilename(toExport.classroom.name) : null;
+  const fileNameBase = (assignmentName && classroomName) ? `astro101-${classroomName}-${assignmentName}-` : 'astro101-';
 
   if (showModal) {
     return (
@@ -55,6 +71,24 @@ function ExportModal({ caesarExport, caesarExports, caesarExportStatus, onClose,
               <Status value="warning" />{' '}
               Export request is processing. Please check again later.
             </Paragraph>}
+          {caesarExportStatus === CAESAR_EXPORTS_STATUS.EXPORTING &&
+            <Paragraph>
+              <Spinning />{' '}
+              Export to Google Drive request is processing.
+            </Paragraph>}
+          {caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS && googleFileUrl &&
+            <Paragraph>
+              <Status value="ok" />{' '}
+              The CSV export is now{' '}
+              <Anchor
+                href={googleFileUrl}
+                onClick={Actions.caesarExports.showModal}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                  available on your Google Drive
+                </Anchor>.
+            </Paragraph>}
           {noExport &&
             <Paragraph>
               <Status value="warning" />{' '}
@@ -75,7 +109,7 @@ function ExportModal({ caesarExport, caesarExports, caesarExportStatus, onClose,
             <SuperDownloadButton
               className="export-modal__button"
               disabled={disableButton}
-              fileNameBase="astro101-"
+              fileNameBase={fileNameBase}
               primary={true}
               text="Download CSV"
               transformData={transformData}
@@ -84,6 +118,9 @@ function ExportModal({ caesarExport, caesarExports, caesarExportStatus, onClose,
             <GoogleDriveExportButton
               className="export-modal__button"
               disabled={disableButton}
+              fileNameBase={fileNameBase}
+              transformData={transformData}
+              url={caesarExport.url}
             />
           </Box>
         </Box>
@@ -96,18 +133,24 @@ function ExportModal({ caesarExport, caesarExports, caesarExportStatus, onClose,
 
 ExportModal.defaultProps = {
   ...CAESAR_EXPORTS_INITIAL_STATE,
-  onClose: () => {}
+  onClose: () => {},
+  toExport: {},
 };
 
 ExportModal.propTypes = {
   ...CAESAR_EXPORTS_PROPTYPES,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  toExport: PropTypes.shape({
+    assignment: PropTypes.object,
+    classroom: PropTypes.object
+  })
 };
 
 function mapStateToProps(state) {
   return {
     caesarExport: state.caesarExports.caesarExport,
     caesarExportStatus: state.caesarExports.status,
+    googleFileUrl: state.caesarExports.googleFileUrl,
     requestedExports: state.caesarExports.requestedExports,
     showModal: state.caesarExports.showModal
   };
