@@ -1,5 +1,6 @@
 import { State, Effect, Actions } from 'jumpstate';
 import oauth from 'panoptes-client/lib/oauth';
+import { config } from '../lib/config';
 
 // Constants
 const AUTH_STATUS = {
@@ -10,10 +11,8 @@ const AUTH_STATUS = {
 };
 
 // Helper functions
-const computeRedirectURL = (window) => {
-  const { location } = window;
-  return location.origin ||
-    `${location.protocol}//${location.hostname}:${location.port}`;
+const computeRedirectURL = () => {
+  return config.origin;
 };
 
 function handleError(error) {
@@ -59,7 +58,7 @@ Effect('checkLoginUser', () => {
 
 Effect('loginToPanoptes', () => {
   // Returns a login page URL for the user to navigate to.
-  oauth.signIn(computeRedirectURL(window))
+  oauth.signIn(computeRedirectURL())
     .catch((error) => {
       handleError(error);
     });

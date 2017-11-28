@@ -29,10 +29,11 @@ import {
   ASSIGNMENTS_STATUS
 } from '../../ducks/assignments';
 import { i2aAssignmentNames } from '../../ducks/programs';
+import { config } from '../../lib/config';
 
 const ClassroomEditor = (props) => {
   const joinURL = props.selectedClassroom ?
-    `${window.location.host}/#/${props.selectedProgram.slug}/students/classrooms/${props.selectedClassroom.id}/join?token=${props.selectedClassroom.joinToken}` :
+    `${config.origin}/#/${props.selectedProgram.slug}/students/classrooms/${props.selectedClassroom.id}/join?token=${props.selectedClassroom.joinToken}` :
     '';
 
   // Get students and assignments only for this classroom.

@@ -50,7 +50,7 @@ function AstroClassroomsTable(props) {
           </TableRow>
         </thead>
         {props.classrooms.map((classroom) => {
-          const joinURL = `${window.location.host}/#/${props.selectedProgram.slug}/students/classrooms/${classroom.id}/join?token=${classroom.joinToken}`;
+          const joinURL = `${config.origin}/#/${props.selectedProgram.slug}/students/classrooms/${classroom.id}/join?token=${classroom.joinToken}`;
           // Can we get linked assignments with classrooms in single get request?
           // No, if we want this, then we need to open an issue with the API
           // TODO replace classifications_target with calculated percentage
