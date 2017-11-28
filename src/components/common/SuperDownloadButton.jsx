@@ -65,7 +65,7 @@ class SuperDownloadButton extends React.Component {
     if (this.props.transformData && typeof this.props.transformData === 'function') {
       this.setState({ status: STATUS.FETCHING });
 
-      new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         return Papa.parse(this.props.url, { complete: result => resolve(result), error: error => reject(error), download: true });
       }).then((csvData) => {
         if (csvData) {
