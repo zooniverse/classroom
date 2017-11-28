@@ -181,11 +181,21 @@ const ClassroomEditor = (props) => {
             {props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS &&
             props.assignments[props.selectedClassroom.id] &&
             props.assignments[props.selectedClassroom.id].length > 0 &&
+            students.length === 0 && (
+              <TableRow className="manager-table__row-data">
+                <td colSpan="4"><Paragraph>No students have joined yet.</Paragraph></td>
+              </TableRow>
+            )}
+
+            {props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS &&
+            props.assignments[props.selectedClassroom.id] &&
+            props.assignments[props.selectedClassroom.id].length > 0 &&
+            students.length > 0 &&
               students.map((student) => {
-                const galaxyAssignment = assignments.filter(
-                  assignment => assignment.name === i2aAssignmentNames.first);
-                const hubbleAssignment = assignments.filter(
-                  assignment => assignment.name === i2aAssignmentNames.second);
+                const galaxyAssignment = props.assignments[props.selectedClassroom.id].filter(
+                  assignment => assignment.name === i2aAssignmentNames.galaxy);
+                const hubbleAssignment = props.assignments[props.selectedClassroom.id].filter(
+                  assignment => assignment.name === i2aAssignmentNames.hubble);
 
                 // Why are the ids in the student_user_id property numbers?!?!?!
                 const galaxyStudentData = galaxyAssignment[0].studentAssignmentsData.filter(
