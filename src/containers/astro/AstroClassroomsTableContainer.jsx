@@ -86,7 +86,45 @@ class AstroClassroomsTableContainer extends React.Component {
   }
 
   transformGalaxyDataCsv(csvData) {
-    console.log('TO DO: transform data for galaxy activity', csvData);
+    if (!csvData || (csvData && !csvData.data)) return null;
+
+    let csvRows = 'Galaxy ID,Total # of classifications,Spiral,Elliptical,Merger,Artifact,SSDS ID,Image,GZ Original Spiral,GZ Original Elliptical,GZ Original Merger,GZ Original Artifact\n';
+    const exportData = csvData.data;
+    // We don't care about the original headers
+    exportData.shift();
+
+    const votesReducerData = exportData.filter((row, index) => {
+      return row[1] === 'votes';
+    });
+
+    const metadataReducerData = exportData.filter((row, index) => {
+      return [1] === 'metadata';
+    });
+
+    votesReducerData.forEach((votesRow) => {
+      metadataReducerData.forEach((metadataRow) => {
+        // Same subject id
+        if (votesRow[3] === metadataRow[3]) {
+          // const galaxyId =
+          const total = votesRow[7] + votesRow[8] + votesRow[9] + votesRow[10];
+          // const spiral = votesRow[];
+          // const elliptical = votesRow[];
+          // const merger = votesRow[];
+          // const artifact = votesRow[];
+          // const sdssId = metadataRow[];
+          // const image = metadataRow[];
+          // const gzSpiral = metadataRow[];
+          // const gzElliptical = metadataRow[];
+          // const gzMerger = metadataRow[];
+          // const gzArtifact = metadataRow[];
+
+          const row = `${galaxyId},${total},${spiral},${elliptical},${merger},${artifact},${sdssId},${image},${gzSpiral},${gzElliptical},${gzMerger},${gzArtifact}\n`;
+          csvRows += row;
+        }
+      });
+    });
+
+    return csvRows;
   }
 
   transformHubbleDataCsv(csvData) {
