@@ -12,6 +12,7 @@ import {
 import {
   PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES
 } from '../../ducks/programs';
+import { env } from '../../lib/config';
 
 export class AssignmentFormContainer extends React.Component {
   constructor() {
@@ -76,6 +77,31 @@ export class AssignmentFormContainer extends React.Component {
       }
     };
 
+    // Wildcam programs
+    const selectedProgram = this.props.selectedProgram;
+    if (selectedProgram && selectedProgram.custom) {
+      assignmentData.attributes.workflow_id = selectedProgram.metadata.workflowId;
+
+      // need to add working filters form field to assignment create form
+      // assignmentData.attributes.metadata.filters = this.props.formFields.filters;
+      if (env === 'staging' || env === 'development') {
+        const sampleSubjects = selectedProgram.metadata.sampleSubjects;
+        assignmentData.attributes.metadata.subjects = sampleSubjects;
+        const subjectData = sampleSubjects.map((subjectId) => {
+          return { id: subjectId, type: 'subjects' };
+        });
+        assignmentData.relationships.subjects.data = subjectData;
+      } else {
+        // need to add working subjects form field to assignment create form
+        const subjects = this.props.formFields.subjects;
+        assignmentData.attributes.metadata.subjects = subjects;
+        const subjectData = subjects.map((subjectId) => {
+          return { id: subjectId, type: 'subjects' };
+        });
+        assignmentData.relationships.subject.data = subjectData;
+      }
+    }
+
     return Actions.createAssignment(assignmentData);
   }
 
@@ -104,19 +130,22 @@ export class AssignmentFormContainer extends React.Component {
 
 AssignmentFormContainer.defaultProps = {
   ...ASSIGNMENTS_INITIAL_STATE,
-  ...CLASSROOMS_INITIAL_STATE
+  ...CLASSROOMS_INITIAL_STATE,
+  ...PROGRAMS_INITIAL_STATE
 };
 
 AssignmentFormContainer.propTypes = {
   ...ASSIGNMENTS_PROPTYPES,
-  ...CLASSROOMS_PROPTYPES
+  ...CLASSROOMS_PROPTYPES,
+  ...PROGRAMS_PROPTYPES
 };
 
 function mapStateToProps(state) {
   return {
     formFields: state.assignments.formFields,
     selectedAssignment: state.assignments.selectedAssignment,
-    selectedClassroomToLink: state.assignments.selectedClassroomToLink
+    selectedClassroomToLink: state.assignments.selectedClassroomToLink,
+    selectedProgram: state.programs.selectedProgram
   };
 }
 

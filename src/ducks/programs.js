@@ -165,7 +165,10 @@ const PROGRAMS_INITIAL_STATE = {
 };
 
 const programPropTypes = {
+  custom: PropTypes.bool,
   description: PropTypes.string,
+  id: PropTypes.string,
+  metadata: PropTypes.object,
   name: PropTypes.string,
   slug: PropTypes.string
 };

@@ -33,8 +33,11 @@ const assignmentPropTypes = {
     classifications_target: PropTypes.string,
     description: PropTypes.string,
     duedate: PropTypes.string,
+    filters: PropTypes.object,
+    subjects: PropTypes.arrayOf(PropTypes.string)
   },
-  name: PropTypes.string
+  name: PropTypes.string,
+  workflow_id: PropTypes.string
 };
 
 const ASSIGNMENTS_PROPTYPES = {
