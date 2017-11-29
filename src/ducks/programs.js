@@ -28,7 +28,6 @@ const i2a = {
         // back to a project without having to request that from Panoptes
         // to then build the URL to the project in the UI.
         // These are just test projects on staging...
-        // classifications_target should be a string?
         "2218": {
           name: i2aAssignmentNames.hubble,
           classifications_target: "10",
@@ -57,7 +56,6 @@ const i2a = {
         // used to relate the assignment resource that has a workflow id property
         // back to a project without having to request that from Panoptes
         // to then build the URL to the project in the UI.
-        // TODO: replace the workflow ids here with the production ids
         "1315": {
           name: i2aAssignmentNames.hubble,
           classifications_target: "10",
@@ -84,6 +82,8 @@ const darien = {
       backgroundImage: '',
       cardImage: 'home-card-wildcam-darien.jpg',
       redirectOnJoin: true,
+      sampleSubjects: ['73437', '73438', '73434'],
+      workflowId: '3116' // belongs to project 1807
     }
   },
   production: {
@@ -96,6 +96,8 @@ const darien = {
       backgroundImage: '',
       cardImage: 'home-card-wildcam-darien.jpg',
       redirectOnJoin: true,
+      sampleSubjects: [],
+      workflowId: '3033' // belongs to project 3525
     }
   }
 };
@@ -109,7 +111,11 @@ const gorongosa = {
     slug: 'wildcam-gorongosa-lab',
     metadata: {
       cardImage: 'gorongosa-animals.jpg',
-      redirect: 'https://lab.wildcamgorongosa.org/'
+      redirect: 'https://lab.wildcamgorongosa.org/',
+      // We used hard coded sample subject ids because the Carto DB is only for production
+      // These are used in the assignment creation in development so that the POST works
+      sampleSubjects: ['37763', '37755', '37767'],
+      workflowId: '1549' // Belongs to project 937
     }
   },
   production: {
@@ -120,7 +126,9 @@ const gorongosa = {
     slug: 'wildcam-gorongosa-lab',
     metadata: {
       cardImage: 'gorongosa-animals.jpg',
-      redirect: 'https://lab.wildcamgorongosa.org/'
+      redirect: 'https://lab.wildcamgorongosa.org/',
+      sampleSubjects: [],
+      workflowId: '338' // belongs to project 593
     }
   }
 }
