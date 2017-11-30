@@ -145,9 +145,9 @@ Effect('getCaesarExport', (data) => {
         if (responseData.status === 'complete') {
           Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
           Actions.caesarExports.setCaesarExport(responseData);
-          Actions.caesarExports.setRequestedExports(CAESAR_EXPORTS_INITIAL_STATE.requestedExport);
+          Actions.caesarExports.setRequestedExports({ [data.classroom.id]: undefined });
 
-          return response.body;
+          return responseData;
         }
 
         if (responseData.status === 'pending') {

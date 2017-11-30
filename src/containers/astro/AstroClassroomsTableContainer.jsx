@@ -32,6 +32,8 @@ class AstroClassroomsTableContainer extends React.Component {
     this.setState({ toExport: { assignment: {}, classroom: {} } });
 
     Actions.caesarExports.setCaesarExport(CAESAR_EXPORTS_INITIAL_STATE.caesarExport);
+    Actions.caesarExports.setGoogleFileUrl(CAESAR_EXPORTS_INITIAL_STATE.googleFileUrl);
+    Actions.caesarExports.setStatus(CAESAR_EXPORTS_INITIAL_STATE.status);
     Actions.caesarExports.showModal();
   }
 
@@ -44,9 +46,7 @@ class AstroClassroomsTableContainer extends React.Component {
         this.props.requestedExports[classroom.id] &&
         this.props.requestedExports[classroom.id].workflow_id.toString() === assignment.workflowId) {
       this.checkPendingExport(assignment, classroom, this.props.requestedExports[classroom.id].id);
-    }
-
-    if (Object.keys(this.props.requestedExports).length === 0) {
+    } else {
       this.checkExportExistence(assignment, classroom)
         .then((caesarExports) => {
           if (caesarExports && caesarExports.length === 0) {

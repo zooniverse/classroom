@@ -41,7 +41,12 @@ function ExportModal({
   const fetching = caesarExportStatus === CAESAR_EXPORTS_STATUS.FETCHING &&
     (caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport ||
     caesarExports === CAESAR_EXPORTS_INITIAL_STATE.caesarExports);
-  const pending = Object.keys(requestedExports).length > 0 && caesarExportStatus === CAESAR_EXPORTS_STATUS.PENDING;
+  const pending = Object.keys(requestedExports).length > 0 &&
+    caesarExportStatus === CAESAR_EXPORTS_STATUS.PENDING &&
+    toExport.classroom &&
+    toExport.assignment &&
+    requestedExports[toExport.classroom.id] &&
+    requestedExports[toExport.classroom.id].workflow_id.toString() === toExport.assignment.workflowId;
   const disableButton = noExport || fetching || pending;
   const success = Object.keys(caesarExport).length > 0 && caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS;
   const assignmentName = (toExport.assignment && toExport.assignment.name) ? prepStringForFilename(toExport.assignment.name) : null;
