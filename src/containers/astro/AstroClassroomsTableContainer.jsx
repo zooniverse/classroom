@@ -90,38 +90,60 @@ class AstroClassroomsTableContainer extends React.Component {
 
     let csvRows = 'Galaxy ID,Total # of classifications,Spiral,Elliptical,Merger,Artifact,SSDS ID,Image,GZ Original Spiral,GZ Original Elliptical,GZ Original Merger,GZ Original Artifact\n';
     const exportData = csvData.data;
-    // We don't care about the original headers
-    exportData.shift();
+    const originalHeaders = exportData.shift();
+    const reducerKeyIndex = originalHeaders.indexOf('reducer_key');
+    const subjectIdIndex = originalHeaders.indexOf('subject_id');
+    const galaxyIdIndex = originalHeaders.indexOf('data.Galaxy Id');
+    const spiralIndex = originalHeaders.indexOf('data.0');
+    const ellipticalIndex = originalHeaders.indexOf('data.1');
+    const mergerIndex = originalHeaders.indexOf('data.2');
+    const artifactIndex = originalHeaders.indexOf('data.3');
+    const sdssIdIndex = originalHeaders.indexOf('data.SDSS_ID');
+    const imageIndex = originalHeaders.indexOf('data.Image');
+    const gzSpiralIndex = originalHeaders.indexOf('data.GZ Original Spiral');
+    const gzEllipticalIndex = originalHeaders.indexOf('data.GZ Original Elliptical');
+    const gzMergerIndex = originalHeaders.indexOf('data.GZ Original Merger');
+    const gzArtifactIndex = originalHeaders.indexOf('data.GZ Original Artifact');
 
     const votesReducerData = exportData.filter((row, index) => {
-      return row[1] === 'votes';
+      return row[reducerKeyIndex] === 'votes';
     });
 
     const metadataReducerData = exportData.filter((row, index) => {
-      return [1] === 'metadata';
+      return row[reducerKeyIndex] === 'metadata';
     });
 
+    const newHumanReadableTable = [];
     votesReducerData.forEach((votesRow) => {
       metadataReducerData.forEach((metadataRow) => {
         // Same subject id
-        if (votesRow[3] === metadataRow[3]) {
-          // const galaxyId =
-          const total = votesRow[7] + votesRow[8] + votesRow[9] + votesRow[10];
-          // const spiral = votesRow[];
-          // const elliptical = votesRow[];
-          // const merger = votesRow[];
-          // const artifact = votesRow[];
-          // const sdssId = metadataRow[];
-          // const image = metadataRow[];
-          // const gzSpiral = metadataRow[];
-          // const gzElliptical = metadataRow[];
-          // const gzMerger = metadataRow[];
-          // const gzArtifact = metadataRow[];
+        if (votesRow[subjectIdIndex] === metadataRow[subjectIdIndex]) {
+          const galaxyId = metadataRow[galaxyIdIndex];
+          const spiral = votesRow[spiralIndex] ? votesRow[spiralIndex] : 0;
+          const elliptical = votesRow[ellipticalIndex] ? votesRow[ellipticalIndex] : 0;
+          const merger = votesRow[mergerIndex] ? votesRow[mergerIndex] : 0;
+          const artifact = votesRow[artifactIndex] ? votesRow[artifactIndex] : 0;
+          const total = spiral + elliptical + merger + artifact;
+          const sdssId = metadataRow[sdssIdIndex];
+          const image = metadataRow[imageIndex];
+          const gzSpiral = metadataRow[gzSpiralIndex];
+          const gzElliptical = metadataRow[gzEllipticalIndex];
+          const gzMerger = metadataRow[gzMergerIndex];
+          const gzArtifact = metadataRow[gzArtifactIndex];
 
-          const row = `${galaxyId},${total},${spiral},${elliptical},${merger},${artifact},${sdssId},${image},${gzSpiral},${gzElliptical},${gzMerger},${gzArtifact}\n`;
-          csvRows += row;
+          newHumanReadableTable.push([galaxyId, total, spiral, elliptical, merger, artifact, sdssId, image, gzSpiral, gzElliptical, gzMerger, gzArtifact]);
         }
       });
+    });
+
+    // Sort by galaxy id
+    newHumanReadableTable.sort((a, b) => {
+      return a[0] - b[0];
+    });
+
+    // Convert to string
+    newHumanReadableTable.forEach((row) => {
+      csvRows += `${row.toString()}\n`;
     });
 
     return csvRows;
@@ -132,31 +154,41 @@ class AstroClassroomsTableContainer extends React.Component {
 
     let csvRows = 'Galaxy ID,N Class,RA,Dec,Dist,lambda_av,lambda_err,Redshift,Velocity, URL\n';
     const exportData = csvData.data;
-    // We don't care about the original headers
-    exportData.shift();
+    const originalHeaders = exportData.shift();
+    const reducerKeyIndex = originalHeaders.indexOf('reducer_key');
+    const subjectIdIndex = originalHeaders.indexOf('subject_id');
+    const galaxyIdIndex = originalHeaders.indexOf('data.galaxy_id');
+    const nClassIndex = originalHeaders.indexOf('data.count');
+    const raIndex = originalHeaders.indexOf('data.RA');
+    const decIndex = originalHeaders.indexOf('data.dec');
+    const distIndex = originalHeaders.indexOf('data.dist');
+    const lambdaAvIndex = originalHeaders.indexOf('data.mean');
+    const lambdaErrIndex = originalHeaders.indexOf('data.stdev');
+    const redshiftIndex = originalHeaders.indexOf('data.redshift');
+    const urlIndex = originalHeaders.indexOf('data.url');
 
     const lambdaReducerData = exportData.filter((row, index) => {
-      return row[1] === 'lambdacen';
+      return row[reducerKeyIndex] === 'lambdacen';
     });
 
     const metadataReducerData = exportData.filter((row, index) => {
-      return row[1] === 'metadata';
+      return row[reducerKeyIndex] === 'metadata';
     });
 
     lambdaReducerData.forEach((lambdaRow) => {
       metadataReducerData.forEach((metadataRow) => {
         // Same subject id
-        if (lambdaRow[3] === metadataRow[3]) {
-          const galaxyId = metadataRow[8];
-          const nClass = lambdaRow[15];
-          const ra = metadataRow[7];
-          const dec = metadataRow[18];
-          const dist = metadataRow[10];
-          const lambdaAv = lambdaRow[12];
-          const lambdaErr = lambdaRow[13];
-          const redshift = metadataRow[17];
+        if (lambdaRow[subjectIdIndex] === metadataRow[subjectIdIndex]) {
+          const galaxyId = metadataRow[galaxyIdIndex];
+          const nClass = lambdaRow[nClassIndex];
+          const ra = metadataRow[raIndex];
+          const dec = metadataRow[decIndex];
+          const dist = metadataRow[distIndex];
+          const lambdaAv = lambdaRow[lambdaAvIndex];
+          const lambdaErr = lambdaRow[lambdaErrIndex];
+          const redshift = metadataRow[redshiftIndex];
           const velocity = redshift.length > 0 ? (300000 * redshift) : '';
-          const url = metadataRow[16];
+          const url = metadataRow[urlIndex];
 
           const row = `${galaxyId},${nClass},${ra},${dec},${dist},${lambdaAv},${lambdaErr},${redshift},${velocity},${url}\n`;
           csvRows += row;

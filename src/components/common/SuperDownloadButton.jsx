@@ -69,7 +69,7 @@ class SuperDownloadButton extends React.Component {
         return Papa.parse(this.props.url, { complete: result => resolve(result), error: error => reject(error), download: true });
       }).then((csvData) => {
         if (csvData) {
-          this.props.transformData(csvData).then((transformedData) => {
+          return this.props.transformData(csvData).then((transformedData) => {
             this.setState({ status: STATUS.SUCCESS });
             this.saveFile(transformedData);
           });
