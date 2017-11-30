@@ -9,11 +9,6 @@ import {
 } from '../../ducks/caesar-exports';
 import { i2aAssignmentNames } from '../../ducks/programs';
 
-import {
-  CAESAR_EXPORTS_INITIAL_STATE, CAESAR_EXPORTS_PROPTYPES
-} from '../../ducks/caesar-exports';
-import { i2aAssignmentNames } from '../../ducks/programs';
-
 class AstroClassroomsTableContainer extends React.Component {
   constructor() {
     super();
