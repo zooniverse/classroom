@@ -73,14 +73,14 @@ export class AssignmentFormContainer extends React.Component {
             id: this.props.selectedClassroomToLink.id,
             type: 'classrooms'
           }
-        },
-        subjects: {}
+        }
       }
     };
 
     // Wildcam programs
     const selectedProgram = this.props.selectedProgram;
     if (selectedProgram && selectedProgram.custom) {
+      assignmentData.relationships.subjects = {};
       assignmentData.attributes.workflow_id = selectedProgram.metadata.workflowId;
 
       // need to add working filters form field to assignment create form
