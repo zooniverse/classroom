@@ -45,7 +45,7 @@ module.exports = {
     // new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('staging')
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
     new DashboardPlugin({ port: 3999 })
   ],
