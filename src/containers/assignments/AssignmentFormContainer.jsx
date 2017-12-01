@@ -73,7 +73,8 @@ export class AssignmentFormContainer extends React.Component {
             id: this.props.selectedClassroomToLink.id,
             type: 'classrooms'
           }
-        }
+        },
+        subjects: {}
       }
     };
 
@@ -98,7 +99,7 @@ export class AssignmentFormContainer extends React.Component {
         const subjectData = subjects.map((subjectId) => {
           return { id: subjectId, type: 'subjects' };
         });
-        assignmentData.relationships.subject.data = subjectData;
+        assignmentData.relationships.subjects.data = subjectData;
       }
     }
 
