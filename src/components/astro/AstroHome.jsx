@@ -68,7 +68,7 @@ const AstroHome = (props) => {
           justify="center"
         >
           <Box className="astro-home__guide" align="center" direction="row" size="xxlarge">
-            <Button href="https://drive.google.com/open?id=0Bww9uOqqZbR_aEhCYkRoRU1GUXc" type="button" label="Instructors Guide" target="_blank" rel="noopener noreferrer" />
+            <Button href="https://drive.google.com/drive/folders/0B18vKHxr-rUfaHJXczZrSDc3dTA" type="button" label="Instructors Guide" target="_blank" rel="noopener noreferrer" />
             <Paragraph align="start">
                 Instructors Guide: This provides you with a suggested timeline, lesson plans and student instructions for the class activities that will  guide the students in how to use the tools and the research project where students demonstrate the skills they have learned.
             </Paragraph>
