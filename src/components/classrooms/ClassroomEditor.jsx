@@ -96,7 +96,7 @@ const ClassroomEditor = (props) => {
           pad="small"
         >
           <Box flex={true}>
-            <Paragraph align="start" size="small">Click a project column to toggle between percentages and number of classifications.</Paragraph>
+            <Paragraph align="start" size="small">Click an assignment column to toggle between percentages and number of classifications.</Paragraph>
           </Box>
 
           <CopyToClipboard
@@ -165,10 +165,30 @@ const ClassroomEditor = (props) => {
         <Table className="manager-table">
           <thead className="manager-table__headers">
             <TableRow>
-              <th id="student-name" scope="col" className="headers__header">Student Name/Zooniverse ID</th>
-              <th id="assignment-galaxy" scope="col" className="headers__header">Galaxy Zoo 101</th>
-              <th id="assignment-hubble" scope="col" className="headers__header">Hubble's Law</th>
-              <th id="student-remove" scope="col" className="headers__header">Remove Student</th>
+              <th id="student-name" scope="col">
+                <span className="headers__header">Student Name/Zooniverse ID</span>
+              </th>
+              <th id="assignment-galaxy" scope="col">
+                <Button
+                  className="headers__header"
+                  onClick={props.toggleCountView.bind(null, i2aAssignmentNames.galaxy)}
+                  plain={true}
+                >
+                  {i2aAssignmentNames.galaxy}
+                </Button>
+              </th>
+              <th id="assignment-hubble" scope="col" >
+                <Button
+                  className="headers__header"
+                  onClick={props.toggleCountView.bind(null, i2aAssignmentNames.hubble)}
+                  plain={true}
+                >
+                  {i2aAssignmentNames.hubble}
+                </Button>
+              </th>
+              <th id="student-remove" scope="col">
+                <span className="headers__header">Remove Student</span>
+              </th>
             </TableRow>
           </thead>
 
@@ -180,8 +200,8 @@ const ClassroomEditor = (props) => {
             )}
 
             {props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS &&
-            props.assignments[props.selectedClassroom.id] &&
-            props.assignments[props.selectedClassroom.id].length > 0 &&
+            assignments &&
+            assignments.length > 0 &&
             students.length === 0 && (
               <TableRow className="manager-table__row-data">
                 <td colSpan="4"><Paragraph>No students have joined yet.</Paragraph></td>
@@ -189,13 +209,13 @@ const ClassroomEditor = (props) => {
             )}
 
             {props.assignmentsStatus === ASSIGNMENTS_STATUS.SUCCESS &&
-            props.assignments[props.selectedClassroom.id] &&
-            props.assignments[props.selectedClassroom.id].length > 0 &&
+            assignments &&
+            assignments.length > 0 &&
             students.length > 0 &&
               students.map((student) => {
-                const galaxyAssignment = props.assignments[props.selectedClassroom.id].filter(
+                const galaxyAssignment = assignments.filter(
                   assignment => assignment.name === i2aAssignmentNames.galaxy);
-                const hubbleAssignment = props.assignments[props.selectedClassroom.id].filter(
+                const hubbleAssignment = assignments.filter(
                   assignment => assignment.name === i2aAssignmentNames.hubble);
 
                 // Why are the ids in the student_user_id property numbers?!?!?!
@@ -204,14 +224,20 @@ const ClassroomEditor = (props) => {
                 const hubbleStudentData = hubbleAssignment[0].studentAssignmentsData.filter(
                   data => data.attributes.student_user_id.toString() === student.id);
 
+                const galaxyPercentage = `${(galaxyStudentData[0].attributes.classifications_count / (+galaxyAssignment[0].metadata.classifications_target)) * 100}%`;
+                const hubblePercentage = `${(hubbleStudentData[0].attributes.classifications_count / (+hubbleAssignment[0].metadata.classifications_target)) * 100}%`;
+
+                const galaxyCount = `${galaxyStudentData[0].attributes.classifications_count} / ${+galaxyAssignment[0].metadata.classifications_target}`;
+                const hubbleCount = `${hubbleStudentData[0].attributes.classifications_count} / ${+hubbleAssignment[0].metadata.classifications_target}`;
+
                 return (<TableRow className="manager-table__row-data" key={`classroom-student-${student.id}`}>
                   <td headers="student-name">
                     {(student.zooniverseDisplayName && student.zooniverseDisplayName.length > 0)
                       ? <span>{student.zooniverseDisplayName}</span>
                       : <span className="secondary">{student.zooniverseLogin}</span> }
                   </td>
-                  <td headers="assignment-galaxy">{(galaxyStudentData[0].attributes.classifications_count / (+galaxyAssignment[0].metadata.classifications_target)) * 100}%</td>
-                  <td headers="assignment-hubble">{(hubbleStudentData[0].attributes.classifications_count / (+hubbleAssignment[0].metadata.classifications_target)) * 100}%</td>
+                  <td headers="assignment-galaxy">{props.showCounts.galaxy ? galaxyCount : galaxyPercentage}</td>
+                  <td headers="assignment-hubble">{props.showCounts.hubble ? hubbleCount : hubblePercentage}</td>
                   <td headers="student-remove">
                     <Button
                       className="manager-table__button--delete"
@@ -238,6 +264,11 @@ ClassroomEditor.defaultProps = {
   selectClassroom: () => {},
   removeStudentFromClassroom: () => {},
   //----------------
+  showConfirmationDialog: false,
+  showCounts: {
+    galaxy: false,
+    hubble: false
+  },
   showForm: false,
   toggleFormVisibility: Actions.classrooms.toggleFormVisibility,
   //----------------
@@ -250,6 +281,11 @@ ClassroomEditor.propTypes = {
   selectClassroom: PropTypes.func,
   removeStudentFromClassroom: PropTypes.func,
   //----------------
+  showConfirmationDialog: PropTypes.bool,
+  showCounts: PropTypes.shape({
+    galaxy: PropTypes.bool,
+    hubble: PropTypes.bool
+  }),
   showForm: PropTypes.bool,
   toggleFormVisibility: PropTypes.func,
   //----------------

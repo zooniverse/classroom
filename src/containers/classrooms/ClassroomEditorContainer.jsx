@@ -20,6 +20,10 @@ export class ClassroomEditorContainer extends React.Component {
     super(props);
 
     this.state = {
+      showCounts: {
+        galaxy: false,
+        hubble: false
+      },
       showConfirmationDialog: false,
       studentToDelete: {
         classroomId: null,
@@ -32,6 +36,7 @@ export class ClassroomEditorContainer extends React.Component {
     this.exportStats = this.exportStats.bind(this);
     this.maybeRemoveStudentFromClassroom = this.maybeRemoveStudentFromClassroom.bind(this);
     this.removeStudentFromClassroom = this.removeStudentFromClassroom.bind(this);
+    this.toggleCountView = this.toggleCountView.bind(this);
   }
 
   componentDidMount() {
@@ -127,6 +132,18 @@ export class ClassroomEditorContainer extends React.Component {
     });
   }
 
+  toggleCountView(assignment) {
+    if (assignment === i2aAssignmentNames.galaxy) {
+      this.setState((prevState) => {
+        return { showCounts: { galaxy: !prevState.showCounts.galaxy, hubble: prevState.showCounts.hubble } };
+      });
+    } else if (assignment === i2aAssignmentNames.hubble) {
+      this.setState((prevState) => {
+        return { showCounts: { galaxy: prevState.showCounts.galaxy, hubble: !prevState.showCounts.hubble } };
+      });
+    }
+  }
+
   render() {
     return (
       <ClassroomEditor
@@ -141,8 +158,10 @@ export class ClassroomEditorContainer extends React.Component {
         removeStudentFromClassroom={this.removeStudentFromClassroom}
         selectedClassroom={this.props.selectedClassroom}
         selectedProgram={this.props.selectedProgram}
-        showForm={this.props.showForm}
         showConfirmationDialog={this.state.showConfirmationDialog}
+        showCounts={this.state.showCounts}
+        showForm={this.props.showForm}
+        toggleCountView={this.toggleCountView}
       />
     );
   }
