@@ -5,7 +5,7 @@ import { Actions } from 'jumpstate';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import AstroHome from '../../components/astro/AstroHome';
-import DarienRoutesContainer from '../darien/DarienRoutesContainer';
+import DarienProgram from '../darien/DarienProgram';
 import GenericStatusPage from '../../components/common/GenericStatusPage';
 
 import {
@@ -61,7 +61,7 @@ export class ProgramHomeContainer extends React.Component {
       <Switch>
         <Route path="/astro-101-with-galaxy-zoo/educators" component={AstroHome} />
         <Redirect from="/astro-101-with-galaxy-zoo" to="/astro-101-with-galaxy-zoo/educators/" />
-        <Route path="/wildcam-darien-lab" component={DarienRoutesContainer} />
+        <Route path="/wildcam-darien-lab" component={DarienProgram} />
       </Switch>
     );
   }

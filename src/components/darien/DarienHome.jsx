@@ -51,7 +51,7 @@ class DarienHome extends React.Component {
           </Box>
           <Box align="center" direction="row" justify="between" pad="medium" size="medium">
             <Button path="/wildcam-darien-lab/educators/" label="Educator" />
-            <Button path="/wildcam-darien-lab/students/" label="Explorer" />
+            <Button path="/wildcam-darien-lab/map/#" label="Explorer" />
           </Box>
         </Section>
         <NeedHelp />
