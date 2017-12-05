@@ -100,7 +100,7 @@ const ClassroomEditor = (props) => {
           </Box>
 
           <CopyToClipboard
-            className="join-link"
+            className="join-link__button"
             text={joinURL}
             onCopy={() => { Actions.classrooms.setToastState({ status: 'ok', message: 'Copied join link.' }); }}
           >
@@ -108,6 +108,7 @@ const ClassroomEditor = (props) => {
           </CopyToClipboard>
 
           <Button
+            className="button--primary"
             type="button"
             primary={true}
             label="Export Stats"

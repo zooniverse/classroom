@@ -21,7 +21,13 @@ const ClassroomsManager = (props) => {
     <Box className="classrooms-manager">
       <Box className="classrooms-manager__instructions" align="center" direction="row" justify="between" size="xxlarge">
         <Paragraph align="start" size="small">{props.classroomInstructions}</Paragraph>
-        <Button type="button" primary={true} label="Create New Classroom" onClick={props.toggleFormVisibility} />
+        <Button
+          className="button--primary"
+          type="button"
+          primary={true}
+          label="Create New Classroom"
+          onClick={props.toggleFormVisibility}
+        />
       </Box>
       {props.showForm &&
         <Layer closer={true} onClose={props.toggleFormVisibility}>

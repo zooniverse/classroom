@@ -29,11 +29,18 @@ $reset-button
 
 .button
   font-family: "Roboto Mono", monospace
-  border-color: #acdcdf !important
   border-width: 1px
 
-  &:hover, &focus
-    background: #acdcdf
+  &--primary
+    &:hover, &:focus
+      background: #004b54
+      border-color: #004b54 !important
+
+  &--secondary
+    border-color: #acdcdf !important
+
+    &:hover, &focus
+      background: #acdcdf
 
 .link-like-button
   @extends .button

@@ -58,7 +58,7 @@ const ClassroomForm = (props) => {
         </FormField>
       </fieldset>
       <Footer>
-        <Button type="submit" label={props.submitLabel} primary={true} />
+        <Button className="button--primary" type="submit" label={props.submitLabel} primary={true} />
       </Footer>
     </Form>
   );
