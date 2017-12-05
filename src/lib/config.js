@@ -60,6 +60,7 @@ const baseConfig = {
 };
 
 const config = baseConfig[env];
+console.log('env', env)
 export { env, config };
 
 // Try and match the location.search property against a regex. Basically mimics

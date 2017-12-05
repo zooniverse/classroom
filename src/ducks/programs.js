@@ -6,7 +6,7 @@ import { get, post, put, httpDelete } from '../lib/edu-api';
 import { env } from '../lib/config';
 
 // testing mocks and constants
-export const i2aAssignmentNames = {
+const i2aAssignmentNames = {
   galaxy: "Galaxy Zoo 101",
   hubble: "Hubble's Law"
 }
@@ -133,13 +133,17 @@ const gorongosa = {
   }
 }
 
+i2a.development = i2a.staging;
+darien.development = darien.staging;
+gorongosa.development = gorongosa.staging;
+
 const programsArray = [
   i2a[env],
   darien[env],
   gorongosa[env]
 ];
 
-export const programsMocks = {
+const programsMocks = {
   i2a: i2a[env],
   darien: darien[env],
   gorongosa: gorongosa[env]
@@ -322,5 +326,8 @@ export default programs;
 export {
   PROGRAMS_STATUS,
   PROGRAMS_INITIAL_STATE,
-  PROGRAMS_PROPTYPES
+  PROGRAMS_PROPTYPES,
+  programsArray,
+  programsMocks,
+  i2aAssignmentNames
 };
