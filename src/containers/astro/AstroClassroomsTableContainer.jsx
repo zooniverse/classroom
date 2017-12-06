@@ -123,7 +123,7 @@ class AstroClassroomsTableContainer extends React.Component {
           const elliptical = votesRow[ellipticalIndex] ? votesRow[ellipticalIndex] : 0;
           const merger = votesRow[mergerIndex] ? votesRow[mergerIndex] : 0;
           const artifact = votesRow[artifactIndex] ? votesRow[artifactIndex] : 0;
-          const total = spiral + elliptical + merger + artifact;
+          const total = +spiral + +elliptical + +merger + +artifact;
           const sdssId = metadataRow[sdssIdIndex];
           const image = metadataRow[imageIndex];
           const gzSpiral = metadataRow[gzSpiralIndex];
