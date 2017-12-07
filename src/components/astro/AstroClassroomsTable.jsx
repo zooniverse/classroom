@@ -26,7 +26,7 @@ function calculateCompleteness(assignment, classroom) {
   const numberOfStudents = assignment.studentAssignments.length;
   const numberOfCompletedClassifications = classroom.classificationsCount;
   if (numberOfStudents === 0) return 0;
-  return (numberOfCompletedClassifications / (classificationsTarget * numberOfStudents)) * 100;
+  return (Math.round(numberOfCompletedClassifications / (classificationsTarget * numberOfStudents)) * 100);
 }
 
 function AstroClassroomsTable(props) {

@@ -8,10 +8,17 @@ import Heading from 'grommet/components/Heading';
 import Footer from 'grommet/components/Footer';
 import Paragraph from 'grommet/components/Paragraph';
 
-const ClassroomForm = (props) => {
+import {
+  CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES, CLASSROOMS_STATUS
+} from '../../ducks/classrooms';
+
+function ClassroomForm(props) {
   const optional = props.optionalFormFields;
   return (
-    <Form onSubmit={props.onSubmit} pad="medium">
+    <Form
+      onSubmit={props.classroomsStatus === CLASSROOMS_STATUS.CREATING ? null : props.onSubmit}
+      pad="medium"
+    >
       <Heading tag="h2">{props.heading}</Heading>
       <fieldset>
         <legend><Paragraph size="small">Input the class name and if applicable the section name</Paragraph></legend>
@@ -21,7 +28,7 @@ const ClassroomForm = (props) => {
             placeHolder="Class name"
             onDOMChange={props.onChange}
             required={true}
-            value={props.fields.name}
+            value={props.formFields.name}
           />
         </FormField>
       </fieldset>
@@ -35,7 +42,7 @@ const ClassroomForm = (props) => {
             placeHolder="Class subject"
             onDOMChange={props.onChange}
             required={!optional}
-            value={props.fields.subject || ''}
+            value={props.formFields.subject || ''}
           />
         </FormField>
         <FormField htmlFor="school" label="Institution">
@@ -44,7 +51,7 @@ const ClassroomForm = (props) => {
             placeHolder="Name of institution or school"
             onDOMChange={props.onChange}
             required={!optional}
-            value={props.fields.school || ''}
+            value={props.formFields.school || ''}
           />
         </FormField>
         <FormField htmlFor="description" label="Description">
@@ -53,7 +60,7 @@ const ClassroomForm = (props) => {
             placeholder="Description of class"
             onChange={props.onChange}
             required={!optional}
-            value={props.fields.description || ''}
+            value={props.formFields.description || ''}
           />
         </FormField>
       </fieldset>
@@ -67,29 +74,19 @@ const ClassroomForm = (props) => {
 ClassroomForm.defaultProps = {
   optionalFormFields: true,
   onChange: () => {},
-  fields: {
-    name: '',
-    subject: '',
-    school: '',
-    description: ''
-  },
   heading: '',
   onSubmit: () => {},
-  submitLabel: 'Submit'
+  submitLabel: 'Submit',
+  ...CLASSROOMS_INITIAL_STATE
 };
 
 ClassroomForm.propTypes = {
   optionalFormFields: PropTypes.bool,
   onChange: PropTypes.func,
-  fields: PropTypes.shape({
-    name: PropTypes.string,
-    subject: PropTypes.string,
-    school: PropTypes.string,
-    description: PropTypes.string
-  }),
   heading: PropTypes.string,
   onSubmit: PropTypes.func,
-  submitLabel: PropTypes.string
+  submitLabel: PropTypes.string,
+  ...CLASSROOMS_PROPTYPES
 };
 
 export default ClassroomForm;

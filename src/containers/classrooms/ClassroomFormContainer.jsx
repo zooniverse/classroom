@@ -112,8 +112,9 @@ export class ClassroomFormContainer extends React.Component {
   render() {
     return (
       <ClassroomForm
+        classroomsStatus={this.props.classroomsStatus}
         heading={this.props.heading}
-        fields={this.props.formFields}
+        formFields={this.props.formFields}
         onChange={this.onChange}
         onSubmit={this.onSubmit}
         submitLabel={this.props.submitLabel}
@@ -134,6 +135,7 @@ ClassroomFormContainer.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    classroomsStatus: state.classrooms.status,
     formFields: state.classrooms.formFields,
     selectedClassroom: state.classrooms.selectedClassroom,
     selectedProgram: state.programs.selectedProgram

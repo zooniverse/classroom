@@ -225,8 +225,8 @@ const ClassroomEditor = (props) => {
                 const hubbleStudentData = hubbleAssignment[0].studentAssignmentsData.filter(
                   data => data.attributes.student_user_id.toString() === student.id);
 
-                const galaxyPercentage = `${(galaxyStudentData[0].attributes.classifications_count / (+galaxyAssignment[0].metadata.classifications_target)) * 100}%`;
-                const hubblePercentage = `${(hubbleStudentData[0].attributes.classifications_count / (+hubbleAssignment[0].metadata.classifications_target)) * 100}%`;
+                const galaxyPercentage = `${Math.round((galaxyStudentData[0].attributes.classifications_count / (+galaxyAssignment[0].metadata.classifications_target)) * 100)}%`;
+                const hubblePercentage = `${Math.round((hubbleStudentData[0].attributes.classifications_count / (+hubbleAssignment[0].metadata.classifications_target)) * 100)}%`;
 
                 const galaxyCount = `${galaxyStudentData[0].attributes.classifications_count} / ${+galaxyAssignment[0].metadata.classifications_target}`;
                 const hubbleCount = `${hubbleStudentData[0].attributes.classifications_count} / ${+hubbleAssignment[0].metadata.classifications_target}`;

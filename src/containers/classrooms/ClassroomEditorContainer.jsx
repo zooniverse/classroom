@@ -103,8 +103,8 @@ export class ClassroomEditorContainer extends React.Component {
       const studentHubbleCount = hubbleStudentData[0].attributes.classifications_count;
       const galaxyCountStat = `${studentGalaxyCount}/${galaxyClassificationTarget}`;
       const hubbleCountStat = `${studentHubbleCount}/${hubbleClassificationTarget}`;
-      const galaxyPercentageStat = (studentGalaxyCount / (+galaxyClassificationTarget)) * 100;
-      const hubblePercentageStat = (studentHubbleCount / (+hubbleClassificationTarget)) * 100;
+      const galaxyPercentageStat = Math.round((studentGalaxyCount / (+galaxyClassificationTarget)) * 100);
+      const hubblePercentageStat = Math.round((studentHubbleCount / (+hubbleClassificationTarget)) * 100);
       const row = `"${classroomName}","${studentName}",${galaxyCountStat},${hubbleCountStat},${galaxyPercentageStat},${hubblePercentageStat}\n`;
       csvData += row;
     });

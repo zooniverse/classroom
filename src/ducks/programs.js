@@ -56,15 +56,15 @@ const i2a = {
         // used to relate the assignment resource that has a workflow id property
         // back to a project without having to request that from Panoptes
         // to then build the URL to the project in the UI.
-        "1315": {
+        "5522": {
           name: i2aAssignmentNames.hubble,
           classifications_target: "10",
-          slug: 'srallen086/intro2astro-hubble-testing'
+          slug: 'zooniverse/intro2astro-hubbles-law'
         },
-        "1771": {
+        "5521": {
           name: i2aAssignmentNames.galaxy,
           classifications_target: "22",
-          slug: 'srallen086/galaxy-zoo-in-astronomy-101'
+          slug: 'zooniverse/galaxy-zoo-in-astronomy-101'
         }
       }
     }
