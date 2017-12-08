@@ -19,7 +19,7 @@ import {
   PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES, PROGRAMS_STATUS
 } from '../../ducks/programs';
 
-const DarienHome = (props) => {
+function DarienHome(props) {
   const signedIn = (props.user && props.initialised);
   const selectedProgramExists = (props.programsStatus === PROGRAMS_STATUS.SUCCESS && props.selectedProgram);
   const name = (selectedProgramExists && props.selectedProgram.name) ? props.selectedProgram.name : '';

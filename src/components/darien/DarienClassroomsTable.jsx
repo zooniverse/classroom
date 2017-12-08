@@ -22,7 +22,7 @@ import {
   CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
 } from '../../ducks/classrooms';
 
-const DarienClassroomsTable = (props) => {
+function DarienClassroomsTable(props) {
   return (
     <Box>
       {props.children}

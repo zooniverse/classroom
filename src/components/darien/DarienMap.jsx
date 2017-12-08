@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MapExplorer from '../../containers/maps/MapExplorer';
 import mapConfig from '../../lib/wildcam-darien.mapConfig.js';
 
-const DarienMap = (props) => {
+function DarienMap(props) {
   return (
     <MapExplorer
       mapConfig={props.mapConfig}

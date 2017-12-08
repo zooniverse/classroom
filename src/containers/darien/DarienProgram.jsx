@@ -21,31 +21,29 @@ import Darien401 from '../../components/darien/Darien401';
 import Darien404 from '../../components/darien/Darien404';
 import GenericStatusPage from '../../components/common/GenericStatusPage';
 
-class DarienProgram extends React.Component {
-  render() {
-    if (!this.props.initialised) {  //User status unknown: wait.
-      return (<GenericStatusPage status="fetching" message="Loading" />);
-    } else {
-    
-      if (this.props.user) {  //User logged in: give access to all locations.
-        return (
-          <Switch>
-            <Route exact path={`${this.props.match.url}/`} component={DarienHome} />
-            <Route path={`${this.props.match.url}/educators`} component={DarienEducators} />
-            <Route path={`${this.props.match.url}/map`} component={DarienMap} />
-            <Route path="*" component={Darien404} />
-          </Switch>
-        );
-      } else {  //User not logged in: give limited access.
-        return (
-          <Switch>
-            <Route exact path={`${this.props.match.url}/`} component={DarienHome} />
-            <Route path={`${this.props.match.url}/educators`} component={Darien401} />
-            <Route path={`${this.props.match.url}/map`} component={DarienMap} />
-            <Route path="*" component={Darien404} />
-          </Switch>
-        );
-      }
+function DarienProgram(props) {
+  if (!props.initialised) {  //User status unknown: wait.
+    return (<GenericStatusPage status="fetching" message="Loading" />);
+  } else {
+
+    if (props.user) {  //User logged in: give access to all locations.
+      return (
+        <Switch>
+          <Route exact path={`${props.match.url}/`} component={DarienHome} />
+          <Route path={`${props.match.url}/educators`} component={DarienEducators} />
+          <Route path={`${props.match.url}/map`} component={DarienMap} />
+          <Route path="*" component={Darien404} />
+        </Switch>
+      );
+    } else {  //User not logged in: give limited access.
+      return (
+        <Switch>
+          <Route exact path={`${props.match.url}/`} component={DarienHome} />
+          <Route path={`${props.match.url}/educators`} component={Darien401} />
+          <Route path={`${props.match.url}/map`} component={DarienMap} />
+          <Route path="*" component={Darien404} />
+        </Switch>
+      );
     }
   }
 }
