@@ -21,12 +21,15 @@ import {
   CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
 } from '../../ducks/classrooms';
 
-function calculateCompleteness(assignment, classroom) {
+function calculateCompleteness(assignment) {
   const classificationsTarget = +assignment.metadata.classifications_target;
   const numberOfStudents = assignment.studentAssignments.length;
-  const numberOfCompletedClassifications = classroom.classificationsCount;
+  let numberOfCompletedClassificationsPerAssignment;
+  assignment.studentAssignmentsData.forEach((studentAssignment) => {
+    numberOfCompletedClassificationsPerAssignment += studentAssignment.attributes.classifications_count;
+  });
   if (numberOfStudents === 0) return 0;
-  return (Math.round(numberOfCompletedClassifications / (classificationsTarget * numberOfStudents)) * 100);
+  return (Math.round(numberOfCompletedClassificationsPerAssignment / (classificationsTarget * numberOfStudents)) * 100);
 }
 
 function AstroClassroomsTable(props) {
@@ -104,7 +107,7 @@ function AstroClassroomsTable(props) {
                   const projectUrl = (assignmentsMetadata && assignmentsMetadata[assignment.workflowId]) ?
                     `${config.zooniverse}/projects/${assignmentsMetadata[assignment.workflowId].slug}/classify?group=${classroom.attributes.zooniverse_group_id}` :
                     null;
-                  const calculatedCompleteness = calculateCompleteness(assignment, classroom);
+                  const calculatedCompleteness = calculateCompleteness(assignment);
                   return (
                     <TableRow className="manager-table__row-data" key={assignment.id}>
                       <td headers="classroom assignments">{assignment.name}</td>
