@@ -105,7 +105,7 @@ export class ClassroomEditorContainer extends React.Component {
       const hubbleCountStat = `${studentHubbleCount}/${hubbleClassificationTarget}`;
       const galaxyPercentageStat = ((studentGalaxyCount / (+galaxyClassificationTarget)).toFixed(2) * 100);
       const hubblePercentageStat = ((studentHubbleCount / (+hubbleClassificationTarget)).toFixed(2) * 100);
-      const row = `"${classroomName}","${studentName}",${galaxyCountStat},${hubbleCountStat},${galaxyPercentageStat},${hubblePercentageStat}\n`;
+      const row = `"${classroomName}","${studentName}",${galaxyCountStat},${hubbleCountStat},${galaxyPercentageStat <= 100 ? galaxyPercentageStat : 100},${hubblePercentageStat <= 100 ? hubblePercentageStat : 100}\n`;
       csvData += row;
     });
     saveAs(blobbifyData(csvData, 'text/csv'), generateFilename('astro101-', '.csv'));
