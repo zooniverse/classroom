@@ -49,14 +49,14 @@ function DarienHome(props) {
           <Box pad="medium" size="medium">
             <Paragraph>If you are an educator, you can set up private classrooms and invite your students to join. Curate data sets or let your students explore on their own. Guided activities and supporting educational resources are also available. {(signedIn) ? null : '(Sign In required)'}</Paragraph>
             {(signedIn)
-              ? <Button path="/wildcam-darien-lab/educators/" label="Educator" />
+              ? <Button type="button" className="button--secondary" path="/wildcam-darien-lab/educators/" label="Educator" />
               : <Button type="button" className="button--secondary" onClick={Actions.auth.toggleOauthModal} label="Sign In" />
             }            
           </Box>
           
           <Box pad="medium" size="medium">
             <Paragraph> Alternatively, you can simply explore the data.</Paragraph>
-            <Button path="/wildcam-darien-lab/map/" label="Explorer" />
+            <Button type="button" className="button--secondary" path="/wildcam-darien-lab/map/" label="Explorer" />
           </Box>
         </Box>
         <Box align="center" direction="row" justify="between" pad="medium" size="medium">
