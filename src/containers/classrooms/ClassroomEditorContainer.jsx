@@ -81,9 +81,9 @@ export class ClassroomEditorContainer extends React.Component {
     if (!this.props.selectedClassroom && !this.props.selectedClassroom.students) return null;
     const classroomName = this.props.selectedClassroom.name;
     const galaxyAssignment = this.props.assignments[this.props.selectedClassroom.id].filter(
-      assignment => assignment.name === i2aAssignmentNames.first);
+      assignment => assignment.name === i2aAssignmentNames.galaxy);
     const hubbleAssignment = this.props.assignments[this.props.selectedClassroom.id].filter(
-      assignment => assignment.name === i2aAssignmentNames.second);
+      assignment => assignment.name === i2aAssignmentNames.hubble);
     const galaxyClassificationTarget = galaxyAssignment[0].metadata.classifications_target;
     const hubbleClassificationTarget = hubbleAssignment[0].metadata.classifications_target;
 
