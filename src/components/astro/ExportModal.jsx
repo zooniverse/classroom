@@ -95,10 +95,15 @@ function ExportModal({
                 </Anchor>.
             </Paragraph>}
           {noExport &&
-            <Paragraph>
-              <Status value="warning" />{' '}
-              No export available for this classroom and assignment.
-            </Paragraph>}
+            <Box>
+              <Paragraph>
+                <Status value="warning" />{' '}
+                No export available for this classroom and assignment or the export failed.
+              </Paragraph>
+              <Paragraph>
+                <Button secondary={true} fill={false} onClick={requestNewExport} label="Request new export" />
+              </Paragraph>
+            </Box>}
           {caesarExport === CAESAR_EXPORTS_INITIAL_STATE.caesarExport &&
             caesarExportStatus === CAESAR_EXPORTS_STATUS.ERROR &&
             <Box>
