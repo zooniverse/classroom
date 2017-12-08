@@ -24,12 +24,21 @@ import {
 function calculateCompleteness(assignment) {
   const classificationsTarget = +assignment.metadata.classifications_target;
   const numberOfStudents = assignment.studentAssignments.length;
-  let numberOfCompletedClassificationsPerAssignment;
-  assignment.studentAssignmentsData.forEach((studentAssignment) => {
-    numberOfCompletedClassificationsPerAssignment += studentAssignment.attributes.classifications_count;
-  });
   if (numberOfStudents === 0) return 0;
-  return (Math.round(numberOfCompletedClassificationsPerAssignment / (classificationsTarget * numberOfStudents)) * 100);
+
+  let numberOfCompletedClassificationsPerAssignment = 0;
+  assignment.studentAssignmentsData.forEach((studentAssignment) => {
+    // Just return the classificationsTarget count if the student did more than assigned
+    if (studentAssignment.attributes.classifications_count >= classificationsTarget) {
+      numberOfCompletedClassificationsPerAssignment += classificationsTarget;
+    } else {
+      numberOfCompletedClassificationsPerAssignment += studentAssignment.attributes.classifications_count;
+    }
+  });
+  const totalClassificationsTarget = classificationsTarget * numberOfStudents;
+  const completenessPercentage = ((numberOfCompletedClassificationsPerAssignment / totalClassificationsTarget).toFixed(2) * 100);
+  // Just return 100 if the calculation is over 100.
+  return completenessPercentage <= 100 ? completenessPercentage : 100;
 }
 
 function AstroClassroomsTable(props) {

@@ -225,8 +225,8 @@ const ClassroomEditor = (props) => {
                 const hubbleStudentData = hubbleAssignment[0].studentAssignmentsData.filter(
                   data => data.attributes.student_user_id.toString() === student.id);
 
-                const galaxyPercentage = `${Math.round((galaxyStudentData[0].attributes.classifications_count / (+galaxyAssignment[0].metadata.classifications_target)) * 100)}%`;
-                const hubblePercentage = `${Math.round((hubbleStudentData[0].attributes.classifications_count / (+hubbleAssignment[0].metadata.classifications_target)) * 100)}%`;
+                const galaxyPercentage = ((galaxyStudentData[0].attributes.classifications_count / (+galaxyAssignment[0].metadata.classifications_target)).toFixed(2) * 100);
+                const hubblePercentage = ((hubbleStudentData[0].attributes.classifications_count / (+hubbleAssignment[0].metadata.classifications_target)).toFixed(2) * 100);
 
                 const galaxyCount = `${galaxyStudentData[0].attributes.classifications_count} / ${+galaxyAssignment[0].metadata.classifications_target}`;
                 const hubbleCount = `${hubbleStudentData[0].attributes.classifications_count} / ${+hubbleAssignment[0].metadata.classifications_target}`;
@@ -237,8 +237,8 @@ const ClassroomEditor = (props) => {
                       ? <span>{student.zooniverseDisplayName}</span>
                       : <span className="secondary">{student.zooniverseLogin}</span> }
                   </td>
-                  <td headers="assignment-galaxy">{props.showCounts.galaxy ? galaxyCount : galaxyPercentage}</td>
-                  <td headers="assignment-hubble">{props.showCounts.hubble ? hubbleCount : hubblePercentage}</td>
+                  <td headers="assignment-galaxy">{props.showCounts.galaxy ? galaxyCount : `${galaxyPercentage <= 100 ? galaxyPercentage : 100}%`}</td>
+                  <td headers="assignment-hubble">{props.showCounts.hubble ? hubbleCount : `${hubblePercentage <= 100 ? hubblePercentage : 100}%`}</td>
                   <td headers="student-remove">
                     <Button
                       className="manager-table__button--delete"
