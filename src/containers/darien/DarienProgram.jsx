@@ -17,8 +17,8 @@ import { Switch, Route } from 'react-router-dom';
 import DarienHome from '../../components/darien/DarienHome';
 import DarienEducators from '../../components/darien/DarienEducators';
 import DarienMap from '../../components/darien/DarienMap';
-import Darien401 from '../../components/darien/Darien401';
-import Darien404 from '../../components/darien/Darien404';
+import Status401 from '../../components/common/Status401';
+import Status404 from '../../components/common/Status404';
 import GenericStatusPage from '../../components/common/GenericStatusPage';
 
 function DarienProgram(props) {
@@ -32,16 +32,16 @@ function DarienProgram(props) {
           <Route exact path={`${props.match.url}/`} component={DarienHome} />
           <Route path={`${props.match.url}/educators`} component={DarienEducators} />
           <Route path={`${props.match.url}/map`} component={DarienMap} />
-          <Route path="*" component={Darien404} />
+          <Route path="*" component={Status404} />
         </Switch>
       );
     } else {  //User not logged in: give limited access.
       return (
         <Switch>
           <Route exact path={`${props.match.url}/`} component={DarienHome} />
-          <Route path={`${props.match.url}/educators`} component={Darien401} />
+          <Route path={`${props.match.url}/educators`} component={Status401} />
           <Route path={`${props.match.url}/map`} component={DarienMap} />
-          <Route path="*" component={Darien404} />
+          <Route path="*" component={Status404} />
         </Switch>
       );
     }

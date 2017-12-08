@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GenericStatusPage from '../../components/common/GenericStatusPage';
+import GenericStatusPage from './GenericStatusPage';
 
 function Darien404(props) {
   return (
