@@ -66,7 +66,6 @@ export class AuthContainer extends React.Component {
       <SignedInUserNavigation isAdmin={this.props.admin} user={this.props.user} userMenuNavList={userMenuNavList} /> :
       <SignedOutUserNavigation
         login={this.login}
-        loginWithGoogle={this.loginWithGoogle}
         showOauthModal={this.props.showOauthModal}
         toggleModal={this.toggleOauthModal}
         useOauth={true}
