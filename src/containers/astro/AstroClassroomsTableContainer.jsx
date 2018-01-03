@@ -76,18 +76,23 @@ class AstroClassroomsTableContainer extends React.Component {
   }
 
   transformData(csvData) {
-    if (this.state.toExport.assignment.name === i2aAssignmentNames.galaxy) {
-      return Promise.resolve(this.transformGalaxyDataCsv(csvData));
-    } else if (this.state.toExport.assignment.name === i2aAssignmentNames.hubble) {
-      return Promise.resolve(this.transformHubbleDataCsv(csvData));
+    if (csvData && csvData.data && csvData.data.length > 0 && csvData.errors.length === 0) {
+      if (this.state.toExport.assignment.name === i2aAssignmentNames.galaxy) {
+        return Promise.resolve(this.transformGalaxyDataCsv(csvData));
+      } else if (this.state.toExport.assignment.name === i2aAssignmentNames.hubble) {
+        return Promise.resolve(this.transformHubbleDataCsv(csvData));
+      }
     }
 
-    return null;
+    if (csvData && csvData.errors.length > 0) {
+      Actions.caesarExports.setCaesarExport(CAESAR_EXPORTS_INITIAL_STATE.caesarExport);
+      return Promise.reject(csvData.errors[0].message);
+    }
+
+    return Promise.resolve(null);
   }
 
   transformGalaxyDataCsv(csvData) {
-    if (!csvData || (csvData && !csvData.data)) return null;
-
     let csvRows = 'Galaxy ID,Total # of classifications,Spiral,Elliptical,Merger,Artifact,SSDS ID,Image,GZ Original Spiral,GZ Original Elliptical,GZ Original Merger,GZ Original Artifact\n';
     const exportData = csvData.data;
     const originalHeaders = exportData.shift();
@@ -150,8 +155,6 @@ class AstroClassroomsTableContainer extends React.Component {
   }
 
   transformHubbleDataCsv(csvData) {
-    if (!csvData || (csvData && !csvData.data)) return null;
-
     let csvRows = 'Galaxy ID,N Class,RA,Dec,Dist,lambda_av,lambda_err,Redshift,Velocity, URL\n';
     const exportData = csvData.data;
     const originalHeaders = exportData.shift();
