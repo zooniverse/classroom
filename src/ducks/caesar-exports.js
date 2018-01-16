@@ -93,7 +93,7 @@ Effect('getCaesarExports', (data) => {
       // We check if there are any complete exports and if there are, we use the most recent complete export
       if (caesarExports.length > 0) {
         const pendingExports = caesarExports.filter((caesarExport) => {
-          return caesarExport.status === 'pending';
+          return caesarExport.status === 'pending' || caesarExport.status === 'processing';
         });
 
         const completedExports = caesarExports.filter((caesarExport) => {
