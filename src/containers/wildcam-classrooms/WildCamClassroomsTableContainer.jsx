@@ -5,7 +5,7 @@ import Paragraph from 'grommet/components/Paragraph';
 
 import ConfirmationDialog from '../../components/common/ConfirmationDialog';
 import AssignmentFormDialog from '../assignments/AssignmentFormDialog';
-import AstroClassroomsTableContainer from '../astro/AstroClassroomsTableContainer';
+import WildCamClassroomsTable from '../../components/wildcam-classrooms/WildCamClassroomsTable';
 
 import {
   CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
@@ -14,7 +14,7 @@ import {
   ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES
 } from '../../ducks/assignments';
 
-class ClassroomsTableContainer extends React.Component {
+class WildCamClassroomsTableContainer extends React.Component {
   constructor() {
     super();
 
@@ -95,10 +95,9 @@ class ClassroomsTableContainer extends React.Component {
     });
   }
 
-  determineClassroomsTable() {
-    const ClassroomsTable = AstroClassroomsTableContainer;
+  render() {
     return (
-      <ClassroomsTable
+      <WildCamClassroomsTable
         assignments={this.props.assignments}
         assignmentsStatus={this.props.assignmentsStatus}
         classrooms={this.props.classrooms}
@@ -124,21 +123,17 @@ class ClassroomsTableContainer extends React.Component {
         >
           <Paragraph size="small">Deleting a classroom will also delete the associated assignments.</Paragraph>
         </ConfirmationDialog>
-      </ClassroomsTable>
+      </WildCamClassroomsTable>
     );
-  }
-
-  render() {
-    return (this.determineClassroomsTable());
   }
 }
 
-ClassroomsTableContainer.defaultProps = {
+WildCamClassroomsTableContainer.defaultProps = {
   ...ASSIGNMENTS_INITIAL_STATE,
   ...CLASSROOMS_INITIAL_STATE
 };
 
-ClassroomsTableContainer.propTypes = {
+WildCamClassroomsTableContainer.propTypes = {
   ...ASSIGNMENTS_PROPTYPES,
   ...CLASSROOMS_PROPTYPES
 };
@@ -152,5 +147,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ClassroomsTableContainer);
+export default connect(mapStateToProps)(WildCamClassroomsTableContainer);
 

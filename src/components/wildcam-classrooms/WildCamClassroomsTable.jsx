@@ -22,7 +22,7 @@ import {
   CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
 } from '../../ducks/classrooms';
 
-function DarienClassroomsTable(props) {
+function WildCamClassroomsTable(props) {
   return (
     <Box>
       {props.children}
@@ -128,7 +128,7 @@ function DarienClassroomsTable(props) {
                       <td headers="classroom view-project">
                         <Anchor
                           className="manager-table__link"
-                          href={`${config.zooniverse}/projects/wildcam/wildcam-darien/classify?workflow=${assignment.workflow_id}`}
+                          href={`${config.zooniverse}/projects/wildcam/wildcam-darien/classify?workflow=${assignment.workflow_id}` /*TODO: Adapt for WildCam Gorongosa */}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -154,7 +154,7 @@ function DarienClassroomsTable(props) {
   );
 };
 
-DarienClassroomsTable.defaultProps = {
+WildCamClassroomsTable.defaultProps = {
   closeConfirmationDialog: () => {},
   maybeDeleteAssignment: () => {},
   maybeDeleteClassroom: () => {},
@@ -163,7 +163,7 @@ DarienClassroomsTable.defaultProps = {
   ...ASSIGNMENTS_INITIAL_STATE
 };
 
-DarienClassroomsTable.propTypes = {
+WildCamClassroomsTable.propTypes = {
   closeConfirmationDialog: PropTypes.func,
   maybeDeleteAssignment: PropTypes.func,
   maybeDeleteClassroom: PropTypes.func,
@@ -172,4 +172,4 @@ DarienClassroomsTable.propTypes = {
   ...ASSIGNMENTS_PROPTYPES
 };
 
-export default DarienClassroomsTable;
+export default WildCamClassroomsTable;

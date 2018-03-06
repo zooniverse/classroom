@@ -12,7 +12,7 @@ import {
   CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
 } from '../../ducks/classrooms';
 
-function DarienEducators({ classroomInstructions, match, toast }) {
+const ClassroomsLayout = ({ classroomInstructions, match, toast }) => {
   return (
     <Box
       className="classrooms-layout"
@@ -36,11 +36,11 @@ function DarienEducators({ classroomInstructions, match, toast }) {
   );
 };
 
-DarienEducators.defaultProps = {
+ClassroomsLayout.defaultProps = {
   ...CLASSROOMS_INITIAL_STATE
 };
 
-DarienEducators.propTypes = {
+ClassroomsLayout.propTypes = {
   ...CLASSROOMS_PROPTYPES
 };
 
@@ -50,4 +50,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(DarienEducators);
+export default connect(mapStateToProps)(ClassroomsLayout);
