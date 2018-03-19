@@ -25,10 +25,8 @@ function DarienProgram(props) {
   if (!props.initialised) {  //User status unknown: wait.
     return (<GenericStatusPage status="fetching" message="Loading..." />);
   } else if (!props.selectedProgram) {  //Anomaly: program status not set.
-    //This is a code error, not a runtime error - please check that
-    //ducks.program.selectedProgram is set properly in the higher tier
-    //components/containers.
-    return (<GenericStatusPage status="warning" message="Error: Program not set properly. Please contact our development team on Talk to report this issue." />);
+    //Users should _not_ see this, but might due to weird lifecycle/timing issues.
+    return (<GenericStatusPage status="fetching" message="Loading Program..." />);
   } else {
 
     if (props.user) {  //User logged in: give access to all locations.
