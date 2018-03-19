@@ -12,7 +12,7 @@ import { ZooTran } from '../../lib/zooniversal-translator.js';
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
   MAPEXPLORER_CAMERA_STATUS,
-} from '../../ducks/mapexplorer';
+} from '../../ducks/wildcam-mapexplorer';
 
 const CameraViewerData = (props) => {
   if (props.activeCameraDataStatus === MAPEXPLORER_CAMERA_STATUS.SUCCESS &&

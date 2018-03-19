@@ -15,8 +15,8 @@ Requires:
 Notable components:
 * MapVisuals: handles the visual display of the map.
 * MapControls: allows users to select the kind of data they want.
-* ducks/mapexplorer: stores the map explorer data (e.g. view state) AND connects
-    to the external database.
+* ducks/wildcam-mapexplorer: stores the map explorer data (e.g. view state) AND
+    connects to the external database.
 * lib/mapexplorer-helper: handles general utility features, such as constructing
     SQL "where" clauses from selected filters.
 
@@ -39,7 +39,7 @@ import {
 
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
-} from '../../ducks/mapexplorer';
+} from '../../ducks/wildcam-mapexplorer';
 
 class MapExplorer extends React.Component {
   constructor(props) {

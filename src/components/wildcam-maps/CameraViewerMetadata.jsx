@@ -9,7 +9,7 @@ import { ZooTran, ZooTranExists } from '../../lib/zooniversal-translator.js';
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
   MAPEXPLORER_CAMERA_STATUS,
-} from '../../ducks/mapexplorer';
+} from '../../ducks/wildcam-mapexplorer';
 
 const CameraViewerMetadata = (props) => {
   if (props.activeCameraMetadataStatus === MAPEXPLORER_CAMERA_STATUS.FETCHING) {
