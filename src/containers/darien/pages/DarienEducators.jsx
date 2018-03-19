@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 //import ClassroomsLayout from '../classrooms/ClassroomsLayout';
+import WildCamClassroom from '../../wildcam-classrooms/WildCamClassroom';
 
 function DarienEducators(props) {
   return (
-    null  //<ClassroomsLayout match={props.match} />
+    <WildCamClassroom
+      selectedProgram={props.selectedProgram}
+    />
   );
 };
 

@@ -23,7 +23,9 @@ import GenericStatusPage from '../../components/common/GenericStatusPage';
 
 function DarienProgram(props) {
   if (!props.initialised) {  //User status unknown: wait.
-    return (<GenericStatusPage status="fetching" message="Loading" />);
+    return (<GenericStatusPage status="fetching" message="Loading..." />);
+  } else if (!props.selectedProgram) {  //Program status not set: this is an anomaly with the app settings.
+    return (<GenericStatusPage status="warning" message="Program not set properly." />);
   } else {
 
     if (props.user) {  //User logged in: give access to all locations.
@@ -51,17 +53,20 @@ function DarienProgram(props) {
 DarienProgram.propTypes = {
   initialised: PropTypes.bool,
   user: PropTypes.shape({ login: PropTypes.string }),
+  selectedProgram: PropTypes.object,
 };
 
 DarienProgram.defaultProps = {
   initialised: false,
   user: null,
+  selectedProgram: null,
 };
 
 function mapStateToProps(state) {
   return {
     initialised: state.auth.initialised,
     user: state.auth.user,
+    selectedProgram: state.programs.selectedProgram,
   };
 }
 
