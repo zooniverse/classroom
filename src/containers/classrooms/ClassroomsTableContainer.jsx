@@ -5,7 +5,6 @@ import Paragraph from 'grommet/components/Paragraph';
 
 import ConfirmationDialog from '../../components/common/ConfirmationDialog';
 import AssignmentFormDialog from '../assignments/AssignmentFormDialog';
-import DarienClassroomsTable from '../../components/darien/DarienClassroomsTable';
 import AstroClassroomsTableContainer from '../astro/AstroClassroomsTableContainer';
 
 import {
@@ -97,7 +96,7 @@ class ClassroomsTableContainer extends React.Component {
   }
 
   determineClassroomsTable() {
-    const ClassroomsTable = this.props.selectedProgram.custom ? DarienClassroomsTable : AstroClassroomsTableContainer;
+    const ClassroomsTable = AstroClassroomsTableContainer;
     return (
       <ClassroomsTable
         assignments={this.props.assignments}

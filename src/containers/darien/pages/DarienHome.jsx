@@ -12,12 +12,12 @@ import Button from 'grommet/components/Button';
 import Paragraph from 'grommet/components/Paragraph';
 import Label from 'grommet/components/Label';
 
-import ProgramHome from '../common/ProgramHome';
-import NeedHelp from '../common/NeedHelp';
+import ProgramHome from '../../../components/common/ProgramHome';
+import NeedHelp from '../../../components/common/NeedHelp';
 
 import {
   PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES, PROGRAMS_STATUS
-} from '../../ducks/programs';
+} from '../../../ducks/programs';
 
 function DarienHome(props) {
   const signedIn = (props.user && props.initialised);

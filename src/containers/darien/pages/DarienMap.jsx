@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapExplorer from '../../containers/wildcam-maps/MapExplorer';
-import mapConfig from '../../lib/wildcam-darien.mapConfig.js';
+import MapExplorer from '../../wildcam-maps/MapExplorer';
+import mapConfig from '../../../lib/wildcam-darien.mapConfig.js';
 
 function DarienMap(props) {
   return (
