@@ -15,8 +15,8 @@ This documentation is accurate as of Stardate 2017.240
 ********************************************************************************
  */
 
-import EnglishTranslations from 'zooniversal-translator.en.js'; 
-import SpanishTranslations from 'zooniversal-translator.es.js'; 
+import EnglishTranslations from './zooniversal-translator.en.js'; 
+import SpanishTranslations from './zooniversal-translator.es.js'; 
 
 export function ZooTran(text) {
   const translations = ZooTranGetTranslationsObject();
