@@ -19,7 +19,7 @@ import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
-import MultiChoiceFilter from '../../components/maps/MultiChoiceFilter';
+import MultiChoiceFilter from '../../components/wildcam-maps/MultiChoiceFilter';
 import SuperDownloadButton from '../../components/common/SuperDownloadButton';
 
 import Accordion from 'grommet/components/Accordion';

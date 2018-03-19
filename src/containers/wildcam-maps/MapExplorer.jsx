@@ -31,7 +31,7 @@ import { Actions } from 'jumpstate';  //TEST
 import Box from 'grommet/components/Box';
 import MapVisuals from './MapVisuals';
 import MapControls from './MapControls';
-import CameraViewer from '../../components/maps/CameraViewer';
+import CameraViewer from '../../components/wildcam-maps/CameraViewer';
 
 import {
   ZooTran, ZooTranSetLanguage,

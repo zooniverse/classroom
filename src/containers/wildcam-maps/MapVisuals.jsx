@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
-import SimpleMapLegend from '../../components/maps/SimpleMapLegend';
+import SimpleMapLegend from '../../components/wildcam-maps/SimpleMapLegend';
 import Box from 'grommet/components/Box';
 
 import L from 'leaflet';
