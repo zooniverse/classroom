@@ -5,9 +5,7 @@ import WildCamClassroom from '../../wildcam-classrooms/WildCamClassroom';
 
 function DarienEducators(props) {
   return (
-    <WildCamClassroom
-      selectedProgram={props.selectedProgram}
-    />
+    <WildCamClassroom />
   );
 };
 

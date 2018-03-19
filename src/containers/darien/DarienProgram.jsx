@@ -24,8 +24,11 @@ import GenericStatusPage from '../../components/common/GenericStatusPage';
 function DarienProgram(props) {
   if (!props.initialised) {  //User status unknown: wait.
     return (<GenericStatusPage status="fetching" message="Loading..." />);
-  } else if (!props.selectedProgram) {  //Program status not set: this is an anomaly with the app settings.
-    return (<GenericStatusPage status="warning" message="Program not set properly." />);
+  } else if (!props.selectedProgram) {  //Anomaly: program status not set.
+    //This is a code error, not a runtime error - please check that
+    //ducks.program.selectedProgram is set properly in the higher tier
+    //components/containers.
+    return (<GenericStatusPage status="warning" message="Error: Program not set properly. Please contact our development team on Talk to report this issue." />);
   } else {
 
     if (props.user) {  //User logged in: give access to all locations.

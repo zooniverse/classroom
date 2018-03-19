@@ -94,7 +94,7 @@ class WildCamClassroom extends React.Component {
   render() {
     return (
       <Paragraph>
-        Testing: [{this.props.selectedProgram}] [{this.props.assignmentsStatus}]
+        Testing
       </Paragraph>
     );
   }
