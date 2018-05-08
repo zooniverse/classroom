@@ -38,7 +38,7 @@ let EnglishTranslations = {
 };
 
 //HACK: database support for WildCam Darien.
-import mapConfig from './wildcam-darien.mapConfig.js';
+import mapConfig from '../programs/darien/wildcam-darien.map-config.js';
 const databaseAdditions = {};
 mapConfig.map.filters.data_choice.options.map(item => {
   const databaseValue = item.value;

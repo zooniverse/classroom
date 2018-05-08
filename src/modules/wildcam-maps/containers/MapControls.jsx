@@ -25,13 +25,13 @@ import SuperDownloadButton from '../../../components/common/SuperDownloadButton'
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 
-import { constructWhereClause } from '../../../lib/wildcam-mapexplorer-helpers.js';
+import { constructWhereClause } from '../lib/wildcam-maps-helpers.js';
 import { ZooTran, ZooTranGetLanguage } from '../../../lib/zooniversal-translator.js';
 
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
   MAPEXPLORER_MARKERS_STATUS,
-} from '../../../ducks/wildcam-mapexplorer';
+} from '../ducks/index.js';
 
 class MapControls extends React.Component {
   constructor(props) {

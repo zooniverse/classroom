@@ -26,7 +26,7 @@ import { ZooTran } from '../../../lib/zooniversal-translator.js';
 
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES
-} from '../../../ducks/wildcam-mapexplorer';
+} from '../ducks/index.js';
 
 //Arbitrary values for a default map marker.
 //TODO / QUESTION: make this customisable?

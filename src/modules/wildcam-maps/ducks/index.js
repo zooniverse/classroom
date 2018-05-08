@@ -15,7 +15,7 @@ This component has two functions:
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
 import superagent from 'superagent';
-import { constructWhereClause, sqlString } from '../lib/wildcam-mapexplorer-helpers.js';
+import { constructWhereClause, sqlString } from '../lib/wildcam-maps-helpers.js';
 
 // Constants
 const MAPEXPLORER_MARKERS_STATUS = {
@@ -174,11 +174,11 @@ Effect('getMapMarkers', (payload = {}) => {
   
   superagent.get(url)
   .then(response => {
-    if (!response) { throw 'ERROR (ducks/wildcam-mapexplorer/getMapMarkers): No response'; }
+    if (!response) { throw 'ERROR (wildcam-maps/ducks/getMapMarkers): No response'; }
     if (response.ok && response.body) {
       return response.body;
     }
-    throw 'ERROR (ducks/wildcam-mapexplorer/getMapMarkers): invalid response';
+    throw 'ERROR (wildcam-maps/ducks/getMapMarkers): invalid response';
   })
   .then(geojson => {
     Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.SUCCESS);
@@ -228,11 +228,11 @@ Effect('getActiveCamera', (payload = {}) => {
   );
   superagent.get(url)
   .then(response => {
-    if (!response) { throw 'ERROR (ducks/wildcam-mapexplorer/getActiveCamera Data): No response'; }
+    if (!response) { throw 'ERROR (wildcam-maps/ducks/getActiveCamera Data): No response'; }
     if (response.ok && response.body) {
       return response.body;
     }
-    throw 'ERROR (ducks/wildcam-mapexplorer/getActiveCamera Data): invalid response';
+    throw 'ERROR (wildcam-maps/ducks/getActiveCamera Data): invalid response';
   })
   .then(json => {
     Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS.SUCCESS);
@@ -252,11 +252,11 @@ Effect('getActiveCamera', (payload = {}) => {
   );
   superagent.get(url)
   .then(response => {
-    if (!response) { throw 'ERROR (ducks/wildcam-mapexplorer/getActiveCamera Metadata): No response'; }
+    if (!response) { throw 'ERROR (wildcam-maps/ducks/getActiveCamera Metadata): No response'; }
     if (response.ok && response.body) {
       return response.body;
     }
-    throw 'ERROR (ducks/wildcam-mapexplorer/getActiveCamera Metadata): invalid response';
+    throw 'ERROR (wildcam-maps/ducks/getActiveCamera Metadata): invalid response';
   })
   .then(json => {
     Actions.mapexplorer.setActiveCameraMetadataStatus(MAPEXPLORER_CAMERA_STATUS.SUCCESS);
