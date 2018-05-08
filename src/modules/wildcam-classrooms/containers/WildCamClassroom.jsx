@@ -4,9 +4,9 @@ import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
 
-import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../ducks/programs';
-import { CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES } from '../../ducks/classrooms';
-import { ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES } from '../../ducks/assignments';
+import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
+import { CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES } from '../../../ducks/classrooms';
+import { ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES } from '../../../ducks/assignments';
 
 class WildCamClassroom extends React.Component {
   constructor() {

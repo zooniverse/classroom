@@ -17,16 +17,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
-import SimpleMapLegend from '../../components/wildcam-maps/SimpleMapLegend';
+import SimpleMapLegend from '../components/SimpleMapLegend';
 import Box from 'grommet/components/Box';
 
 import L from 'leaflet';
 import superagent from 'superagent';
-import { ZooTran } from '../../lib/zooniversal-translator.js';
+import { ZooTran } from '../../../lib/zooniversal-translator.js';
 
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES
-} from '../../ducks/wildcam-mapexplorer';
+} from '../../../ducks/wildcam-mapexplorer';
 
 //Arbitrary values for a default map marker.
 //TODO / QUESTION: make this customisable?

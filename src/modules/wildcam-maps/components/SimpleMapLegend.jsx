@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
 
-import { ZooTran } from '../../lib/zooniversal-translator.js';
+import { ZooTran } from '../../../lib/zooniversal-translator.js';
 
 const SimpleMapLegend = (props) => {
   return (

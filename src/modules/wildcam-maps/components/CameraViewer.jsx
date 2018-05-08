@@ -13,7 +13,7 @@ import CameraViewerPaging from './CameraViewerPaging';
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
   MAPEXPLORER_CAMERA_STATUS,
-} from '../../ducks/wildcam-mapexplorer';
+} from '../../../ducks/wildcam-mapexplorer';
 
 const ITEMS_PER_PAGE = 6;
 

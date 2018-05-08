@@ -4,12 +4,12 @@ import ListItem from 'grommet/components/ListItem';
 import Notification from 'grommet/components/Notification';
 import SpinningIcon from 'grommet/components/icons/Spinning';
 
-import { ZooTran, ZooTranExists } from '../../lib/zooniversal-translator.js';
+import { ZooTran, ZooTranExists } from '../../../lib/zooniversal-translator.js';
 
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
   MAPEXPLORER_CAMERA_STATUS,
-} from '../../ducks/wildcam-mapexplorer';
+} from '../../../ducks/wildcam-mapexplorer';
 
 const CameraViewerMetadata = (props) => {
   if (props.activeCameraMetadataStatus === MAPEXPLORER_CAMERA_STATUS.FETCHING) {

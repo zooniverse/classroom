@@ -5,7 +5,7 @@ import { Actions } from 'jumpstate';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import AstroHome from '../../components/astro/AstroHome';
-import DarienProgram from '../darien/DarienProgram';
+import DarienProgram from '../../programs/darien/DarienProgram';
 import GenericStatusPage from '../../components/common/GenericStatusPage';
 
 import {

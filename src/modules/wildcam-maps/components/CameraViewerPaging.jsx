@@ -7,12 +7,12 @@ import Label from 'grommet/components/Label';
 import FormNextIcon from 'grommet/components/icons/base/FormNext';
 import FormPreviousIcon from 'grommet/components/icons/base/FormPrevious';
 
-import { ZooTran } from '../../lib/zooniversal-translator.js';
+import { ZooTran } from '../../../lib/zooniversal-translator.js';
 
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
   MAPEXPLORER_CAMERA_STATUS,
-} from '../../ducks/wildcam-mapexplorer';
+} from '../../../ducks/wildcam-mapexplorer';
 
 const CameraViewerData = (props) => {
   if (props.activeCameraDataStatus === MAPEXPLORER_CAMERA_STATUS.SUCCESS &&

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
-import WildCamClassroom from '../../wildcam-classrooms/WildCamClassroom';
+import WildCamClassroom from '../../../modules/wildcam-classrooms/containers/WildCamClassroom';
 
 import Article from 'grommet/components/Article';
 import Box from 'grommet/components/Box';

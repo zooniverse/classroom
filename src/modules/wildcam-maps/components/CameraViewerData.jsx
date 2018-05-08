@@ -14,7 +14,7 @@ const THUMBNAIL_HEIGHT = 200;
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
   MAPEXPLORER_CAMERA_STATUS,
-} from '../../ducks/wildcam-mapexplorer';
+} from '../../../ducks/wildcam-mapexplorer';
 
 const CameraViewerData = (props) => {
   if (props.activeCameraDataStatus === MAPEXPLORER_CAMERA_STATUS.FETCHING) {

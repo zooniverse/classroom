@@ -31,15 +31,15 @@ import { Actions } from 'jumpstate';  //TEST
 import Box from 'grommet/components/Box';
 import MapVisuals from './MapVisuals';
 import MapControls from './MapControls';
-import CameraViewer from '../../components/wildcam-maps/CameraViewer';
+import CameraViewer from '../components/CameraViewer';
 
 import {
   ZooTran, ZooTranSetLanguage,
-} from '../../lib/zooniversal-translator.js';
+} from '../../../lib/zooniversal-translator.js';
 
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
-} from '../../ducks/wildcam-mapexplorer';
+} from '../../../ducks/wildcam-mapexplorer';
 
 class MapExplorer extends React.Component {
   constructor(props) {

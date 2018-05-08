@@ -19,19 +19,19 @@ import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
-import MultiChoiceFilter from '../../components/wildcam-maps/MultiChoiceFilter';
-import SuperDownloadButton from '../../components/common/SuperDownloadButton';
+import MultiChoiceFilter from '../components/MultiChoiceFilter';
+import SuperDownloadButton from '../../../components/common/SuperDownloadButton';
 
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 
-import { constructWhereClause } from '../../lib/wildcam-mapexplorer-helpers.js';
-import { ZooTran, ZooTranGetLanguage } from '../../lib/zooniversal-translator.js';
+import { constructWhereClause } from '../../../lib/wildcam-mapexplorer-helpers.js';
+import { ZooTran, ZooTranGetLanguage } from '../../../lib/zooniversal-translator.js';
 
 import {
   MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
   MAPEXPLORER_MARKERS_STATUS,
-} from '../../ducks/wildcam-mapexplorer';
+} from '../../../ducks/wildcam-mapexplorer';
 
 class MapControls extends React.Component {
   constructor(props) {

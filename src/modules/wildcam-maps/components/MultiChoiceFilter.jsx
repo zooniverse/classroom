@@ -9,7 +9,7 @@ import Button from 'grommet/components/Button';
 import CheckboxIcon from 'grommet/components/icons/base/Checkbox';
 import CheckboxSelectedIcon from 'grommet/components/icons/base/CheckboxSelected';
 
-import { ZooTran } from '../../lib/zooniversal-translator.js';
+import { ZooTran } from '../../../lib/zooniversal-translator.js';
 
 const MultiChoicePanel = (props) => {
   return (
