@@ -5,6 +5,12 @@ import { Actions } from 'jumpstate';
 import Box from 'grommet/components/Box';
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
+import {
+  WILDCAMCLASSROOMS_DATA_STATUS,
+  WILDCAMCLASSROOMS_INITIAL_STATE,
+  WILDCAMCLASSROOMS_PROPTYPES,
+  WILDCAMCLASSROOMS_MAP_STATE,
+} from '../ducks/index.js';
 
 class WildCamClassroom extends React.Component {
   constructor() {
@@ -29,8 +35,10 @@ class WildCamClassroom extends React.Component {
     return (
       <Box
         colorIndex="grey-5"
+        className="wildcam-classrooms"
       >
         <Box>
+          classrooms...
         </Box>
         
         <Box>
@@ -42,15 +50,17 @@ class WildCamClassroom extends React.Component {
 
 WildCamClassroom.defaultProps = {
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  //Passed from parent.
+  ...WILDCAMCLASSROOMS_INITIAL_STATE,
 };
 
 WildCamClassroom.propTypes = {
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
-  
+  ...WILDCAMCLASSROOMS_PROPTYPES,
 };
 
 function mapStateToProps(state) {
   return {
+    ...WILDCAMCLASSROOMS_MAP_STATE(state),
   };
 }
 

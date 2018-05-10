@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
-import WildCamClassroom from '../../../modules/wildcam-classrooms/containers/WildCamClassroom';
+import WildCamClassrooms from '../../../modules/wildcam-classrooms/containers/WildCamClassrooms';
 
 import Article from 'grommet/components/Article';
 import Box from 'grommet/components/Box';
@@ -23,7 +23,7 @@ class DarienEducators extends React.Component {
           direction="column"
           justify="center"
         >
-          <WildCamClassroom
+          <WildCamClassrooms
             selectedProgram={this.props.selectedProgram}
           />
         </Section>
