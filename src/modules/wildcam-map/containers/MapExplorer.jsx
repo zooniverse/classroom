@@ -1,6 +1,6 @@
 /*
 WildCam Map
-===========
+-----------
 
 The primary component for the WildCam Map feature.
 
@@ -20,7 +20,7 @@ Notable components:
 - lib/wildcam-map-helpers: handles general utility features, such as
     constructing SQL "where" clauses from selected filters.
 
-********************************************************************************
+--------------------------------------------------------------------------------
  */
 
 import React from 'react';

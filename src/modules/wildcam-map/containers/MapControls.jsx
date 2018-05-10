@@ -1,15 +1,15 @@
 /*
 WildCam Map - Controls
-======================
+----------------------
 
 Part of the WildCam Map feature.
 
 This component has two functions:
-* allow users to select the filters (e.g. by species) shown on the map.
-* allow users to download data from the external database, based on the selected
+- allow users to select the filters (e.g. by species) shown on the map.
+- allow users to download data from the external database, based on the selected
   filters.
 
-********************************************************************************
+--------------------------------------------------------------------------------
  */
 
 import React from 'react';
@@ -30,7 +30,7 @@ import { ZooTran, ZooTranGetLanguage } from '../../../lib/zooniversal-translator
 
 import {
   WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES,
-  WILDCAMMAP_MARKERS_STATUS,
+  WILDCAMMAP_MARKERS_STATUS, WILDCAMMAP_MAP_STATE,
 } from '../ducks/index.js';
 
 class MapControls extends React.Component {

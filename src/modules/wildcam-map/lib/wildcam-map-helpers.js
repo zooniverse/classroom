@@ -1,12 +1,12 @@
 /*
 WildCam Map - Helpers
-=====================
+---------------------
 
 Part of the WildCam Map feature.
 
 This library contains general utility functions required by the WildCam Map.
 
-********************************************************************************
+--------------------------------------------------------------------------------
  */
 
 export function constructWhereClause(mapConfig, selectedFilters) {

@@ -1,14 +1,14 @@
 /*
 WildCam Map - Visuals
-======================
+---------------------
 
 Part of the WildCam Map feature.
 
 This feature has one function:
-* visually display the aggregated data from a specific Zooniverse project on a
+- visually display the aggregated data from a specific Zooniverse project on a
   geographical map.
 
-********************************************************************************
+--------------------------------------------------------------------------------
  */
 
 import React from 'react';
@@ -25,7 +25,7 @@ import superagent from 'superagent';
 import { ZooTran } from '../../../lib/zooniversal-translator.js';
 
 import {
-  WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES
+  WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES, WILDCAMMAP_MAP_STATE
 } from '../ducks/index.js';
 
 //Arbitrary values for a default map marker.

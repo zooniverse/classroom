@@ -1,15 +1,15 @@
 /*
 WildCam Map - Data Connection and Duck
-======================================
+--------------------------------------
 
 Part of the WildCam Map feature.
 
 This component has two functions:
-* store the common data values (e.g. the selected filters) used across each
+- store the common data values (e.g. the selected filters) used across each
   WildCam Map component.
-* Connect to the external database containing the necessary map (geoJson) data.
+- Connect to the external database containing the necessary map (geoJson) data.
 
-********************************************************************************
+--------------------------------------------------------------------------------
  */
 
 import { State, Effect, Actions } from 'jumpstate';
@@ -17,7 +17,13 @@ import PropTypes from 'prop-types';
 import superagent from 'superagent';
 import { constructWhereClause, sqlString } from '../lib/wildcam-map-helpers.js';
 
+/*
+--------------------------------------------------------------------------------
+ */
+
 // Constants
+// ---------
+
 const WILDCAMMAP_MARKERS_STATUS = {
   IDLE: 'idle',
   FETCHING: 'fetching',
@@ -32,7 +38,22 @@ const WILDCAMMAP_CAMERA_STATUS = {
   ERROR: 'error',
 };
 
-// Initial State and PropTypes - usable in React components.
+/*
+--------------------------------------------------------------------------------
+ */
+
+// Initial State / Default Values
+// ------------------------------
+
+
+/*  WILDCAMMAP_INITIAL_STATE defines the default/starting values of the Redux
+    store. To use this in your Redux-connected React components, try...
+    Usage:
+      MyReactComponent.defaultProps = {
+        ...WILDCAMMAP_INITIAL_STATE,
+        otherProp: 'default value'
+      };
+ */
 const WILDCAMMAP_INITIAL_STATE = {
   markersData: null,
   markersStatus: WILDCAMMAP_MARKERS_STATUS.IDLE,
@@ -48,6 +69,21 @@ const WILDCAMMAP_INITIAL_STATE = {
   filters: {},  //Selected filtes
 };
 
+/*
+--------------------------------------------------------------------------------
+ */
+
+// React-Redux Helper Objects/Functions
+// ------------------------------------
+
+/*  WILDCAMMAP_PROPTYPES is used to define the property types of the data, and
+    only matters to Redux-connected React components, and can be used like...
+    Usage:
+      MyReactComponent.propTypes = {
+        ...WILDCAMMAP_PROPTYES,
+        otherProp: PropTypes.string,
+      };
+ */
 const WILDCAMMAP_PROPTYPES = {
   markersData: PropTypes.object,  //GeoJSON object.
   markersError: PropTypes.object,
@@ -62,6 +98,27 @@ const WILDCAMMAP_PROPTYPES = {
   
   filters: PropTypes.object,  //Dynamically constructed object.
 };
+
+/*  WILDCAMMAP_MAP_STATE is used as a convenience feature in mapStateToProps()
+    functions in Redux-connected React components.
+    Usage:
+      mapStateToProps = (state) => {
+        return {
+          ...WILDCAMMAP_MAP_STATE(state),
+          someOtherValue: state.someOtherStore.someOtherValue
+        }
+      }
+ */
+const WILDCAMMAP_MAP_STATE = (state, prefix = '') => {
+  const store = state.wildcamMap;
+  const mappedObject = {};
+  Object.keys().map((key)=>{
+    //The prefix is optional, and is useful to avoid naming collisions.
+    mappedObject[prefix + key] = state[key];
+  });
+  return mappedObject;
+};
+
 
 /*
 --------------------------------------------------------------------------------
@@ -302,4 +359,5 @@ export {
   WILDCAMMAP_CAMERA_STATUS,
   WILDCAMMAP_INITIAL_STATE,
   WILDCAMMAP_PROPTYPES,
+  WILDCAMMAP_MAP_STATE,
 };
