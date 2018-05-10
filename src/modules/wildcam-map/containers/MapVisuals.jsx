@@ -223,11 +223,19 @@ MapVisuals.defaultProps = {
   mapConfig: null,
   ...WILDCAMMAP_INITIAL_STATE,
 };
-const mapStateToProps = (state) => ({
-  markersData: state.wildcamMap.markersData,
-  markersStatus: state.wildcamMap.markersStatus,
-  markersError: state.wildcamMap.markersError,
-  filters: state.wildcamMap.filters,
-});
+const mapStateToProps = (state) => {
+  const a = {
+    markersData: state.wildcamMap.markersData,
+    markersStatus: state.wildcamMap.markersStatus,
+    markersError: state.wildcamMap.markersError,
+    filters: state.wildcamMap.filters,
+  };
+  const b = {
+    ...WILDCAMMAP_MAP_STATE(state)
+  };
+  console.log('+++ A: ', a);
+  console.log('+++ B: ', b);
+  return a;
+};
 
 export default connect(mapStateToProps)(MapVisuals);

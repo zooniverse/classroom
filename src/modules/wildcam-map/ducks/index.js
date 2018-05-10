@@ -110,21 +110,22 @@ const WILDCAMMAP_PROPTYPES = {
       }
  */
 const WILDCAMMAP_MAP_STATE = (state, prefix = '') => {
-  const store = state.wildcamMap;
+  const dataStore = state.wildcamMap;  
   const mappedObject = {};
-  Object.keys().map((key)=>{
+  Object.keys(WILDCAMMAP_INITIAL_STATE).map((key)=>{
     //The prefix is optional, and is useful to avoid naming collisions.
-    mappedObject[prefix + key] = state[key];
+    mappedObject[prefix + key] = dataStore[key];
   });
   return mappedObject;
 };
-
 
 /*
 --------------------------------------------------------------------------------
  */
 
-// Synchonous actions: Map Markers
+// Jumpstate Synchronous Actions
+// -----------------------------
+
 const setMarkersStatus = (state, markersStatus) => {
   return { ...state, markersStatus };
 };
@@ -172,8 +173,6 @@ const setActiveCameraDataStatus = (state, activeCameraDataStatus) => {
   return { ...state, activeCameraDataStatus };
 };
 
-// Synchonous actions: User-Selected Filters
-
 /*  Adds to a multi-choice filter selection.
  */
 const addFilterSelectionItem = (state, item) => {
@@ -216,7 +215,10 @@ const setFilterSelectionItem = (state, key, value) => {
 --------------------------------------------------------------------------------
  */
 
+// Jumpstate Effects
+// -----------------
 // Effects are for async actions and get automatically to the global Actions list
+
 Effect('getMapMarkers', (payload = {}) => {
   const mapConfig = payload.mapConfig;
   const selectedFilters = payload.filters;
