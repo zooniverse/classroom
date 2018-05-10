@@ -145,9 +145,7 @@ MapControls.defaultProps = {
   ...WILDCAMMAP_INITIAL_STATE,
 };
 const mapStateToProps = (state) => ({
-  filters: state.wildcamMap.filters,
-  markersStatus: state.wildcamMap.markersStatus,
-  markersDataCount: state.wildcamMap.markersDataCount,
+  ...WILDCAMMAP_MAP_STATE(state),
 });
 
 export default connect(mapStateToProps)(MapControls);

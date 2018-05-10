@@ -38,7 +38,7 @@ import {
 } from '../../../lib/zooniversal-translator.js';
 
 import {
-  WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES,
+  WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES, WILDCAMMAP_MAP_STATE,
 } from '../ducks/index.js';
 
 class MapExplorer extends React.Component {
@@ -91,11 +91,7 @@ MapExplorer.defaultProps = {
   ...WILDCAMMAP_INITIAL_STATE,
 };
 const mapStateToProps = (state) => ({
-  activeCameraId: state.wildcamMap.activeCameraId,
-  activeCameraMetadata: state.wildcamMap.activeCameraMetadata,
-  activeCameraMetadataStatus: state.wildcamMap.activeCameraMetadataStatus,
-  activeCameraData: state.wildcamMap.activeCameraData,
-  activeCameraDataStatus: state.wildcamMap.activeCameraDataStatus,
+  ...WILDCAMMAP_MAP_STATE(state),
 });
 
 export default connect(mapStateToProps)(MapExplorer);
