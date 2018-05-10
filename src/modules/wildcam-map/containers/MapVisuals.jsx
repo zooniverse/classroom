@@ -86,7 +86,7 @@ class MapVisuals extends React.Component {
     this.dataLayer = L.geoJson(null, {
       pointToLayer: this.renderMarker
     }).addTo(this.map);
-    Actions.getMapMarkers({
+    Actions.wcm_getMapMarkers({
       mapConfig: this.props.mapConfig,
       filters: this.props.filters,
     });
@@ -189,7 +189,7 @@ class MapVisuals extends React.Component {
     if (!e || !e.target || !e.target.feature || !e.target.feature.properties) return;
     
     const cameraId = e.target.feature.properties.id;
-    Actions.getActiveCamera({
+    Actions.wcm_getActiveCamera({
       mapConfig: this.props.mapConfig,
       filters: this.props.filters,
       cameraId,

@@ -5,8 +5,6 @@ import { Actions } from 'jumpstate';
 import Box from 'grommet/components/Box';
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
-import { CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES } from '../../../ducks/classrooms';
-import { ASSIGNMENTS_INITIAL_STATE, ASSIGNMENTS_PROPTYPES } from '../../../ducks/assignments';
 
 class WildCamClassroom extends React.Component {
   constructor() {
@@ -33,17 +31,9 @@ class WildCamClassroom extends React.Component {
         colorIndex="grey-5"
       >
         <Box>
-          STATUS: [{this.props.classroomsStatus}]
         </Box>
         
         <Box>
-        {this.props.classrooms && this.props.classrooms.map((item, index)=>{
-          return (
-            <div key={`classroom_{$index}`}>
-              {index}: {item.name}
-            </div>
-          );
-        })}
         </Box>
       </Box>
     );
@@ -52,33 +42,15 @@ class WildCamClassroom extends React.Component {
 
 WildCamClassroom.defaultProps = {
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  //Passed from parent.
-  //--------------------------------
-  ...CLASSROOMS_INITIAL_STATE,
-  classroomsStatus: CLASSROOMS_INITIAL_STATE.status,
-  //--------------------------------
-  ...ASSIGNMENTS_INITIAL_STATE,
-  assignmentsStatus: ASSIGNMENTS_INITIAL_STATE.status,
-  
 };
 
 WildCamClassroom.propTypes = {
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
-  //--------------------------------
-  ...CLASSROOMS_PROPTYPES,
-  classroomsStatus: CLASSROOMS_PROPTYPES.status,
-  //--------------------------------
-  ...ASSIGNMENTS_PROPTYPES,
-  assignmentsStatus: ASSIGNMENTS_PROPTYPES.status,
   
 };
 
 function mapStateToProps(state) {
   return {
-    classrooms: state.classrooms.classrooms,
-    classroomsStatus: state.classrooms.status,
-    //--------------------------------
-    assignments: state.assignments.assignments,
-    assignmentsStatus: state.assignments.status,
   };
 }
 

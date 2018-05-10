@@ -126,7 +126,7 @@ class MapControls extends React.Component {
     //Prevent infinite loops; only update when the selected filters are changed.
     let areFiltersDifferent = JSON.stringify(this.props.filters) !== JSON.stringify(props.filters);
     if (areFiltersDifferent) {
-      Actions.getMapMarkers({
+      Actions.wcm_getMapMarkers({
         mapConfig: props.mapConfig,
         filters: props.filters,
       });

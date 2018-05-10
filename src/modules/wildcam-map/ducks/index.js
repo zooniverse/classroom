@@ -219,7 +219,7 @@ const setFilterSelectionItem = (state, key, value) => {
 // -----------------
 // Effects are for async actions and get automatically to the global Actions list
 
-Effect('getMapMarkers', (payload = {}) => {
+Effect('wcm_getMapMarkers', (payload = {}) => {
   const mapConfig = payload.mapConfig;
   const selectedFilters = payload.filters;
   
@@ -262,7 +262,7 @@ Effect('getMapMarkers', (payload = {}) => {
 
 //----------------------------------------------------------------
 
-Effect('getActiveCamera', (payload = {}) => {
+Effect('wcm_getActiveCamera', (payload = {}) => {
   const mapConfig = payload.mapConfig;
   const selectedFilters = payload.filters;
   const cameraId = payload.cameraId;
