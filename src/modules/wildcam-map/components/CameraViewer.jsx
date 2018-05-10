@@ -11,8 +11,8 @@ import CameraViewerData from './CameraViewerData';
 import CameraViewerPaging from './CameraViewerPaging';
 
 import {
-  MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
-  MAPEXPLORER_CAMERA_STATUS,
+  WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES,
+  WILDCAMMAP_CAMERA_STATUS,
 } from '../ducks/index.js';
 
 const ITEMS_PER_PAGE = 6;
@@ -32,7 +32,7 @@ class CameraViewer extends React.Component {
     if (!this.props.mapConfig) return null;
     
     return (
-      <Layer className="camera-viewer" closer={true} onClose={()=>{Actions.mapexplorer.resetActiveCamera()}}>
+      <Layer className="camera-viewer" closer={true} onClose={()=>{Actions.wildcamMap.resetActiveCamera()}}>
         <Box className="content" align="center">
           <Box className="camera-metadata">
             <CameraViewerMetadata
@@ -75,11 +75,11 @@ class CameraViewer extends React.Component {
 
 CameraViewer.defaultProps = {
   mapConfig: null,
-  ...MAPEXPLORER_INITIAL_STATE,
+  ...WILDCAMMAP_INITIAL_STATE,
 };
 CameraViewer.propTypes = {
   mapConfig: PropTypes.object,
-  ...MAPEXPLORER_PROPTYPES,
+  ...WILDCAMMAP_PROPTYPES,
 };
 
 export default CameraViewer;

@@ -7,18 +7,18 @@ import SpinningIcon from 'grommet/components/icons/Spinning';
 import { ZooTran, ZooTranExists } from '../../../lib/zooniversal-translator.js';
 
 import {
-  MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
-  MAPEXPLORER_CAMERA_STATUS,
+  WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES,
+  WILDCAMMAP_CAMERA_STATUS,
 } from '../ducks/index.js';
 
 const CameraViewerMetadata = (props) => {
-  if (props.activeCameraMetadataStatus === MAPEXPLORER_CAMERA_STATUS.FETCHING) {
+  if (props.activeCameraMetadataStatus === WILDCAMMAP_CAMERA_STATUS.FETCHING) {
     return <SpinningIcon />;
-  } else if (props.activeCameraMetadataStatus === MAPEXPLORER_CAMERA_STATUS.ERROR) {
+  } else if (props.activeCameraMetadataStatus === WILDCAMMAP_CAMERA_STATUS.ERROR) {
     return <Notification message='ERROR' status='critical' />;
   }
 
-  if (props.activeCameraMetadataStatus === MAPEXPLORER_CAMERA_STATUS.SUCCESS &&
+  if (props.activeCameraMetadataStatus === WILDCAMMAP_CAMERA_STATUS.SUCCESS &&
       props.activeCameraMetadata) {
 
     return (
@@ -45,12 +45,12 @@ const CameraViewerMetadata = (props) => {
 }
 
 CameraViewerMetadata.defaultProps = {
-  activeCameraMetadataStatus: MAPEXPLORER_INITIAL_STATE.activeCameraMetadataStatus,
-  activeCameraMetadata: MAPEXPLORER_INITIAL_STATE.activeCameraMetadata,
+  activeCameraMetadataStatus: WILDCAMMAP_INITIAL_STATE.activeCameraMetadataStatus,
+  activeCameraMetadata: WILDCAMMAP_INITIAL_STATE.activeCameraMetadata,
 };
 CameraViewerMetadata.propTypes = {
-  activeCameraMetadataStatus: MAPEXPLORER_PROPTYPES.activeCameraMetadataStatus,
-  activeCameraMetadata: MAPEXPLORER_PROPTYPES.activeCameraMetadata
+  activeCameraMetadataStatus: WILDCAMMAP_PROPTYPES.activeCameraMetadataStatus,
+  activeCameraMetadata: WILDCAMMAP_PROPTYPES.activeCameraMetadata
 };
 
 export default CameraViewerMetadata;

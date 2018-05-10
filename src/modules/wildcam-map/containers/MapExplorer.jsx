@@ -1,8 +1,8 @@
 /*
-Map Explorer
-============
+WildCam Map
+===========
 
-The primary component for the Map Explorer feature.
+The primary component for the WildCam Map feature.
 
 This feature is a 'data visualisation tool' allows Teachers and Students to view
 aggregated data from a Zooniverse project on a visual, geographical map.
@@ -17,7 +17,7 @@ Notable components:
 - MapControls: allows users to select the kind of data they want.
 - ducks/index.js: stores the map explorer data (e.g. view state) AND
     connects to the external database.
-- lib/wildcam-maps-helpers: handles general utility features, such as
+- lib/wildcam-map-helpers: handles general utility features, such as
     constructing SQL "where" clauses from selected filters.
 
 ********************************************************************************
@@ -38,7 +38,7 @@ import {
 } from '../../../lib/zooniversal-translator.js';
 
 import {
-  MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
+  WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES,
 } from '../ducks/index.js';
 
 class MapExplorer extends React.Component {
@@ -52,7 +52,7 @@ class MapExplorer extends React.Component {
   
   render() {
     return (
-      <Box className="map-explorer">
+      <Box className="wildcam-map">
         <MapVisuals
           mapConfig={this.props.mapConfig}
         />
@@ -84,18 +84,18 @@ class MapExplorer extends React.Component {
 
 MapExplorer.propTypes = {
   mapConfig: PropTypes.object,
-  ...MAPEXPLORER_PROPTYPES,
+  ...WILDCAMMAP_PROPTYPES,
 };
 MapExplorer.defaultProps = {
   mapConfig: null,
-  ...MAPEXPLORER_INITIAL_STATE,
+  ...WILDCAMMAP_INITIAL_STATE,
 };
 const mapStateToProps = (state) => ({
-  activeCameraId: state.mapexplorer.activeCameraId,
-  activeCameraMetadata: state.mapexplorer.activeCameraMetadata,
-  activeCameraMetadataStatus: state.mapexplorer.activeCameraMetadataStatus,
-  activeCameraData: state.mapexplorer.activeCameraData,
-  activeCameraDataStatus: state.mapexplorer.activeCameraDataStatus,
+  activeCameraId: state.wildcamMap.activeCameraId,
+  activeCameraMetadata: state.wildcamMap.activeCameraMetadata,
+  activeCameraMetadataStatus: state.wildcamMap.activeCameraMetadataStatus,
+  activeCameraData: state.wildcamMap.activeCameraData,
+  activeCameraDataStatus: state.wildcamMap.activeCameraDataStatus,
 });
 
 export default connect(mapStateToProps)(MapExplorer);

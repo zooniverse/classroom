@@ -30,7 +30,7 @@ const MultiChoicePanel = (props) => {
               <Button
                 key={`map-control-filter-item-${props.filterKey}-${item.value}`}
                 onClick={()=>{
-                  Actions.mapexplorer.removeFilterSelectionItem({ key: props.filterKey, value: item.value });
+                  Actions.wildcamMap.removeFilterSelectionItem({ key: props.filterKey, value: item.value });
                 }}
                 icon={<CheckboxSelectedIcon size="small" />}
               >
@@ -44,7 +44,7 @@ const MultiChoicePanel = (props) => {
               <Button
                 key={`map-control-filter-item-${props.filterKey}-${item.value}`}
                 onClick={()=>{
-                  Actions.mapexplorer.addFilterSelectionItem({ key: props.filterKey, value: item.value });
+                  Actions.wildcamMap.addFilterSelectionItem({ key: props.filterKey, value: item.value });
                 }}
                 icon={<CheckboxIcon size="small" />}
               >

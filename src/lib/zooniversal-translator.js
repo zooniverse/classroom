@@ -3,7 +3,7 @@ Zooniversal Translator
 ======================
 
 The Zooniversal Translator is a simple, brute-force approach to achieving
-translations on the Map Explorer, very specifically: WildCam Darien needs
+translations on the WildCam Map, very specifically: WildCam Darien needs
 English and Spanish text for their project, and it needs it by launch
 (31 Aug 2017).
 

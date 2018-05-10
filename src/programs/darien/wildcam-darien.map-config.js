@@ -2,7 +2,7 @@
 WildCam Darien Map Config
 =========================
 
-Configuration file for the MapExplorer feature. Each MapConfig is tailored to a
+Configuration file for the WildCam Map feature. Each MapConfig is tailored to a
 specific project, and this config file is for WildCam Darien.
 
 Requires:

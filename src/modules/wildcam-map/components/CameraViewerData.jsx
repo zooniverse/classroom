@@ -12,18 +12,18 @@ const THUMBNAIL_WIDTH = 320;
 const THUMBNAIL_HEIGHT = 200;
 
 import {
-  MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
-  MAPEXPLORER_CAMERA_STATUS,
+  WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES,
+  WILDCAMMAP_CAMERA_STATUS,
 } from '../ducks/index.js';
 
 const CameraViewerData = (props) => {
-  if (props.activeCameraDataStatus === MAPEXPLORER_CAMERA_STATUS.FETCHING) {
+  if (props.activeCameraDataStatus === WILDCAMMAP_CAMERA_STATUS.FETCHING) {
     return <SpinningIcon />;
-  } else if (props.activeCameraDataStatus === MAPEXPLORER_CAMERA_STATUS.ERROR) {
+  } else if (props.activeCameraDataStatus === WILDCAMMAP_CAMERA_STATUS.ERROR) {
     return <Notification message='ERROR' status='critical' />
   }
 
-  if (props.activeCameraDataStatus === MAPEXPLORER_CAMERA_STATUS.SUCCESS &&
+  if (props.activeCameraDataStatus === WILDCAMMAP_CAMERA_STATUS.SUCCESS &&
       props.activeCameraData) {
     const data = props.activeCameraData || [];
     
@@ -58,14 +58,14 @@ const CameraViewerData = (props) => {
 }
 
 CameraViewerData.defaultProps = {
-  activeCameraDataStatus: MAPEXPLORER_INITIAL_STATE.activeCameraDataStatus,
-  activeCameraData: MAPEXPLORER_INITIAL_STATE.activeCameraData,
+  activeCameraDataStatus: WILDCAMMAP_INITIAL_STATE.activeCameraDataStatus,
+  activeCameraData: WILDCAMMAP_INITIAL_STATE.activeCameraData,
   page: 0,
   itemsPerPage: 6,
 };
 CameraViewerData.propTypes = {
-  activeCameraDataStatus: MAPEXPLORER_PROPTYPES.activeCameraDataStatus,
-  activeCameraData: MAPEXPLORER_PROPTYPES.activeCameraData,
+  activeCameraDataStatus: WILDCAMMAP_PROPTYPES.activeCameraDataStatus,
+  activeCameraData: WILDCAMMAP_PROPTYPES.activeCameraData,
   page: PropTypes.number,
   itemsPerPage: PropTypes.number,
 };

@@ -10,12 +10,12 @@ import FormPreviousIcon from 'grommet/components/icons/base/FormPrevious';
 import { ZooTran } from '../../../lib/zooniversal-translator.js';
 
 import {
-  MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
-  MAPEXPLORER_CAMERA_STATUS,
+  WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES,
+  WILDCAMMAP_CAMERA_STATUS,
 } from '../ducks/index.js';
 
 const CameraViewerData = (props) => {
-  if (props.activeCameraDataStatus === MAPEXPLORER_CAMERA_STATUS.SUCCESS &&
+  if (props.activeCameraDataStatus === WILDCAMMAP_CAMERA_STATUS.SUCCESS &&
       props.activeCameraData) {
     return (
       <Box className="camera-data-paging" direction="row" pad="none" alignSelf="stretch" justify="center" separator="horizontal">
@@ -39,15 +39,15 @@ const CameraViewerData = (props) => {
 }
 
 CameraViewerData.defaultProps = {
-  activeCameraDataStatus: MAPEXPLORER_PROPTYPES.activeCameraDataStatus,
-  activeCameraData: MAPEXPLORER_PROPTYPES.activeCameraData,
+  activeCameraDataStatus: WILDCAMMAP_PROPTYPES.activeCameraDataStatus,
+  activeCameraData: WILDCAMMAP_PROPTYPES.activeCameraData,
   page: 0,
   itemsPerPage: 6,
   changePage: () => {},
 };
 CameraViewerData.propTypes = {
-  activeCameraDataStatus: MAPEXPLORER_PROPTYPES.activeCameraDataStatus,
-  activeCameraData: MAPEXPLORER_PROPTYPES.activeCameraData,
+  activeCameraDataStatus: WILDCAMMAP_PROPTYPES.activeCameraDataStatus,
+  activeCameraData: WILDCAMMAP_PROPTYPES.activeCameraData,
   page: PropTypes.number,
   itemsPerPage: PropTypes.number,
   changePage: PropTypes.func,

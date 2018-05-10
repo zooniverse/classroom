@@ -1,12 +1,12 @@
 /*
-Map Explorer - Data Connection and Duck
-=======================================
+WildCam Map - Data Connection and Duck
+======================================
 
-Part of the Map Explorer feature.
+Part of the WildCam Map feature.
 
 This component has two functions:
-* store the common data values (e.g. the selected filters) used across each Map
-  Explorer component.
+* store the common data values (e.g. the selected filters) used across each
+  WildCam Map component.
 * Connect to the external database containing the necessary map (geoJson) data.
 
 ********************************************************************************
@@ -15,17 +15,17 @@ This component has two functions:
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
 import superagent from 'superagent';
-import { constructWhereClause, sqlString } from '../lib/wildcam-maps-helpers.js';
+import { constructWhereClause, sqlString } from '../lib/wildcam-map-helpers.js';
 
 // Constants
-const MAPEXPLORER_MARKERS_STATUS = {
+const WILDCAMMAP_MARKERS_STATUS = {
   IDLE: 'idle',
   FETCHING: 'fetching',
   SUCCESS: 'success',
   ERROR: 'error',
 };
 
-const MAPEXPLORER_CAMERA_STATUS = {
+const WILDCAMMAP_CAMERA_STATUS = {
   IDLE: 'idle',
   FETCHING: 'fetching',
   SUCCESS: 'success',
@@ -33,22 +33,22 @@ const MAPEXPLORER_CAMERA_STATUS = {
 };
 
 // Initial State and PropTypes - usable in React components.
-const MAPEXPLORER_INITIAL_STATE = {
+const WILDCAMMAP_INITIAL_STATE = {
   markersData: null,
-  markersStatus: MAPEXPLORER_MARKERS_STATUS.IDLE,
+  markersStatus: WILDCAMMAP_MARKERS_STATUS.IDLE,
   markersError: null,
   markersDataCount: 0,
   
   activeCameraId: null,
   activeCameraMetadata: null,
-  activeCameraMetadataStatus: MAPEXPLORER_CAMERA_STATUS.IDLE,
+  activeCameraMetadataStatus: WILDCAMMAP_CAMERA_STATUS.IDLE,
   activeCameraData: null,
-  activeCameraDataStatus: MAPEXPLORER_CAMERA_STATUS.IDLE,
+  activeCameraDataStatus: WILDCAMMAP_CAMERA_STATUS.IDLE,
   
   filters: {},  //Selected filtes
 };
 
-const MAPEXPLORER_PROPTYPES = {
+const WILDCAMMAP_PROPTYPES = {
   markersData: PropTypes.object,  //GeoJSON object.
   markersError: PropTypes.object,
   markersStatus: PropTypes.string,
@@ -87,11 +87,11 @@ const setMarkersDataCount = (state, markersDataCount) => {
 const resetActiveCamera = (state) => {
   return {
     ...state,
-    activeCameraId: MAPEXPLORER_INITIAL_STATE.activeCameraId,
-    activeCameraMetadata: MAPEXPLORER_INITIAL_STATE.activeCameraMetadata,
-    activeCameraMetadataStatus: MAPEXPLORER_INITIAL_STATE.activeCameraMetadataStatus,
-    activeCameraData: MAPEXPLORER_INITIAL_STATE.activeCameraData,
-    activeCameraDataStatus: MAPEXPLORER_INITIAL_STATE.activeCameraDataStatus,
+    activeCameraId: WILDCAMMAP_INITIAL_STATE.activeCameraId,
+    activeCameraMetadata: WILDCAMMAP_INITIAL_STATE.activeCameraMetadata,
+    activeCameraMetadataStatus: WILDCAMMAP_INITIAL_STATE.activeCameraMetadataStatus,
+    activeCameraData: WILDCAMMAP_INITIAL_STATE.activeCameraData,
+    activeCameraDataStatus: WILDCAMMAP_INITIAL_STATE.activeCameraDataStatus,
   };
 };
 
@@ -166,7 +166,7 @@ Effect('getMapMarkers', (payload = {}) => {
   
   if (!mapConfig) return;  //We absolutely need mapConfig, but we're fine if filters is null or undefined (i.e. user has not selected any filters.) 
   
-  Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.FETCHING);
+  Actions.wildcamMap.setMarkersStatus(WILDCAMMAP_MARKERS_STATUS.FETCHING);
   const where = constructWhereClause(mapConfig, selectedFilters);
   const url = mapConfig.database.urls.geojson.replace('{SQLQUERY}',
     encodeURIComponent(mapConfig.database.queries.selectCameraCount.replace('{WHERE}', where))
@@ -174,15 +174,15 @@ Effect('getMapMarkers', (payload = {}) => {
   
   superagent.get(url)
   .then(response => {
-    if (!response) { throw 'ERROR (wildcam-maps/ducks/getMapMarkers): No response'; }
+    if (!response) { throw 'ERROR (wildcam-map/ducks/getMapMarkers): No response'; }
     if (response.ok && response.body) {
       return response.body;
     }
-    throw 'ERROR (wildcam-maps/ducks/getMapMarkers): invalid response';
+    throw 'ERROR (wildcam-map/ducks/getMapMarkers): invalid response';
   })
   .then(geojson => {
-    Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.SUCCESS);
-    Actions.mapexplorer.setMarkersData(geojson);
+    Actions.wildcamMap.setMarkersStatus(WILDCAMMAP_MARKERS_STATUS.SUCCESS);
+    Actions.wildcamMap.setMarkersData(geojson);
     
     let count = 0;    
     if (geojson && geojson.features) {
@@ -193,10 +193,10 @@ Effect('getMapMarkers', (payload = {}) => {
         return total;
       }, 0);
     }
-    Actions.mapexplorer.setMarkersDataCount(count);
+    Actions.wildcamMap.setMarkersDataCount(count);
   })
   .catch(err => {
-    Actions.mapexplorer.setMarkersStatus(MAPEXPLORER_MARKERS_STATUS.ERROR);
+    Actions.wildcamMap.setMarkersStatus(WILDCAMMAP_MARKERS_STATUS.ERROR);
     console.error(err);
   });
 });
@@ -211,9 +211,9 @@ Effect('getActiveCamera', (payload = {}) => {
   if (!mapConfig) return;  
   if (!cameraId) return;
   
-  Actions.mapexplorer.setActiveCameraId(cameraId);
-  Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS.FETCHING);
-  Actions.mapexplorer.setActiveCameraMetadataStatus(MAPEXPLORER_CAMERA_STATUS.FETCHING);
+  Actions.wildcamMap.setActiveCameraId(cameraId);
+  Actions.wildcamMap.setActiveCameraDataStatus(WILDCAMMAP_CAMERA_STATUS.FETCHING);
+  Actions.wildcamMap.setActiveCameraMetadataStatus(WILDCAMMAP_CAMERA_STATUS.FETCHING);
   
   let where, url;
   
@@ -228,18 +228,18 @@ Effect('getActiveCamera', (payload = {}) => {
   );
   superagent.get(url)
   .then(response => {
-    if (!response) { throw 'ERROR (wildcam-maps/ducks/getActiveCamera Data): No response'; }
+    if (!response) { throw 'ERROR (wildcam-map/ducks/getActiveCamera Data): No response'; }
     if (response.ok && response.body) {
       return response.body;
     }
-    throw 'ERROR (wildcam-maps/ducks/getActiveCamera Data): invalid response';
+    throw 'ERROR (wildcam-map/ducks/getActiveCamera Data): invalid response';
   })
   .then(json => {
-    Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS.SUCCESS);
-    Actions.mapexplorer.setActiveCameraData(json.rows);    
+    Actions.wildcamMap.setActiveCameraDataStatus(WILDCAMMAP_CAMERA_STATUS.SUCCESS);
+    Actions.wildcamMap.setActiveCameraData(json.rows);    
   })
   .catch(err => {
-    Actions.mapexplorer.setActiveCameraDataStatus(MAPEXPLORER_CAMERA_STATUS.ERROR);
+    Actions.wildcamMap.setActiveCameraDataStatus(WILDCAMMAP_CAMERA_STATUS.ERROR);
     console.error(err);
   });
   //--------------------------------
@@ -252,22 +252,22 @@ Effect('getActiveCamera', (payload = {}) => {
   );
   superagent.get(url)
   .then(response => {
-    if (!response) { throw 'ERROR (wildcam-maps/ducks/getActiveCamera Metadata): No response'; }
+    if (!response) { throw 'ERROR (wildcam-map/ducks/getActiveCamera Metadata): No response'; }
     if (response.ok && response.body) {
       return response.body;
     }
-    throw 'ERROR (wildcam-maps/ducks/getActiveCamera Metadata): invalid response';
+    throw 'ERROR (wildcam-map/ducks/getActiveCamera Metadata): invalid response';
   })
   .then(json => {
-    Actions.mapexplorer.setActiveCameraMetadataStatus(MAPEXPLORER_CAMERA_STATUS.SUCCESS);
+    Actions.wildcamMap.setActiveCameraMetadataStatus(WILDCAMMAP_CAMERA_STATUS.SUCCESS);
     if (json && json.rows) {
-      Actions.mapexplorer.setActiveCameraMetadata(json.rows[0]);  //SELECT query should only return one result.
+      Actions.wildcamMap.setActiveCameraMetadata(json.rows[0]);  //SELECT query should only return one result.
     } else {
-      Actions.mapexplorer.setActiveCameraMetadata(null);
+      Actions.wildcamMap.setActiveCameraMetadata(null);
     }    
   })
   .catch(err => {
-    Actions.mapexplorer.setActiveCameraMetadataStatus(MAPEXPLORER_CAMERA_STATUS.ERROR);
+    Actions.wildcamMap.setActiveCameraMetadataStatus(WILDCAMMAP_CAMERA_STATUS.ERROR);
     console.error(err);
   });
   //--------------------------------
@@ -277,9 +277,9 @@ Effect('getActiveCamera', (payload = {}) => {
 --------------------------------------------------------------------------------
  */
 
-const mapexplorer = State('mapexplorer', {
+const wildcamMap = State('wildcamMap', {
   // Initial state
-  initial: MAPEXPLORER_INITIAL_STATE,
+  initial: WILDCAMMAP_INITIAL_STATE,
   // Actions
   setMarkersStatus,
   setMarkersData,
@@ -296,10 +296,10 @@ const mapexplorer = State('mapexplorer', {
   setFilterSelectionItem,
 });
 
-export default mapexplorer;
+export default wildcamMap;
 export {
-  MAPEXPLORER_MARKERS_STATUS,
-  MAPEXPLORER_CAMERA_STATUS,
-  MAPEXPLORER_INITIAL_STATE,
-  MAPEXPLORER_PROPTYPES,
+  WILDCAMMAP_MARKERS_STATUS,
+  WILDCAMMAP_CAMERA_STATUS,
+  WILDCAMMAP_INITIAL_STATE,
+  WILDCAMMAP_PROPTYPES,
 };

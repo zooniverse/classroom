@@ -1,8 +1,8 @@
 /*
-Map Explorer - Visuals
+WildCam Map - Visuals
 ======================
 
-Part of the Map Explorer feature.
+Part of the WildCam Map feature.
 
 This feature has one function:
 * visually display the aggregated data from a specific Zooniverse project on a
@@ -25,7 +25,7 @@ import superagent from 'superagent';
 import { ZooTran } from '../../../lib/zooniversal-translator.js';
 
 import {
-  MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES
+  WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES
 } from '../ducks/index.js';
 
 //Arbitrary values for a default map marker.
@@ -46,7 +46,7 @@ class MapVisuals extends React.Component {
   constructor(props) {
     super(props);
     
-    this.initMapExplorer = this.initMapExplorer.bind(this);
+    this.initMap = this.initMap.bind(this);
     this.renderMarker = this.renderMarker.bind(this);
     this.examineMarker = this.examineMarker.bind(this);
     this.updateDataLayer = this.updateDataLayer.bind(this);
@@ -58,7 +58,7 @@ class MapVisuals extends React.Component {
   
   //----------------------------------------------------------------
 
-  initMapExplorer() {
+  initMap() {
     if (this.map) return;  //Don't initialise the map if a map already exists.
     if (!this.props.mapConfig) return;
     
@@ -205,7 +205,7 @@ class MapVisuals extends React.Component {
   }
   
   componentDidMount() {
-    this.initMapExplorer();
+    this.initMap();
   }
   
   componentWillReceiveProps(nextProps) {
@@ -217,17 +217,17 @@ class MapVisuals extends React.Component {
 
 MapVisuals.propTypes = {
   mapConfig: PropTypes.object,
-  ...MAPEXPLORER_PROPTYPES,
+  ...WILDCAMMAP_PROPTYPES,
 };
 MapVisuals.defaultProps = {
   mapConfig: null,
-  ...MAPEXPLORER_INITIAL_STATE,
+  ...WILDCAMMAP_INITIAL_STATE,
 };
 const mapStateToProps = (state) => ({
-  markersData: state.mapexplorer.markersData,
-  markersStatus: state.mapexplorer.markersStatus,
-  markersError: state.mapexplorer.markersError,
-  filters: state.mapexplorer.filters,
+  markersData: state.wildcamMap.markersData,
+  markersStatus: state.wildcamMap.markersStatus,
+  markersError: state.wildcamMap.markersError,
+  filters: state.wildcamMap.filters,
 });
 
 export default connect(mapStateToProps)(MapVisuals);

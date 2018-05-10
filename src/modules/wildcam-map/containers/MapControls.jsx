@@ -1,8 +1,8 @@
 /*
-Map Explorer - Controls
-=======================
+WildCam Map - Controls
+======================
 
-Part of the Map Explorer feature.
+Part of the WildCam Map feature.
 
 This component has two functions:
 * allow users to select the filters (e.g. by species) shown on the map.
@@ -25,12 +25,12 @@ import SuperDownloadButton from '../../../components/common/SuperDownloadButton'
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 
-import { constructWhereClause } from '../lib/wildcam-maps-helpers.js';
+import { constructWhereClause } from '../lib/wildcam-map-helpers.js';
 import { ZooTran, ZooTranGetLanguage } from '../../../lib/zooniversal-translator.js';
 
 import {
-  MAPEXPLORER_INITIAL_STATE, MAPEXPLORER_PROPTYPES,
-  MAPEXPLORER_MARKERS_STATUS,
+  WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES,
+  WILDCAMMAP_MARKERS_STATUS,
 } from '../ducks/index.js';
 
 class MapControls extends React.Component {
@@ -53,11 +53,11 @@ class MapControls extends React.Component {
 
     const hasAnySelections = this.props.filters && Object.keys(this.props.filters).length > 0;
     let statusMessage = '...';
-    if (this.props.markersStatus === MAPEXPLORER_MARKERS_STATUS.FETCHING) {
+    if (this.props.markersStatus === WILDCAMMAP_MARKERS_STATUS.FETCHING) {
       statusMessage = ZooTran('Loading...');
-    } else if (this.props.markersStatus === MAPEXPLORER_MARKERS_STATUS.ERROR) {
+    } else if (this.props.markersStatus === WILDCAMMAP_MARKERS_STATUS.ERROR) {
       statusMessage = ZooTran('ERROR');
-    } else if (this.props.markersStatus === MAPEXPLORER_MARKERS_STATUS.SUCCESS) {
+    } else if (this.props.markersStatus === WILDCAMMAP_MARKERS_STATUS.SUCCESS) {
       statusMessage = `${this.props.markersDataCount} ${ZooTran('result(s)')}`;
     }
 
@@ -137,17 +137,17 @@ class MapControls extends React.Component {
 MapControls.propTypes = {
   mapConfig: PropTypes.object,
   setLanguage: PropTypes.func,
-  ...MAPEXPLORER_PROPTYPES,
+  ...WILDCAMMAP_PROPTYPES,
 };
 MapControls.defaultProps = {
   mapConfig: null,
   setLanguage: () => {},
-  ...MAPEXPLORER_INITIAL_STATE,
+  ...WILDCAMMAP_INITIAL_STATE,
 };
 const mapStateToProps = (state) => ({
-  filters: state.mapexplorer.filters,
-  markersStatus: state.mapexplorer.markersStatus,
-  markersDataCount: state.mapexplorer.markersDataCount,
+  filters: state.wildcamMap.filters,
+  markersStatus: state.wildcamMap.markersStatus,
+  markersDataCount: state.wildcamMap.markersDataCount,
 });
 
 export default connect(mapStateToProps)(MapControls);

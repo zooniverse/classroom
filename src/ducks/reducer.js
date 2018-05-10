@@ -3,7 +3,7 @@ import auth from './auth';
 import programs from './programs';
 import classrooms from './classrooms';
 import assignments from './assignments';
-import mapexplorer from '../modules/wildcam-maps/ducks/index';
+import wildcamMap from '../modules/wildcam-map/ducks/index';
 import notification from './notification';
 import caesarExports from './caesar-exports';
 
@@ -12,7 +12,7 @@ export default combineReducers({
   classrooms,
   programs,
   assignments,
-  mapexplorer,
+  wildcamMap,
   notification,
   caesarExports
 });

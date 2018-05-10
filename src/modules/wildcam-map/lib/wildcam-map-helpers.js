@@ -1,10 +1,10 @@
 /*
-Map Explorer - Helpers
-======================
+WildCam Map - Helpers
+=====================
 
-Part of the Map Explorer feature.
+Part of the WildCam Map feature.
 
-This library contains general utility functions required by the Map Explorer.
+This library contains general utility functions required by the WildCam Map.
 
 ********************************************************************************
  */
