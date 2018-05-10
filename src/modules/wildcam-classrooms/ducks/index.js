@@ -9,7 +9,8 @@ Part of the WildCam Classrooms feature.
 
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
-import superagent from 'superagent';
+//import superagent from 'superagent';
+import { get, post, put, httpDelete } from '../../../lib/edu-api';
 
 /*
 --------------------------------------------------------------------------------
@@ -99,6 +100,12 @@ const WILDCAMCLASSROOMS_MAP_STATE = (state, prefix = '') => {
 // Jumpstate Synchronous Actions
 // -----------------------------
 
+const resetClassrooms = (state, classroomsStatus) => {
+  return {
+    ...WILDCAMCLASSROOMS_INITIAL_STATE,
+  };
+};
+
 const setClassroomsStatus = (state, classroomsStatus) => {
   return { ...state, classroomsStatus };
 };
@@ -127,8 +134,18 @@ const setToast = (state, message, status) => {
 // Effects are for async actions and get automatically to the global Actions
 // list.
 
-Effect('wcc_fetchClassrooms', (lol) => {
-  console.log('+++ ', lol);
+Effect('wcc_fetchClassrooms', (program) => {
+  if (!program) return;
+  const program_id = program.id;
+  
+  Actions.wildcamClassrooms.resetClassrooms();
+  Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.FETCHING);
+  
+  return get('/teachers/classrooms/', [{ program_id }])
+  
+  .then((response) => {
+    console.log(response);
+  });
 });
 
 /*
@@ -139,6 +156,11 @@ const wildcamClassrooms = State('wildcamClassrooms', {
   // Initial state
   initial: WILDCAMCLASSROOMS_INITIAL_STATE,
   // Actions
+  resetClassrooms,
+  setClassroomsStatus,
+  setClassroomsList,
+  setSelectedClassroom,
+  setToast,
 });
 
 export default wildcamClassrooms;
