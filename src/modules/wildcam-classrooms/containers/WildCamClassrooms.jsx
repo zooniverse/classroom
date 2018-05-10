@@ -19,13 +19,13 @@ class WildCamClassroom extends React.Component {
   
   componentDidMount() {
     //Get the list of Classrooms and Assignments.
-    if (this.props.selectedProgram) Actions.getClassroomsAndAssignments(this.props.selectedProgram);
+    //if (this.props.selectedProgram) Actions.wcc_fetchClassrooms(this.props.selectedProgram);
   }
 
   componentWillReceiveProps(nextProps) {
     //Get the list of Classrooms and Assignments.
     if (nextProps.selectedProgram && this.props.selectedProgram !== nextProps.selectedProgram) {
-      Actions.getClassroomsAndAssignments(nextProps.selectedProgram);
+      //Actions.wcc_fetchClassrooms(nextProps.selectedProgram);
     }
   }
 

@@ -112,7 +112,7 @@ const WILDCAMMAP_PROPTYPES = {
 const WILDCAMMAP_MAP_STATE = (state, prefix = '') => {
   const dataStore = state.wildcamMap;  
   const mappedObject = {};
-  Object.keys(WILDCAMMAP_INITIAL_STATE).map((key)=>{
+  Object.keys(WILDCAMMAP_INITIAL_STATE).map((key) => {
     //The prefix is optional, and is useful to avoid naming collisions.
     mappedObject[prefix + key] = dataStore[key];
   });
