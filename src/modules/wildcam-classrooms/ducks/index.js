@@ -27,6 +27,8 @@ const WILDCAMCLASSROOMS_DATA_STATUS = {
   ERROR: 'error',  //Something effed up.
 };
 
+const LOG_PREFIX = 'ducks/wildcam-classrooms';
+
 /*
 --------------------------------------------------------------------------------
  */
@@ -44,6 +46,8 @@ const WILDCAMCLASSROOMS_DATA_STATUS = {
  */
 const WILDCAMCLASSROOMS_INITIAL_STATE = {
   classroomsStatus: WILDCAMCLASSROOMS_DATA_STATUS.IDLE,
+  classroomsStatusDetails: null,
+  
   classroomsList: [],
   selectedClassroom: null,
   
@@ -106,8 +110,8 @@ const resetClassrooms = (state, classroomsStatus) => {
   };
 };
 
-const setClassroomsStatus = (state, classroomsStatus) => {
-  return { ...state, classroomsStatus };
+const setClassroomsStatus = (state, classroomsStatus, classroomsStatusDetails = null) => {
+  return { ...state, classroomsStatus, classroomsStatusDetails };
 };
 
 const setClassroomsList = (state, setClassroomsList) => {
@@ -134,7 +138,11 @@ const setToast = (state, message, status) => {
 // Effects are for async actions and get automatically to the global Actions
 // list.
 
-Effect('wcc_fetchClassrooms', (program) => {
+/*  Fetch all the Classrooms for the selected Program from the Education API.
+    Implicit: the list of Classrooms is limited to what's available to the
+    logged-in user.
+ */
+Effect('wcc_teachers_fetchClassrooms', (program) => {
   if (!program) return;
   const program_id = program.id;
   
@@ -144,9 +152,34 @@ Effect('wcc_fetchClassrooms', (program) => {
   return get('/teachers/classrooms/', [{ program_id }])
   
   .then((response) => {
-    console.log(response);
+    if (!response) { throw 'ERROR (wildcam-classrooms/ducks/wcc_teachers_fetchClassrooms): No response'; }
+    if (response.ok &&
+        response.body && response.body.data) {
+      return response.body.data;
+    }
+    throw 'ERROR (wildcam-classrooms/ducks/wcc_teachers_fetchClassrooms): Invalid response';
+  })
+  
+  .then((data) => {
+    Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
+    Actions.wildcamClassrooms.setClassroomsList(data);
+    return data;
+  })
+  
+  .catch((err) => {
+    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    showErrorMessage(err);
   });
 });
+
+/*
+--------------------------------------------------------------------------------
+ */
+
+function showErrorMessage(err) {
+  Actions.notification.setNotification({ status: 'critical', message: 'Something went wrong.' });
+  console.error(err);
+}
 
 /*
 --------------------------------------------------------------------------------

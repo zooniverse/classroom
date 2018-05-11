@@ -19,13 +19,13 @@ class WildCamClassroom extends React.Component {
   
   componentDidMount() {
     //Get the list of Classrooms and Assignments.
-    if (this.props.selectedProgram) Actions.wcc_fetchClassrooms(this.props.selectedProgram);
+    if (this.props.selectedProgram) Actions.wcc_teachers_fetchClassrooms(this.props.selectedProgram);
   }
 
   componentWillReceiveProps(nextProps) {
     //Get the list of Classrooms and Assignments.
     if (nextProps.selectedProgram && this.props.selectedProgram !== nextProps.selectedProgram) {
-      Actions.wcc_fetchClassrooms(nextProps.selectedProgram);
+      Actions.wcc_teachers_fetchClassrooms(nextProps.selectedProgram);
     }
   }
 
@@ -38,11 +38,17 @@ class WildCamClassroom extends React.Component {
         className="wildcam-classrooms"
       >
         <Box>
-          classrooms...
+          Classrooms Status: [{this.props.classroomsStatus}] <br/>
+          Classrooms Count: [{this.props.classroomsList && this.props.classroomsList.length}]
         </Box>
         
         <Box>
+          {(this.props.classroomsList && this.props.classroomsList.map((item) => {
+            return 'aaa';
+          }))}
         </Box>
+        
+        
       </Box>
     );
   }
