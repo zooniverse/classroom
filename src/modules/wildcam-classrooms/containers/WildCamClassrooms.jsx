@@ -42,7 +42,10 @@ class WildCamClassroom extends React.Component {
   }
 
   render() {
-    if (!this.props.selectedProgram) return null;
+    const props = this.props;
+    
+    //Sanity check
+    if (!props.selectedProgram) return null;
     
     return (
       <Box
@@ -50,17 +53,20 @@ class WildCamClassroom extends React.Component {
         className="wildcam-classrooms"
       >
         <Box>
-          Classrooms Status: [{this.props.classroomsStatus}] <br/>
-          Classrooms Count: [{this.props.classroomsList && this.props.classroomsList.length}]
+          Classrooms Status: [{props.classroomsStatus}] <br/>
+          Classrooms Count: [{props.classroomsList && props.classroomsList.length}]
         </Box>
         
         <Box>
-          {(this.props.classroomsList && this.props.classroomsList.map((item) => {
-            return 'aaa';
+          {(props.classroomsList && props.classroomsList.map((item) => {
+            return '???';
           }))}
         </Box>
         
-        <ClassroomForm />
+        <ClassroomForm
+          classroomsStatus={props.classroomsStatus}
+          selectedClassroom={props.selectedClassroom}
+        />
       </Box>
     );
   }

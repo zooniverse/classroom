@@ -170,6 +170,18 @@ Effect('wcc_teachers_fetchClassrooms', (program) => {
   });
 });
 
+Effect('wcc_teachers_createClassroom', (classroomData) => {
+  Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
+});
+
+Effect('wcc_teachers_editClassroom', (classroomData) => {
+  Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
+});
+
+Effect('wcc_teachers_deleteClassroom', (classroomData) => {
+  Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
+});
+
 /*
 --------------------------------------------------------------------------------
  */

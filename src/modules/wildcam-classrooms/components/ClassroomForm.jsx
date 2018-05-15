@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import { Actions } from 'jumpstate';
 
 import Heading from 'grommet/components/Heading';
+import Box from 'grommet/components/Box';
 import Footer from 'grommet/components/Footer';
 import Form from 'grommet/components/Form';
 import FormField from 'grommet/components/FormField';
@@ -31,7 +32,7 @@ const INITIAL_FORM_DATA = {
   subject: '',
   school: '',
   description: '',
-}
+};
 
 const MODES = {
   INIT: 'init',  //Invalid state.
@@ -50,19 +51,6 @@ class ClassroomForm extends React.Component {
   
   // ----------------------------------------------------------------
   
-  updateForm(e) {
-    this.setState({
-      form: {
-        ...this.state.form,
-        [e.target.id]: e.target.value
-      }
-    });
-    
-    //Apparently [square_brackets] a superconvenient way of specifying an
-    //object key name that's variable. Sweet.
-    
-  }
-
   /*  Initialises the classroom form. Two paths:
       - If there's a classroom selected, we want to EDIT/VIEW it.
       - If there's NO classroom selected, we want to CREATE one.
@@ -82,6 +70,27 @@ class ClassroomForm extends React.Component {
     }
   }
   
+  updateForm(e) {
+    this.setState({
+      form: {
+        ...this.state.form,
+        [e.target.id]: e.target.value
+      }
+    });
+    
+    //Apparently [square_brackets] a superconvenient way of specifying an
+    //object key name that's variable. Sweet.
+    
+  }
+  
+  submitForm(e) {
+    e.preventDefault();
+    
+    if (this.state.mode === MODES.CREATE) {
+      Actions.wcc_teachers_createClassroom(this.state.form);
+    }
+  }
+  
   // ----------------------------------------------------------------
 
   componentDidMount() {
@@ -98,21 +107,34 @@ class ClassroomForm extends React.Component {
 
   render() {
     const props = this.props;
-    const state = this.state;
-    const joinURL = props.selectedClassroom
-      ? `${config.origin}/#/${props.selectedProgram.slug}/students/classrooms/${props.selectedClassroom.id}/join?token=${props.selectedClassroom.joinToken}`
-      : '';
+    //const state = this.state;
+    //const joinURL = props.selectedClassroom
+    //  ? `${config.origin}/#/${props.selectedProgram.slug}/students/classrooms/${props.selectedClassroom.id}/join?token=${props.selectedClassroom.joinToken}`
+    //  : '';
 
     //Get students and assignments only for this classroom.
-    const students = (props.selectedClassroom && props.selectedClassroom.students) ? props.selectedClassroom.students : [];
-    const assignments = (props.selectedClassroom && props.assignments && props.assignments[props.selectedClassroom.id])
-      ? props.assignments[props.selectedClassroom.id]
-      : [];
-
+    //const students = (props.selectedClassroom && props.selectedClassroom.students) ? props.selectedClassroom.students : [];
+    //const assignments = (props.selectedClassroom && props.assignments && props.assignments[props.selectedClassroom.id])
+    //  ? props.assignments[props.selectedClassroom.id]
+    //  : [];
+    
+    if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
+      return this.render_readyState();
+    } else if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING) {
+      return this.render_sendingState();
+    }
+    
+    return null;
+  }
+  
+  render_readyState() {
+    const props = this.props;
+    const state = this.state;
+    
     return (
       <Form
         className="classroom-form"
-        onSubmit={()=>{}}
+        onSubmit={this.submitForm.bind(this)}
         pad="medium"
       >
         <Heading tag="h2">
@@ -170,9 +192,19 @@ class ClassroomForm extends React.Component {
         </fieldset>
 
         <Footer>
-          <Button className="button--primary" type="submit" label="Sumbit..." primary={true} />
+          <Button className="button--primary" type="submit" label="Submit..." primary={true} />
         </Footer>
       </Form>
+    );
+  }
+  
+  render_sendingState() {
+    const props = this.props;
+    
+    return (
+      <Box>
+        Sending...
+      </Box>
     );
   }
 };
