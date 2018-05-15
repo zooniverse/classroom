@@ -2,7 +2,7 @@
 ClassroomForm
 -------------
 
-Component for viewing or editing a single classroom.
+Component for viewing, editing, or deleting a single classroom.
 
 --------------------------------------------------------------------------------
  */
@@ -26,49 +26,84 @@ import {
   WILDCAMCLASSROOMS_PROPTYPES,
 } from '../ducks/index.js';
 
+const INITIAL_FORM_DATA = {
+  name: '',
+  subject: '',
+  school: '',
+  description: '',
+}
+
+const MODES = {
+  INIT: 'init',  //Invalid state.
+  CREATE: 'create',
+  EDIT: 'edit',
+};
+
 class ClassroomForm extends React.Component {
   constructor() {
     super();
-  
     this.state = {
-      name: '',
-      subject: '',
-      school: '',
-      description: '',
+      mode: MODES.INIT,
+      form: INITIAL_FORM_DATA,
     };
-
-    this.loadSelectedClassroomDetails(this.props);
   }
   
-  /*  Update the form details.
-   */
+  // ----------------------------------------------------------------
+  
   updateForm(e) {
-    console.log('+++ ', { [e.target.id]: e.target.value });
     this.setState({
-      [e.target.id]: e.target.value
-      //Apparently [square_brackets] a superconvenient way of specifying an
-      //object key name that's variable. Sweet.
+      form: {
+        ...this.state.form,
+        [e.target.id]: e.target.value
+      }
     });
     
+    //Apparently [square_brackets] a superconvenient way of specifying an
+    //object key name that's variable. Sweet.
+    
+  }
+
+  /*  Initialises the classroom form. Two paths:
+      - If there's a classroom selected, we want to EDIT/VIEW it.
+      - If there's NO classroom selected, we want to CREATE one.
+   */
+  initialiseForm(selectedClassroom) {
+    if (!selectedClassroom) {
+      this.setState({
+        mode: MODES.CREATE,
+        form: INITIAL_FORM_DATA
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        mode: MODES.EDIT,
+        //TODO: Specify Selected Classroom details here
+      });
+    }
   }
   
-  loadSelectedClassroomDetails(props) {
+  // ----------------------------------------------------------------
+
+  componentDidMount() {
+    this.initialiseForm(this.props.selectedClassroom);
   }
 
   componentWillReceiveProps(nextProps) {
-    
-    
-    this.loadSelectedClassroomDetails(nextProps);
+    if (this.props.selectedClassroom !== nextProps.selectedClassroom) {
+      this.initialiseForm(nextProps.selectedClassroom);
+    }
   }
-  
+
+  // ----------------------------------------------------------------
 
   render() {
     const props = this.props;
+    const state = this.state;
     const joinURL = props.selectedClassroom
       ? `${config.origin}/#/${props.selectedProgram.slug}/students/classrooms/${props.selectedClassroom.id}/join?token=${props.selectedClassroom.joinToken}`
       : '';
 
-    // Get students and assignments only for this classroom.
+    //Get students and assignments only for this classroom.
     const students = (props.selectedClassroom && props.selectedClassroom.students) ? props.selectedClassroom.students : [];
     const assignments = (props.selectedClassroom && props.assignments && props.assignments[props.selectedClassroom.id])
       ? props.assignments[props.selectedClassroom.id]
@@ -80,14 +115,25 @@ class ClassroomForm extends React.Component {
         onSubmit={()=>{}}
         pad="medium"
       >
-        <Heading tag="h2">TEST...</Heading>
+        <Heading tag="h2">
+          {(()=>{
+            switch (state.mode) {
+              case MODES.CREATE:
+                return 'Create new classroom';
+              case MODES.EDIT:
+                return 'Edit classroom';
+              default:
+                return '???';
+            }
+          })()}
+        </Heading>
 
         <fieldset>
           <FormField htmlFor="name" label="Classroom Name">
             <TextInput
               id="name"
               required={true}
-              value={this.state.name}
+              value={this.state.form.name}
               onDOMChange={this.updateForm.bind(this)}
             />
           </FormField>
@@ -97,7 +143,7 @@ class ClassroomForm extends React.Component {
           <FormField htmlFor="subject" label="Classroom Subject">
             <TextInput
               id="subject"
-              value={this.state.subject}
+              value={this.state.form.subject}
               onDOMChange={this.updateForm.bind(this)}
             />
           </FormField>
@@ -107,7 +153,7 @@ class ClassroomForm extends React.Component {
           <FormField htmlFor="school" label="School Name">
             <TextInput
               id="school"
-              value={this.state.school}
+              value={this.state.form.school}
               onDOMChange={this.updateForm.bind(this)}
             />
           </FormField>
@@ -117,7 +163,7 @@ class ClassroomForm extends React.Component {
           <FormField htmlFor="school" label="Description">
             <TextInput
               id="description"
-              value={this.state.description}
+              value={this.state.form.description}
               onDOMChange={this.updateForm.bind(this)}
             />
           </FormField>
@@ -132,11 +178,11 @@ class ClassroomForm extends React.Component {
 };
 
 ClassroomForm.defaultProps = {
-  ...WILDCAMCLASSROOMS_INITIAL_STATE,
+  ...WILDCAMCLASSROOMS_INITIAL_STATE.selectedClassroom,
 };
 
 ClassroomForm.propTypes = {
-  ...WILDCAMCLASSROOMS_PROPTYPES,
+  ...WILDCAMCLASSROOMS_PROPTYPES.selectedClassroom,
 };
 
 export default ClassroomForm;
