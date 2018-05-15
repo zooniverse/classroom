@@ -21,6 +21,7 @@ import Button from 'grommet/components/Button';
 
 import { config } from '../../../lib/config';
 
+import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {
   WILDCAMCLASSROOMS_DATA_STATUS,
   WILDCAMCLASSROOMS_INITIAL_STATE,
@@ -86,8 +87,19 @@ class ClassroomForm extends React.Component {
   submitForm(e) {
     e.preventDefault();
     
+    //Sanity check
+    if (!this.props.selectedProgram) return;
+    
     if (this.state.mode === MODES.CREATE) {
-      Actions.wcc_teachers_createClassroom(this.state.form);
+      return Actions.wcc_teachers_createClassroom({
+        attributes: this.state.form,
+        relationships: {
+          program: {
+            data: String(this.props.selectedProgram.id),
+            type: "programs"
+          }
+        }
+      });
     }
   }
   
@@ -210,11 +222,17 @@ class ClassroomForm extends React.Component {
 };
 
 ClassroomForm.defaultProps = {
-  ...WILDCAMCLASSROOMS_INITIAL_STATE.selectedClassroom,
+  selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,
+  // ----------------
+  classroomsStatus: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsStatus,
+  selectedClassroom: WILDCAMCLASSROOMS_INITIAL_STATE.selectedClassroom,
 };
 
 ClassroomForm.propTypes = {
-  ...WILDCAMCLASSROOMS_PROPTYPES.selectedClassroom,
+  selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
+  // ----------------
+  classroomsStatus: WILDCAMCLASSROOMS_PROPTYPES.classroomsStatus,
+  selectedClassroom: WILDCAMCLASSROOMS_PROPTYPES.selectedClassroom,
 };
 
 export default ClassroomForm;

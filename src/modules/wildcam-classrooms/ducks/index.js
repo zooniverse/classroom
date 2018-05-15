@@ -72,7 +72,11 @@ const WILDCAMCLASSROOMS_INITIAL_STATE = {
       };
  */
 const WILDCAMCLASSROOMS_PROPTYPES = {
-
+  classroomsStatus: PropTypes.string,
+  classroomsStatusDetails: PropTypes.object,
+  classroomsList: PropTypes.array,
+  selectedClassroom: PropTypes.object,
+  toast: PropTypes.object,
 };
 
 /*  WILDCAMCLASSROOMS_MAP_STATE is used as a convenience feature in
@@ -170,8 +174,49 @@ Effect('wcc_teachers_fetchClassrooms', (program) => {
   });
 });
 
+  
+/*  Creates a classroom.
+    
+    API notes:
+      POST /teachers/classrooms/ accepts the following payload structure:
+      {
+        data: {
+          attributes: {
+            name: 'Example 101',
+            subject: 'Exampleology',
+            school: 'University of Example',
+            description: 'An example classroom',
+          },
+          relationships: {
+            program: {
+              data: "1",
+              type: "programs"
+            }
+          }
+        }
+      }
+ */
 Effect('wcc_teachers_createClassroom', (classroomData) => {
   Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
+  
+  console.log('+++ wcc_teachers_createClassroom ', classroomData);
+  
+  return post('/teachers/classrooms/', { data: classroomData })
+  .then((response) => {
+    console.log('+++ wcc_teachers_createClassroom response', response);
+    
+    if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createClassrooms): No response'; }
+    if (response.ok &&
+        response.body && response.body.data) {
+      Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
+      return response.body.data;
+    }
+    throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createClassrooms): Invalid response';
+  })
+  .catch((err) => {
+    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    showErrorMessage(err);
+  });
 });
 
 Effect('wcc_teachers_editClassroom', (classroomData) => {

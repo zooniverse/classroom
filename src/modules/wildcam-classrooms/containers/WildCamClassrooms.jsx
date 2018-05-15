@@ -64,6 +64,7 @@ class WildCamClassroom extends React.Component {
         </Box>
         
         <ClassroomForm
+          selectedProgram={props.selectedProgram}
           classroomsStatus={props.classroomsStatus}
           selectedClassroom={props.selectedClassroom}
         />
@@ -74,11 +75,13 @@ class WildCamClassroom extends React.Component {
 
 WildCamClassroom.defaultProps = {
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  //Passed from parent.
+  // ----------------
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
 };
 
 WildCamClassroom.propTypes = {
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
+  // ----------------
   ...WILDCAMCLASSROOMS_PROPTYPES,
 };
 
