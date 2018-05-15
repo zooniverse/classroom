@@ -32,12 +32,35 @@ class ClassroomForm extends React.Component {
   
     this.state = {
       name: '',
+      subject: '',
+      school: '',
+      description: '',
     };
+
+    this.loadSelectedClassroomDetails(this.props);
   }
   
-  updateForm() {
+  /*  Update the form details.
+   */
+  updateForm(e) {
+    console.log('+++ ', { [e.target.id]: e.target.value });
+    this.setState({
+      [e.target.id]: e.target.value
+      //Apparently [square_brackets] a superconvenient way of specifying an
+      //object key name that's variable. Sweet.
+    });
     
   }
+  
+  loadSelectedClassroomDetails(props) {
+  }
+
+  componentWillReceiveProps(nextProps) {
+    
+    
+    this.loadSelectedClassroomDetails(nextProps);
+  }
+  
 
   render() {
     const props = this.props;
@@ -60,11 +83,42 @@ class ClassroomForm extends React.Component {
         <Heading tag="h2">TEST...</Heading>
 
         <fieldset>
-          <FormField htmlFor="name" label="Name">
+          <FormField htmlFor="name" label="Classroom Name">
             <TextInput
               id="name"
               required={true}
-              value={'Example Classroom 1'}
+              value={this.state.name}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+        </fieldset>
+        
+        <fieldset>
+          <FormField htmlFor="subject" label="Classroom Subject">
+            <TextInput
+              id="subject"
+              value={this.state.subject}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+        </fieldset>
+        
+        <fieldset>
+          <FormField htmlFor="school" label="School Name">
+            <TextInput
+              id="school"
+              value={this.state.school}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+        </fieldset>
+        
+        <fieldset>
+          <FormField htmlFor="school" label="Description">
+            <TextInput
+              id="description"
+              value={this.state.description}
+              onDOMChange={this.updateForm.bind(this)}
             />
           </FormField>
         </fieldset>
