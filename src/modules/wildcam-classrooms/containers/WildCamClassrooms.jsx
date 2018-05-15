@@ -1,8 +1,20 @@
+/*
+WildCam Classrooms
+------------------
+
+The primary component for viewing and managing classrooms and assignments for
+WildCam-type programs/projects.
+
+--------------------------------------------------------------------------------
+ */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
+
+import ClassroomForm from '../components/ClassroomForm';
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {
@@ -48,7 +60,7 @@ class WildCamClassroom extends React.Component {
           }))}
         </Box>
         
-        
+        <ClassroomForm />
       </Box>
     );
   }

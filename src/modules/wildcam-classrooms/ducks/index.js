@@ -27,8 +27,6 @@ const WILDCAMCLASSROOMS_DATA_STATUS = {
   ERROR: 'error',  //Something effed up.
 };
 
-const LOG_PREFIX = 'ducks/wildcam-classrooms';
-
 /*
 --------------------------------------------------------------------------------
  */
@@ -136,7 +134,7 @@ const setToast = (state, message, status) => {
 // Jumpstate Effects
 // -----------------
 // Effects are for async actions and get automatically to the global Actions
-// list.
+// list. NOTE: Effects can only have one argument.
 
 /*  Fetch all the Classrooms for the selected Program from the Education API.
     Implicit: the list of Classrooms is limited to what's available to the

@@ -45,7 +45,6 @@ const WILDCAMMAP_CAMERA_STATUS = {
 // Initial State / Default Values
 // ------------------------------
 
-
 /*  WILDCAMMAP_INITIAL_STATE defines the default/starting values of the Redux
     store. To use this in your Redux-connected React components, try...
     Usage:
@@ -217,7 +216,8 @@ const setFilterSelectionItem = (state, key, value) => {
 
 // Jumpstate Effects
 // -----------------
-// Effects are for async actions and get automatically to the global Actions list
+// Effects are for async actions and get automatically to the global Actions
+// list. NOTE: Effects can only have one argument.
 
 Effect('wcm_getMapMarkers', (payload = {}) => {
   const mapConfig = payload.mapConfig;
