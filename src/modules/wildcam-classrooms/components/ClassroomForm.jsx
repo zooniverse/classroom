@@ -146,69 +146,73 @@ class ClassroomForm extends React.Component {
     const state = this.state;
     
     return (
-      <Form
+      <Box
         className="classroom-form"
-        onSubmit={this.submitForm.bind(this)}
+        margin="medium"
         pad="medium"
       >
-        <Heading tag="h2">
-          {(()=>{
-            switch (state.mode) {
-              case MODES.CREATE:
-                return 'Create new classroom';
-              case MODES.EDIT:
-                return 'Edit classroom';
-              default:
-                return '???';
-            }
-          })()}
-        </Heading>
+        <Form
+          onSubmit={this.submitForm.bind(this)}
+        >
+          <Heading tag="h2">
+            {(()=>{
+              switch (state.mode) {
+                case MODES.CREATE:
+                  return 'Create new classroom';
+                case MODES.EDIT:
+                  return 'Edit classroom';
+                default:
+                  return '???';
+              }
+            })()}
+          </Heading>
 
-        <fieldset>
-          <FormField htmlFor="name" label="Classroom Name">
-            <TextInput
-              id="name"
-              required={true}
-              value={this.state.form.name}
-              onDOMChange={this.updateForm.bind(this)}
-            />
-          </FormField>
-        </fieldset>
-        
-        <fieldset>
-          <FormField htmlFor="subject" label="Classroom Subject">
-            <TextInput
-              id="subject"
-              value={this.state.form.subject}
-              onDOMChange={this.updateForm.bind(this)}
-            />
-          </FormField>
-        </fieldset>
-        
-        <fieldset>
-          <FormField htmlFor="school" label="School Name">
-            <TextInput
-              id="school"
-              value={this.state.form.school}
-              onDOMChange={this.updateForm.bind(this)}
-            />
-          </FormField>
-        </fieldset>
-        
-        <fieldset>
-          <FormField htmlFor="school" label="Description">
-            <TextInput
-              id="description"
-              value={this.state.form.description}
-              onDOMChange={this.updateForm.bind(this)}
-            />
-          </FormField>
-        </fieldset>
+          <fieldset>
+            <FormField htmlFor="name" label="Classroom Name">
+              <TextInput
+                id="name"
+                required={true}
+                value={this.state.form.name}
+                onDOMChange={this.updateForm.bind(this)}
+              />
+            </FormField>
+          </fieldset>
 
-        <Footer>
-          <Button className="button--primary" type="submit" label="Submit..." primary={true} />
-        </Footer>
-      </Form>
+          <fieldset>
+            <FormField htmlFor="subject" label="Classroom Subject">
+              <TextInput
+                id="subject"
+                value={this.state.form.subject}
+                onDOMChange={this.updateForm.bind(this)}
+              />
+            </FormField>
+          </fieldset>
+
+          <fieldset>
+            <FormField htmlFor="school" label="School Name">
+              <TextInput
+                id="school"
+                value={this.state.form.school}
+                onDOMChange={this.updateForm.bind(this)}
+              />
+            </FormField>
+          </fieldset>
+
+          <fieldset>
+            <FormField htmlFor="school" label="Description">
+              <TextInput
+                id="description"
+                value={this.state.form.description}
+                onDOMChange={this.updateForm.bind(this)}
+              />
+            </FormField>
+          </fieldset>
+
+          <Footer>
+            <Button className="button--primary" type="submit" label="Submit..." primary={true} />
+          </Footer>
+        </Form>
+      </Box>
     );
   }
   

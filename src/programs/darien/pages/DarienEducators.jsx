@@ -16,18 +16,9 @@ class DarienEducators extends React.Component {
     }
     
     return (
-      <Article colorIndex="accent-3">
-        <Section
-          align="center"
-          colorIndex="accent-3"
-          direction="column"
-          justify="center"
-        >
-          <WildCamClassrooms
-            selectedProgram={this.props.selectedProgram}
-          />
-        </Section>
-      </Article>
+      <WildCamClassrooms
+        selectedProgram={this.props.selectedProgram}
+      />
     );
   }
 };

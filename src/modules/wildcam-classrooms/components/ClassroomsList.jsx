@@ -37,6 +37,7 @@ class ClassroomsList extends React.Component {
     return (
       <Box
         className="classrooms-list"
+        margin="medium"
         pad="medium"
       >
         <Heading tag="h2">List of Classrooms</Heading>
