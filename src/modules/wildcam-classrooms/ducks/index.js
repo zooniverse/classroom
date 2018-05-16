@@ -19,6 +19,13 @@ import { get, post, put, httpDelete } from '../../../lib/edu-api';
 // Constants
 // ---------
 
+const WILDCAMCLASSROOMS_COMPONENT_MODES = {
+  IDLE: 'idle',  //Initial state. 
+  VIEW_ALL_CLASSROOMS: 'view all classrooms',
+  VIEW_ONE_CLASSROOM: 'view all classrooms',
+  CREATE_NEW_CLASSROOM: 'view all classrooms',
+};
+
 const WILDCAMCLASSROOMS_DATA_STATUS = {
   IDLE: 'idle',  //Initial state. 
   FETCHING: 'fetching',  //Fetching classrooms/assignments...
@@ -43,7 +50,9 @@ const WILDCAMCLASSROOMS_DATA_STATUS = {
       };
  */
 const WILDCAMCLASSROOMS_INITIAL_STATE = {
-  classroomsStatus: WILDCAMCLASSROOMS_DATA_STATUS.IDLE,
+  componentMode: WILDCAMCLASSROOMS_COMPONENT_MODES.IDLE,  //The mode of the component, e.g. user is editing a classroom.
+  
+  classroomsStatus: WILDCAMCLASSROOMS_DATA_STATUS.IDLE,  //The status of the data fetch/send.
   classroomsStatusDetails: null,
   
   classroomsList: [],
@@ -72,6 +81,7 @@ const WILDCAMCLASSROOMS_INITIAL_STATE = {
       };
  */
 const WILDCAMCLASSROOMS_PROPTYPES = {
+  componentMode: PropTypes.string,
   classroomsStatus: PropTypes.string,
   classroomsStatusDetails: PropTypes.object,
   classroomsList: PropTypes.array,
@@ -106,10 +116,12 @@ const WILDCAMCLASSROOMS_MAP_STATE = (state, prefix = '') => {
 // Jumpstate Synchronous Actions
 // -----------------------------
 
-const resetClassrooms = (state, classroomsStatus) => {
-  return {
-    ...WILDCAMCLASSROOMS_INITIAL_STATE,
-  };
+const setComponentMode = (state, componentMode) => {
+  return { ...state, componentMode };
+};
+
+const resetClassrooms = (state) => {
+  return { ...WILDCAMCLASSROOMS_INITIAL_STATE };
 };
 
 const setClassroomsStatus = (state, classroomsStatus, classroomsStatusDetails = null) => {
@@ -120,16 +132,16 @@ const setClassroomsList = (state, classroomsList) => {
   return { ...state, classroomsList };
 };
 
-const setSelectedClassroom = (state, selectedClassroom) => {
-  return { ...state, selectedClassroom };
-};
-
 const resetSelectedClassroom = (state) => {
   return {
     ...state,
     selectedClassroom: null,
     //TODO: reset selected assignment as well.
   };
+};
+
+const setSelectedClassroom = (state, selectedClassroom) => {
+  return { ...state, selectedClassroom };
 };
 
 const setToast = (state, message, status) => {
@@ -250,6 +262,7 @@ const wildcamClassrooms = State('wildcamClassrooms', {
   // Initial state
   initial: WILDCAMCLASSROOMS_INITIAL_STATE,
   // Actions
+  setComponentMode,
   resetClassrooms,
   setClassroomsStatus,
   setClassroomsList,
@@ -260,6 +273,7 @@ const wildcamClassrooms = State('wildcamClassrooms', {
 
 export default wildcamClassrooms;
 export {
+  WILDCAMCLASSROOMS_COMPONENT_MODES,
   WILDCAMCLASSROOMS_DATA_STATUS,
   WILDCAMCLASSROOMS_INITIAL_STATE,
   WILDCAMCLASSROOMS_PROPTYPES,

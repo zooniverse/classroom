@@ -14,6 +14,9 @@ import { Actions } from 'jumpstate';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import Heading from 'grommet/components/Heading';
+import Table from 'grommet/components/Table';
+import TableRow from 'grommet/components/TableRow';
+import Edit from 'grommet/components/icons/base/Edit';
 
 import {
   WILDCAMCLASSROOMS_DATA_STATUS,
@@ -42,16 +45,27 @@ class ClassroomsList extends React.Component {
       >
         <Heading tag="h2">List of Classrooms</Heading>
         
-        {props.classroomsList.map((classroom, index) => {
-          return (
-            <div
-              className="item"
-              key={`classrooms-list_${index}`}
-            >
-              {classroom.name}
-            </div>
-          );
-        })}
+        <Table className="table">
+          <tbody>
+          {props.classroomsList.map((classroom, index) => {
+            return (
+              <TableRow
+                className="item"
+                key={`classrooms-list_${index}`}
+              >
+                <td>{classroom.name}</td>
+                <td>
+                  <Button
+                    onClick={() => { Actions.wildcamClassrooms.setSelectedClassroom(classroom) }}
+                  >
+                    <Edit />
+                  </Button>
+                </td>
+              </TableRow>
+            );
+          })}
+          </tbody>
+        </Table>
       </Box>
     );
   }
