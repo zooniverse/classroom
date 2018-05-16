@@ -11,15 +11,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'jumpstate';
 
-import Heading from 'grommet/components/Heading';
 import Box from 'grommet/components/Box';
+import Button from 'grommet/components/Button';
 import Footer from 'grommet/components/Footer';
 import Form from 'grommet/components/Form';
 import FormField from 'grommet/components/FormField';
+import Heading from 'grommet/components/Heading';
 import TextInput from 'grommet/components/TextInput';
-import Button from 'grommet/components/Button';
 
 //import { config } from '../../../lib/config';
+
+const MODES = {
+  CREATE: 'create',
+  EDIT: 'edit',
+}
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {
@@ -35,39 +40,33 @@ const INITIAL_FORM_DATA = {
   description: '',
 };
 
-const MODES = {
-  INIT: 'init',  //Invalid state.
-  CREATE: 'create',
-  EDIT: 'edit',
-};
-
 class ClassroomForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      mode: MODES.INIT,
       form: INITIAL_FORM_DATA,
+      //Note: the reason this object structure is one level deep is because
+      //the state previously had other things stored here, e.g. state.mode.
     };
   }
   
   // ----------------------------------------------------------------
   
-  /*  Initialises the classroom form. Two paths:
-      - If there's a classroom selected, we want to EDIT/VIEW it.
-      - If there's NO classroom selected, we want to CREATE one.
+  /*  Initialises the classroom form.
    */
   initialiseForm(selectedClassroom) {
-    if (!selectedClassroom) {
-      this.setState({
-        mode: MODES.CREATE,
-        form: INITIAL_FORM_DATA
-      });
+    if (this.props.mode === MODES.CREATE) {
+      this.setState({ form: INITIAL_FORM_DATA });
     } else {
-      this.setState({
-        ...this.state,
-        mode: MODES.EDIT,
-        //TODO: Specify Selected Classroom details here
+      const originalForm = INITIAL_FORM_DATA;
+      const updatedForm = {};
+      Object.keys(originalForm).map((key) => {
+        updatedForm[key] = (selectedClassroom[key])
+          ? selectedClassroom[key]
+          : originalForm[key];
       });
+      console.log('+++ ', updatedForm);
+      this.setState({ form: updatedForm });
     }
   }
   
@@ -90,7 +89,7 @@ class ClassroomForm extends React.Component {
     //Sanity check
     if (!this.props.selectedProgram) return;
     
-    if (this.state.mode === MODES.CREATE) {
+    if (this.props.mode === MODES.CREATE) {
       return Actions.wcc_teachers_createClassroom({
         attributes: this.state.form,
         relationships: {
@@ -162,7 +161,7 @@ class ClassroomForm extends React.Component {
       >
         <Heading tag="h2">
           {(()=>{
-            switch (state.mode) {
+            switch (props.mode) {
               case MODES.CREATE:
                 return 'Create new classroom';
               case MODES.EDIT:
@@ -222,8 +221,6 @@ class ClassroomForm extends React.Component {
   }
   
   render_sendingState() {
-    const props = this.props;
-    
     return (
       <Box>
         Sending...
@@ -232,7 +229,10 @@ class ClassroomForm extends React.Component {
   }
 };
 
+ClassroomForm.MODES = MODES;
 ClassroomForm.defaultProps = {
+  mode: MODES.CREATE,
+  // ----------------
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,
   // ----------------
   classroomsStatus: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsStatus,
@@ -240,6 +240,8 @@ ClassroomForm.defaultProps = {
 };
 
 ClassroomForm.propTypes = {
+  mode: PropTypes.string,
+  // ----------------
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
   // ----------------
   classroomsStatus: WILDCAMCLASSROOMS_PROPTYPES.classroomsStatus,
