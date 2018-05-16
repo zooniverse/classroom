@@ -22,8 +22,8 @@ import { get, post, put, httpDelete } from '../../../lib/edu-api';
 const WILDCAMCLASSROOMS_COMPONENT_MODES = {
   IDLE: 'idle',  //Initial state. 
   VIEW_ALL_CLASSROOMS: 'view all classrooms',
-  VIEW_ONE_CLASSROOM: 'view all classrooms',
-  CREATE_NEW_CLASSROOM: 'view all classrooms',
+  VIEW_ONE_CLASSROOM: 'view one classroom',
+  CREATE_NEW_CLASSROOM: 'create new classroom',
 };
 
 const WILDCAMCLASSROOMS_DATA_STATUS = {

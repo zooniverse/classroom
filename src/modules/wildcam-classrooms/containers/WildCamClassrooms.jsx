@@ -51,6 +51,8 @@ class WildCamClassroom extends React.Component {
   }
   
   initialiseList(props = this.props) {
+    console.log('=== initialiseList');
+    
     //Sanity check
     if (!props.selectedProgram) return;
     
@@ -77,10 +79,6 @@ class WildCamClassroom extends React.Component {
           Classrooms Status: [{props.classroomsStatus}] <br/>
           Classrooms Count: [{props.classroomsList && props.classroomsList.length}] <br/>
           Mode: {props.componentMode}
-        </Box>
-        
-        <Box pad="medium">
-          <Button>Create new classroom</Button>
         </Box>
         
         {props.componentMode === MODES.INIT && (

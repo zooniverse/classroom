@@ -132,11 +132,21 @@ class ClassroomForm extends React.Component {
     //  ? props.assignments[props.selectedClassroom.id]
     //  : [];
     
-    if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
-      return this.render_readyState();
-    } else if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING) {
-      return this.render_sendingState();
-    }
+    return (
+      <Box
+        className="classroom-form"
+        margin="medium"
+        pad="medium"
+      >
+        {(() => {
+          if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
+            return this.render_readyState();
+          } else if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING) {
+            return this.render_sendingState();
+          }
+        })()}
+      </Box>
+    );
     
     return null;
   }
@@ -146,73 +156,68 @@ class ClassroomForm extends React.Component {
     const state = this.state;
     
     return (
-      <Box
-        className="classroom-form"
-        margin="medium"
-        pad="medium"
+      
+      <Form
+        onSubmit={this.submitForm.bind(this)}
       >
-        <Form
-          onSubmit={this.submitForm.bind(this)}
-        >
-          <Heading tag="h2">
-            {(()=>{
-              switch (state.mode) {
-                case MODES.CREATE:
-                  return 'Create new classroom';
-                case MODES.EDIT:
-                  return 'Edit classroom';
-                default:
-                  return '???';
-              }
-            })()}
-          </Heading>
+        <Heading tag="h2">
+          {(()=>{
+            switch (state.mode) {
+              case MODES.CREATE:
+                return 'Create new classroom';
+              case MODES.EDIT:
+                return 'Edit classroom';
+              default:
+                return '???';
+            }
+          })()}
+        </Heading>
 
-          <fieldset>
-            <FormField htmlFor="name" label="Classroom Name">
-              <TextInput
-                id="name"
-                required={true}
-                value={this.state.form.name}
-                onDOMChange={this.updateForm.bind(this)}
-              />
-            </FormField>
-          </fieldset>
+        <fieldset>
+          <FormField htmlFor="name" label="Classroom Name">
+            <TextInput
+              id="name"
+              required={true}
+              value={this.state.form.name}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+        </fieldset>
 
-          <fieldset>
-            <FormField htmlFor="subject" label="Classroom Subject">
-              <TextInput
-                id="subject"
-                value={this.state.form.subject}
-                onDOMChange={this.updateForm.bind(this)}
-              />
-            </FormField>
-          </fieldset>
+        <fieldset>
+          <FormField htmlFor="subject" label="Classroom Subject">
+            <TextInput
+              id="subject"
+              value={this.state.form.subject}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+        </fieldset>
 
-          <fieldset>
-            <FormField htmlFor="school" label="School Name">
-              <TextInput
-                id="school"
-                value={this.state.form.school}
-                onDOMChange={this.updateForm.bind(this)}
-              />
-            </FormField>
-          </fieldset>
+        <fieldset>
+          <FormField htmlFor="school" label="School Name">
+            <TextInput
+              id="school"
+              value={this.state.form.school}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+        </fieldset>
 
-          <fieldset>
-            <FormField htmlFor="school" label="Description">
-              <TextInput
-                id="description"
-                value={this.state.form.description}
-                onDOMChange={this.updateForm.bind(this)}
-              />
-            </FormField>
-          </fieldset>
+        <fieldset>
+          <FormField htmlFor="school" label="Description">
+            <TextInput
+              id="description"
+              value={this.state.form.description}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+        </fieldset>
 
-          <Footer>
-            <Button className="button--primary" type="submit" label="Submit..." primary={true} />
-          </Footer>
-        </Form>
-      </Box>
+        <Footer>
+          <Button className="button--primary" type="submit" label="Submit..." primary={true} />
+        </Footer>
+      </Form>
     );
   }
   
