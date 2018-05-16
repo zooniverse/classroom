@@ -95,8 +95,10 @@ class ClassroomForm extends React.Component {
         attributes: this.state.form,
         relationships: {
           program: {
-            data: String(this.props.selectedProgram.id),
-            type: "programs"
+            data: {
+              id: String(this.props.selectedProgram.id),
+              type: "programs"
+            }
           }
         }
       });

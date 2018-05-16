@@ -189,8 +189,10 @@ Effect('wcc_teachers_fetchClassrooms', (program) => {
           },
           relationships: {
             program: {
-              data: "1",
-              type: "programs"
+              data: {
+                id: "1",
+                type: "programs"
+              }
             }
           }
         }
