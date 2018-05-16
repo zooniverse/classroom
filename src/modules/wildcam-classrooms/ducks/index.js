@@ -116,8 +116,8 @@ const setClassroomsStatus = (state, classroomsStatus, classroomsStatusDetails = 
   return { ...state, classroomsStatus, classroomsStatusDetails };
 };
 
-const setClassroomsList = (state, setClassroomsList) => {
-  return { ...state, setClassroomsList };
+const setClassroomsList = (state, classroomsList) => {
+  return { ...state, classroomsList };
 };
 
 const setSelectedClassroom = (state, selectedClassroom) => {
@@ -200,13 +200,9 @@ Effect('wcc_teachers_fetchClassrooms', (program) => {
  */
 Effect('wcc_teachers_createClassroom', (classroomData) => {
   Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
-  
-  console.log('+++ wcc_teachers_createClassroom ', classroomData);
-  
+
   return post('/teachers/classrooms/', { data: classroomData })
   .then((response) => {
-    console.log('+++ wcc_teachers_createClassroom response', response);
-    
     if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createClassrooms): No response'; }
     if (response.ok &&
         response.body && response.body.data) {

@@ -47,6 +47,8 @@ class WildCamClassroom extends React.Component {
     //Sanity check
     if (!props.selectedProgram) return null;
     
+    console.log('+++ ', props);
+    
     return (
       <Box
         colorIndex="grey-5"
