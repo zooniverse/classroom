@@ -19,6 +19,8 @@ import FormField from 'grommet/components/FormField';
 import Heading from 'grommet/components/Heading';
 import TextInput from 'grommet/components/TextInput';
 
+import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
+
 //import { config } from '../../../lib/config';
 
 const MODES = {
@@ -28,6 +30,7 @@ const MODES = {
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {
+  WILDCAMCLASSROOMS_COMPONENT_MODES,
   WILDCAMCLASSROOMS_DATA_STATUS,
   WILDCAMCLASSROOMS_INITIAL_STATE,
   WILDCAMCLASSROOMS_PROPTYPES,
@@ -171,6 +174,16 @@ class ClassroomForm extends React.Component {
             }
           })()}
         </Heading>
+        
+        <Box>
+          <Button
+            icon={<LinkPreviousIcon size="small" />}
+            onClick={() => {
+              Actions.wildcamClassrooms.resetSelectedClassroom();
+              Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
+            }}
+          />
+        </Box>
 
         <fieldset>
           <FormField htmlFor="name" label="Classroom Name">

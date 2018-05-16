@@ -60,7 +60,6 @@ class WildCamClassroom extends React.Component {
     .then(() => {
       Actions.wildcamClassrooms.resetSelectedClassroom();
       Actions.wildcamClassrooms.setComponentMode(MODES.VIEW_ALL_CLASSROOMS);
-      this.setState({ mode: MODES.VIEW_ALL_CLASSROOMS });
     });
   }
 

@@ -16,7 +16,9 @@ import Button from 'grommet/components/Button';
 import Heading from 'grommet/components/Heading';
 import Table from 'grommet/components/Table';
 import TableRow from 'grommet/components/TableRow';
-import Edit from 'grommet/components/icons/base/Edit';
+
+import AddIcon from 'grommet/components/icons/base/Add';
+import EditIcon from 'grommet/components/icons/base/Edit';
 
 import {
   WILDCAMCLASSROOMS_COMPONENT_MODES as MODES,
@@ -47,10 +49,13 @@ class ClassroomsList extends React.Component {
         <Heading tag="h2">List of Classrooms</Heading>
         
         <Box pad="medium">
-          <Button onClick={() => {
-            Actions.wildcamClassrooms.resetSelectedClassroom();
-            Actions.wildcamClassrooms.setComponentMode(MODES.CREATE_NEW_CLASSROOM);
-          }}>
+          <Button
+            icon={<AddIcon size="small" />}
+            onClick={() => {
+              Actions.wildcamClassrooms.resetSelectedClassroom();
+              Actions.wildcamClassrooms.setComponentMode(MODES.CREATE_NEW_CLASSROOM);
+            }}
+          >
             Create new classroom
           </Button>
         </Box>
@@ -66,13 +71,14 @@ class ClassroomsList extends React.Component {
                 <td>{classroom.name}</td>
                 <td>
                   <Button
+                    icon={<EditIcon size="small" />}
                     onClick={() => {
                       console.log('+++ ');
                       Actions.wildcamClassrooms.setSelectedClassroom(classroom);
                       Actions.wildcamClassrooms.setComponentMode(MODES.VIEW_ONE_CLASSROOM);
                     }}
                   >
-                    <Edit /> Edit
+                    Edit
                   </Button>
                 </td>
               </TableRow>
