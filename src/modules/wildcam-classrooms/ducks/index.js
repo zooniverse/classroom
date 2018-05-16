@@ -124,6 +124,14 @@ const setSelectedClassroom = (state, selectedClassroom) => {
   return { ...state, selectedClassroom };
 };
 
+const resetSelectedClassroom = (state) => {
+  return {
+    ...state,
+    selectedClassroom: null,
+    //TODO: reset selected assignment as well.
+  };
+};
+
 const setToast = (state, message, status) => {
   return {
     ...state,
@@ -246,6 +254,7 @@ const wildcamClassrooms = State('wildcamClassrooms', {
   setClassroomsStatus,
   setClassroomsList,
   setSelectedClassroom,
+  resetSelectedClassroom,
   setToast,
 });
 

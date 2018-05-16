@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
+import Spinning from 'grommet/components/icons/Spinning';
 
 import ClassroomsList from '../components/ClassroomsList';
 import ClassroomForm from '../components/ClassroomForm';
@@ -25,25 +26,45 @@ import {
   WILDCAMCLASSROOMS_MAP_STATE,
 } from '../ducks/index.js';
 
+const MODES = {
+  INIT: 'init',
+  VIEW_ALL_CLASSROOMS: 'view all classrooms',
+  VIEW_ONE_CLASSROOM: 'view one classroom',
+  CREATE_NEW_CLASSROOM: 'create new classroom',
+};
+
 class WildCamClassroom extends React.Component {
   constructor() {
     super();
+    this.state = {
+      mode: MODES.INIT,
+    };
   }
   
   componentDidMount() {
     //Get the list of Classrooms and Assignments.
-    if (this.props.selectedProgram) Actions.wcc_teachers_fetchClassrooms(this.props.selectedProgram);
+    this.initialiseList(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     //Get the list of Classrooms and Assignments.
-    if (nextProps.selectedProgram && this.props.selectedProgram !== nextProps.selectedProgram) {
-      Actions.wcc_teachers_fetchClassrooms(nextProps.selectedProgram);
-    }
+    if (this.props.selectedProgram !== nextProps.selectedProgram) this.initialiseList(nextProps);
+  }
+  
+  initialiseList(props = this.props) {
+    //Sanity check
+    if (!props.selectedProgram) return;
+    
+    Actions.wcc_teachers_fetchClassrooms(props.selectedProgram)
+    .then(() => {
+      Actions.wildcamClassrooms.resetSelectedClassroom();
+      this.setState({ mode: MODES.VIEW_ALL_CLASSROOMS });
+    });
   }
 
   render() {
     const props = this.props;
+    const state = this.state;
 
     //Sanity check
     if (!props.selectedProgram) return null;
@@ -55,18 +76,40 @@ class WildCamClassroom extends React.Component {
       >
         <Box pad="medium">
           Classrooms Status: [{props.classroomsStatus}] <br/>
-          Classrooms Count: [{props.classroomsList && props.classroomsList.length}]
+          Classrooms Count: [{props.classroomsList && props.classroomsList.length}] <br/>
+          Mode: {this.state.mode}
         </Box>
         
-        <ClassroomsList
-          classroomsList={props.classroomsList}
-        />
+        {state.mode === MODES.INIT && (
+          <Box pad="medium">
+            <Spinning />
+          </Box>
+        )}
         
-        <ClassroomForm
-          selectedProgram={props.selectedProgram}
-          classroomsStatus={props.classroomsStatus}
-          selectedClassroom={props.selectedClassroom}
-        />
+        {state.mode === MODES.VIEW_ALL_CLASSROOMS && (
+          <ClassroomsList
+            classroomsList={props.classroomsList}
+          />
+        )}
+        
+        {state.mode === MODES.VIEW_ONE_CLASSROOM && (
+          <ClassroomForm
+            selectedProgram={props.selectedProgram}
+            classroomsStatus={props.classroomsStatus}
+            selectedClassroom={props.selectedClassroom}
+          />
+        )}
+        
+        {state.mode === MODES.CREATE_NEW_CLASSROOM && (
+          <ClassroomForm
+            selectedProgram={props.selectedProgram}
+            classroomsStatus={props.classroomsStatus}
+            selectedClassroom={null}
+          />
+        )}
+        
+        
+        
       </Box>
     );
   }
