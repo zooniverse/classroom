@@ -19,7 +19,7 @@ import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
 import Button from 'grommet/components/Button';
 
-import { config } from '../../../lib/config';
+//import { config } from '../../../lib/config';
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {

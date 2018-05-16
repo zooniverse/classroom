@@ -14,6 +14,7 @@ import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
 
+import ClassroomsList from '../components/ClassroomsList';
 import ClassroomForm from '../components/ClassroomForm';
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
@@ -43,27 +44,23 @@ class WildCamClassroom extends React.Component {
 
   render() {
     const props = this.props;
-    
+
     //Sanity check
     if (!props.selectedProgram) return null;
-    
-    console.log('+++ ', props);
-    
+
     return (
       <Box
         colorIndex="grey-5"
         className="wildcam-classrooms"
       >
-        <Box>
+        <Box pad="medium">
           Classrooms Status: [{props.classroomsStatus}] <br/>
           Classrooms Count: [{props.classroomsList && props.classroomsList.length}]
         </Box>
         
-        <Box>
-          {(props.classroomsList && props.classroomsList.map((item) => {
-            return '???';
-          }))}
-        </Box>
+        <ClassroomsList
+          classroomsList={props.classroomsList}
+        />
         
         <ClassroomForm
           selectedProgram={props.selectedProgram}
