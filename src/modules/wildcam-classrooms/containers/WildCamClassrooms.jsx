@@ -14,6 +14,7 @@ import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
+import Toast from 'grommet/components/Toast';
 
 import ClassroomsList from '../components/ClassroomsList';
 import ClassroomForm from '../components/ClassroomForm';
@@ -77,12 +78,15 @@ class WildCamClassroom extends React.Component {
         colorIndex="grey-5"
         className="wildcam-classrooms"
       >
-        <Box pad="medium">
-          Classrooms Status: [{props.classroomsStatus}] <br/>
-          Classrooms Count: [{props.classroomsList && props.classroomsList.length}] <br/>
-          Mode: {props.componentMode}
-        </Box>
-
+        {props.toast && props.toast.message && (
+          <Toast
+            status={props.toast.status ? props.toast.status : 'unknown'}
+            onClose={() => { Actions.wildcamClassrooms.resetToast() }}
+          >
+            {props.toast.message}
+          </Toast>
+        )}
+        
         {props.componentMode === MODES.VIEW_ALL_CLASSROOMS && (
           <ClassroomsList
             classroomsList={props.classroomsList}
@@ -107,6 +111,23 @@ class WildCamClassroom extends React.Component {
             selectedClassroom={null}
           />
         )}
+        
+        <Box pad="medium">
+          <h4>Debug Panel</h4>
+          <Box>
+            Classrooms Status: [{props.classroomsStatus}] <br/>
+            Classrooms Count: [{props.classroomsList && props.classroomsList.length}] <br/>
+            Mode: {props.componentMode}
+          </Box>
+          <Box>
+            <Button
+              label="Test Toast"
+              onClick={() => {
+                Actions.wildcamClassrooms.setToast({ status: 'ok', message: 'Debug looks good'});
+              }}
+            />
+          </Box>
+        </Box>
 
       </Box>
     );

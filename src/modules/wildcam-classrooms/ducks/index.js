@@ -132,6 +132,10 @@ const setClassroomsList = (state, classroomsList) => {
   return { ...state, classroomsList };
 };
 
+const setSelectedClassroom = (state, selectedClassroom) => {
+  return { ...state, selectedClassroom };
+};
+
 const resetSelectedClassroom = (state) => {
   return {
     ...state,
@@ -140,14 +144,17 @@ const resetSelectedClassroom = (state) => {
   };
 };
 
-const setSelectedClassroom = (state, selectedClassroom) => {
-  return { ...state, selectedClassroom };
-};
-
-const setToast = (state, message, status) => {
+const setToast = (state, toast = { message: null, state: null }) => {
   return {
     ...state,
-    toast: { message, status },
+    toast,
+  };
+};
+
+const resetToast = (state) => {
+  return {
+    ...state,
+    toast: { message: null, status: null },
   };
 };
 
@@ -269,6 +276,7 @@ const wildcamClassrooms = State('wildcamClassrooms', {
   setSelectedClassroom,
   resetSelectedClassroom,
   setToast,
+  resetToast,
 });
 
 export default wildcamClassrooms;
