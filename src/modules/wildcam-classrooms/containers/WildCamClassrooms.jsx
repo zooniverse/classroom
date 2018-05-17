@@ -55,10 +55,11 @@ class WildCamClassroom extends React.Component {
   }
   
   initialiseList(props = this.props) {
-    console.log('=== initialiseList');
-    
     //Sanity check
     if (!props.selectedProgram) return;
+    
+    //Initial mode
+    Actions.wildcamClassrooms.setComponentMode(MODES.VIEW_ALL_CLASSROOMS);
     
     Actions.wcc_teachers_fetchClassrooms(props.selectedProgram)
     .then(() => {
