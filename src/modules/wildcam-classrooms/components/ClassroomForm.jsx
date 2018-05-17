@@ -17,9 +17,11 @@ import Footer from 'grommet/components/Footer';
 import Form from 'grommet/components/Form';
 import FormField from 'grommet/components/FormField';
 import Heading from 'grommet/components/Heading';
+import Label from 'grommet/components/Label';
 import TextInput from 'grommet/components/TextInput';
 
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
+import SpinningIcon from 'grommet/components/icons/Spinning';
 
 //import { config } from '../../../lib/config';
 
@@ -27,6 +29,20 @@ const MODES = {
   CREATE: 'create',
   EDIT: 'edit',
 }
+
+const TEXT = {
+  BACK: 'Back',
+  SUBMIT: 'Submit',
+  WORKING: 'Working...',
+  CREATE_NEW_CLASSROOM: 'Create new classroom',
+  EDIT_CLASSROOM: 'Edit classroom',
+  CLASSROOM_FORM: {
+    NAME: 'Classroom name',
+    SUBJECT: 'Classroom subject',
+    SCHOOL: 'School',
+    DESCRIPTION: 'Description',
+  }
+};
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {
@@ -68,7 +84,6 @@ class ClassroomForm extends React.Component {
           ? selectedClassroom[key]
           : originalForm[key];
       });
-      console.log('+++ ', updatedForm);
       this.setState({ form: updatedForm });
     }
   }
@@ -144,7 +159,7 @@ class ClassroomForm extends React.Component {
           if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
             return this.render_readyState();
           } else if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING) {
-            return this.render_sendingState();
+            return this.render_workingState();
           }
         })()}
       </Box>
@@ -158,35 +173,25 @@ class ClassroomForm extends React.Component {
     const state = this.state;
     
     return (
-      
       <Form
+        className="form"
         onSubmit={this.submitForm.bind(this)}
       >
         <Heading tag="h2">
           {(()=>{
             switch (props.mode) {
               case MODES.CREATE:
-                return 'Create new classroom';
+                return TEXT.CREATE_NEW_CLASSROOM;
               case MODES.EDIT:
-                return 'Edit classroom';
+                return TEXT.EDIT_CLASSROOM
               default:
                 return '???';
             }
           })()}
         </Heading>
-        
-        <Box>
-          <Button
-            icon={<LinkPreviousIcon size="small" />}
-            onClick={() => {
-              Actions.wildcamClassrooms.resetSelectedClassroom();
-              Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
-            }}
-          />
-        </Box>
 
         <fieldset>
-          <FormField htmlFor="name" label="Classroom Name">
+          <FormField htmlFor="name" label={TEXT.CLASSROOM_FORM.NAME}>
             <TextInput
               id="name"
               required={true}
@@ -197,7 +202,7 @@ class ClassroomForm extends React.Component {
         </fieldset>
 
         <fieldset>
-          <FormField htmlFor="subject" label="Classroom Subject">
+          <FormField htmlFor="subject" label={TEXT.CLASSROOM_FORM.SUBJECT}>
             <TextInput
               id="subject"
               value={this.state.form.subject}
@@ -207,7 +212,7 @@ class ClassroomForm extends React.Component {
         </fieldset>
 
         <fieldset>
-          <FormField htmlFor="school" label="School Name">
+          <FormField htmlFor="school" label={TEXT.CLASSROOM_FORM.SCHOOL}>
             <TextInput
               id="school"
               value={this.state.form.school}
@@ -217,7 +222,7 @@ class ClassroomForm extends React.Component {
         </fieldset>
 
         <fieldset>
-          <FormField htmlFor="school" label="Description">
+          <FormField htmlFor="school" label={TEXT.CLASSROOM_FORM.DESCRIPTION}>
             <TextInput
               id="description"
               value={this.state.form.description}
@@ -227,16 +232,35 @@ class ClassroomForm extends React.Component {
         </fieldset>
 
         <Footer>
-          <Button className="button--primary" type="submit" label="Submit..." primary={true} />
+          <Button
+            icon={<LinkPreviousIcon size="small" />}
+            label={TEXT.BACK}
+            onClick={() => {
+              Actions.wildcamClassrooms.resetSelectedClassroom();
+              Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
+            }}
+          />
+          <Button
+            label={TEXT.SUBMIT}
+            primary={true}
+            type="submit"
+          />
         </Footer>
       </Form>
     );
   }
   
-  render_sendingState() {
+  render_workingState() {
     return (
-      <Box>
-        Sending...
+      <Box
+        align="center"
+        alignContent="center"
+        className="status-box"
+        direction="column"
+        pad="medium"
+      >
+        <SpinningIcon />
+        <Label>{TEXT.WORKING}</Label>
       </Box>
     );
   }

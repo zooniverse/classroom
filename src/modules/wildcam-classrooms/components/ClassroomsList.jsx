@@ -13,12 +13,14 @@ import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
+import Label from 'grommet/components/Label';
 import Heading from 'grommet/components/Heading';
 import Table from 'grommet/components/Table';
 import TableRow from 'grommet/components/TableRow';
 
 import AddIcon from 'grommet/components/icons/base/Add';
 import EditIcon from 'grommet/components/icons/base/Edit';
+import SpinningIcon from 'grommet/components/icons/Spinning';
 
 import {
   WILDCAMCLASSROOMS_COMPONENT_MODES as MODES,
@@ -26,6 +28,12 @@ import {
   WILDCAMCLASSROOMS_INITIAL_STATE,
   WILDCAMCLASSROOMS_PROPTYPES,
 } from '../ducks/index.js';
+  
+const TEXT = {
+  WORKING: 'Working...',
+  EDIT: 'Edit',
+  CREATE_NEW_CLASSROOM: 'Create new classroom',
+};
 
 class ClassroomsList extends React.Component {
   constructor() {
@@ -48,16 +56,31 @@ class ClassroomsList extends React.Component {
       >
         <Heading tag="h2">List of Classrooms</Heading>
         
+        {(() => {
+          if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
+            return this.render_readyState();
+          } else if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.FETCHING || props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING) {
+            return this.render_workingState();
+          }
+        })()}
+      </Box>
+    );
+  }
+  
+  render_readyState() {
+    const props = this.props;
+    
+    return (
+      <Box>
         <Box pad="medium">
           <Button
             icon={<AddIcon size="small" />}
+            label={TEXT.CREATE_NEW_CLASSROOM}
             onClick={() => {
               Actions.wildcamClassrooms.resetSelectedClassroom();
               Actions.wildcamClassrooms.setComponentMode(MODES.CREATE_NEW_CLASSROOM);
             }}
-          >
-            Create new classroom
-          </Button>
+          />
         </Box>
         
         <Table className="table">
@@ -72,14 +95,12 @@ class ClassroomsList extends React.Component {
                 <td>
                   <Button
                     icon={<EditIcon size="small" />}
+                    label="Edit"
                     onClick={() => {
-                      console.log('+++ ');
                       Actions.wildcamClassrooms.setSelectedClassroom(classroom);
                       Actions.wildcamClassrooms.setComponentMode(MODES.VIEW_ONE_CLASSROOM);
                     }}
-                  >
-                    Edit
-                  </Button>
+                  />
                 </td>
               </TableRow>
             );
@@ -89,14 +110,33 @@ class ClassroomsList extends React.Component {
       </Box>
     );
   }
+  
+  render_workingState() {
+    return (
+      <Box
+        align="center"
+        alignContent="center"
+        className="status-box"
+        direction="column"
+        pad="medium"
+      >
+        <SpinningIcon />
+        <Label>{TEXT.WORKING}</Label>
+      </Box>
+    );
+  }
+
+  
 };
 
 ClassroomsList.defaultProps = {
   classroomsList: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsList,
+  classroomsStatus: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsStatus,
 };
 
 ClassroomsList.propTypes = {
   classroomsList: WILDCAMCLASSROOMS_PROPTYPES.classroomsList,
+  classroomsStatus: WILDCAMCLASSROOMS_PROPTYPES.classroomsStatus,
 };
 
 export default ClassroomsList;

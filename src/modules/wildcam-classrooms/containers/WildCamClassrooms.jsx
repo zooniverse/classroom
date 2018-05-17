@@ -14,7 +14,6 @@ import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
-import Spinning from 'grommet/components/icons/Spinning';
 
 import ClassroomsList from '../components/ClassroomsList';
 import ClassroomForm from '../components/ClassroomForm';
@@ -33,6 +32,10 @@ const MODES = {
   VIEW_ALL_CLASSROOMS: 'view all classrooms',
   VIEW_ONE_CLASSROOM: 'view one classroom',
   CREATE_NEW_CLASSROOM: 'create new classroom',
+};
+
+const TEXT = {
+  
 };
 
 class WildCamClassroom extends React.Component {
@@ -79,19 +82,14 @@ class WildCamClassroom extends React.Component {
           Classrooms Count: [{props.classroomsList && props.classroomsList.length}] <br/>
           Mode: {props.componentMode}
         </Box>
-        
-        {props.componentMode === MODES.INIT && (
-          <Box pad="medium">
-            <Spinning />
-          </Box>
-        )}
-        
+
         {props.componentMode === MODES.VIEW_ALL_CLASSROOMS && (
           <ClassroomsList
             classroomsList={props.classroomsList}
+            classroomsStatus={props.classroomsStatus}
           />
         )}
-        
+
         {props.componentMode === MODES.VIEW_ONE_CLASSROOM && (
           <ClassroomForm
             mode={ClassroomForm.MODES.EDIT}
