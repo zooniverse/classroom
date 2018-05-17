@@ -120,16 +120,10 @@ class ClassroomForm extends React.Component {
     
     if (props.mode === MODES.CREATE) {
       return Actions.wcc_teachers_createClassroom({
-        attributes: this.state.form,
-        relationships: {
-          program: {
-            data: {
-              id: String(props.selectedProgram.id),
-              type: "programs"
-            }
-          }
-        }
-      }).then(() => {
+        selectedProgram: props.selectedProgram,
+        classroomData: this.state.form,
+      })
+      .then(() => {
         //Message
         Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_CREATED, status: 'ok' });
         
@@ -144,19 +138,15 @@ class ClassroomForm extends React.Component {
         //Error messaging done in Actions.wcc_teachers_createClassroom()
       });
     } else if (props.mode === MODES.EDIT) {
-      console.log('+++ state.form: ', this.state.form);
       return Actions.wcc_teachers_editClassroom({
         selectedClassroom: props.selectedClassroom,
         classroomData: this.state.form,
       }).then((what) => {
-        console.log('+++ what ', what);
-        
         //Message
         Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_EDITED, status: 'ok' });
         
         //Refresh
-        //TODO
-        
+        //TODO        
       }).catch((err) => {
         //Error messaging done in Actions.wcc_teachers_createClassroom()
       });

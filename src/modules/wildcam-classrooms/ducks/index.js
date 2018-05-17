@@ -243,13 +243,26 @@ Effect('wcc_teachers_fetchClassrooms', (program) => {
         }
       }
  */
-Effect('wcc_teachers_createClassroom', (classroomData) => {
+Effect('wcc_teachers_createClassroom', ({selectedProgram, classroomData}) => {
   //Sanity check
-  if (!classroomData) return;
-  
+  if (!selectedProgram || !classroomData) return;
   Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
+  
+  const requestBody = {
+    data: {
+      attributes: classroomData,
+      relationships: {
+        program: {
+          data: {
+            id: String(selectedProgram.id),
+            type: "programs"
+          }
+        }
+      }
+    }
+  };
 
-  return post('/teachers/classrooms/', { data: classroomData })
+  return post('/teachers/classrooms/', requestBody)
   .then((response) => {
     if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createClassrooms): No response'; }
     if (response.ok &&
