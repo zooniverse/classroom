@@ -188,7 +188,9 @@ const resetToast = (state) => {
     logged-in user.
  */
 Effect('wcc_teachers_fetchClassrooms', (program) => {
+  //Sanity check
   if (!program) return;
+  
   const program_id = program.id;
   
   Actions.wildcamClassrooms.resetClassrooms();
@@ -228,7 +230,7 @@ Effect('wcc_teachers_fetchClassrooms', (program) => {
             name: 'Example 101',
             subject: 'Exampleology',
             school: 'University of Example',
-            description: 'An example classroom',
+            description: 'An example classroom'
           },
           relationships: {
             program: {
@@ -242,6 +244,9 @@ Effect('wcc_teachers_fetchClassrooms', (program) => {
       }
  */
 Effect('wcc_teachers_createClassroom', (classroomData) => {
+  //Sanity check
+  if (!classroomData) return;
+  
   Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
 
   return post('/teachers/classrooms/', { data: classroomData })
@@ -260,12 +265,50 @@ Effect('wcc_teachers_createClassroom', (classroomData) => {
   });
 });
 
-Effect('wcc_teachers_editClassroom', (classroomData) => {
+/*  Edits a classroom.
+
+    API notes:
+      POST /teachers/classrooms/12345 accepts the following payload structure:
+      {
+        "data": {
+          "attributes": {
+            name: 'Example 101',
+            subject: 'Exampleology',
+            school: 'University of Example',
+            description: 'An example classroom'
+          }
+        }
+      }
+ */
+Effect('wcc_teachers_editClassroom', ({ selectedClassroom, classroomData }) => {
+  //Sanity check
+  if (!selectedClassroom || !classroomData) return;
+  
   Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
+  
+  return put(`/teachers/classrooms/${selectedClassroom.id}`, classroomData)  //NOTE: the put() function requires a different argument format than post().
+  .then((response) => {
+    if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_editClassrooms): No response'; }
+    if (response.ok) {
+      Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
+      
+      //TODO: Update selectedClassroom
+      return null;
+    }
+    throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_editClassrooms): Invalid response';
+  })
+  .catch((err) => {
+    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    showErrorMessage(err);
+  });
 });
 
+/*  Deletes a classroom.
+ */
 Effect('wcc_teachers_deleteClassroom', (classroomData) => {
   Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
+  
+  
 });
 
 /*

@@ -118,13 +118,13 @@ class ClassroomForm extends React.Component {
     if (!props.selectedProgram) return;
     if (props.mode === MODES.EDIT && !props.selectedClassroom) return;
     
-    if (this.props.mode === MODES.CREATE) {
+    if (props.mode === MODES.CREATE) {
       return Actions.wcc_teachers_createClassroom({
         attributes: this.state.form,
         relationships: {
           program: {
             data: {
-              id: String(this.props.selectedProgram.id),
+              id: String(props.selectedProgram.id),
               type: "programs"
             }
           }
@@ -140,6 +140,23 @@ class ClassroomForm extends React.Component {
           Actions.wildcamClassrooms.resetSelectedClassroom();
           Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
         });
+      }).catch((err) => {
+        //Error messaging done in Actions.wcc_teachers_createClassroom()
+      });
+    } else if (props.mode === MODES.EDIT) {
+      console.log('+++ state.form: ', this.state.form);
+      return Actions.wcc_teachers_editClassroom({
+        selectedClassroom: props.selectedClassroom,
+        classroomData: this.state.form,
+      }).then((what) => {
+        console.log('+++ what ', what);
+        
+        //Message
+        Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_EDITED, status: 'ok' });
+        
+        //Refresh
+        //TODO
+        
       }).catch((err) => {
         //Error messaging done in Actions.wcc_teachers_createClassroom()
       });
