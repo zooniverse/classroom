@@ -41,7 +41,14 @@ const TEXT = {
     SUBJECT: 'Classroom subject',
     SCHOOL: 'School',
     DESCRIPTION: 'Description',
-  }
+  },
+  ERROR: {
+    GENERAL: 'Something went wrong',
+  },
+  SUCCESS: {
+    CLASSROOM_CREATED: 'Classroom created',
+    CLASSROOM_EDITED: 'Changes saved',
+  },
 };
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
@@ -102,10 +109,14 @@ class ClassroomForm extends React.Component {
   }
   
   submitForm(e) {
+    const props = this.props;
+    
+    //Prevent standard browser actions
     e.preventDefault();
     
     //Sanity check
-    if (!this.props.selectedProgram) return;
+    if (!props.selectedProgram) return;
+    if (props.mode === MODES.EDIT && !props.selectedClassroom) return;
     
     if (this.props.mode === MODES.CREATE) {
       return Actions.wcc_teachers_createClassroom({
@@ -118,6 +129,19 @@ class ClassroomForm extends React.Component {
             }
           }
         }
+      }).then(() => {
+        //Message
+        Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_CREATED, status: 'ok' });
+        
+        //Refresh
+        //Note: this will set the data state to 'sending'.
+        Actions.wcc_teachers_fetchClassrooms(props.selectedProgram).then(() => {
+          //Transition to: View All Classrooms
+          Actions.wildcamClassrooms.resetSelectedClassroom();
+          Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
+        });
+      }).catch((err) => {
+        //Error messaging done in Actions.wcc_teachers_createClassroom()
       });
     }
   }
@@ -158,7 +182,7 @@ class ClassroomForm extends React.Component {
         {(() => {
           if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
             return this.render_readyState();
-          } else if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING) {
+          } else if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING || props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.FETCHING) {
             return this.render_workingState();
           }
         })()}
@@ -236,6 +260,7 @@ class ClassroomForm extends React.Component {
             icon={<LinkPreviousIcon size="small" />}
             label={TEXT.BACK}
             onClick={() => {
+              //Transition to: View All Classrooms
               Actions.wildcamClassrooms.resetSelectedClassroom();
               Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
             }}

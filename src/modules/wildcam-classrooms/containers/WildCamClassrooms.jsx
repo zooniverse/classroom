@@ -62,6 +62,7 @@ class WildCamClassroom extends React.Component {
     
     Actions.wcc_teachers_fetchClassrooms(props.selectedProgram)
     .then(() => {
+      //Transition to: View All Classrooms
       Actions.wildcamClassrooms.resetSelectedClassroom();
       Actions.wildcamClassrooms.setComponentMode(MODES.VIEW_ALL_CLASSROOMS);
     });
@@ -91,6 +92,7 @@ class WildCamClassroom extends React.Component {
           <ClassroomsList
             classroomsList={props.classroomsList}
             classroomsStatus={props.classroomsStatus}
+            selectedClassroom={props.selectedClassroom}
           />
         )}
 

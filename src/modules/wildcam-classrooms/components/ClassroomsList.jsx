@@ -77,6 +77,7 @@ class ClassroomsList extends React.Component {
             icon={<AddIcon size="small" />}
             label={TEXT.CREATE_NEW_CLASSROOM}
             onClick={() => {
+              //Transition to: Create New Classroom
               Actions.wildcamClassrooms.resetSelectedClassroom();
               Actions.wildcamClassrooms.setComponentMode(MODES.CREATE_NEW_CLASSROOM);
             }}
@@ -97,6 +98,7 @@ class ClassroomsList extends React.Component {
                     icon={<EditIcon size="small" />}
                     label="Edit"
                     onClick={() => {
+                      //Transition to: View One Classroom
                       Actions.wildcamClassrooms.setSelectedClassroom(classroom);
                       Actions.wildcamClassrooms.setComponentMode(MODES.VIEW_ONE_CLASSROOM);
                     }}

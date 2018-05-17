@@ -34,6 +34,12 @@ const WILDCAMCLASSROOMS_DATA_STATUS = {
   ERROR: 'error',  //Something effed up.
 };
 
+const TEXT = {
+  ERROR: {
+    GENERAL: 'Something went wrong',
+  }
+};
+
 /*
 --------------------------------------------------------------------------------
  */
@@ -121,7 +127,17 @@ const setComponentMode = (state, componentMode) => {
 };
 
 const resetClassrooms = (state) => {
-  return { ...WILDCAMCLASSROOMS_INITIAL_STATE };
+  return {
+    ...state,
+    
+    classroomsStatus: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsStatus,
+    classroomsStatusDetails: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsDetails,
+    
+    classroomsList: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsList,
+    selectedClassroom: WILDCAMCLASSROOMS_INITIAL_STATE.selectedClassroom,
+    
+    //TODO: reset assignments and selected assignments as well.
+  };
 };
 
 const setClassroomsStatus = (state, classroomsStatus, classroomsStatusDetails = null) => {
@@ -257,7 +273,8 @@ Effect('wcc_teachers_deleteClassroom', (classroomData) => {
  */
 
 function showErrorMessage(err) {
-  Actions.notification.setNotification({ status: 'critical', message: 'Something went wrong.' });
+  //Critical Error
+  Actions.notification.setNotification({ status: 'critical', message: TEXT.ERROR.GENERAL });
   console.error(err);
 }
 
