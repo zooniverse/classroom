@@ -25,7 +25,7 @@ import SpinningIcon from 'grommet/components/icons/Spinning';
 
 //import { config } from '../../../lib/config';
 
-const MODES = {
+const VIEWS = {
   CREATE: 'create',
   EDIT: 'edit',
 }
@@ -81,9 +81,13 @@ class ClassroomForm extends React.Component {
   /*  Initialises the classroom form.
    */
   initialiseForm(selectedClassroom) {
-    if (this.props.mode === MODES.CREATE) {
+    console.log('+++ initialiseForm: ', this.props.view);
+    
+    if (this.props.view === VIEWS.CREATE) {
       this.setState({ form: INITIAL_FORM_DATA });
     } else {
+      console.log('+++ initialiseForm - selectedClassroom: ', selectedClassroom);
+      
       const originalForm = INITIAL_FORM_DATA;
       const updatedForm = {};
       Object.keys(originalForm).map((key) => {
@@ -116,9 +120,9 @@ class ClassroomForm extends React.Component {
     
     //Sanity check
     if (!props.selectedProgram) return;
-    if (props.mode === MODES.EDIT && !props.selectedClassroom) return;
+    if (props.view === VIEWS.EDIT && !props.selectedClassroom) return;
     
-    if (props.mode === MODES.CREATE) {
+    if (props.view === VIEWS.CREATE) {
       return Actions.wcc_teachers_createClassroom({
         selectedProgram: props.selectedProgram,
         classroomData: this.state.form,
@@ -137,7 +141,7 @@ class ClassroomForm extends React.Component {
       }).catch((err) => {
         //Error messaging done in Actions.wcc_teachers_createClassroom()
       });
-    } else if (props.mode === MODES.EDIT) {
+    } else if (props.view === VIEWS.EDIT) {
       return Actions.wcc_teachers_editClassroom({
         selectedClassroom: props.selectedClassroom,
         classroomData: this.state.form,
@@ -214,10 +218,10 @@ class ClassroomForm extends React.Component {
       >
         <Heading tag="h2">
           {(()=>{
-            switch (props.mode) {
-              case MODES.CREATE:
+            switch (props.view) {
+              case VIEWS.CREATE:
                 return TEXT.CREATE_NEW_CLASSROOM;
-              case MODES.EDIT:
+              case VIEWS.EDIT:
                 return TEXT.EDIT_CLASSROOM
               default:
                 return '???';
@@ -302,9 +306,9 @@ class ClassroomForm extends React.Component {
   }
 };
 
-ClassroomForm.MODES = MODES;
+ClassroomForm.VIEWS = VIEWS;
 ClassroomForm.defaultProps = {
-  mode: MODES.CREATE,
+  view: VIEWS.CREATE,
   // ----------------
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,
   // ----------------
@@ -314,7 +318,7 @@ ClassroomForm.defaultProps = {
 };
 
 ClassroomForm.propTypes = {
-  mode: PropTypes.string,
+  view: PropTypes.string,
   // ----------------
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
   // ----------------
