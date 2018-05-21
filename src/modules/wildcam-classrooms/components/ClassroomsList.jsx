@@ -72,8 +72,12 @@ class ClassroomsList extends React.Component {
     
     return (
       <Box>
-        <Box pad="medium">
+        <Box
+          className="actions-panel"
+          pad="medium"
+        >
           <Button
+            className="button"
             icon={<AddIcon size="small" />}
             label={TEXT.CREATE_NEW_CLASSROOM}
             onClick={() => {
@@ -93,8 +97,9 @@ class ClassroomsList extends React.Component {
                 key={`classrooms-list_${index}`}
               >
                 <td>{classroom.name}</td>
-                <td>
+                <td className="actions-panel">
                   <Button
+                    className="button"
                     icon={<EditIcon size="small" />}
                     label="Edit"
                     onClick={() => {

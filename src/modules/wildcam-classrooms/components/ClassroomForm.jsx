@@ -21,6 +21,8 @@ import Label from 'grommet/components/Label';
 import TextInput from 'grommet/components/TextInput';
 
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
+import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
+import CloseIcon from 'grommet/components/icons/base/Close';
 import SpinningIcon from 'grommet/components/icons/Spinning';
 
 //import { config } from '../../../lib/config';
@@ -33,6 +35,7 @@ const VIEWS = {
 const TEXT = {
   BACK: 'Back',
   SUBMIT: 'Submit',
+  DELETE: 'Delete',
   WORKING: 'Working...',
   CREATE_NEW_CLASSROOM: 'Create new classroom',
   EDIT_CLASSROOM: 'Edit classroom',
@@ -48,6 +51,7 @@ const TEXT = {
   SUCCESS: {
     CLASSROOM_CREATED: 'Classroom created',
     CLASSROOM_EDITED: 'Changes saved',
+    CLASSROOM_DELETED: 'Classroom deleted',
   },
 };
 
@@ -81,13 +85,9 @@ class ClassroomForm extends React.Component {
   /*  Initialises the classroom form.
    */
   initialiseForm(selectedClassroom) {
-    console.log('+++ initialiseForm: ', this.props.view);
-    
     if (this.props.view === VIEWS.CREATE) {
       this.setState({ form: INITIAL_FORM_DATA });
     } else {
-      console.log('+++ initialiseForm - selectedClassroom: ', selectedClassroom);
-      
       const originalForm = INITIAL_FORM_DATA;
       const updatedForm = {};
       Object.keys(originalForm).map((key) => {
@@ -217,7 +217,7 @@ class ClassroomForm extends React.Component {
         onSubmit={this.submitForm.bind(this)}
       >
         <Heading tag="h2">
-          {(()=>{
+          {(() => {
             switch (props.view) {
               case VIEWS.CREATE:
                 return TEXT.CREATE_NEW_CLASSROOM;
@@ -270,8 +270,12 @@ class ClassroomForm extends React.Component {
           </FormField>
         </fieldset>
 
-        <Footer>
+        <Footer
+          className="actions-panel"
+          pad="medium"
+        >
           <Button
+            className="button"
             icon={<LinkPreviousIcon size="small" />}
             label={TEXT.BACK}
             onClick={() => {
@@ -281,10 +285,38 @@ class ClassroomForm extends React.Component {
             }}
           />
           <Button
+            className="button"
+            icon={<LinkNextIcon size="small" />}
             label={TEXT.SUBMIT}
             primary={true}
             type="submit"
           />
+          {(props.view !== VIEWS.EDIT && props.selectedClassroom) ? null
+            : (
+              <Button
+                className="button"
+                icon={<CloseIcon size="small" />}
+                label={TEXT.DELETE}
+                onClick={() => {
+                  return Actions.wcc_teachers_deleteClassroom(props.selectedClassroom)
+                  .then(() => {
+                    //Message
+                    Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_DELETED, status: 'ok' });
+
+                    //Refresh
+                    //Note: this will set the data state to 'sending'.
+                    Actions.wcc_teachers_fetchClassrooms(props.selectedProgram).then(() => {
+                      //Transition to: View All Classrooms
+                      Actions.wildcamClassrooms.resetSelectedClassroom();
+                      Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
+                    });
+                  }).catch((err) => {
+                    //Error messaging done in Actions.wcc_teachers_deleteClassroom()
+                  });
+                }}
+              />
+            )
+          }
         </Footer>
       </Form>
     );

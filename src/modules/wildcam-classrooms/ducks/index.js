@@ -321,9 +321,25 @@ Effect('wcc_teachers_editClassroom', ({ selectedClassroom, classroomData }) => {
 
 /*  Deletes a classroom.
  */
-Effect('wcc_teachers_deleteClassroom', (classroomData) => {
+Effect('wcc_teachers_deleteClassroom', (selectedClassroom) => {
+  //Sanity check
+  if (!selectedClassroom) return;
+  
   Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
   
+  return httpDelete(`/teachers/classrooms/${selectedClassroom.id}`)
+  .then((response) => {
+    if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_deleteClassroom): No response'; }
+    if (response.ok) {
+      return Actions.classrooms.setStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
+    }
+    throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_deleteClassroom): Invalid response';
+  })
+  .catch((err) => {
+    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    showErrorMessage(err);
+    throw(err);
+  });
   
 });
 

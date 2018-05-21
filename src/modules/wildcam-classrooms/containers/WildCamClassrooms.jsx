@@ -117,14 +117,6 @@ class WildCamClassroom extends React.Component {
             Classrooms Count: [{props.classroomsList && props.classroomsList.length}] <br/>
             Component Mode: {props.componentMode}
           </Box>
-          <Box>
-            <Button
-              label="Test Toast"
-              onClick={() => {
-                Actions.wildcamClassrooms.setToast({ status: 'ok', message: 'Debug looks good'});
-              }}
-            />
-          </Box>
         </Box>
 
       </Box>
