@@ -100,6 +100,7 @@ class WildCamClassroom extends React.Component {
         {props.componentMode === MODES.VIEW_ONE_CLASSROOM && (
           <ClassroomForm
             mode={ClassroomForm.MODES.EDIT}
+            componentMode={props.componentMode}
             selectedProgram={props.selectedProgram}
             classroomsStatus={props.classroomsStatus}
             selectedClassroom={props.selectedClassroom}
@@ -109,6 +110,7 @@ class WildCamClassroom extends React.Component {
         {props.componentMode === MODES.CREATE_NEW_CLASSROOM && (
           <ClassroomForm
             mode={ClassroomForm.MODES.CREATE}
+            componentMode={props.componentMode}
             selectedProgram={props.selectedProgram}
             classroomsStatus={props.classroomsStatus}
             selectedClassroom={null}

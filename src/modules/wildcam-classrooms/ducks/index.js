@@ -216,6 +216,7 @@ Effect('wcc_teachers_fetchClassrooms', (program) => {
   .catch((err) => {
     setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
     showErrorMessage(err);
+    throw(err);
   });
 });
 
@@ -275,6 +276,7 @@ Effect('wcc_teachers_createClassroom', ({selectedProgram, classroomData}) => {
   .catch((err) => {
     setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
     showErrorMessage(err);
+    throw(err);
   });
 });
 
@@ -313,6 +315,7 @@ Effect('wcc_teachers_editClassroom', ({ selectedClassroom, classroomData }) => {
   .catch((err) => {
     setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
     showErrorMessage(err);
+    throw(err);
   });
 });
 
@@ -324,6 +327,37 @@ Effect('wcc_teachers_deleteClassroom', (classroomData) => {
   
 });
 
+/*  Refreshes the current view by fetching the latest data fromt he server..
+    Called when, e.g. a Classroom is edited, to sync local data with the
+    updated server data.
+ */
+Effect('wcc_teachers_refreshView', ({ program, componentMode, selectedClassroom }) => {
+  //Sanity check
+  if (!program) return;
+  
+  //Save the current view, so we can retrieve it for after the refresh fetch is complete.
+  const saved_selectedClassroom_id = (selectedClassroom) ? selectedClassroom.id : null;
+  
+  //Fetch the latest data...
+  Actions.wcc_teachers_fetchClassrooms(program)
+  .then((classrooms) => {
+    //...then restore the user's previous view.
+    const retrieved_selectedClassroom = (saved_selectedClassroom_id && classrooms)
+      ? classrooms.find((classroom) => { return classroom.id === saved_selectedClassroom_id })
+      : null;
+    
+    Actions.wildcamClassrooms.setComponentMode(componentMode);
+    Actions.wildcamClassrooms.setSelectedClassroom(retrieved_selectedClassroom);
+    //TODO: setSelectedAssignment();
+    
+    return null;
+  })
+  .catch((err) => {
+    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    showErrorMessage(err);
+    throw(err);
+  });
+});
 /*
 --------------------------------------------------------------------------------
  */

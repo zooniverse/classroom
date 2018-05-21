@@ -87,7 +87,7 @@ class ClassroomForm extends React.Component {
       const originalForm = INITIAL_FORM_DATA;
       const updatedForm = {};
       Object.keys(originalForm).map((key) => {
-        updatedForm[key] = (selectedClassroom[key])
+        updatedForm[key] = (selectedClassroom && selectedClassroom[key])
           ? selectedClassroom[key]
           : originalForm[key];
       });
@@ -146,7 +146,11 @@ class ClassroomForm extends React.Component {
         Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_EDITED, status: 'ok' });
         
         //Refresh
-        //TODO        
+        return Actions.wcc_teachers_refreshView({
+          program: props.selectedProgram,
+          componentMode: props.componentMode,
+          selectedClassroom: props.selectedClassroom,
+        });
       }).catch((err) => {
         //Error messaging done in Actions.wcc_teachers_createClassroom()
       });
@@ -304,6 +308,7 @@ ClassroomForm.defaultProps = {
   // ----------------
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,
   // ----------------
+  componentMode: WILDCAMCLASSROOMS_INITIAL_STATE.componentMode,
   classroomsStatus: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsStatus,
   selectedClassroom: WILDCAMCLASSROOMS_INITIAL_STATE.selectedClassroom,
 };
@@ -313,6 +318,7 @@ ClassroomForm.propTypes = {
   // ----------------
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
   // ----------------
+  componentMode: WILDCAMCLASSROOMS_PROPTYPES.componentMode,
   classroomsStatus: WILDCAMCLASSROOMS_PROPTYPES.classroomsStatus,
   selectedClassroom: WILDCAMCLASSROOMS_PROPTYPES.selectedClassroom,
 };
