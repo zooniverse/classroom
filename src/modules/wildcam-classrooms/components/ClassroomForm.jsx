@@ -291,7 +291,7 @@ class ClassroomForm extends React.Component {
             primary={true}
             type="submit"
           />
-          {(props.view !== VIEWS.EDIT && props.selectedClassroom) ? null
+          {(props.view !== VIEWS.EDIT || !props.selectedClassroom) ? null
             : (
               <Button
                 className="button"

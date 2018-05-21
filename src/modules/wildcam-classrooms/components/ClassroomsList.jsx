@@ -20,6 +20,7 @@ import TableRow from 'grommet/components/TableRow';
 
 import AddIcon from 'grommet/components/icons/base/Add';
 import EditIcon from 'grommet/components/icons/base/Edit';
+import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 import SpinningIcon from 'grommet/components/icons/Spinning';
 
 import {
@@ -31,7 +32,7 @@ import {
   
 const TEXT = {
   WORKING: 'Working...',
-  EDIT: 'Edit',
+  VIEW: 'View',
   CREATE_NEW_CLASSROOM: 'Create new classroom',
 };
 
@@ -72,8 +73,45 @@ class ClassroomsList extends React.Component {
     
     return (
       <Box>
+        <Table className="table">
+          <tbody>
+          {props.classroomsList.map((classroom, index) => {
+            return (
+              <TableRow
+                className="item"
+                key={`classrooms-list_${index}`}
+              >
+                <td>
+                  <Heading tag="h3">{classroom.name}</Heading>
+                </td>
+                <td>
+                  <Box
+                    className="actions-panel"
+                    direction="row"
+                    justify="end"
+                  >
+                    <Button
+                      className="button"
+                      icon={<LinkNextIcon size="small" />}
+                      label={TEXT.VIEW}
+                      onClick={() => {
+                        //Transition to: View One Classroom
+                        Actions.wildcamClassrooms.setSelectedClassroom(classroom);
+                        Actions.wildcamClassrooms.setComponentMode(MODES.VIEW_ONE_CLASSROOM);
+                      }}
+                    />
+                  </Box>
+                </td>
+              </TableRow>
+            );
+          })}
+          </tbody>
+        </Table>
+        
         <Box
           className="actions-panel"
+          direction="row"
+          justify="end"
           pad="medium"
         >
           <Button
@@ -87,33 +125,6 @@ class ClassroomsList extends React.Component {
             }}
           />
         </Box>
-        
-        <Table className="table">
-          <tbody>
-          {props.classroomsList.map((classroom, index) => {
-            return (
-              <TableRow
-                className="item"
-                key={`classrooms-list_${index}`}
-              >
-                <td>{classroom.name}</td>
-                <td className="actions-panel">
-                  <Button
-                    className="button"
-                    icon={<EditIcon size="small" />}
-                    label="Edit"
-                    onClick={() => {
-                      //Transition to: View One Classroom
-                      Actions.wildcamClassrooms.setSelectedClassroom(classroom);
-                      Actions.wildcamClassrooms.setComponentMode(MODES.VIEW_ONE_CLASSROOM);
-                    }}
-                  />
-                </td>
-              </TableRow>
-            );
-          })}
-          </tbody>
-        </Table>
       </Box>
     );
   }
