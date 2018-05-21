@@ -21,19 +21,12 @@ import ClassroomForm from '../components/ClassroomForm';
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {
-  WILDCAMCLASSROOMS_COMPONENT_MODE as MODE,
+  WILDCAMCLASSROOMS_COMPONENT_MODES as MODES,
   WILDCAMCLASSROOMS_DATA_STATUS,
   WILDCAMCLASSROOMS_INITIAL_STATE,
   WILDCAMCLASSROOMS_PROPTYPES,
   WILDCAMCLASSROOMS_MAP_STATE,
 } from '../ducks/index.js';
-
-const MODES = {
-  INIT: 'init',
-  VIEW_ALL_CLASSROOMS: 'view all classrooms',
-  VIEW_ONE_CLASSROOM: 'view one classroom',
-  CREATE_NEW_CLASSROOM: 'create new classroom',
-};
 
 const TEXT = {
   

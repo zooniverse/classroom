@@ -127,8 +127,6 @@ class ClassroomsList extends React.Component {
       </Box>
     );
   }
-
-  
 };
 
 ClassroomsList.defaultProps = {
