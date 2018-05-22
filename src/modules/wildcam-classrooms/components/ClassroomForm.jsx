@@ -100,27 +100,24 @@ class ClassroomForm extends React.Component {
     this.initialise(nextProps);
   }
   
-  //Initialise:
-  //Fetch the selected classroom data.
+  /*  //Initialise:
+      //Fetch the selected classroom data.
+      
+      Based on the route/URL, we'll either create a new classroom or edit an existing one.
+        .../classroom/new - create a new classroom (i.e. no classroom_id parameter)
+        .../classroom/123 - edit classroom 123 (i.e. classroom_id=123 supplied.)
+   */
   initialise(props = this.props) {
     const state = this.state;
-    
-    //Based on the route/URL, we'll either create a new classroom or edit an existing one.
-    // .../classroom/new - create a new classroom (i.e. no classroom_id parameter)
-    // .../classroom/123 - edit classroom 123 (i.e. classroom_id=123 supplied.)
     
     const classroom_id = (props.match && props.match.params)
       ? props.match.params.classroom_id : undefined;
     
     if (!classroom_id) {  //Note: there should never be classroom_id === 0 or ''
-      console.log('+++ ClassroomForm CREATE: ', props);
-      
       //Create a new classroom
       this.setState({ view: VIEWS.CREATE });
       this.initialiseForm(null);
     } else {
-      console.log('+++ ClassroomForm EDIT: ', props);
-      
       //Edit an existing classroom... if we can find it.
       const selectedClassroom = props.classroomsList &&
         props.classroomsList.find((classroom) => {
@@ -128,17 +125,14 @@ class ClassroomForm extends React.Component {
         });
       
       if (selectedClassroom) {
-        console.log('+++ ClassroomForm EDIT classroom found');
-        
-        //Data update
+        //Data store update
         Actions.wildcamClassrooms.setSelectedClassroom(selectedClassroom);
         
         //View update
         this.setState({ view: VIEWS.EDIT });
         this.initialiseForm(selectedClassroom);
       } else {
-        console.log('+++ ClassroomForm EDIT classroom NOT found...');
-        
+        //TODO: 
         this.setState({ view: VIEWS.NOT_FOUND });
       }
       
@@ -151,8 +145,6 @@ class ClassroomForm extends React.Component {
     if (!selectedClassroom) {
       this.setState({ form: INITIAL_FORM_DATA });
     } else {
-      console.log('+++ YEAH ', selectedClassroom);
-      
       const originalForm = INITIAL_FORM_DATA;
       const updatedForm = {};
       Object.keys(originalForm).map((key) => {
@@ -187,13 +179,11 @@ class ClassroomForm extends React.Component {
     e.preventDefault();
     
     //Sanity check
-    console.log('+++ SUBMITFORM() ', props.selectedClassroom, state.view);
     if (!props.selectedProgram) return;
     if (state.view === VIEWS.EDIT && !props.selectedClassroom) return;
     
+    //Submit Form: create new classroom
     if (state.view === VIEWS.CREATE) {
-      console.log('+++ SUBMITFORM() CREATE');
-      
       return Actions.wcc_teachers_createClassroom({
         selectedProgram: props.selectedProgram,
         classroomData: this.state.form,
@@ -207,15 +197,13 @@ class ClassroomForm extends React.Component {
         Actions.wcc_teachers_fetchClassrooms(props.selectedProgram).then(() => {
           //Transition to: View All Classrooms
           props.history && props.history.push('../');
-          //Actions.wildcamClassrooms.resetSelectedClassroom();
-          //Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
         });
       }).catch((err) => {
         //Error messaging done in Actions.wcc_teachers_createClassroom()
       });
+    
+    //Submit Form: update existing classroom
     } else if (state.view === VIEWS.EDIT) {
-      console.log('+++ SUBMITFORM() EDIT');
-      
       return Actions.wcc_teachers_editClassroom({
         selectedClassroom: props.selectedClassroom,
         classroomData: this.state.form,
@@ -226,7 +214,6 @@ class ClassroomForm extends React.Component {
         //Refresh
         return Actions.wcc_teachers_refreshView({
           program: props.selectedProgram,
-          componentMode: props.componentMode,
           selectedClassroom: props.selectedClassroom,
         });
       }).catch((err) => {
@@ -352,8 +339,6 @@ class ClassroomForm extends React.Component {
             onClick={() => {
               //Transition to: View All Classrooms
               props.history && props.history.push('../');
-              //Actions.wildcamClassrooms.resetSelectedClassroom();
-              //Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
             }}
           />
           <Button
@@ -386,8 +371,6 @@ class ClassroomForm extends React.Component {
                     Actions.wcc_teachers_fetchClassrooms(props.selectedProgram).then(() => {
                       //Transition to: View All Classrooms
                       props.history && props.history.push('../');
-                      //Actions.wildcamClassrooms.resetSelectedClassroom();
-                      //Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
                     });
                   }).catch((err) => {
                     //Error messaging done in Actions.wcc_teachers_deleteClassroom()

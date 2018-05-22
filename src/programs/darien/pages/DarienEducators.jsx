@@ -11,8 +11,6 @@ import Section from 'grommet/components/Section';
 
 class DarienEducators extends React.Component {
   render() {
-    console.log('+++ ... ', this.props);
-    
     if (!this.props.selectedProgram) {
       return null;
     }

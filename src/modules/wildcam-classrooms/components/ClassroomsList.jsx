@@ -44,7 +44,6 @@ class ClassroomsList extends React.Component {
     
     //Initialise:
     //Set data to match view state
-    console.log('+++ ClassroomsList init');
     Actions.wildcamClassrooms.resetSelectedClassroom();
     //TODO: Reset selectedAssignment
   }

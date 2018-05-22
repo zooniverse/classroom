@@ -53,7 +53,7 @@ class WildCamClassroom extends React.Component {
     
     Actions.wcc_teachers_fetchClassrooms(props.selectedProgram)
     .then(() => {
-      console.log('+++ WildCamClassrooms: initialised ', props);
+      //Nothing
     });
   }
 

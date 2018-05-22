@@ -56,8 +56,6 @@ const TEXT = {
       };
  */
 const WILDCAMCLASSROOMS_INITIAL_STATE = {
-  componentMode: WILDCAMCLASSROOMS_COMPONENT_MODES.IDLE,  //The mode of the component, e.g. user is editing a classroom.
-  
   classroomsStatus: WILDCAMCLASSROOMS_DATA_STATUS.IDLE,  //The status of the data fetch/send.
   classroomsStatusDetails: null,
   
@@ -87,7 +85,6 @@ const WILDCAMCLASSROOMS_INITIAL_STATE = {
       };
  */
 const WILDCAMCLASSROOMS_PROPTYPES = {
-  componentMode: PropTypes.string,
   classroomsStatus: PropTypes.string,
   classroomsStatusDetails: PropTypes.object,
   classroomsList: PropTypes.array,
@@ -121,10 +118,6 @@ const WILDCAMCLASSROOMS_MAP_STATE = (state, prefix = '') => {
 
 // Jumpstate Synchronous Actions
 // -----------------------------
-
-const setComponentMode = (state, componentMode) => {
-  return { ...state, componentMode };
-};
 
 const resetClassrooms = (state) => {
   return {
@@ -357,7 +350,7 @@ Effect('wcc_teachers_deleteClassroom', (selectedClassroom) => {
     Called when, e.g. a Classroom is edited, to sync local data with the
     updated server data.
  */
-Effect('wcc_teachers_refreshView', ({ program, componentMode, selectedClassroom }) => {
+Effect('wcc_teachers_refreshView', ({ program, selectedClassroom }) => {
   //Sanity check
   if (!program) return;
   
@@ -372,9 +365,10 @@ Effect('wcc_teachers_refreshView', ({ program, componentMode, selectedClassroom 
       ? classrooms.find((classroom) => { return classroom.id === saved_selectedClassroom_id })
       : null;
     
-    Actions.wildcamClassrooms.setComponentMode(componentMode);
     Actions.wildcamClassrooms.setSelectedClassroom(retrieved_selectedClassroom);
     //TODO: setSelectedAssignment();
+    
+    //TODO: change route?
     
     return null;
   })
@@ -492,7 +486,6 @@ const wildcamClassrooms = State('wildcamClassrooms', {
   // Initial state
   initial: WILDCAMCLASSROOMS_INITIAL_STATE,
   // Actions
-  setComponentMode,
   resetClassrooms,
   setClassroomsStatus,
   setClassroomsList,
