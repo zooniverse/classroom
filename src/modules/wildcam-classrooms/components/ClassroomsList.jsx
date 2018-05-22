@@ -97,7 +97,7 @@ class ClassroomsList extends React.Component {
                       onClick={() => {
                         //Transition to: View One Classroom
                         Actions.wildcamClassrooms.setSelectedClassroom(classroom);
-                        Actions.wildcamClassrooms.setComponentMode(MODES.VIEW_ONE_CLASSROOM);
+                        Actions.wildcamClassrooms.setComponentMode(MODES.EDIT_ONE_CLASSROOM);
                       }}
                     />
                   </Box>

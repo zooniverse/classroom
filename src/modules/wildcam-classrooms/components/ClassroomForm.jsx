@@ -43,7 +43,7 @@ const TEXT = {
   WORKING: 'Working...',
   HEADINGS: {
     CREATE_NEW_CLASSROOM: 'Create new classroom',
-    EDIT_CLASSROOM: 'View/Edit classroom',
+    EDIT_CLASSROOM: 'Edit classroom',
   },
   CLASSROOM_FORM: {
     NAME: 'Classroom name',

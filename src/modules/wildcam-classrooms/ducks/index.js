@@ -22,7 +22,7 @@ import { get, post, put, httpDelete } from '../../../lib/edu-api';
 const WILDCAMCLASSROOMS_COMPONENT_MODES = {
   IDLE: 'idle',  //Initial state. 
   VIEW_ALL_CLASSROOMS: 'view all classrooms',
-  VIEW_ONE_CLASSROOM: 'view one classroom',
+  EDIT_ONE_CLASSROOM: 'edit one classroom',
   CREATE_NEW_CLASSROOM: 'create new classroom',
 };
 
@@ -186,6 +186,9 @@ const resetToast = (state) => {
 /*  Fetch all the Classrooms for the selected Program from the Education API.
     Implicit: the list of Classrooms is limited to what's available to the
     logged-in user.
+    
+    API notes: 
+      GET /teachers/classrooms/?program_id=123
  */
 Effect('wcc_teachers_fetchClassrooms', (program) => {
   //Sanity check
@@ -320,6 +323,9 @@ Effect('wcc_teachers_editClassroom', ({ selectedClassroom, classroomData }) => {
 });
 
 /*  Deletes a classroom.
+
+    API notes:
+      DELETE /teachers/classrooms/12345
  */
 Effect('wcc_teachers_deleteClassroom', (selectedClassroom) => {
   //Sanity check
@@ -374,9 +380,97 @@ Effect('wcc_teachers_refreshView', ({ program, componentMode, selectedClassroom 
     throw(err);
   });
 });
+
 /*
 --------------------------------------------------------------------------------
  */
+
+/*  Creates an assignment.
+    
+    API notes:
+      POST /assignments/ accepts the following payload structure:
+      {
+        "data": {
+          "attributes": {
+            "name": "Lion Cubs",
+            "metadata": {
+              "classifications_target": "1",
+              "description": "An example assignment",
+              "duedate": "2018-01-01",
+              "filters": {
+                "species": ["lioncub"]
+              },
+              "subjects": [
+                "711506",
+                "711514"
+              ]
+            },
+            "workflow_id": "338"
+          },
+          "relationships": {
+            "classroom": {
+              "data": {
+                "id": "1265",
+                "type": "classrooms"
+              }
+            },
+            "student_users": {
+              "data": [
+                { "id": "4245", "type": "student_user" },
+                { "id": "4247", "type": "student_user"},
+                { "id": "4248", "type": "student_user"}
+              ]
+            },
+            "subjects": {
+              "data": [
+                { "id": "711506", "type": "subjects" },
+                { "id": "711514", "type":"subjects"}
+              ]
+            }
+          }
+        }
+      }
+ */
+
+/*  Edits an assignment.
+    
+    API notes:
+      PUT /assignments/12345 accepts the following payload structure:
+        {
+          "data": {
+            "attributes": {
+              "name": "Lion Cubs Mk2",
+              "metadata": {
+                "classifications_target": "1",
+                "description": "An example update",
+                "duedate": "2018-01-01",
+                "filters": {
+                  "species": ["lioncub"]
+                },
+                "subjects":[
+                  "711506",
+                  "711514"
+                ]
+              }
+            },
+            "relationships": {
+              "student_users": {
+                "data": [
+                  {"id":"4245","type":"student_user"}
+                ]
+              }
+            }
+          }
+        }
+ */
+
+/*  Deletes an assignment.
+
+    API notes:
+      DELETE /assignments/12345
+ */
+
+
 
 function showErrorMessage(err) {
   //Critical Error
