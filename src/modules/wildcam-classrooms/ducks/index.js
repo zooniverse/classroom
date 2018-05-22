@@ -349,6 +349,10 @@ Effect('wcc_teachers_deleteClassroom', (selectedClassroom) => {
   
 });
 
+/*
+--------------------------------------------------------------------------------
+ */
+
 /*  Refreshes the current view by fetching the latest data fromt he server..
     Called when, e.g. a Classroom is edited, to sync local data with the
     updated server data.
@@ -470,7 +474,9 @@ Effect('wcc_teachers_refreshView', ({ program, componentMode, selectedClassroom 
       DELETE /assignments/12345
  */
 
-
+/*
+--------------------------------------------------------------------------------
+ */
 
 function showErrorMessage(err) {
   //Critical Error
