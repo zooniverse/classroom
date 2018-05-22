@@ -19,6 +19,7 @@ import Toast from 'grommet/components/Toast';
 
 import ClassroomsList from '../components/ClassroomsList';
 import ClassroomForm from '../components/ClassroomForm';
+import Status404 from '../../../components/common/Status404';
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {
@@ -81,17 +82,16 @@ class WildCamClassroom extends React.Component {
           <Route
             path={`${match.url}/classroom/new`} exact
             component={ClassroomForm}
-            view={ClassroomForm.VIEWS.CREATE}
           />
           <Route
-            path={`${match.url}/classroom/:classroom_id`} exact
+            path={`${match.url}/classroom/:classroom_id`}
             component={ClassroomForm}
-            view={ClassroomForm.VIEWS.EDIT}
           />
           <Route
             path={`${match.url}`} exact
             component={ClassroomsList}
           />
+          <Route path="*" component={Status404} />
         </Switch>
         
         <Box pad="medium">

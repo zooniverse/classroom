@@ -40,6 +40,7 @@ import {
 const VIEWS = {
   CREATE: 'create',
   EDIT: 'edit',
+  NOT_FOUND: 'classroom not found',
 }
 
 const TEXT = {
@@ -82,42 +83,76 @@ class ClassroomForm extends React.Component {
   constructor() {
     super();
     this.state = {
+      view: VIEWS.CREATE,
       form: INITIAL_FORM_DATA,
       //Note: the reason this object structure is one level deep is because
       //the state previously had other things stored here, e.g. state.mode.
     };
   }
   
+  // ----------------------------------------------------------------
+  
   componentDidMount() {
-    //Get the list of Classrooms and Assignments.
     this.initialise(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    //Get the list of Classrooms and Assignments.
-    if (this.props.selectedProgram !== nextProps.selectedProgram) this.initialise(nextProps);
+    this.initialise(nextProps);
   }
   
   //Initialise:
   //Fetch the selected classroom data.
   initialise(props = this.props) {
-    if (props.view === VIEWS.CREATE) {
-      this.initialiseForm(null);
+    const state = this.state;
+    
+    //Based on the route/URL, we'll either create a new classroom or edit an existing one.
+    // .../classroom/new - create a new classroom (i.e. no classroom_id parameter)
+    // .../classroom/123 - edit classroom 123 (i.e. classroom_id=123 supplied.)
+    
+    const classroom_id = (props.match && props.match.params)
+      ? props.match.params.classroom_id : undefined;
+    
+    if (!classroom_id) {  //Note: there should never be classroom_id === 0 or ''
       console.log('+++ ClassroomForm CREATE: ', props);
-    } else if (props.view === VIEWS.EDIT) {
-      const selectedClassroom = props.classroomsList;
+      
+      //Create a new classroom
+      this.setState({ view: VIEWS.CREATE });
+      this.initialiseForm(null);
+    } else {
       console.log('+++ ClassroomForm EDIT: ', props);
+      
+      //Edit an existing classroom... if we can find it.
+      const selectedClassroom = props.classroomsList &&
+        props.classroomsList.find((classroom) => {
+          return classroom.id === classroom_id
+        });
+      
+      if (selectedClassroom) {
+        console.log('+++ ClassroomForm EDIT classroom found');
+        
+        //Data update
+        Actions.wildcamClassrooms.setSelectedClassroom(selectedClassroom);
+        
+        //View update
+        this.setState({ view: VIEWS.EDIT });
+        this.initialiseForm(selectedClassroom);
+      } else {
+        console.log('+++ ClassroomForm EDIT classroom NOT found...');
+        
+        this.setState({ view: VIEWS.NOT_FOUND });
+      }
+      
     }
   }
-  
-  // ----------------------------------------------------------------
   
   /*  Initialises the classroom form.
    */
   initialiseForm(selectedClassroom) {
-    if (this.props.view === VIEWS.CREATE) {
+    if (!selectedClassroom) {
       this.setState({ form: INITIAL_FORM_DATA });
     } else {
+      console.log('+++ YEAH ', selectedClassroom);
+      
       const originalForm = INITIAL_FORM_DATA;
       const updatedForm = {};
       Object.keys(originalForm).map((key) => {
@@ -128,6 +163,8 @@ class ClassroomForm extends React.Component {
       this.setState({ form: updatedForm });
     }
   }
+  
+  // ----------------------------------------------------------------
   
   updateForm(e) {
     this.setState({
@@ -144,15 +181,19 @@ class ClassroomForm extends React.Component {
   
   submitForm(e) {
     const props = this.props;
+    const state = this.state;
     
     //Prevent standard browser actions
     e.preventDefault();
     
     //Sanity check
+    console.log('+++ SUBMITFORM() ', props.selectedClassroom, state.view);
     if (!props.selectedProgram) return;
-    if (props.view === VIEWS.EDIT && !props.selectedClassroom) return;
+    if (state.view === VIEWS.EDIT && !props.selectedClassroom) return;
     
-    if (props.view === VIEWS.CREATE) {
+    if (state.view === VIEWS.CREATE) {
+      console.log('+++ SUBMITFORM() CREATE');
+      
       return Actions.wcc_teachers_createClassroom({
         selectedProgram: props.selectedProgram,
         classroomData: this.state.form,
@@ -172,7 +213,9 @@ class ClassroomForm extends React.Component {
       }).catch((err) => {
         //Error messaging done in Actions.wcc_teachers_createClassroom()
       });
-    } else if (props.view === VIEWS.EDIT) {
+    } else if (state.view === VIEWS.EDIT) {
+      console.log('+++ SUBMITFORM() EDIT');
+      
       return Actions.wcc_teachers_editClassroom({
         selectedClassroom: props.selectedClassroom,
         classroomData: this.state.form,
@@ -249,7 +292,7 @@ class ClassroomForm extends React.Component {
       >
         <Heading tag="h2">
           {(() => {
-            switch (props.view) {
+            switch (state.view) {
               case VIEWS.CREATE: return TEXT.HEADINGS.CREATE_NEW_CLASSROOM;
               case VIEWS.EDIT: return TEXT.HEADINGS.EDIT_CLASSROOM;
               default: return '???';  //This should never trigger
@@ -317,7 +360,7 @@ class ClassroomForm extends React.Component {
             className="button"
             icon={<LinkNextIcon size="small" />}
             label={(() => {
-              switch (props.view) {
+              switch (state.view) {
                 case VIEWS.CREATE: return TEXT.ACTIONS.CREATE;
                 case VIEWS.EDIT: return TEXT.ACTIONS.UPDATE;
                 default: return TEXT.ACTIONS.SUBMIT;  //This should never trigger
@@ -326,7 +369,7 @@ class ClassroomForm extends React.Component {
             primary={true}
             type="submit"
           />
-          {(props.view !== VIEWS.EDIT || !props.selectedClassroom) ? null
+          {(state.view !== VIEWS.EDIT || !props.selectedClassroom) ? null
             : (
               <Button
                 className="button"
@@ -380,7 +423,6 @@ ClassroomForm.defaultProps = {
   history: null,
   match: null,
   // ----------------
-  view: VIEWS.CREATE,  //Passed from the parent
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  
   // ----------------
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
@@ -391,7 +433,6 @@ ClassroomForm.propTypes = {
   history: PropTypes.object,
   match: PropTypes.object,
   // ----------------
-  view: PropTypes.string,
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
   // ----------------
   ...WILDCAMCLASSROOMS_PROPTYPES,
@@ -399,6 +440,7 @@ ClassroomForm.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    selectedProgram: state.programs.selectedProgram,
     ...WILDCAMCLASSROOMS_MAP_STATE(state),
   };
 }
