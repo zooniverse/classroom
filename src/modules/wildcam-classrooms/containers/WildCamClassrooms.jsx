@@ -9,11 +9,12 @@ WildCam-type programs/projects.
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
+import { Switch, Route } from 'react-router-dom';
 
 import Box from 'grommet/components/Box';
-import Button from 'grommet/components/Button';
 import Toast from 'grommet/components/Toast';
 
 import ClassroomsList from '../components/ClassroomsList';
@@ -28,10 +29,6 @@ import {
   WILDCAMCLASSROOMS_MAP_STATE,
 } from '../ducks/index.js';
 
-const TEXT = {
-  
-};
-
 class WildCamClassroom extends React.Component {
   constructor() {
     super();
@@ -39,31 +36,29 @@ class WildCamClassroom extends React.Component {
   
   componentDidMount() {
     //Get the list of Classrooms and Assignments.
-    this.initialiseList(this.props);
+    this.initialise(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     //Get the list of Classrooms and Assignments.
-    if (this.props.selectedProgram !== nextProps.selectedProgram) this.initialiseList(nextProps);
+    if (this.props.selectedProgram !== nextProps.selectedProgram) this.initialise(nextProps);
   }
   
-  initialiseList(props = this.props) {
+  //Initialise:
+  //Fetch the classroom data for this Program.
+  initialise(props = this.props) {
     //Sanity check
     if (!props.selectedProgram) return;
     
-    //Initial mode
-    Actions.wildcamClassrooms.setComponentMode(MODES.VIEW_ALL_CLASSROOMS);
-    
     Actions.wcc_teachers_fetchClassrooms(props.selectedProgram)
     .then(() => {
-      //Transition to: View All Classrooms
-      Actions.wildcamClassrooms.resetSelectedClassroom();
-      Actions.wildcamClassrooms.setComponentMode(MODES.VIEW_ALL_CLASSROOMS);
+      console.log('+++ WildCamClassrooms: initialised ', props);
     });
   }
 
   render() {
     const props = this.props;
+    const match = (props.match) ? props.match : {};
 
     //Sanity check
     if (!props.selectedProgram) return null;
@@ -82,33 +77,22 @@ class WildCamClassroom extends React.Component {
           </Toast>
         )}
         
-        {props.componentMode === MODES.VIEW_ALL_CLASSROOMS && (
-          <ClassroomsList
-            classroomsList={props.classroomsList}
-            classroomsStatus={props.classroomsStatus}
-            selectedClassroom={props.selectedClassroom}
-          />
-        )}
-        
-        {props.componentMode === MODES.CREATE_NEW_CLASSROOM && (
-          <ClassroomForm
+        <Switch>
+          <Route
+            path={`${match.url}/classroom/new`} exact
+            component={ClassroomForm}
             view={ClassroomForm.VIEWS.CREATE}
-            componentMode={props.componentMode}
-            selectedProgram={props.selectedProgram}
-            classroomsStatus={props.classroomsStatus}
-            selectedClassroom={null}
           />
-        )}
-
-        {props.componentMode === MODES.EDIT_ONE_CLASSROOM && (
-          <ClassroomForm
+          <Route
+            path={`${match.url}/classroom/:classroom_id`} exact
+            component={ClassroomForm}
             view={ClassroomForm.VIEWS.EDIT}
-            componentMode={props.componentMode}
-            selectedProgram={props.selectedProgram}
-            classroomsStatus={props.classroomsStatus}
-            selectedClassroom={props.selectedClassroom}
           />
-        )}
+          <Route
+            path={`${match.url}`} exact
+            component={ClassroomsList}
+          />
+        </Switch>
         
         <Box pad="medium">
           <h4>Debug Panel</h4>
@@ -125,12 +109,20 @@ class WildCamClassroom extends React.Component {
 }
 
 WildCamClassroom.defaultProps = {
+  location: null,
+  history: null,
+  match: null,
+  // ----------------
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  //Passed from parent.
   // ----------------
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
 };
 
 WildCamClassroom.propTypes = {
+  location: PropTypes.object,
+  history: PropTypes.object,
+  match: PropTypes.object,
+  // ----------------
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
   // ----------------
   ...WILDCAMCLASSROOMS_PROPTYPES,

@@ -11,6 +11,8 @@ import Section from 'grommet/components/Section';
 
 class DarienEducators extends React.Component {
   render() {
+    console.log('+++ ... ', this.props);
+    
     if (!this.props.selectedProgram) {
       return null;
     }
@@ -18,17 +20,27 @@ class DarienEducators extends React.Component {
     return (
       <WildCamClassrooms
         selectedProgram={this.props.selectedProgram}
+        location={this.props.match}
+        history={this.props.history}
+        match={this.props.match}
       />
     );
   }
 };
 
-DarienEducators.propTypes = {
-  selectedProgram: PropTypes.object,
+DarienEducators.defaultProps = {
+  location: null,
+  history: null,
+  match: null,
+  selectedProgram: null,
 };
 
-DarienEducators.defaultProps = {
-  selectedProgram: null,
+DarienEducators.propTypes = {
+  location: PropTypes.object,
+  history: PropTypes.object,
+  match: PropTypes.object,
+  // ----------------
+  selectedProgram: PropTypes.object,
 };
 
 function mapStateToProps(state) {

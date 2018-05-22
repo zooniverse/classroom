@@ -9,6 +9,7 @@ Component for viewing, editing, or deleting a single classroom.
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
@@ -24,6 +25,15 @@ import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 import CloseIcon from 'grommet/components/icons/base/Close';
 import SpinningIcon from 'grommet/components/icons/Spinning';
+
+import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
+import {
+  WILDCAMCLASSROOMS_COMPONENT_MODES as MODES,
+  WILDCAMCLASSROOMS_DATA_STATUS,
+  WILDCAMCLASSROOMS_INITIAL_STATE,
+  WILDCAMCLASSROOMS_PROPTYPES,
+  WILDCAMCLASSROOMS_MAP_STATE,
+} from '../ducks/index.js';
 
 //import { config } from '../../../lib/config';
 
@@ -61,14 +71,6 @@ const TEXT = {
   },
 };
 
-import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
-import {
-  WILDCAMCLASSROOMS_COMPONENT_MODES,
-  WILDCAMCLASSROOMS_DATA_STATUS,
-  WILDCAMCLASSROOMS_INITIAL_STATE,
-  WILDCAMCLASSROOMS_PROPTYPES,
-} from '../ducks/index.js';
-
 const INITIAL_FORM_DATA = {
   name: '',
   subject: '',
@@ -84,6 +86,28 @@ class ClassroomForm extends React.Component {
       //Note: the reason this object structure is one level deep is because
       //the state previously had other things stored here, e.g. state.mode.
     };
+  }
+  
+  componentDidMount() {
+    //Get the list of Classrooms and Assignments.
+    this.initialise(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    //Get the list of Classrooms and Assignments.
+    if (this.props.selectedProgram !== nextProps.selectedProgram) this.initialise(nextProps);
+  }
+  
+  //Initialise:
+  //Fetch the selected classroom data.
+  initialise(props = this.props) {
+    if (props.view === VIEWS.CREATE) {
+      this.initialiseForm(null);
+      console.log('+++ ClassroomForm CREATE: ', props);
+    } else if (props.view === VIEWS.EDIT) {
+      const selectedClassroom = props.classroomsList;
+      console.log('+++ ClassroomForm EDIT: ', props);
+    }
   }
   
   // ----------------------------------------------------------------
@@ -141,8 +165,9 @@ class ClassroomForm extends React.Component {
         //Note: this will set the data state to 'sending'.
         Actions.wcc_teachers_fetchClassrooms(props.selectedProgram).then(() => {
           //Transition to: View All Classrooms
-          Actions.wildcamClassrooms.resetSelectedClassroom();
-          Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
+          props.history && props.history.push('../');
+          //Actions.wildcamClassrooms.resetSelectedClassroom();
+          //Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
         });
       }).catch((err) => {
         //Error messaging done in Actions.wcc_teachers_createClassroom()
@@ -169,7 +194,7 @@ class ClassroomForm extends React.Component {
   
   // ----------------------------------------------------------------
 
-  componentDidMount() {
+  /*componentDidMount() {
     this.initialiseForm(this.props.selectedClassroom);
   }
 
@@ -177,7 +202,7 @@ class ClassroomForm extends React.Component {
     if (this.props.selectedClassroom !== nextProps.selectedClassroom) {
       this.initialiseForm(nextProps.selectedClassroom);
     }
-  }
+  }*/
 
   // ----------------------------------------------------------------
 
@@ -283,8 +308,9 @@ class ClassroomForm extends React.Component {
             label={TEXT.ACTIONS.BACK}
             onClick={() => {
               //Transition to: View All Classrooms
-              Actions.wildcamClassrooms.resetSelectedClassroom();
-              Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
+              props.history && props.history.push('../');
+              //Actions.wildcamClassrooms.resetSelectedClassroom();
+              //Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
             }}
           />
           <Button
@@ -316,8 +342,9 @@ class ClassroomForm extends React.Component {
                     //Note: this will set the data state to 'sending'.
                     Actions.wcc_teachers_fetchClassrooms(props.selectedProgram).then(() => {
                       //Transition to: View All Classrooms
-                      Actions.wildcamClassrooms.resetSelectedClassroom();
-                      Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
+                      props.history && props.history.push('../');
+                      //Actions.wildcamClassrooms.resetSelectedClassroom();
+                      //Actions.wildcamClassrooms.setComponentMode(WILDCAMCLASSROOMS_COMPONENT_MODES.VIEW_ALL_CLASSROOMS);
                     });
                   }).catch((err) => {
                     //Error messaging done in Actions.wcc_teachers_deleteClassroom()
@@ -349,23 +376,31 @@ class ClassroomForm extends React.Component {
 
 ClassroomForm.VIEWS = VIEWS;
 ClassroomForm.defaultProps = {
-  view: VIEWS.CREATE,
+  location: null,
+  history: null,
+  match: null,
   // ----------------
-  selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,
+  view: VIEWS.CREATE,  //Passed from the parent
+  selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  
   // ----------------
-  componentMode: WILDCAMCLASSROOMS_INITIAL_STATE.componentMode,
-  classroomsStatus: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsStatus,
-  selectedClassroom: WILDCAMCLASSROOMS_INITIAL_STATE.selectedClassroom,
+  ...WILDCAMCLASSROOMS_INITIAL_STATE,
 };
 
 ClassroomForm.propTypes = {
-  view: PropTypes.string,
+  location: PropTypes.object,
+  history: PropTypes.object,
+  match: PropTypes.object,
   // ----------------
+  view: PropTypes.string,
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
   // ----------------
-  componentMode: WILDCAMCLASSROOMS_PROPTYPES.componentMode,
-  classroomsStatus: WILDCAMCLASSROOMS_PROPTYPES.classroomsStatus,
-  selectedClassroom: WILDCAMCLASSROOMS_PROPTYPES.selectedClassroom,
+  ...WILDCAMCLASSROOMS_PROPTYPES,
 };
 
-export default ClassroomForm;
+function mapStateToProps(state) {
+  return {
+    ...WILDCAMCLASSROOMS_MAP_STATE(state),
+  };
+}
+
+export default connect(mapStateToProps)(ClassroomForm);

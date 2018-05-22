@@ -9,6 +9,7 @@ Component for listing all classrooms.
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
@@ -28,6 +29,7 @@ import {
   WILDCAMCLASSROOMS_DATA_STATUS,
   WILDCAMCLASSROOMS_INITIAL_STATE,
   WILDCAMCLASSROOMS_PROPTYPES,
+  WILDCAMCLASSROOMS_MAP_STATE,
 } from '../ducks/index.js';
   
 const TEXT = {
@@ -39,6 +41,12 @@ const TEXT = {
 class ClassroomsList extends React.Component {
   constructor() {
     super();
+    
+    //Initialise:
+    //Set data to match view state
+    console.log('+++ ClassroomsList init');
+    Actions.wildcamClassrooms.resetSelectedClassroom();
+    //TODO: Reset selectedAssignment
   }
   
   // ----------------------------------------------------------------
@@ -96,8 +104,7 @@ class ClassroomsList extends React.Component {
                       label={TEXT.VIEW}
                       onClick={() => {
                         //Transition to: View One Classroom
-                        Actions.wildcamClassrooms.setSelectedClassroom(classroom);
-                        Actions.wildcamClassrooms.setComponentMode(MODES.EDIT_ONE_CLASSROOM);
+                        props.history && props.history.push(`classroom/${classroom.id}`);
                       }}
                     />
                   </Box>
@@ -120,8 +127,7 @@ class ClassroomsList extends React.Component {
             label={TEXT.CREATE_NEW_CLASSROOM}
             onClick={() => {
               //Transition to: Create New Classroom
-              Actions.wildcamClassrooms.resetSelectedClassroom();
-              Actions.wildcamClassrooms.setComponentMode(MODES.CREATE_NEW_CLASSROOM);
+              props.history && props.history.push(`classroom/new`);
             }}
           />
         </Box>
@@ -146,13 +152,17 @@ class ClassroomsList extends React.Component {
 };
 
 ClassroomsList.defaultProps = {
-  classroomsList: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsList,
-  classroomsStatus: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsStatus,
+  ...WILDCAMCLASSROOMS_INITIAL_STATE,
 };
 
 ClassroomsList.propTypes = {
-  classroomsList: WILDCAMCLASSROOMS_PROPTYPES.classroomsList,
-  classroomsStatus: WILDCAMCLASSROOMS_PROPTYPES.classroomsStatus,
+  ...WILDCAMCLASSROOMS_PROPTYPES,
 };
 
-export default ClassroomsList;
+function mapStateToProps(state) {
+  return {
+    ...WILDCAMCLASSROOMS_MAP_STATE(state),
+  };
+}
+
+export default connect(mapStateToProps)(ClassroomsList);
