@@ -33,12 +33,18 @@ const VIEWS = {
 }
 
 const TEXT = {
-  BACK: 'Back',
-  SUBMIT: 'Submit',
-  DELETE: 'Delete',
+  ACTIONS: {
+    BACK: 'Back',
+    SUBMIT: 'Submit',
+    CREATE: 'Create',
+    UPDATE: 'Update',
+    DELETE: 'Delete',
+  },
   WORKING: 'Working...',
-  CREATE_NEW_CLASSROOM: 'Create new classroom',
-  EDIT_CLASSROOM: 'Edit classroom',
+  HEADINGS: {
+    CREATE_NEW_CLASSROOM: 'Create new classroom',
+    EDIT_CLASSROOM: 'View/Edit classroom',
+  },
   CLASSROOM_FORM: {
     NAME: 'Classroom name',
     SUBJECT: 'Classroom subject',
@@ -219,12 +225,9 @@ class ClassroomForm extends React.Component {
         <Heading tag="h2">
           {(() => {
             switch (props.view) {
-              case VIEWS.CREATE:
-                return TEXT.CREATE_NEW_CLASSROOM;
-              case VIEWS.EDIT:
-                return TEXT.EDIT_CLASSROOM
-              default:
-                return '???';
+              case VIEWS.CREATE: return TEXT.HEADINGS.CREATE_NEW_CLASSROOM;
+              case VIEWS.EDIT: return TEXT.HEADINGS.EDIT_CLASSROOM;
+              default: return '???';  //This should never trigger
             }
           })()}
         </Heading>
@@ -277,7 +280,7 @@ class ClassroomForm extends React.Component {
           <Button
             className="button"
             icon={<LinkPreviousIcon size="small" />}
-            label={TEXT.BACK}
+            label={TEXT.ACTIONS.BACK}
             onClick={() => {
               //Transition to: View All Classrooms
               Actions.wildcamClassrooms.resetSelectedClassroom();
@@ -287,7 +290,13 @@ class ClassroomForm extends React.Component {
           <Button
             className="button"
             icon={<LinkNextIcon size="small" />}
-            label={TEXT.SUBMIT}
+            label={(() => {
+              switch (props.view) {
+                case VIEWS.CREATE: return TEXT.ACTIONS.CREATE;
+                case VIEWS.EDIT: return TEXT.ACTIONS.UPDATE;
+                default: return TEXT.ACTIONS.SUBMIT;  //This should never trigger
+              }
+            })()}
             primary={true}
             type="submit"
           />
@@ -296,7 +305,7 @@ class ClassroomForm extends React.Component {
               <Button
                 className="button"
                 icon={<CloseIcon size="small" />}
-                label={TEXT.DELETE}
+                label={TEXT.ACTIONS.DELETE}
                 onClick={() => {
                   return Actions.wcc_teachers_deleteClassroom(props.selectedClassroom)
                   .then(() => {
