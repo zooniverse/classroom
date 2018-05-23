@@ -12,6 +12,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
+import { config } from '../../../lib/config';
+
+import StatusWorking from './StatusWorking';
+import StatusNotFound from './StatusNotFound';
+import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
+
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import Footer from 'grommet/components/Footer';
@@ -24,7 +30,6 @@ import TextInput from 'grommet/components/TextInput';
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 import CloseIcon from 'grommet/components/icons/base/Close';
-import SpinningIcon from 'grommet/components/icons/Spinning';
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {
@@ -35,12 +40,14 @@ import {
   WILDCAMCLASSROOMS_MAP_STATE,
 } from '../ducks/index.js';
 
-//import { config } from '../../../lib/config';
+/*
+--------------------------------------------------------------------------------
+ */
 
 const VIEWS = {
   CREATE: 'create',
   EDIT: 'edit',
-  NOT_FOUND: 'classroom not found',
+  NOT_FOUND: 'not found',
 }
 
 const TEXT = {
@@ -79,6 +86,10 @@ const INITIAL_FORM_DATA = {
   description: '',
 };
 
+/*
+--------------------------------------------------------------------------------
+ */
+
 class ClassroomForm extends React.Component {
   constructor() {
     super();
@@ -113,17 +124,20 @@ class ClassroomForm extends React.Component {
     const classroom_id = (props.match && props.match.params)
       ? props.match.params.classroom_id : undefined;
     
+    //Create a new classroom
     if (!classroom_id) {  //Note: there should never be classroom_id === 0 or ''
-      //Create a new classroom
       this.setState({ view: VIEWS.CREATE });
       this.initialiseForm(null);
+    
+    //Edit an existing classroom... if we can find it.
     } else {
-      //Edit an existing classroom... if we can find it.
+      //Find the classroom
       const selectedClassroom = props.classroomsList &&
         props.classroomsList.find((classroom) => {
           return classroom.id === classroom_id
         });
       
+      //If classroom is found, edit it.
       if (selectedClassroom) {
         //Data store update
         Actions.wildcamClassrooms.setSelectedClassroom(selectedClassroom);
@@ -131,8 +145,13 @@ class ClassroomForm extends React.Component {
         //View update
         this.setState({ view: VIEWS.EDIT });
         this.initialiseForm(selectedClassroom);
+        
+      //Otherwise, uh oh.
       } else {
-        //TODO: 
+        //Data store update
+        Actions.wildcamClassrooms.resetSelectedClassroom();
+        
+        //View update
         this.setState({ view: VIEWS.NOT_FOUND });
       }
       
@@ -221,24 +240,13 @@ class ClassroomForm extends React.Component {
       });
     }
   }
-  
-  // ----------------------------------------------------------------
-
-  /*componentDidMount() {
-    this.initialiseForm(this.props.selectedClassroom);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.selectedClassroom !== nextProps.selectedClassroom) {
-      this.initialiseForm(nextProps.selectedClassroom);
-    }
-  }*/
 
   // ----------------------------------------------------------------
 
   render() {
     const props = this.props;
-    //const state = this.state;
+    const state = this.state;
+    
     //const joinURL = props.selectedClassroom
     //  ? `${config.origin}/#/${props.selectedProgram.slug}/students/classrooms/${props.selectedClassroom.id}/join?token=${props.selectedClassroom.joinToken}`
     //  : '';
@@ -257,18 +265,25 @@ class ClassroomForm extends React.Component {
       >
         {(() => {
           if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
-            return this.render_readyState();
+            if (state.view === VIEWS.CREATE || state.view === VIEWS.EDIT) {
+              return this.render_editState();
+            } else if (state.view === VIEWS.NOT_FOUND) {
+              return this.render_notFoundState();
+            }
           } else if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING || props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.FETCHING) {
             return this.render_workingState();
           }
+          //TODO: render error/unknown state
         })()}
+        
+        <ScrollToTopOnMount />
       </Box>
     );
     
     return null;
   }
   
-  render_readyState() {
+  render_editState() {
     const props = this.props;
     const state = this.state;
     
@@ -386,19 +401,20 @@ class ClassroomForm extends React.Component {
   
   render_workingState() {
     return (
-      <Box
-        align="center"
-        alignContent="center"
-        className="status-box"
-        direction="column"
-        pad="medium"
-      >
-        <SpinningIcon />
-        <Label>{TEXT.WORKING}</Label>
-      </Box>
+      <StatusWorking />
+    );
+  }
+  
+  render_notFoundState() {
+    return (
+      <StatusNotFound />
     );
   }
 };
+
+/*
+--------------------------------------------------------------------------------
+ */
 
 ClassroomForm.VIEWS = VIEWS;
 ClassroomForm.defaultProps = {

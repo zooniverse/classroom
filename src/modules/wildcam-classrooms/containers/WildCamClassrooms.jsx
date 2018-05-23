@@ -19,6 +19,7 @@ import Toast from 'grommet/components/Toast';
 
 import ClassroomsList from '../components/ClassroomsList';
 import ClassroomForm from '../components/ClassroomForm';
+import AssignmentForm from '../components/AssignmentForm';
 import Status404 from '../../../components/common/Status404';
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
@@ -29,6 +30,10 @@ import {
   WILDCAMCLASSROOMS_PROPTYPES,
   WILDCAMCLASSROOMS_MAP_STATE,
 } from '../ducks/index.js';
+
+/*
+--------------------------------------------------------------------------------
+ */
 
 class WildCamClassroom extends React.Component {
   constructor() {
@@ -51,7 +56,7 @@ class WildCamClassroom extends React.Component {
     //Sanity check
     if (!props.selectedProgram) return;
     
-    Actions.wcc_teachers_fetchClassrooms(props.selectedProgram)
+    return Actions.wcc_teachers_fetchClassrooms(props.selectedProgram)
     .then(() => {
       //Nothing
     });
@@ -80,11 +85,19 @@ class WildCamClassroom extends React.Component {
         
         <Switch>
           <Route
+            path={`${match.url}/classroom/:classroom_id/assignment/new`} exact
+            component={AssignmentForm}
+          />
+          <Route
+            path={`${match.url}/classroom/:classroom_id/assignment/:assignment_id`} exact
+            component={AssignmentForm}
+          />
+          <Route
             path={`${match.url}/classroom/new`} exact
             component={ClassroomForm}
           />
           <Route
-            path={`${match.url}/classroom/:classroom_id`}
+            path={`${match.url}/classroom/:classroom_id`} exact
             component={ClassroomForm}
           />
           <Route
@@ -99,7 +112,6 @@ class WildCamClassroom extends React.Component {
           <Box>
             Classrooms Status: [{props.classroomsStatus}] <br/>
             Classrooms Count: [{props.classroomsList && props.classroomsList.length}] <br/>
-            Component Mode: {props.componentMode}
           </Box>
         </Box>
 
@@ -107,6 +119,10 @@ class WildCamClassroom extends React.Component {
     );
   }
 }
+
+/*
+--------------------------------------------------------------------------------
+ */
 
 WildCamClassroom.defaultProps = {
   location: null,

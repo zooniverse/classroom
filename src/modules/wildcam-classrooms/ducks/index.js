@@ -58,9 +58,13 @@ const TEXT = {
 const WILDCAMCLASSROOMS_INITIAL_STATE = {
   classroomsStatus: WILDCAMCLASSROOMS_DATA_STATUS.IDLE,  //The status of the data fetch/send.
   classroomsStatusDetails: null,
-  
   classroomsList: [],
   selectedClassroom: null,
+  
+  assignmentsStatus: WILDCAMCLASSROOMS_DATA_STATUS.IDLE,  //The status of the data fetch/send.
+  assignmentsStatusDetails: null,
+  assignmentsList: [],
+  selectedAssignment: null,
   
   toast: {
     message: null,
@@ -89,6 +93,12 @@ const WILDCAMCLASSROOMS_PROPTYPES = {
   classroomsStatusDetails: PropTypes.object,
   classroomsList: PropTypes.array,
   selectedClassroom: PropTypes.object,
+  
+  assignmentsStatus: PropTypes.string,
+  assignmentsStatusDetails: PropTypes.object,
+  assignmentsList: PropTypes.array,
+  selectedAssignment: PropTypes.object,
+  
   toast: PropTypes.object,
 };
 
@@ -125,11 +135,14 @@ const resetClassrooms = (state) => {
     
     classroomsStatus: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsStatus,
     classroomsStatusDetails: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsDetails,
-    
     classroomsList: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsList,
     selectedClassroom: WILDCAMCLASSROOMS_INITIAL_STATE.selectedClassroom,
     
-    //TODO: reset assignments and selected assignments as well.
+    //Reset dependencies as well.
+    assignmentsStatus: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsStatus,
+    assignmentsStatusDetails: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsStatusDetails,
+    assignmentsList: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsList,
+    selectedAssignment: WILDCAMCLASSROOMS_INITIAL_STATE.selectedAssignment,
   };
 };
 
@@ -149,7 +162,7 @@ const resetSelectedClassroom = (state) => {
   return {
     ...state,
     selectedClassroom: null,
-    //TODO: reset selected assignment as well.
+    selectedAssignment: null,  //Reset dependencies: selected assignment
   };
 };
 
@@ -350,15 +363,16 @@ Effect('wcc_teachers_deleteClassroom', (selectedClassroom) => {
     Called when, e.g. a Classroom is edited, to sync local data with the
     updated server data.
  */
-Effect('wcc_teachers_refreshView', ({ program, selectedClassroom }) => {
+Effect('wcc_teachers_refreshView', ({ program, selectedClassroom, selectedAssignment }) => {
   //Sanity check
   if (!program) return;
   
   //Save the current view, so we can retrieve it for after the refresh fetch is complete.
   const saved_selectedClassroom_id = (selectedClassroom) ? selectedClassroom.id : null;
+  const saved_selectedAssignment_id = (selectedAssignment) ? selectedAssignment.id : null;
   
   //Fetch the latest data...
-  Actions.wcc_teachers_fetchClassrooms(program)
+  return Actions.wcc_teachers_fetchClassrooms(program)
   .then((classrooms) => {
     //...then restore the user's previous view.
     const retrieved_selectedClassroom = (saved_selectedClassroom_id && classrooms)
@@ -367,10 +381,6 @@ Effect('wcc_teachers_refreshView', ({ program, selectedClassroom }) => {
     
     Actions.wildcamClassrooms.setSelectedClassroom(retrieved_selectedClassroom);
     //TODO: setSelectedAssignment();
-    
-    //TODO: change route?
-    
-    return null;
   })
   .catch((err) => {
     setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);

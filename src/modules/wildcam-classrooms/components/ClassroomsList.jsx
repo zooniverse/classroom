@@ -12,6 +12,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
+import StatusWorking from './StatusWorking';
+import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
+
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import Label from 'grommet/components/Label';
@@ -22,7 +25,6 @@ import TableRow from 'grommet/components/TableRow';
 import AddIcon from 'grommet/components/icons/base/Add';
 import EditIcon from 'grommet/components/icons/base/Edit';
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
-import SpinningIcon from 'grommet/components/icons/Spinning';
 
 import {
   WILDCAMCLASSROOMS_COMPONENT_MODES as MODES,
@@ -71,6 +73,8 @@ class ClassroomsList extends React.Component {
             return this.render_workingState();
           }
         })()}
+        
+        <ScrollToTopOnMount />
       </Box>
     );
   }
@@ -136,16 +140,7 @@ class ClassroomsList extends React.Component {
   
   render_workingState() {
     return (
-      <Box
-        align="center"
-        alignContent="center"
-        className="status-box"
-        direction="column"
-        pad="medium"
-      >
-        <SpinningIcon />
-        <Label>{TEXT.WORKING}</Label>
-      </Box>
+      <StatusWorking />
     );
   }
 };

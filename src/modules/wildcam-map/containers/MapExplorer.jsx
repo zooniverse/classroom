@@ -32,6 +32,7 @@ import Box from 'grommet/components/Box';
 import MapVisuals from './MapVisuals';
 import MapControls from './MapControls';
 import CameraViewer from '../components/CameraViewer';
+import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
 
 import {
   ZooTran, ZooTranSetLanguage,
@@ -69,6 +70,7 @@ class MapExplorer extends React.Component {
               activeCameraMetadataStatus={this.props.activeCameraMetadataStatus}
             />
         }
+        <ScrollToTopOnMount />
       </Box>
     );
   }
