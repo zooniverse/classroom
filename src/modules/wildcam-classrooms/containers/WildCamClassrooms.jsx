@@ -56,7 +56,7 @@ class WildCamClassroom extends React.Component {
     //Sanity check
     if (!props.selectedProgram) return;
     
-    return Actions.wcc_teachers_fetchClassrooms(props.selectedProgram)
+    return Actions.wcc_teachers_fetchClassrooms({ selectedProgram: props.selectedProgram })
     .then(() => {
       //Nothing
     });

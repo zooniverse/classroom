@@ -212,8 +212,8 @@ class ClassroomForm extends React.Component {
         Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_CREATED, status: 'ok' });
         
         //Refresh
-        //Note: this will set the data state to 'sending'.
-        Actions.wcc_teachers_fetchClassrooms(props.selectedProgram).then(() => {
+        return Actions.wcc_teachers_refreshData({ selectedProgram: props.selectedProgram })
+        .then(() => {
           //Transition to: View All Classrooms
           props.history && props.history.push('../');
         });
@@ -231,9 +231,12 @@ class ClassroomForm extends React.Component {
         Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_EDITED, status: 'ok' });
         
         //Refresh
-        return Actions.wcc_teachers_refreshView({
-          program: props.selectedProgram,
+        return Actions.wcc_teachers_refreshData({
+          selectedProgram: props.selectedProgram,
           selectedClassroom: props.selectedClassroom,
+        })
+        .then(() => {
+          //Nothing
         });
       }).catch((err) => {
         //Error messaging done in Actions.wcc_teachers_createClassroom()
@@ -382,8 +385,8 @@ class ClassroomForm extends React.Component {
                     Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_DELETED, status: 'ok' });
 
                     //Refresh
-                    //Note: this will set the data state to 'sending'.
-                    Actions.wcc_teachers_fetchClassrooms(props.selectedProgram).then(() => {
+                    return Actions.wcc_teachers_refreshData({ selectedProgram: props.selectedProgram, selectedClassroom: props.selectedClassroom })
+                    .then(() => {
                       //Transition to: View All Classrooms
                       props.history && props.history.push('../');
                     });

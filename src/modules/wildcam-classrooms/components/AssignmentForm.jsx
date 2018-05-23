@@ -26,6 +26,10 @@ import {
   WILDCAMCLASSROOMS_MAP_STATE,
 } from '../ducks/index.js';
 
+/*
+--------------------------------------------------------------------------------
+ */
+
 const VIEWS = {
   CREATE: 'create',
   EDIT: 'edit',
@@ -93,7 +97,6 @@ class AssignmentForm extends React.Component {
     
     //Apparently [square_brackets] a superconvenient way of specifying an
     //object key name that's variable. Sweet.
-    
   }
   
   submitForm(e) {}

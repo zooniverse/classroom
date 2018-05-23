@@ -196,11 +196,11 @@ const resetToast = (state) => {
     API notes: 
       GET /teachers/classrooms/?program_id=123
  */
-Effect('wcc_teachers_fetchClassrooms', (program) => {
+Effect('wcc_teachers_fetchClassrooms', ({ selectedProgram }) => {
   //Sanity check
-  if (!program) return;
+  if (!selectedProgram) return;
   
-  const program_id = program.id;
+  const program_id = selectedProgram.id;
   
   Actions.wildcamClassrooms.resetClassrooms();
   Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.FETCHING);
@@ -253,7 +253,7 @@ Effect('wcc_teachers_fetchClassrooms', (program) => {
         }
       }
  */
-Effect('wcc_teachers_createClassroom', ({selectedProgram, classroomData}) => {
+Effect('wcc_teachers_createClassroom', ({ selectedProgram, classroomData }) => {
   //Sanity check
   if (!selectedProgram || !classroomData) return;
   Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
@@ -363,16 +363,16 @@ Effect('wcc_teachers_deleteClassroom', (selectedClassroom) => {
     Called when, e.g. a Classroom is edited, to sync local data with the
     updated server data.
  */
-Effect('wcc_teachers_refreshView', ({ program, selectedClassroom, selectedAssignment }) => {
+Effect('wcc_teachers_refreshData', ({ selectedProgram, selectedClassroom, selectedAssignment }) => {
   //Sanity check
-  if (!program) return;
+  if (!selectedProgram) return;
   
   //Save the current view, so we can retrieve it for after the refresh fetch is complete.
   const saved_selectedClassroom_id = (selectedClassroom) ? selectedClassroom.id : null;
   const saved_selectedAssignment_id = (selectedAssignment) ? selectedAssignment.id : null;
   
   //Fetch the latest data...
-  return Actions.wcc_teachers_fetchClassrooms(program)
+  return Actions.wcc_teachers_fetchClassrooms({ selectedProgram })
   .then((classrooms) => {
     //...then restore the user's previous view.
     const retrieved_selectedClassroom = (saved_selectedClassroom_id && classrooms)
