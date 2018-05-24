@@ -260,29 +260,40 @@ class ClassroomForm extends React.Component {
     //  ? props.assignments[props.selectedClassroom.id]
     //  : [];
     
-    return (
-      <Box
-        className="classroom-form"
-        margin="medium"
-        pad="medium"
-      >
-        {(() => {
-          if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
-            if (state.view === VIEWS.CREATE || state.view === VIEWS.EDIT) {
-              return this.render_editState();
-            } else if (state.view === VIEWS.NOT_FOUND) {
-              return this.render_notFoundState();
-            }
-          } else if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING || props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.FETCHING) {
-            return this.render_workingState();
-          }
-          //TODO: render error/unknown state
-        })()}
-        
-        <ScrollToTopOnMount />
-      </Box>
-    );
+    //State: Working
+    //Data is being processed. Don't let the user do anything.
+    if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING || props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.FETCHING) {
+      return (
+        <Box
+          className="classroom-form"
+          margin="medium"
+          pad="medium"
+        >
+          {this.render_workingState()}
+        </Box>
+      );
+    }
     
+    //State: Ready
+    //Page is now ready to accept user input.
+    if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
+      return (
+        <Box
+          className="classroom-form"
+          margin="medium"
+          pad="medium"
+        >
+          {(state.view === VIEWS.CREATE || state.view === VIEWS.EDIT) ? this.render_editState() : null }
+          {(state.view === VIEWS.NOT_FOUND) ? this.render_notFoundState() : null }
+          {/* //TODO */}
+
+          <ScrollToTopOnMount />
+        </Box>
+      );
+    }
+    
+    //State: WTF
+    //How did we even get here?
     return null;
   }
   
