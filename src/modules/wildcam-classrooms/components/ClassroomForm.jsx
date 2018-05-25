@@ -25,6 +25,8 @@ import Form from 'grommet/components/Form';
 import FormField from 'grommet/components/FormField';
 import Heading from 'grommet/components/Heading';
 import Label from 'grommet/components/Label';
+import List from 'grommet/components/List';
+import ListItem from 'grommet/components/ListItem';
 import TextInput from 'grommet/components/TextInput';
 
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
@@ -45,8 +47,9 @@ import {
  */
 
 const VIEWS = {
-  CREATE: 'create',
-  EDIT: 'edit',
+  CREATE_NEW: 'create',
+  VIEW_EXISTING: 'view',
+  EDIT_EXISTING: 'edit',
   NOT_FOUND: 'not found',
 }
 
@@ -57,9 +60,12 @@ const TEXT = {
     CREATE: 'Create',
     UPDATE: 'Update',
     DELETE: 'Delete',
+    EDIT: 'Edit',
   },
   WORKING: 'Working...',
+  JOIN_URL: 'Join URL',
   HEADINGS: {
+    CLASSROOM: 'Classroom',
     CREATE_NEW_CLASSROOM: 'Create new classroom',
     EDIT_CLASSROOM: 'Edit classroom',
   },
@@ -94,7 +100,7 @@ class ClassroomForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      view: VIEWS.CREATE,
+      view: VIEWS.CREATE_NEW,
       form: INITIAL_FORM_DATA,
       //Note: the reason this object structure is one level deep is because
       //the state previously had other things stored here, e.g. state.mode.
@@ -126,7 +132,7 @@ class ClassroomForm extends React.Component {
     
     //Create a new classroom
     if (!classroom_id) {  //Note: there should never be classroom_id === 0 or ''
-      this.setState({ view: VIEWS.CREATE });
+      this.setState({ view: VIEWS.CREATE_NEW });
       this.initialiseForm(null);
     
     //Edit an existing classroom... if we can find it.
@@ -143,7 +149,7 @@ class ClassroomForm extends React.Component {
         Actions.wildcamClassrooms.setSelectedClassroom(selectedClassroom);
         
         //View update
-        this.setState({ view: VIEWS.EDIT });
+        this.setState({ view: VIEWS.VIEW_EXISTING });
         this.initialiseForm(selectedClassroom);
         
       //Otherwise, uh oh.
@@ -199,10 +205,10 @@ class ClassroomForm extends React.Component {
     
     //Sanity check
     if (!props.selectedProgram) return;
-    if (state.view === VIEWS.EDIT && !props.selectedClassroom) return;
+    if (state.view === VIEWS.VIEW_EXISTING && !props.selectedClassroom) return;
     
     //Submit Form: create new classroom
-    if (state.view === VIEWS.CREATE) {
+    if (state.view === VIEWS.CREATE_NEW) {
       return Actions.wcc_teachers_createClassroom({
         selectedProgram: props.selectedProgram,
         classroomData: this.state.form,
@@ -222,7 +228,7 @@ class ClassroomForm extends React.Component {
       });
     
     //Submit Form: update existing classroom
-    } else if (state.view === VIEWS.EDIT) {
+    } else if (state.view === VIEWS.EDIT_EXISTING) {
       return Actions.wcc_teachers_editClassroom({
         selectedClassroom: props.selectedClassroom,
         classroomData: this.state.form,
@@ -249,10 +255,6 @@ class ClassroomForm extends React.Component {
   render() {
     const props = this.props;
     const state = this.state;
-    
-    //const joinURL = props.selectedClassroom
-    //  ? `${config.origin}/#/${props.selectedProgram.slug}/students/classrooms/${props.selectedClassroom.id}/join?token=${props.selectedClassroom.joinToken}`
-    //  : '';
 
     //Get students and assignments only for this classroom.
     //const students = (props.selectedClassroom && props.selectedClassroom.students) ? props.selectedClassroom.students : [];
@@ -283,9 +285,9 @@ class ClassroomForm extends React.Component {
           margin="medium"
           pad="medium"
         >
-          {(state.view === VIEWS.CREATE || state.view === VIEWS.EDIT) ? this.render_editState() : null }
+          {(state.view === VIEWS.VIEW_EXISTING) ? this.render_viewState() : null }
+          {(state.view === VIEWS.CREATE_NEW || state.view === VIEWS.EDIT_EXISTING) ? this.render_editState() : null }
           {(state.view === VIEWS.NOT_FOUND) ? this.render_notFoundState() : null }
-          {/* //TODO */}
 
           <ScrollToTopOnMount />
         </Box>
@@ -295,6 +297,70 @@ class ClassroomForm extends React.Component {
     //State: WTF
     //How did we even get here?
     return null;
+  }
+  
+  render_viewState() {
+    const props = this.props;
+    const state = this.state;
+    
+    //Sanity check
+    if (!props.selectedClassroom) return;
+    
+    const joinURL = `${config.origin}/#/${props.selectedProgram.slug}/students/classrooms/${props.selectedClassroom.id}/join?token=${props.selectedClassroom.joinToken}`;
+    
+    return (
+      <Box
+        className="details"
+        onSubmit={this.submitForm.bind(this)}
+      >
+        <Heading tag="h2">
+          {TEXT.HEADINGS.CLASSROOM} - {props.selectedClassroom.name}
+        </Heading>
+        
+        <List className="details-list">
+          <ListItem>
+            <Label>{TEXT.CLASSROOM_FORM.SUBJECT}</Label>
+            <span>{props.selectedClassroom.subject}</span>
+          </ListItem>
+          <ListItem>
+            <Label>{TEXT.CLASSROOM_FORM.SCHOOL}</Label>
+            <span>{props.selectedClassroom.school}</span>
+          </ListItem>
+          <ListItem>
+            <Label>{TEXT.CLASSROOM_FORM.DESCRIPTION}</Label>
+            <span>{props.selectedClassroom.description}</span>
+          </ListItem>
+          <ListItem>
+            <Label>{TEXT.JOIN_URL}</Label>
+            <span>{joinURL}</span>
+          </ListItem>
+        </List>
+
+        <Footer
+          className="actions-panel"
+          pad="medium"
+        >
+          <Button
+            className="button"
+            icon={<LinkPreviousIcon size="small" />}
+            label={TEXT.ACTIONS.BACK}
+            onClick={() => {
+              //Transition to: View All Classrooms
+              props.history && props.history.push('../');
+            }}
+          />
+          <Button
+            className="button"
+            icon={<LinkNextIcon size="small" />}
+            label={TEXT.ACTIONS.EDIT}
+            onClick={() => {
+              //In-page transition to: Edit mode
+              this.setState({ view: VIEWS.EDIT_EXISTING });
+            }}
+          />
+        </Footer>
+      </Box>
+    );
   }
   
   render_editState() {
@@ -309,8 +375,8 @@ class ClassroomForm extends React.Component {
         <Heading tag="h2">
           {(() => {
             switch (state.view) {
-              case VIEWS.CREATE: return TEXT.HEADINGS.CREATE_NEW_CLASSROOM;
-              case VIEWS.EDIT: return TEXT.HEADINGS.EDIT_CLASSROOM;
+              case VIEWS.CREATE_NEW: return TEXT.HEADINGS.CREATE_NEW_CLASSROOM;
+              case VIEWS.EDIT_EXISTING: return TEXT.HEADINGS.EDIT_CLASSROOM;
               default: return '???';  //This should never trigger
             }
           })()}
@@ -366,8 +432,13 @@ class ClassroomForm extends React.Component {
             icon={<LinkPreviousIcon size="small" />}
             label={TEXT.ACTIONS.BACK}
             onClick={() => {
-              //Transition to: View All Classrooms
-              props.history && props.history.push('../');
+              if (state.view === VIEWS.CREATE_NEW) {
+                //Transition to: View All Classrooms
+                props.history && props.history.push('../');
+              } else if (state.view === VIEWS.EDIT_EXISTING) {
+                //In-page transition to: Edit mode
+                this.setState({ view: VIEWS.VIEW_EXISTING });
+              }
             }}
           />
           <Button
@@ -375,15 +446,15 @@ class ClassroomForm extends React.Component {
             icon={<LinkNextIcon size="small" />}
             label={(() => {
               switch (state.view) {
-                case VIEWS.CREATE: return TEXT.ACTIONS.CREATE;
-                case VIEWS.EDIT: return TEXT.ACTIONS.UPDATE;
+                case VIEWS.CREATE_NEW: return TEXT.ACTIONS.CREATE;
+                case VIEWS.EDIT_EXISTING: return TEXT.ACTIONS.UPDATE;
                 default: return TEXT.ACTIONS.SUBMIT;  //This should never trigger
               }
             })()}
             primary={true}
             type="submit"
           />
-          {(state.view !== VIEWS.EDIT || !props.selectedClassroom) ? null
+          {(state.view !== VIEWS.EDIT_EXISTING || !props.selectedClassroom) ? null
             : (
               <Button
                 className="button"
@@ -430,7 +501,6 @@ class ClassroomForm extends React.Component {
 --------------------------------------------------------------------------------
  */
 
-ClassroomForm.VIEWS = VIEWS;
 ClassroomForm.defaultProps = {
   location: null,
   history: null,
