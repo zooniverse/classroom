@@ -89,7 +89,7 @@ const INITIAL_FORM_DATA = {
   name: '',
   subject: '',
   school: '',
-  description: '',
+  description: '',  //Not used
 };
 
 /*
@@ -318,19 +318,19 @@ class ClassroomForm extends React.Component {
         </Heading>
         
         <List className="details-list">
-          <ListItem>
-            <Label>{TEXT.CLASSROOM_FORM.SUBJECT}</Label>
-            <span>{props.selectedClassroom.subject}</span>
-          </ListItem>
-          <ListItem>
-            <Label>{TEXT.CLASSROOM_FORM.SCHOOL}</Label>
-            <span>{props.selectedClassroom.school}</span>
-          </ListItem>
-          <ListItem>
-            <Label>{TEXT.CLASSROOM_FORM.DESCRIPTION}</Label>
-            <span>{props.selectedClassroom.description}</span>
-          </ListItem>
-          <ListItem>
+          {(props.selectedClassroom.subject) ? (
+            <ListItem pad="small" separator="none">
+              <Label>{TEXT.CLASSROOM_FORM.SUBJECT}</Label>
+              <span>{props.selectedClassroom.subject}</span>
+            </ListItem>
+          ) : null}
+          {(props.selectedClassroom.school) ? (
+            <ListItem pad="small" separator="none">
+              <Label>{TEXT.CLASSROOM_FORM.SCHOOL}</Label>
+              <span>{props.selectedClassroom.school}</span>
+            </ListItem>
+          ) : null}
+          <ListItem pad="small" separator="none">
             <Label>{TEXT.JOIN_URL}</Label>
             <span>{joinURL}</span>
           </ListItem>
@@ -413,15 +413,20 @@ class ClassroomForm extends React.Component {
           </FormField>
         </fieldset>
 
-        <fieldset>
-          <FormField htmlFor="school" label={TEXT.CLASSROOM_FORM.DESCRIPTION}>
-            <TextInput
-              id="description"
-              value={this.state.form.description}
-              onDOMChange={this.updateForm.bind(this)}
-            />
-          </FormField>
-        </fieldset>
+        {
+        //Removed at the request of HHMI, based on teacher feedback
+        //--------
+        //<fieldset>
+        //  <FormField htmlFor="school" label={TEXT.CLASSROOM_FORM.DESCRIPTION}>
+        //    <TextInput
+        //      id="description"
+        //      value={this.state.form.description}
+        //      onDOMChange={this.updateForm.bind(this)}
+        //    />
+        //  </FormField>
+        //</fieldset>
+        //--------
+        }
 
         <Footer
           className="actions-panel"
