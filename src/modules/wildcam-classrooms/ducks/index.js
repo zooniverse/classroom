@@ -59,6 +59,7 @@ const WILDCAMCLASSROOMS_INITIAL_STATE = {
   classroomsStatus: WILDCAMCLASSROOMS_DATA_STATUS.IDLE,  //The status of the data fetch/send.
   classroomsStatusDetails: null,
   classroomsList: [],
+  classroomsStudents: [],
   selectedClassroom: null,
   
   assignmentsStatus: WILDCAMCLASSROOMS_DATA_STATUS.IDLE,  //The status of the data fetch/send.
@@ -92,6 +93,7 @@ const WILDCAMCLASSROOMS_PROPTYPES = {
   classroomsStatus: PropTypes.string,
   classroomsStatusDetails: PropTypes.object,
   classroomsList: PropTypes.array,
+  classroomsStudents: PropTypes.array,
   selectedClassroom: PropTypes.object,
   
   assignmentsStatus: PropTypes.string,
@@ -136,6 +138,7 @@ const resetClassrooms = (state) => {
     classroomsStatus: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsStatus,
     classroomsStatusDetails: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsDetails,
     classroomsList: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsList,
+    classroomsStudents: WILDCAMCLASSROOMS_INITIAL_STATE.classroomsStudents,
     selectedClassroom: WILDCAMCLASSROOMS_INITIAL_STATE.selectedClassroom,
     
     //Reset dependencies as well.
@@ -152,6 +155,10 @@ const setClassroomsStatus = (state, classroomsStatus, classroomsStatusDetails = 
 
 const setClassroomsList = (state, classroomsList) => {
   return { ...state, classroomsList };
+};
+
+const setClassroomsStudents = (state, classroomsStudents) => {
+  return { ...state, classroomsStudents };
 };
 
 const setSelectedClassroom = (state, selectedClassroom) => {
@@ -209,17 +216,17 @@ Effect('wcc_teachers_fetchClassrooms', ({ selectedProgram }) => {
   
   .then((response) => {
     if (!response) { throw 'ERROR (wildcam-classrooms/ducks/wcc_teachers_fetchClassrooms): No response'; }
-    if (response.ok &&
-        response.body && response.body.data) {
-      return response.body.data;
+    if (response.ok && response.body) {
+      return response.body;
     }
     throw 'ERROR (wildcam-classrooms/ducks/wcc_teachers_fetchClassrooms): Invalid response';
   })
   
-  .then((data) => {
+  .then((body) => {
     Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
-    Actions.wildcamClassrooms.setClassroomsList(data);
-    return data;
+    Actions.wildcamClassrooms.setClassroomsList(body.data);
+    Actions.wildcamClassrooms.setClassroomsStudents(body.included);
+    return body;
   })
   
   .catch((err) => {
@@ -499,6 +506,7 @@ const wildcamClassrooms = State('wildcamClassrooms', {
   resetClassrooms,
   setClassroomsStatus,
   setClassroomsList,
+  setClassroomsStudents,
   setSelectedClassroom,
   resetSelectedClassroom,
   setToast,

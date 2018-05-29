@@ -16,6 +16,7 @@ import { config } from '../../../lib/config';
 
 import StatusWorking from './StatusWorking';
 import StatusNotFound from './StatusNotFound';
+import StudentsList from './StudentsList';
 import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
 
 import Box from 'grommet/components/Box';
@@ -359,6 +360,10 @@ class ClassroomForm extends React.Component {
             }}
           />
         </Footer>
+        
+        <StudentsList
+          selectedClassroom={props.selectedClassroom}
+        />
       </Box>
     );
   }
