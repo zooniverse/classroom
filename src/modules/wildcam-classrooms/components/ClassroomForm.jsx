@@ -17,6 +17,7 @@ import { config } from '../../../lib/config';
 import StatusWorking from './StatusWorking';
 import StatusNotFound from './StatusNotFound';
 import StudentsList from './StudentsList';
+import AssignmentsList from './AssignmentsList';
 import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
 
 import Box from 'grommet/components/Box';
@@ -363,6 +364,13 @@ class ClassroomForm extends React.Component {
         
         <StudentsList
           selectedClassroom={props.selectedClassroom}
+          selectedAssignment={null}
+          doUpdateStudents={(updatedListOfStudents) => {
+            console.log('+++ Updated List of Students: ', updatedListOfStudents);
+          }}
+        />
+        
+        <AssignmentsList
         />
       </Box>
     );
@@ -475,7 +483,7 @@ class ClassroomForm extends React.Component {
                   .then(() => {
                     //Message
                     Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_DELETED, status: 'ok' });
-
+                    
                     //Refresh
                     return Actions.wcc_teachers_refreshData({ selectedProgram: props.selectedProgram, selectedClassroom: props.selectedClassroom })
                     .then(() => {

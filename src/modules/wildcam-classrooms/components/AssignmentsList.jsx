@@ -1,31 +1,8 @@
 /*
-Students List
--------------
+Assignments List
+----------------
 
-Renders a list of students attached to a WildCam Classroom or WildCam
-Assignment. The user can optionally update the selected students within this
-list.
-
-Props:
-- selectedClassroom: (required) the WildCam Classroom that we're listing
-    students for.
-- selectedAssignment: (optional) the WildCam Assignment that we're listing
-    students for.
-- doUpdateStudents: (optional) function that's called when the user updates the
-    list of selected students.
-
-Usage:
-  <StudentsList
-    selectedClassroom={myClassroom}
-    selectedAssignment={null}
-    doUpdateStudents={(arrayOfSelectedStudents) => {
-      console.log('The user has chosen the following students: ', arrayOfSelectedStudents);
-    }}
-  />
-
-//TODO:
-When deleting students...
-https://education-api-staging.zooniverse.org/teachers/classrooms/362/student_users/304
+Renders a list of assignments.
 
 --------------------------------------------------------------------------------
  */
@@ -119,7 +96,10 @@ class StudentsList extends React.Component {
     const props = this.props;
     const state = this.state;
     
-    const userCanUpdateList = props.doUpdateStudents !== null;
+    //const students = (props.selectedClassroom && props.selectedClassroom.students) ? props.selectedClassroom.students : [];
+    //const assignments = (props.selectedClassroom && props.assignments && props.assignments[props.selectedClassroom.id])
+    //  ? props.assignments[props.selectedClassroom.id]
+    //  : [];
     
     return (
       <Box
@@ -141,45 +121,39 @@ class StudentsList extends React.Component {
                   <td>
                     ({stud.zooniverseLogin})
                   </td>
-                  {(userCanUpdateList) && (
-                    <td>
-                      <Box
-                        className="actions-panel"
-                        direction="row"
-                        justify="end"
-                      >
-                        <CheckBox
-                          checked={state.form[stud.id]}
-                          onChange={(e) => {
-                            this.setState({
-                              form: {
-                                ...state.form,
-                                [stud.id]: !state.form[stud.id],
-                              }
-                            });
-                          }}
-                        />
-                      </Box>
-                    </td>
-                  )}
+                  <td>
+                    <Box
+                      className="actions-panel"
+                      direction="row"
+                      justify="end"
+                    >
+                      <CheckBox
+                        checked={state.form[stud.id]}
+                        onChange={(e) => {
+                          this.setState({
+                            form: {
+                              ...state.form,
+                              [stud.id]: !state.form[stud.id],
+                            }
+                          });
+                        }}
+                      />
+                    </Box>
+                  </td>
                 </TableRow>
               );
             })}
           </tbody>
         </Table>
-        {(userCanUpdateList) &&
-          <Footer>
-            <Button
-              className="button"
-              label={TEXT.ACTIONS.UPDATE_STUDENTS}
-              onClick={() => {
-                let updatedListOfStudents = [];
-                //TODO
-                props.doUpdateStudents(this.state.form);
-              }}
-            />
-          </Footer>
-        }
+        <Footer>
+          <Button
+            className="button"
+            label={TEXT.ACTIONS.UPDATE_STUDENTS}
+            onClick={() => {
+              props.doUpdateStudents(this.state.form);
+            }}
+          />
+        </Footer>
       </Box>
     );
   }
@@ -191,7 +165,7 @@ class StudentsList extends React.Component {
 
 StudentsList.defaultProps = {
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
-  doUpdateStudents: null,
+  doUpdateStudents: () => {},
 };
 
 StudentsList.propTypes = {

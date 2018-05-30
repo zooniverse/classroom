@@ -380,7 +380,9 @@ Effect('wcc_teachers_refreshData', ({ selectedProgram, selectedClassroom, select
   
   //Fetch the latest data...
   return Actions.wcc_teachers_fetchClassrooms({ selectedProgram })
-  .then((classrooms) => {
+  .then((body) => {
+    const classrooms = body.classrooms;
+    
     //...then restore the user's previous view.
     const retrieved_selectedClassroom = (saved_selectedClassroom_id && classrooms)
       ? classrooms.find((classroom) => { return classroom.id === saved_selectedClassroom_id })
@@ -388,6 +390,8 @@ Effect('wcc_teachers_refreshData', ({ selectedProgram, selectedClassroom, select
     
     Actions.wildcamClassrooms.setSelectedClassroom(retrieved_selectedClassroom);
     //TODO: setSelectedAssignment();
+    
+    return null;
   })
   .catch((err) => {
     setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
