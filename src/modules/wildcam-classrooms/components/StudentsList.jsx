@@ -20,7 +20,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Box from 'grommet/components/Box';
+import CheckBox from 'grommet/components/CheckBox';
 import Form from 'grommet/components/Form';
+import Heading from 'grommet/components/Heading';
+import Table from 'grommet/components/Table';
+import TableRow from 'grommet/components/TableRow';
 
 import {
   WILDCAMCLASSROOMS_COMPONENT_MODES as MODES,
@@ -93,17 +97,44 @@ class StudentsList extends React.Component {
     //  : [];
     
     return (
-      <div>
-        {state.students.map((stud) => {
-          console.log('+++ student: ', stud);
-          return (
-            <div key={stud.id}>
-              {stud.zooniverseDisplayName}
-              {state.form[stud.id] && ' (tick) '}
-            </div>
-          );
-        })}
-      </div>
+      <Table className="students-list table">
+        <tbody>
+          {state.students.map((stud) => {
+            return (
+              <TableRow
+                className="item"
+                key={`students-list_${stud.id}`}
+              >
+                <td>
+                  <Heading tag="h4">{stud.zooniverseDisplayName}</Heading>
+                </td>
+                <td>
+                  ({stud.zooniverseLogin})
+                </td>
+                <td>
+                  <Box
+                    className="actions-panel"
+                    direction="row"
+                    justify="end"
+                  >
+                    <CheckBox
+                      checked={state.form[stud.id]}
+                      onChange={(e) => {
+                        this.setState({
+                          form: {
+                            ...state.form,
+                            [stud.id]: !state.form[stud.id],
+                          }
+                        });
+                      }}
+                    />
+                  </Box>
+                </td>
+              </TableRow>
+            );
+          })}
+        </tbody>
+      </Table>
     );
     
     //State: WTF
