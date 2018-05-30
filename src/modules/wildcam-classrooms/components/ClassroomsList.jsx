@@ -65,7 +65,6 @@ class ClassroomsList extends React.Component {
         pad="medium"
       >
         <Heading tag="h2">List of Classrooms</Heading>
-        
         {(() => {
           if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
             return this.render_readyState();

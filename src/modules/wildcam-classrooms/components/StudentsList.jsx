@@ -20,7 +20,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Box from 'grommet/components/Box';
+import Button from 'grommet/components/Button';
 import CheckBox from 'grommet/components/CheckBox';
+import Footer from 'grommet/components/Footer';
 import Form from 'grommet/components/Form';
 import Heading from 'grommet/components/Heading';
 import Table from 'grommet/components/Table';
@@ -38,6 +40,18 @@ import {
 --------------------------------------------------------------------------------
  */
 
+const TEXT = {
+  ACTIONS: {
+    UPDATE_STUDENTS: 'Update students'
+  },
+  HEADINGS: {
+    STUDENTS: 'Students',
+  }
+}
+  
+/*
+--------------------------------------------------------------------------------
+ */
 
 class StudentsList extends React.Component {
   constructor() {
@@ -97,49 +111,60 @@ class StudentsList extends React.Component {
     //  : [];
     
     return (
-      <Table className="students-list table">
-        <tbody>
-          {state.students.map((stud) => {
-            return (
-              <TableRow
-                className="item"
-                key={`students-list_${stud.id}`}
-              >
-                <td>
-                  <Heading tag="h4">{stud.zooniverseDisplayName}</Heading>
-                </td>
-                <td>
-                  ({stud.zooniverseLogin})
-                </td>
-                <td>
-                  <Box
-                    className="actions-panel"
-                    direction="row"
-                    justify="end"
-                  >
-                    <CheckBox
-                      checked={state.form[stud.id]}
-                      onChange={(e) => {
-                        this.setState({
-                          form: {
-                            ...state.form,
-                            [stud.id]: !state.form[stud.id],
-                          }
-                        });
-                      }}
-                    />
-                  </Box>
-                </td>
-              </TableRow>
-            );
-          })}
-        </tbody>
-      </Table>
+      <Box
+        className="students-list"
+        pad="small"
+      >
+        <Heading tag="h3">{TEXT.HEADINGS.STUDENTS}</Heading>
+        <Table className="table">
+          <tbody>
+            {state.students.map((stud) => {
+              return (
+                <TableRow
+                  className="item"
+                  key={`students-list_${stud.id}`}
+                >
+                  <td>
+                    <Heading tag="h4">{stud.zooniverseDisplayName}</Heading>
+                  </td>
+                  <td>
+                    ({stud.zooniverseLogin})
+                  </td>
+                  <td>
+                    <Box
+                      className="actions-panel"
+                      direction="row"
+                      justify="end"
+                    >
+                      <CheckBox
+                        checked={state.form[stud.id]}
+                        onChange={(e) => {
+                          this.setState({
+                            form: {
+                              ...state.form,
+                              [stud.id]: !state.form[stud.id],
+                            }
+                          });
+                        }}
+                      />
+                    </Box>
+                  </td>
+                </TableRow>
+              );
+            })}
+          </tbody>
+        </Table>
+        <Footer>
+          <Button
+            className="button"
+            label={TEXT.ACTIONS.UPDATE_STUDENTS}
+            onClick={() => {
+              props.doUpdateStudents(this.state.form);
+            }}
+          />
+        </Footer>
+      </Box>
     );
-    
-    //State: WTF
-    //How did we even get here?
-    return null;
   }
 };
 
@@ -149,10 +174,12 @@ class StudentsList extends React.Component {
 
 StudentsList.defaultProps = {
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
+  doUpdateStudents: () => {},
 };
 
 StudentsList.propTypes = {
   ...WILDCAMCLASSROOMS_PROPTYPES,
+  doUpdateStudents: PropTypes.func,
 };
 
 export default StudentsList;
