@@ -27,15 +27,16 @@ class DarienEducators extends React.Component {
 };
 
 DarienEducators.defaultProps = {
-  location: null,
   history: null,
+  location: null,
   match: null,
+  // ----------------
   selectedProgram: null,
 };
 
 DarienEducators.propTypes = {
-  location: PropTypes.object,
   history: PropTypes.object,
+  location: PropTypes.object,
   match: PropTypes.object,
   // ----------------
   selectedProgram: PropTypes.object,

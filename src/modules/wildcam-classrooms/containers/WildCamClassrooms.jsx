@@ -85,19 +85,19 @@ class WildCamClassroom extends React.Component {
         
         <Switch>
           <Route
-            path={`${match.url}/classroom/:classroom_id/assignment/new`} exact
+            path={`${match.url}/classrooms/:classroom_id/assignments/new`} exact
             component={AssignmentForm}
           />
           <Route
-            path={`${match.url}/classroom/:classroom_id/assignment/:assignment_id`} exact
+            path={`${match.url}/classrooms/:classroom_id/assignments/:assignment_id`} exact
             component={AssignmentForm}
           />
           <Route
-            path={`${match.url}/classroom/new`} exact
+            path={`${match.url}/classrooms/new`} exact
             component={ClassroomForm}
           />
           <Route
-            path={`${match.url}/classroom/:classroom_id`} exact
+            path={`${match.url}/classrooms/:classroom_id`} exact
             component={ClassroomForm}
           />
           <Route
@@ -125,8 +125,8 @@ class WildCamClassroom extends React.Component {
  */
 
 WildCamClassroom.defaultProps = {
-  location: null,
   history: null,
+  location: null,
   match: null,
   // ----------------
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  //Passed from parent.
@@ -135,8 +135,8 @@ WildCamClassroom.defaultProps = {
 };
 
 WildCamClassroom.propTypes = {
-  location: PropTypes.object,
   history: PropTypes.object,
+  location: PropTypes.object,
   match: PropTypes.object,
   // ----------------
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,

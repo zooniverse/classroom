@@ -78,8 +78,8 @@ class AssignmentForm extends React.Component {
       //Fetch the selected classroom data.
       
       Based on the route/URL, we'll either create a new classroom or edit an existing one.
-        .../classroom/new - create a new classroom (i.e. no classroom_id parameter)
-        .../classroom/123 - edit classroom 123 (i.e. classroom_id=123 supplied.)
+        .../classrooms/new - create a new classroom (i.e. no classroom_id parameter)
+        .../classrooms/123 - edit classroom 123 (i.e. classroom_id=123 supplied.)
    */
   initialise(props = this.props) {
     const state = this.state;
@@ -153,8 +153,8 @@ class AssignmentForm extends React.Component {
 
 AssignmentForm.VIEWS = VIEWS;
 AssignmentForm.defaultProps = {
-  location: null,
   history: null,
+  location: null,
   match: null,
   // ----------------
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  
@@ -163,8 +163,8 @@ AssignmentForm.defaultProps = {
 };
 
 AssignmentForm.propTypes = {
-  location: PropTypes.object,
   history: PropTypes.object,
+  location: PropTypes.object,
   match: PropTypes.object,
   // ----------------
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,

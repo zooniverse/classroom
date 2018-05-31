@@ -123,8 +123,8 @@ class ClassroomForm extends React.Component {
       //Fetch the selected classroom data.
       
       Based on the route/URL, we'll either create a new classroom or edit an existing one.
-        .../classroom/new - create a new classroom (i.e. no classroom_id parameter)
-        .../classroom/123 - edit classroom 123 (i.e. classroom_id=123 supplied.)
+        .../classrooms/new - create a new classroom (i.e. no classroom_id parameter)
+        .../classrooms/123 - edit classroom 123 (i.e. classroom_id=123 supplied.)
    */
   initialise(props = this.props) {
     const state = this.state;
@@ -362,15 +362,17 @@ class ClassroomForm extends React.Component {
           />
         </Footer>
         
+        <AssignmentsList
+          selectedClassroom={props.selectedClassroom}
+          history={props.history}
+        />
+        
         <StudentsList
           selectedClassroom={props.selectedClassroom}
           selectedAssignment={null}
           doUpdateStudents={(updatedListOfStudents) => {
             console.log('+++ Updated List of Students: ', updatedListOfStudents);
           }}
-        />
-        
-        <AssignmentsList
         />
       </Box>
     );
@@ -520,8 +522,8 @@ class ClassroomForm extends React.Component {
  */
 
 ClassroomForm.defaultProps = {
-  location: null,
   history: null,
+  location: null,
   match: null,
   // ----------------
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  
@@ -530,8 +532,8 @@ ClassroomForm.defaultProps = {
 };
 
 ClassroomForm.propTypes = {
-  location: PropTypes.object,
   history: PropTypes.object,
+  location: PropTypes.object,
   match: PropTypes.object,
   // ----------------
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,

@@ -124,6 +124,7 @@ class StudentsList extends React.Component {
     return (
       <Box
         className="students-list"
+        margin="small"
         pad="small"
       >
         <Heading tag="h3">{TEXT.HEADINGS.STUDENTS}</Heading>

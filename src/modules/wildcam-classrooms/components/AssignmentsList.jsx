@@ -32,94 +32,60 @@ import {
  */
 
 const TEXT = {
-  ACTIONS: {
-    UPDATE_STUDENTS: 'Update students'
-  },
   HEADINGS: {
-    STUDENTS: 'Students',
-  }
+    ASSIGNMENTS: 'Assignments',
+  },
+  ACTIONS: {
+    EDIT: 'Edit',
+    CREATE_NEW_ASSIGNMENT: 'Create new assignment',
+  },
 }
   
 /*
 --------------------------------------------------------------------------------
  */
 
-class StudentsList extends React.Component {
+class AssignmentsList extends React.Component {
   constructor() {
     super();
-    this.state = {
-      students: [],
-      form: {},
-    };
   }
   
   // ----------------------------------------------------------------
   
-  componentDidMount() {
-    this.initialise(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.initialise(nextProps);
-  }
-  
-  /*  //Initialise: populate the form with students
-   */
-  initialise(props = this.props) {
-    //Sanity check
-    if (!props.selectedClassroom) return;
-    
-    const form = {};
-    const students = props.selectedClassroom.students || [];
-    
-    students.map((stud) => { form[stud.id] = true; });
-          
-    //TODO: React if there's a SelectedAssignment.
-    
-    this.setState({ students, form });
-  }
-  
-  // ----------------------------------------------------------------
-  
-  updateForm(e) {
-    this.setState({
-      form: {
-        ...this.state.form,
-        [e.target.id]: e.target.value
-      }
-    });
-  }
-
-  // ----------------------------------------------------------------
-
   render() {
     const props = this.props;
     const state = this.state;
+    
+    //Sanity check
+    if (!props.selectedClassroom) return null;
     
     //const students = (props.selectedClassroom && props.selectedClassroom.students) ? props.selectedClassroom.students : [];
     //const assignments = (props.selectedClassroom && props.assignments && props.assignments[props.selectedClassroom.id])
     //  ? props.assignments[props.selectedClassroom.id]
     //  : [];
     
+    const assignments = props.assignmentsList || [];
+    
     return (
       <Box
-        className="students-list"
+        className="assignments-list"
+        margin="small"
         pad="small"
       >
-        <Heading tag="h3">{TEXT.HEADINGS.STUDENTS}</Heading>
+        <Heading tag="h3">{TEXT.HEADINGS.ASSIGNMENTS}</Heading>
         <Table className="table">
           <tbody>
-            {state.students.map((stud) => {
+            {assignments.map((assignment) => {
               return (
                 <TableRow
                   className="item"
-                  key={`students-list_${stud.id}`}
+                  key={`assignments-list_${assignment.id}`}
                 >
                   <td>
-                    <Heading tag="h4">{stud.zooniverseDisplayName}</Heading>
+                    <Heading tag="h4">...</Heading>
                   </td>
                   <td>
-                    ({stud.zooniverseLogin})
+                    ...
                   </td>
                   <td>
                     <Box
@@ -127,17 +93,7 @@ class StudentsList extends React.Component {
                       direction="row"
                       justify="end"
                     >
-                      <CheckBox
-                        checked={state.form[stud.id]}
-                        onChange={(e) => {
-                          this.setState({
-                            form: {
-                              ...state.form,
-                              [stud.id]: !state.form[stud.id],
-                            }
-                          });
-                        }}
-                      />
+                      EDIT
                     </Box>
                   </td>
                 </TableRow>
@@ -148,9 +104,10 @@ class StudentsList extends React.Component {
         <Footer>
           <Button
             className="button"
-            label={TEXT.ACTIONS.UPDATE_STUDENTS}
+            label={TEXT.ACTIONS.CREATE_NEW_ASSIGNMENT}
             onClick={() => {
-              props.doUpdateStudents(this.state.form);
+              //Transition to: Create New Assignment
+              props.history && props.history.push(`${props.selectedClassroom.id}/assignments/new`);
             }}
           />
         </Footer>
@@ -163,14 +120,20 @@ class StudentsList extends React.Component {
 --------------------------------------------------------------------------------
  */
 
-StudentsList.defaultProps = {
-  ...WILDCAMCLASSROOMS_INITIAL_STATE,
-  doUpdateStudents: () => {},
+AssignmentsList.defaultProps = {
+  history: null,
+  location: null,
+  match: null,
+  // ----------------
+  selectedClassroom: WILDCAMCLASSROOMS_INITIAL_STATE.selectedClassroom,
 };
 
-StudentsList.propTypes = {
-  ...WILDCAMCLASSROOMS_PROPTYPES,
-  doUpdateStudents: PropTypes.func,
+AssignmentsList.propTypes = {
+  history: PropTypes.object,
+  location: PropTypes.object,
+  match: PropTypes.object,
+  // ----------------
+  selectedClassroom: WILDCAMCLASSROOMS_PROPTYPES.selectedClassroom,
 };
 
-export default StudentsList;
+export default AssignmentsList;
