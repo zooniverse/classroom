@@ -173,6 +173,36 @@ const resetSelectedClassroom = (state) => {
   };
 };
 
+const resetAssignments = (state) => {
+  return {
+    ...state,
+    
+    assignmentsStatus: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsStatus,
+    assignmentsStatusDetails: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsStatusDetails,
+    assignmentsList: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsList,
+    selectedAssignment: WILDCAMCLASSROOMS_INITIAL_STATE.selectedAssignment,
+  };
+};
+
+const setAssignmentsStatus = (state, assignmentsStatus, assignmentsStatusDetails = null) => {
+  return { ...state, assignmentsStatus, assignmentsStatusDetails };
+};
+
+const setAssignmentsList = (state, assignmentsList) => {
+  return { ...state, assignmentsList };
+};
+
+const setSelectedAssignment = (state, selectedAssignment) => {
+  return { ...state, selectedAssignment };
+};
+
+const resetSelectedAssignment = (state) => {
+  return {
+    ...state,
+    selectedAssignment: null,
+  };
+};
+
 const setToast = (state, toast = { message: null, state: null }) => {
   return {
     ...state,
@@ -404,6 +434,45 @@ Effect('wcc_teachers_refreshData', ({ selectedProgram, selectedClassroom, select
 --------------------------------------------------------------------------------
  */
 
+/*  Fetch all the Assignments (optionally: for the selected Classroom) from the
+    Education API. Implicit: the list of Assignments is limited to what's
+    available to the logged-in user.
+    
+    API notes: 
+      GET /assignments/?classroom_id=123
+ */
+Effect('wcc_fetchAssignments', ({ selectedClassroom }) => {
+  //NOTE: if selectedClassroom isn't specified, this will pull a list of ALL
+  //Assignments belonging to the teacher. This may be useful?
+  
+  const classroom_id = (selectedClassroom) ? selectedClassroom.id : undefined;
+  
+  Actions.wildcamClassrooms.resetAssignments();
+  Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.FETCHING);
+  
+  return get('/assignments/', [{ classroom_id }])
+  
+  .then((response) => {
+    if (!response) { throw 'ERROR (wildcam-classrooms/ducks/wcc_fetchAssignments): No response'; }
+    if (response.ok && response.body) {
+      return response.body;
+    }
+    throw 'ERROR (wildcam-classrooms/ducks/wcc_fetchAssignments): Invalid response';
+  })
+  
+  .then((body) => {
+    Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
+    Actions.wildcamClassrooms.setAssignmentsList(body.data);
+    return body;
+  })
+  
+  .catch((err) => {
+    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    showErrorMessage(err);
+    throw(err);
+  });
+});
+
 /*  Creates an assignment.
     
     API notes:
@@ -513,6 +582,11 @@ const wildcamClassrooms = State('wildcamClassrooms', {
   setClassroomsStudents,
   setSelectedClassroom,
   resetSelectedClassroom,
+  resetAssignments,
+  setAssignmentsStatus,
+  setAssignmentsList,
+  setSelectedAssignment,
+  resetSelectedAssignment,
   setToast,
   resetToast,
 });

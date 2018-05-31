@@ -112,6 +112,8 @@ class WildCamClassroom extends React.Component {
           <Box>
             Classrooms Status: [{props.classroomsStatus}] <br/>
             Classrooms Count: [{props.classroomsList && props.classroomsList.length}] <br/>
+            Assignments Status: [{props.assignmentsStatus}] <br/>
+            Assignments Count: [{props.assignmentsList && props.assignmentsList.length}] <br/>
           </Box>
         </Box>
 
