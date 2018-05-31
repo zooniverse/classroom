@@ -311,13 +311,13 @@ Effect('wcc_teachers_createClassroom', ({ selectedProgram, classroomData }) => {
 
   return post('/teachers/classrooms/', requestBody)
   .then((response) => {
-    if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createClassrooms): No response'; }
+    if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createClassroom): No response'; }
     if (response.ok &&
         response.body && response.body.data) {
       Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
       return response.body.data;
     }
-    throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createClassrooms): Invalid response';
+    throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createClassroom): Invalid response';
   })
   .catch((err) => {
     setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
@@ -519,6 +519,35 @@ Effect('wcc_fetchAssignments', ({ selectedClassroom }) => {
         }
       }
  */
+Effect('wcc_teachers_createAssignment', ({ selectedClassroom, assignmentData }) => {
+  //Sanity check
+  if (!selectedClassroom || !assignmentData) return;
+  Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
+  
+  const requestBody = {
+    data: {
+      //TODO
+    }
+  };
+  
+  alert('//TODO');
+
+  return post('/assignments/', requestBody)
+  .then((response) => {
+    if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createAssignment): No response'; }
+    if (response.ok &&
+        response.body && response.body.data) {
+      Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
+      return response.body.data;
+    }
+    throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createAssignment): Invalid response';
+  })
+  .catch((err) => {
+    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    showErrorMessage(err);
+    throw(err);
+  });
+});
 
 /*  Edits an assignment.
     

@@ -71,9 +71,7 @@ const TEXT = {
   },
   ASSIGNMENT_FORM: {
     NAME: 'Assignment name',
-    SUBJECT: 'Assignment subject',
-    SCHOOL: 'School',
-    DESCRIPTION: 'Description',
+    DESCRIPTION: 'Instructions for Students',
   },
   ERROR: {
     GENERAL: 'Something went wrong',
@@ -233,13 +231,18 @@ class AssignmentForm extends React.Component {
     
     //Sanity check
     if (!props.selectedProgram) return;
-    if (state.view === VIEWS.VIEW_EXISTING && !props.selectedClassroom) return;
+    if (!props.selectedClassroom) return;
+    //TODO: Check if this is necessary -- if (state.view === VIEWS.VIEW_EXISTING && !props.selectedClassroom) return;
     
-    //Submit Form: create new classroom
+    //Submit Form: create new assignment
     if (state.view === VIEWS.CREATE_NEW) {
-      return Actions.wcc_teachers_createClassroom({
-        selectedProgram: props.selectedProgram,
-        classroomData: this.state.form,
+      const assignmentData = {
+        
+      };
+      
+      return Actions.wcc_teachers_createAssignment({
+        selectedClassroom: props.selectedClassroom,
+        assignmentData
       })
       .then(() => {
         //Message
@@ -252,7 +255,7 @@ class AssignmentForm extends React.Component {
           props.history && props.history.push('../');
         });
       }).catch((err) => {
-        //Error messaging done in Actions.wcc_teachers_createClassroom()
+        //Error messaging done in Actions.wcc_teachers_createAssignment()
       });
     
     //Submit Form: update existing classroom
@@ -423,39 +426,14 @@ class AssignmentForm extends React.Component {
         </fieldset>
 
         <fieldset>
-          <FormField htmlFor="subject" label={TEXT.ASSIGNMENT_FORM.SUBJECT}>
-            <TextInput
-              id="subject"
+          <FormField htmlFor="subject" label={TEXT.ASSIGNMENT_FORM.DESCRIPTION}>
+            <textarea
+              id="description"
               value={this.state.form.subject}
-              onDOMChange={this.updateForm.bind(this)}
+              onChange={this.updateForm.bind(this)}
             />
           </FormField>
         </fieldset>
-
-        <fieldset>
-          <FormField htmlFor="school" label={TEXT.ASSIGNMENT_FORM.SCHOOL}>
-            <TextInput
-              id="school"
-              value={this.state.form.school}
-              onDOMChange={this.updateForm.bind(this)}
-            />
-          </FormField>
-        </fieldset>
-
-        {
-        //Removed at the request of HHMI, based on teacher feedback
-        //--------
-        //<fieldset>
-        //  <FormField htmlFor="school" label={TEXT.ASSIGNMENT_FORM.DESCRIPTION}>
-        //    <TextInput
-        //      id="description"
-        //      value={this.state.form.description}
-        //      onDOMChange={this.updateForm.bind(this)}
-        //    />
-        //  </FormField>
-        //</fieldset>
-        //--------
-        }
 
         <Footer
           className="actions-panel"
