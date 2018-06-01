@@ -16,6 +16,7 @@ import { config } from '../../../lib/config';
 
 import StatusWorking from './StatusWorking';
 import StatusNotFound from './StatusNotFound';
+import StatusBorked from './StatusBorked';
 import StudentsList from './StudentsList';
 import AssignmentsList from './AssignmentsList';
 import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
@@ -296,6 +297,19 @@ class ClassroomForm extends React.Component {
       );
     }
     
+    //State: Error
+    if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.ERROR) {
+      return (
+        <Box
+          className="classroom-form"
+          margin="medium"
+          pad="medium"
+        >
+          {this.render_errorState()}
+        </Box>
+      );
+    }
+    
     //State: WTF
     //How did we even get here?
     return null;
@@ -515,6 +529,15 @@ class ClassroomForm extends React.Component {
   render_notFoundState() {
     return (
       <StatusNotFound />
+    );
+  }
+  
+  render_errorState() {
+    return (
+      <StatusBorked
+        classroomsStatusDetails={this.props.classroomsStatusDetails}
+        assignmentsStatusDetails={this.props.assignmentsStatusDetails}
+      />
     );
   }
 };

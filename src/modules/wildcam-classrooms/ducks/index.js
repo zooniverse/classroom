@@ -533,19 +533,53 @@ Effect('wcc_fetchAssignments', ({ selectedClassroom }) => {
         }
       }
  */
-Effect('wcc_teachers_createAssignment', ({ selectedClassroom, assignmentData }) => {
+Effect('wcc_teachers_createAssignment', ({ selectedProgram, selectedClassroom, assignmentData, students = [], filters = {}, subjects = []}) => {
   //Sanity check
-  if (!selectedClassroom || !assignmentData) return;
+  if (!selectedProgram || !selectedClassroom || !assignmentData) return;
   Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
+  
+  console.log('+++ create assignment: ', selectedProgram);
   
   const requestBody = {
     data: {
-      //TODO
+      attributes: {
+        name: assignmentData.name || '',
+        metadata: {
+          classifications_target: (/\d+/.test(assignmentData.classifications_target)) ? assignmentData.classifications_target : '0',
+          description: assignmentData.description || '',
+          duedate: assignmentData.duedate || '',  //TODO: Validation
+          filters: filters,
+          subjects: subjects,
+        },
+        workflow_id: "338"  //TODO
+      },
+      relationships: {
+        classroom: {
+          data: {
+            id: selectedClassroom.id,
+            type: 'classrooms'
+          }
+        },
+        student_users: {
+          data: students.map((student_id) => {
+            return {
+              id: student_id,
+              type: 'student_user',
+            }
+          })
+        },
+        subjects: {
+          data: subjects.map((subject_id) => {
+            return {
+              id: subject_id,
+              type: 'subjects',
+            }
+          })
+        }
+      }
     }
   };
   
-  alert('//TODO');
-
   return post('/assignments/', requestBody)
   .then((response) => {
     if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createAssignment): No response'; }
