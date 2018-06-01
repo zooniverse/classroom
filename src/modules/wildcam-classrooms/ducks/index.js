@@ -391,7 +391,7 @@ Effect('wcc_teachers_deleteClassroom', (selectedClassroom) => {
   .then((response) => {
     if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_deleteClassroom): No response'; }
     if (response.ok) {
-      return Actions.classrooms.setStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
+      return Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
     }
     throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_deleteClassroom): Invalid response';
   })
@@ -412,7 +412,7 @@ Effect('wcc_teachers_deleteClassroom', (selectedClassroom) => {
     Called when, e.g. a Classroom is edited, to sync local data with the
     updated server data.
  */
-Effect('wcc_teachers_refreshData', ({ selectedProgram, selectedClassroom, selectedAssignment }) => {
+Effect('wcc_teachers_refreshData', ({ selectedProgram, selectedClassroom = null, selectedAssignment = null }) => {
   //Sanity check
   if (!selectedProgram) return;
   
@@ -650,7 +650,28 @@ Effect('wcc_teachers_createAssignment', ({ selectedProgram, selectedClassroom, a
     API notes:
       DELETE /assignments/12345
  */
-
+Effect('wcc_deleteAssignment', (selectedAssignment) => {
+  //Sanity check
+  if (!selectedAssignment) return;
+  
+  Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
+  
+  return httpDelete(`/assignments/${selectedAssignment.id}`)
+  .then((response) => {
+    if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_deleteAssignment): No response'; }
+    if (response.ok) {
+      return Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
+    }
+    throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_deleteAssignment): Invalid response';
+  })
+  .catch((err) => {
+    Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);
+    Actions.wildcamClassrooms.setAssignmentsStatusDetails(err);
+    showErrorMessage(err);
+    throw(err);
+  });
+  
+});
 /*
 --------------------------------------------------------------------------------
  */

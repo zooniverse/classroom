@@ -485,7 +485,7 @@ class AssignmentForm extends React.Component {
                 icon={<CloseIcon size="small" />}
                 label={TEXT.ACTIONS.DELETE}
                 onClick={() => {
-                  return Actions.wcc_teachers_deleteClassroom(props.selectedClassroom)
+                  return Actions.wcc_deleteAssignment(props.selectedAssignment)
                   .then(() => {
                     //Message
                     Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.ASSIGNMENT_DELETED, status: 'ok' });
@@ -497,7 +497,7 @@ class AssignmentForm extends React.Component {
                       props.history && props.history.push('../');
                     });
                   }).catch((err) => {
-                    //Error messaging done in Actions.wcc_teachers_deleteClassroom()
+                    //Error messaging done in Actions.wcc_deleteAssignment()
                   });
                 }}
               />

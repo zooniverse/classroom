@@ -512,7 +512,7 @@ class ClassroomForm extends React.Component {
                     Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_DELETED, status: 'ok' });
                     
                     //Refresh
-                    return Actions.wcc_teachers_refreshData({ selectedProgram: props.selectedProgram, selectedClassroom: props.selectedClassroom })
+                    return Actions.wcc_teachers_refreshData({ selectedProgram: props.selectedProgram })
                     .then(() => {
                       //Transition to: View All Classrooms
                       props.history && props.history.push('../');
