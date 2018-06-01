@@ -106,7 +106,7 @@ class ClassroomsList extends React.Component {
                       label={TEXT.VIEW}
                       onClick={() => {
                         //Transition to: View One Classroom
-                        props.history && props.history.push(`classrooms/${classroom.id}`);
+                        props.history && props.history.push(`${props.match.url.replace(/\/+$/,'')}/classrooms/${classroom.id}`);
                       }}
                     />
                   </Box>
@@ -129,7 +129,7 @@ class ClassroomsList extends React.Component {
             label={TEXT.CREATE_NEW_CLASSROOM}
             onClick={() => {
               //Transition to: Create New Classroom
-              props.history && props.history.push(`classrooms/new`);
+              props.history && props.history.push(`${props.match.url.replace(/\/+$/,'')}/classrooms/new`);
             }}
           />
         </Box>

@@ -386,6 +386,8 @@ class ClassroomForm extends React.Component {
           selectedClassroom={props.selectedClassroom}
           assignmentsList={props.assignmentsList}
           history={props.history}
+          location={props.location}
+          match={props.match}
         />
         
         <StudentsList

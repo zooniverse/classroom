@@ -151,15 +151,15 @@ class AssignmentForm extends React.Component {
 
       Actions.wcc_fetchAssignments({ selectedClassroom })
       .then((body) => {
-        this.initialise_partTwo(assignment_id, props.assignmentsList);
+        this.initialise_partTwo(classroom_id, assignment_id, props.assignmentsList);
       });
 
     } else {
-      this.initialise_partTwo(assignment_id, props.assignmentsList);
+      this.initialise_partTwo(classroom_id, assignment_id, props.assignmentsList);
     }
   }
   
-  initialise_partTwo(assignment_id, assignmentsList) {
+  initialise_partTwo(classroom_id, assignment_id, assignmentsList) {
     //Create a new assignment
     if (!assignment_id) {  //Note: there should never be assignment_id === 0 or ''
       this.setState({ view: VIEWS.CREATE_NEW });

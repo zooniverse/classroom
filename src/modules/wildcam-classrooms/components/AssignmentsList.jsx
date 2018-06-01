@@ -19,6 +19,8 @@ import Heading from 'grommet/components/Heading';
 import Table from 'grommet/components/Table';
 import TableRow from 'grommet/components/TableRow';
 
+import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
+
 import {
   WILDCAMCLASSROOMS_COMPONENT_MODES as MODES,
   WILDCAMCLASSROOMS_DATA_STATUS,
@@ -76,16 +78,15 @@ class AssignmentsList extends React.Component {
         <Table className="table">
           <tbody>
             {assignments.map((assignment) => {
+              console.log('+++ assignment: ', assignment);
+              
               return (
                 <TableRow
                   className="item"
                   key={`assignments-list_${assignment.id}`}
                 >
                   <td>
-                    <Heading tag="h4">...</Heading>
-                  </td>
-                  <td>
-                    ...
+                    <Heading tag="h4">{assignment.name}</Heading>
                   </td>
                   <td>
                     <Box
@@ -93,7 +94,17 @@ class AssignmentsList extends React.Component {
                       direction="row"
                       justify="end"
                     >
-                      EDIT
+                      <Button
+                        className="button"
+                        icon={<LinkNextIcon size="small" />}
+                        label={TEXT.ACTIONS.EDIT}
+                        onClick={() => {
+                          console.log('+++ props.match: ', props.match)
+                          
+                          //Transition to: View One Assignment
+                          props.history && props.history.push(`${props.match.url.replace(/\/+$/,'')}/assignments/${assignment.id}`);
+                        }}
+                      />
                     </Box>
                   </td>
                 </TableRow>
@@ -107,7 +118,7 @@ class AssignmentsList extends React.Component {
             label={TEXT.ACTIONS.CREATE_NEW_ASSIGNMENT}
             onClick={() => {
               //Transition to: Create New Assignment
-              props.history && props.history.push(`${props.selectedClassroom.id}/assignments/new`);
+              props.history && props.history.push(`${props.match.url.replace(/\/+$/,'')}/assignments/new`);
             }}
           />
         </Footer>
