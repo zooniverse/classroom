@@ -16,6 +16,7 @@ import { config } from '../../../lib/config';
 
 import StatusWorking from './StatusWorking';
 import StatusNotFound from './StatusNotFound';
+import StatusBorked from './StatusBorked';
 import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
 
 import Box from 'grommet/components/Box';
@@ -121,8 +122,6 @@ class AssignmentForm extends React.Component {
         .../classrooms/123/assignments/456 - edit assignment 456 (i.e. assignment_id=456 supplied.)
    */
   initialise(props = this.props) {
-    console.log('+++ INITIALISE');
-    
     const state = this.state;
     
     const classroom_id = (props.match && props.match.params)
@@ -326,6 +325,20 @@ class AssignmentForm extends React.Component {
       );
     }
     
+    //State: Error
+    if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.ERROR ||
+        props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.ERROR) {
+      return (
+        <Box
+          className="assignment-form"
+          margin="medium"
+          pad="medium"
+        >
+          {this.render_errorState()}
+        </Box>
+      );
+    }
+    
     //State: WTF
     //How did we even get here?
     return null;
@@ -505,6 +518,15 @@ class AssignmentForm extends React.Component {
   render_notFoundState() {
     return (
       <StatusNotFound />
+    );
+  }
+  
+  render_errorState() {
+    return (
+      <StatusBorked
+        classroomsStatusDetails={this.props.classroomsStatusDetails}
+        assignmentsStatusDetails={this.props.assignmentsStatusDetails}
+      />
     );
   }
 };

@@ -371,6 +371,8 @@ class ClassroomForm extends React.Component {
           selectedClassroom={props.selectedClassroom}
           selectedAssignment={null}
           doUpdateStudents={(updatedListOfStudents) => {
+            //TODO
+            alert('ALPHA: This feature is a work in progress.');
             console.log('+++ Updated List of Students: ', updatedListOfStudents);
           }}
         />

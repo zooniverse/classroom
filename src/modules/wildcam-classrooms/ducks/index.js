@@ -149,8 +149,12 @@ const resetClassrooms = (state) => {
   };
 };
 
-const setClassroomsStatus = (state, classroomsStatus, classroomsStatusDetails = null) => {
-  return { ...state, classroomsStatus, classroomsStatusDetails };
+const setClassroomsStatus = (state, classroomsStatus) => {
+  return { ...state, classroomsStatus };
+};
+
+const setClassroomsStatusDetails = (state, classroomsStatusDetails) => {
+  return { ...state, classroomsStatusDetails };
 };
 
 const setClassroomsList = (state, classroomsList) => {
@@ -184,8 +188,12 @@ const resetAssignments = (state) => {
   };
 };
 
-const setAssignmentsStatus = (state, assignmentsStatus, assignmentsStatusDetails = null) => {
-  return { ...state, assignmentsStatus, assignmentsStatusDetails };
+const setAssignmentsStatus = (state, assignmentsStatus) => {
+  return { ...state, assignmentsStatus };
+};
+
+const setAssignmentsStatusDetails = (state, assignmentsStatusDetails) => {
+  return { ...state, assignmentsStatusDetails };
 };
 
 const setAssignmentsList = (state, assignmentsList) => {
@@ -260,7 +268,8 @@ Effect('wcc_teachers_fetchClassrooms', ({ selectedProgram }) => {
   })
   
   .catch((err) => {
-    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);
+    Actions.wildcamClassrooms.setClassroomsStatusDetails(err);
     showErrorMessage(err);
     throw(err);
   });
@@ -320,7 +329,8 @@ Effect('wcc_teachers_createClassroom', ({ selectedProgram, classroomData }) => {
     throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createClassroom): Invalid response';
   })
   .catch((err) => {
-    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);
+    Actions.wildcamClassrooms.setClassroomsStatusDetails(err);
     showErrorMessage(err);
     throw(err);
   });
@@ -359,7 +369,8 @@ Effect('wcc_teachers_editClassroom', ({ selectedClassroom, classroomData }) => {
     throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_editClassrooms): Invalid response';
   })
   .catch((err) => {
-    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);
+    Actions.wildcamClassrooms.setClassroomsStatusDetails(err);
     showErrorMessage(err);
     throw(err);
   });
@@ -385,7 +396,8 @@ Effect('wcc_teachers_deleteClassroom', (selectedClassroom) => {
     throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_deleteClassroom): Invalid response';
   })
   .catch((err) => {
-    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);
+    Actions.wildcamClassrooms.setClassroomsStatusDetails(err);
     showErrorMessage(err);
     throw(err);
   });
@@ -424,7 +436,8 @@ Effect('wcc_teachers_refreshData', ({ selectedProgram, selectedClassroom, select
     return null;
   })
   .catch((err) => {
-    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);
+    Actions.wildcamClassrooms.setClassroomsStatusDetails(err);
     showErrorMessage(err);
     throw(err);
   });
@@ -467,7 +480,8 @@ Effect('wcc_fetchAssignments', ({ selectedClassroom }) => {
   })
   
   .catch((err) => {
-    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);
+    Actions.wildcamClassrooms.setClassroomsStatusDetails(err);
     showErrorMessage(err);
     throw(err);
   });
@@ -537,13 +551,14 @@ Effect('wcc_teachers_createAssignment', ({ selectedClassroom, assignmentData }) 
     if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createAssignment): No response'; }
     if (response.ok &&
         response.body && response.body.data) {
-      Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
+      Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
       return response.body.data;
     }
     throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_createAssignment): Invalid response';
   })
   .catch((err) => {
-    setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR, err);
+    Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);
+    Actions.wildcamClassrooms.setAssignmentsStatusDetails(err);
     showErrorMessage(err);
     throw(err);
   });
@@ -607,12 +622,14 @@ const wildcamClassrooms = State('wildcamClassrooms', {
   // Actions
   resetClassrooms,
   setClassroomsStatus,
+  setClassroomsStatusDetails,
   setClassroomsList,
   setClassroomsStudents,
   setSelectedClassroom,
   resetSelectedClassroom,
   resetAssignments,
   setAssignmentsStatus,
+  setAssignmentsStatusDetails,
   setAssignmentsList,
   setSelectedAssignment,
   resetSelectedAssignment,
