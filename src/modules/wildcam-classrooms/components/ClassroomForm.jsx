@@ -151,6 +151,12 @@ class ClassroomForm extends React.Component {
         //Data store update
         Actions.wildcamClassrooms.setSelectedClassroom(selectedClassroom);
         
+        //Fetch dependencies
+        //Redundancy Check: prevent infinite loop, only trigger once.
+        if (props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.IDLE) {
+          Actions.wcc_fetchAssignments({ selectedClassroom });
+        }
+        
         //View update
         this.setState({ view: VIEWS.VIEW_EXISTING });
         this.initialiseForm(selectedClassroom);
@@ -378,6 +384,7 @@ class ClassroomForm extends React.Component {
         
         <AssignmentsList
           selectedClassroom={props.selectedClassroom}
+          assignmentsList={props.assignmentsList}
           history={props.history}
         />
         

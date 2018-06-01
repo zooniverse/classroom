@@ -149,7 +149,7 @@ class AssignmentForm extends React.Component {
       Actions.wcc_fetchAssignments({ selectedClassroom })
       .then((body) => {
         this.initialise_partTwo(assignment_id, props.assignmentsList);
-      })
+      });
 
     } else {
       this.initialise_partTwo(assignment_id, props.assignmentsList);
