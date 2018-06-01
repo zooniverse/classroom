@@ -87,6 +87,9 @@ const TEXT = {
 const INITIAL_FORM_DATA = {
   name: '',
   description: '',
+  filters: [],
+  subjects: [],
+  students: [],
 };
 
 /*
@@ -235,13 +238,13 @@ class AssignmentForm extends React.Component {
     
     //Submit Form: create new assignment
     if (state.view === VIEWS.CREATE_NEW) {
-      const assignmentData = {
-        
-      };
-      
       return Actions.wcc_teachers_createAssignment({
+        selectedProgram: props.selectedProgram,
         selectedClassroom: props.selectedClassroom,
-        assignmentData
+        assignmentData: state.form,
+        filters: state.filters,
+        subjects: state.subjects,
+        students: state.students,
       })
       .then(() => {
         //Message

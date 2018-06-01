@@ -534,11 +534,11 @@ Effect('wcc_fetchAssignments', ({ selectedClassroom }) => {
       }
  */
 Effect('wcc_teachers_createAssignment', ({ selectedProgram, selectedClassroom, assignmentData, students = [], filters = {}, subjects = []}) => {
+  console.log('+++ create assignment: ', selectedProgram, selectedClassroom, assignmentData);
+  
   //Sanity check
   if (!selectedProgram || !selectedClassroom || !assignmentData) return;
   Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
-  
-  console.log('+++ create assignment: ', selectedProgram);
   
   const requestBody = {
     data: {
@@ -551,7 +551,7 @@ Effect('wcc_teachers_createAssignment', ({ selectedProgram, selectedClassroom, a
           filters: filters,
           subjects: subjects,
         },
-        workflow_id: "338"  //TODO
+        workflow_id: selectedProgram.metadata.workflowId,
       },
       relationships: {
         classroom: {
