@@ -425,15 +425,32 @@ Effect('wcc_teachers_refreshData', ({ selectedProgram, selectedClassroom, select
   .then((body) => {
     const classrooms = body.classrooms;
     
-    //...then restore the user's previous view.
+    //...then restore the user's previous view .
     const retrieved_selectedClassroom = (saved_selectedClassroom_id && classrooms)
       ? classrooms.find((classroom) => { return classroom.id === saved_selectedClassroom_id })
       : null;
-    
     Actions.wildcamClassrooms.setSelectedClassroom(retrieved_selectedClassroom);
-    //TODO: setSelectedAssignment();
     
-    return null;
+    //Also restore assignments, if any apply.
+    if (retrieved_selectedClassroom && saved_selectedAssignment_id) {
+      return Actions.wcc_fetchAssignments({ selectedClassroom: retrieved_selectedClassroom })
+      .then((body) => {
+        const assignments = body.data;
+        
+        const retrieved_selectedAssignment = (saved_selectedAssignment_id && assignments)
+          ? assignments.find((assignment) => { return assignment.id === saved_selectedAssignment_id })
+          : null;
+        Actions.wildcamClassrooms.setSelectedAssignment(retrieved_selectedAssignment);
+      })
+      .catch((err) => {
+        Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);
+        Actions.wildcamClassrooms.setAssignmentsStatusDetails(err);
+        //showErrorMessage(err);
+        throw(err);
+      });
+    } else {
+      return null;
+    }
   })
   .catch((err) => {
     Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);
@@ -534,8 +551,6 @@ Effect('wcc_fetchAssignments', ({ selectedClassroom }) => {
       }
  */
 Effect('wcc_teachers_createAssignment', ({ selectedProgram, selectedClassroom, assignmentData, students = [], filters = {}, subjects = []}) => {
-  console.log('+++ create assignment: ', selectedProgram, selectedClassroom, assignmentData);
-  
   //Sanity check
   if (!selectedProgram || !selectedClassroom || !assignmentData) return;
   Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);

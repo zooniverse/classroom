@@ -148,12 +148,7 @@ class AssignmentForm extends React.Component {
     //If we don't have a list of assignments yet, fetch it.
     //Redundancy Check: prevent infinite loop, only trigger once.
     if (props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.IDLE) {
-
-      Actions.wcc_fetchAssignments({ selectedClassroom })
-      .then((body) => {
-        this.initialise_partTwo(classroom_id, assignment_id, props.assignmentsList);
-      });
-
+      Actions.wcc_fetchAssignments({ selectedClassroom });
     } else {
       this.initialise_partTwo(classroom_id, assignment_id, props.assignmentsList);
     }
@@ -168,19 +163,19 @@ class AssignmentForm extends React.Component {
     //Edit an existing assignment... if we can find it.
     } else {
       const selectedAssignment = assignmentsList &&
-        assignmentsList.find((classroom) => {
-          return classroom.id === classroom_id
+        assignmentsList.find((assignment) => {
+          return assignment.id === assignment_id
         });
 
       //If classroom is found, edit it.
       if (selectedAssignment) {
         //Data store update
-        Actions.wildcamClassrooms.setSelectedAsssignment(selectedAssignment);
-
+        Actions.wildcamClassrooms.setSelectedAssignment(selectedAssignment);
+        
         //View update
         this.setState({ view: VIEWS.VIEW_EXISTING });
         this.initialiseForm(selectedAssignment);
-
+        
       //Otherwise, uh oh.
       } else {
         //Data store update
@@ -194,15 +189,15 @@ class AssignmentForm extends React.Component {
   
   /*  Initialises the classroom form.
    */
-  initialiseForm(selectedClassroom) {
-    if (!selectedClassroom) {
+  initialiseForm(selectedAssignment) {
+    if (!selectedAssignment) {
       this.setState({ form: INITIAL_FORM_DATA });
     } else {
       const originalForm = INITIAL_FORM_DATA;
       const updatedForm = {};
       Object.keys(originalForm).map((key) => {
-        updatedForm[key] = (selectedClassroom && selectedClassroom[key])
-          ? selectedClassroom[key]
+        updatedForm[key] = (selectedAssignment && selectedAssignment[key])
+          ? selectedAssignment[key]
           : originalForm[key];
       });
       this.setState({ form: updatedForm });
@@ -273,6 +268,7 @@ class AssignmentForm extends React.Component {
         return Actions.wcc_teachers_refreshData({
           selectedProgram: props.selectedProgram,
           selectedClassroom: props.selectedClassroom,
+          selectedAssignment: props.selectedAssignment,
         })
         .then(() => {
           //Nothing

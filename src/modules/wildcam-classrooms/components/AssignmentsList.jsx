@@ -78,8 +78,6 @@ class AssignmentsList extends React.Component {
         <Table className="table">
           <tbody>
             {assignments.map((assignment) => {
-              console.log('+++ assignment: ', assignment);
-              
               return (
                 <TableRow
                   className="item"
@@ -99,8 +97,6 @@ class AssignmentsList extends React.Component {
                         icon={<LinkNextIcon size="small" />}
                         label={TEXT.ACTIONS.EDIT}
                         onClick={() => {
-                          console.log('+++ props.match: ', props.match)
-                          
                           //Transition to: View One Assignment
                           props.history && props.history.push(`${props.match.url.replace(/\/+$/,'')}/assignments/${assignment.id}`);
                         }}
