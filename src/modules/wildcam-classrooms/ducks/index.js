@@ -553,6 +553,7 @@ Effect('wcc_fetchAssignments', ({ selectedClassroom }) => {
 Effect('wcc_teachers_createAssignment', ({ selectedProgram, selectedClassroom, assignmentData, students = [], filters = {}, subjects = []}) => {
   //Sanity check
   if (!selectedProgram || !selectedClassroom || !assignmentData) return;
+  
   Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
   
   const requestBody = {
@@ -644,6 +645,55 @@ Effect('wcc_teachers_createAssignment', ({ selectedProgram, selectedClassroom, a
           }
         }
  */
+Effect('wcc_editAssignment', ({ selectedAssignment, assignmentData, students = [], filters = {}, subjects = [] }) => {
+  //Sanity check
+  if (!selectedAssignment || !assignmentData) return;
+  
+  Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
+  
+  const requestBody = {
+    data: {
+      attributes: {        
+        name: assignmentData.name || '',
+        metadata: {
+          classifications_target: (/\d+/.test(assignmentData.classifications_target)) ? assignmentData.classifications_target : '0',
+          description: assignmentData.description || '',
+          duedate: assignmentData.duedate || '',  //TODO: Validation
+          filters: filters,
+          subjects: subjects,
+        },
+      },
+      relationships: {
+        student_users: {
+          data: students.map((student_id) => {
+            return {
+              id: student_id,
+              type: 'student_user'
+            };
+          })
+        }
+      }
+    }
+  };
+  
+  return put(`/assignments/${selectedAssignment.id}`, classroomData)  //NOTE: the put() function requires a different argument format than post().
+  .then((response) => {
+    if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_editClassrooms): No response'; }
+    if (response.ok) {
+      Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
+      
+      //TODO: Update selectedClassroom
+      return null;
+    }
+    throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_editClassrooms): Invalid response';
+  })
+  .catch((err) => {
+    Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);
+    Actions.wildcamClassrooms.setClassroomsStatusDetails(err);
+    showErrorMessage(err);
+    throw(err);
+  });
+});
 
 /*  Deletes an assignment.
 

@@ -257,9 +257,12 @@ class AssignmentForm extends React.Component {
     
     //Submit Form: update existing classroom
     } else if (state.view === VIEWS.EDIT_EXISTING) {
-      return Actions.wcc_teachers_editClassroom({
-        selectedClassroom: props.selectedClassroom,
-        classroomData: this.state.form,
+      return Actions.wcc_editAssignment({
+        selectedAssignment: props.selectedAssignment,
+        assignmentData: state.form,
+        filters: state.filters,
+        subjects: state.subjects,
+        students: state.students,        
       }).then(() => {
         //Message
         Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.ASSIGNMENT_EDITED, status: 'ok' });
@@ -349,8 +352,7 @@ class AssignmentForm extends React.Component {
     
     //Sanity check
     if (!props.selectedClassroom) return;
-    
-    const joinURL = `${config.origin}/#/${props.selectedProgram.slug}/students/classrooms/${props.selectedClassroom.id}/join?token=${props.selectedClassroom.joinToken}`;
+    if (!props.selectedAssignment) return;
     
     return (
       <Box
@@ -358,26 +360,16 @@ class AssignmentForm extends React.Component {
         onSubmit={this.submitForm.bind(this)}
       >
         <Heading tag="h2">
-          {TEXT.HEADINGS.ASSIGNMENT} - {props.selectedClassroom.name}
+          {TEXT.HEADINGS.ASSIGNMENT} - {props.selectedAssignment.name}
         </Heading>
         
         <List className="details-list">
           {(props.selectedClassroom.subject) ? (
             <ListItem pad="small" separator="none">
-              <Label>{TEXT.ASSIGNMENT_FORM.SUBJECT}</Label>
-              <span>{props.selectedClassroom.subject}</span>
+              <Label>{TEXT.ASSIGNMENT_FORM.DESCRIPTION}</Label>
+              <span>{props.selectedClassroom.description}</span>
             </ListItem>
           ) : null}
-          {(props.selectedClassroom.school) ? (
-            <ListItem pad="small" separator="none">
-              <Label>{TEXT.ASSIGNMENT_FORM.SCHOOL}</Label>
-              <span>{props.selectedClassroom.school}</span>
-            </ListItem>
-          ) : null}
-          <ListItem pad="small" separator="none">
-            <Label>{TEXT.JOIN_URL}</Label>
-            <span>{joinURL}</span>
-          </ListItem>
         </List>
 
         <Footer
@@ -441,7 +433,7 @@ class AssignmentForm extends React.Component {
           <FormField htmlFor="subject" label={TEXT.ASSIGNMENT_FORM.DESCRIPTION}>
             <textarea
               id="description"
-              value={this.state.form.subject}
+              value={this.state.form.description}
               onChange={this.updateForm.bind(this)}
             />
           </FormField>
