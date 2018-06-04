@@ -17,6 +17,8 @@ import { config } from '../../../lib/config';
 import StatusWorking from './StatusWorking';
 import StatusNotFound from './StatusNotFound';
 import StatusBorked from './StatusBorked';
+import StudentsList from './StudentsList';
+import SubjectsList from './SubjectsList';
 import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
 
 import Box from 'grommet/components/Box';
@@ -382,6 +384,21 @@ class AssignmentForm extends React.Component {
             />
           </FormField>
         </fieldset>
+        
+        <SubjectsList
+          selectedClassroom={props.selectedClassroom}
+          selectedAssignment={props.selectedAssignment}
+        />
+        
+        <StudentsList
+          selectedClassroom={props.selectedClassroom}
+          selectedAssignment={props.selectedAssignment}
+          doUpdateStudents={(updatedListOfStudents) => {
+            //TODO
+            alert('ALPHA: This feature is a work in progress.');
+            console.log('+++ Updated List of Students: ', updatedListOfStudents);
+          }}
+        />
 
         <Footer
           className="actions-panel"

@@ -92,12 +92,16 @@ class StudentsList extends React.Component {
     //Sanity check
     if (!props.selectedClassroom) return;
     
+    //Get all the students attached to this classroom
     const form = {};
     const students = props.selectedClassroom.students || [];
-    
     students.map((stud) => { form[stud.id] = true; });
           
-    //TODO: React if there's a SelectedAssignment.
+    //If there's a selected Assignment, make sure only students in the
+    //assignment are selected.
+    if (props.selectedAssignment) {
+      //TODO
+    }
     
     this.setState({ students, form });
   }
