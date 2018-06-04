@@ -10,12 +10,15 @@ Props:
 - selectedClassroom: (required)
 - selectedAssignment: (optional) the WildCam Assignment that we're listing
     subjects for.
+- history/location/match: (required) for routing purposes
+- wccwcmMapPath: (required) for routing purposes
 
 --------------------------------------------------------------------------------
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
@@ -33,6 +36,9 @@ import {
   WILDCAMCLASSROOMS_PROPTYPES,
   WILDCAMCLASSROOMS_MAP_STATE,
 } from '../ducks/index.js';
+import {
+  WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES,
+} from '../../wildcam-map/ducks/index.js';
 
 /*
 --------------------------------------------------------------------------------
@@ -105,15 +111,19 @@ class StudentsList extends React.Component {
         <Heading tag="h3">{TEXT.HEADINGS.SUBJECTS}</Heading>
         
         <Footer>
-          <Button
-            className="button"
-            label={TEXT.ACTIONS.SELECT_SUBJECTS}
-            onClick={() => {
-              //WARNING: HARDCODED
-              //TODO: change hardcoding
-              
-            }}
-          />
+          {(props.wccwcmMapPath && props.location) && (
+            <Button
+              className="button"
+              label={TEXT.ACTIONS.SELECT_SUBJECTS}
+              onClick={() => {
+                //Save the return path
+                Actions.wildcamMap.setWccWcmAssignmentPath(props.location.pathname);
+                
+                //Transition to: WildCam Map
+                props.history.push(props.wccwcmMapPath);
+              }}
+            />
+          )}
         </Footer>
       </Box>
     );
@@ -126,10 +136,12 @@ class StudentsList extends React.Component {
 
 StudentsList.defaultProps = {
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
+  ...WILDCAMMAP_INITIAL_STATE,
 };
 
 StudentsList.propTypes = {
   ...WILDCAMCLASSROOMS_PROPTYPES,
+  ...WILDCAMMAP_PROPTYPES,
 };
 
 export default StudentsList;

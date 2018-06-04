@@ -38,6 +38,9 @@ import CloseIcon from 'grommet/components/icons/base/Close';
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {
+  WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES, WILDCAMMAP_MAP_STATE,
+} from '../../wildcam-map/ducks/index.js';
+import {
   WILDCAMCLASSROOMS_COMPONENT_MODES as MODES,
   WILDCAMCLASSROOMS_DATA_STATUS,
   WILDCAMCLASSROOMS_INITIAL_STATE,
@@ -386,8 +389,12 @@ class AssignmentForm extends React.Component {
         </fieldset>
         
         <SubjectsList
+          history={props.history}
+          location={props.location}
+          match={props.match}
           selectedClassroom={props.selectedClassroom}
           selectedAssignment={props.selectedAssignment}
+          wccwcmMapPath={props.wccwcmMapPath}
         />
         
         <StudentsList
@@ -489,6 +496,7 @@ AssignmentForm.defaultProps = {
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  
   // ----------------
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
+  ...WILDCAMMAP_INITIAL_STATE,
 };
 
 AssignmentForm.propTypes = {
@@ -499,12 +507,14 @@ AssignmentForm.propTypes = {
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
   // ----------------
   ...WILDCAMCLASSROOMS_PROPTYPES,
+  ...WILDCAMMAP_PROPTYPES,
 };
 
 function mapStateToProps(state) {
   return {
     selectedProgram: state.programs.selectedProgram,
     ...WILDCAMCLASSROOMS_MAP_STATE(state),
+    ...WILDCAMMAP_MAP_STATE(state),
   };
 }
 

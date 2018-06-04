@@ -13,6 +13,7 @@ Currently, it has two concerns:
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Actions } from 'jumpstate';
 import { Switch, Route } from 'react-router-dom';
 import DarienHome from './pages/DarienHome';
 import DarienEducators from './pages/DarienEducators';
@@ -28,6 +29,9 @@ function DarienProgram(props) {
     //Users should _not_ see this, but might due to weird lifecycle/timing issues.
     return (<GenericStatusPage status="fetching" message="Loading Program..." />);
   } else {
+    
+    //Register the connection between the WildCam Classrooms and the WildCam Maps.
+    Actions.wildcamMap.setWccWcmMapPath(`${props.match.url}/map`);
 
     if (props.user) {  //User logged in: give access to all locations.
       return (
