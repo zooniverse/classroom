@@ -676,7 +676,7 @@ Effect('wcc_editAssignment', ({ selectedAssignment, assignmentData, students = [
     }
   };
   
-  return put(`/assignments/${selectedAssignment.id}`, classroomData)  //NOTE: the put() function requires a different argument format than post().
+  return put(`/assignments/${selectedAssignment.id}`, assignmentData)  //NOTE: the put() function requires a different argument format than post().
   .then((response) => {
     if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_editClassrooms): No response'; }
     if (response.ok) {

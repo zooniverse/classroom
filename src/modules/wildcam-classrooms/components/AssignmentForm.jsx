@@ -49,7 +49,6 @@ import {
 
 const VIEWS = {
   CREATE_NEW: 'create',
-  VIEW_EXISTING: 'view',
   EDIT_EXISTING: 'edit',
   NOT_FOUND: 'not found',
 }
@@ -173,7 +172,7 @@ class AssignmentForm extends React.Component {
         Actions.wildcamClassrooms.setSelectedAssignment(selectedAssignment);
         
         //View update
-        this.setState({ view: VIEWS.VIEW_EXISTING });
+        this.setState({ view: VIEWS.EDIT_EXISTING });
         this.initialiseForm(selectedAssignment);
         
       //Otherwise, uh oh.
@@ -229,7 +228,6 @@ class AssignmentForm extends React.Component {
     //Sanity check
     if (!props.selectedProgram) return;
     if (!props.selectedClassroom) return;
-    //TODO: Check if this is necessary -- if (state.view === VIEWS.VIEW_EXISTING && !props.selectedClassroom) return;
     
     //Submit Form: create new assignment
     if (state.view === VIEWS.CREATE_NEW) {
@@ -248,7 +246,7 @@ class AssignmentForm extends React.Component {
         //Refresh
         return Actions.wcc_teachers_refreshData({ selectedProgram: props.selectedProgram })
         .then(() => {
-          //Transition to: View All Classrooms
+          //Transition to: View Selected Classroom
           props.history && props.history.push('../');
         });
       }).catch((err) => {
@@ -318,7 +316,6 @@ class AssignmentForm extends React.Component {
           margin="medium"
           pad="medium"
         >
-          {(state.view === VIEWS.VIEW_EXISTING) ? this.render_viewState() : null }
           {(state.view === VIEWS.CREATE_NEW || state.view === VIEWS.EDIT_EXISTING) ? this.render_editState() : null }
           {(state.view === VIEWS.NOT_FOUND) ? this.render_notFoundState() : null }
 
@@ -344,59 +341,6 @@ class AssignmentForm extends React.Component {
     //State: WTF
     //How did we even get here?
     return null;
-  }
-  
-  render_viewState() {
-    const props = this.props;
-    const state = this.state;
-    
-    //Sanity check
-    if (!props.selectedClassroom) return;
-    if (!props.selectedAssignment) return;
-    
-    return (
-      <Box
-        className="details"
-        onSubmit={this.submitForm.bind(this)}
-      >
-        <Heading tag="h2">
-          {TEXT.HEADINGS.ASSIGNMENT} - {props.selectedAssignment.name}
-        </Heading>
-        
-        <List className="details-list">
-          {(props.selectedClassroom.subject) ? (
-            <ListItem pad="small" separator="none">
-              <Label>{TEXT.ASSIGNMENT_FORM.DESCRIPTION}</Label>
-              <span>{props.selectedClassroom.description}</span>
-            </ListItem>
-          ) : null}
-        </List>
-
-        <Footer
-          className="actions-panel"
-          pad="medium"
-        >
-          <Button
-            className="button"
-            icon={<LinkPreviousIcon size="small" />}
-            label={TEXT.ACTIONS.BACK}
-            onClick={() => {
-              //Transition to: View All Classrooms
-              props.history && props.history.push('../');
-            }}
-          />
-          <Button
-            className="button"
-            icon={<LinkNextIcon size="small" />}
-            label={TEXT.ACTIONS.EDIT}
-            onClick={() => {
-              //In-page transition to: Edit mode
-              this.setState({ view: VIEWS.EDIT_EXISTING });
-            }}
-          />
-        </Footer>
-      </Box>
-    );
   }
   
   render_editState() {
@@ -448,13 +392,7 @@ class AssignmentForm extends React.Component {
             icon={<LinkPreviousIcon size="small" />}
             label={TEXT.ACTIONS.BACK}
             onClick={() => {
-              if (state.view === VIEWS.CREATE_NEW) {
-                //Transition to: View All Classrooms
-                props.history && props.history.push('../');
-              } else if (state.view === VIEWS.EDIT_EXISTING) {
-                //In-page transition to: Edit mode
-                this.setState({ view: VIEWS.VIEW_EXISTING });
-              }
+              props.history && props.history.push('../');
             }}
           />
           <Button
@@ -485,7 +423,7 @@ class AssignmentForm extends React.Component {
                     //Refresh
                     return Actions.wcc_teachers_refreshData({ selectedProgram: props.selectedProgram, selectedClassroom: props.selectedClassroom })
                     .then(() => {
-                      //Transition to: View All Classrooms
+                      //Transition to: View Selected Classroom
                       props.history && props.history.push('../');
                     });
                   }).catch((err) => {
