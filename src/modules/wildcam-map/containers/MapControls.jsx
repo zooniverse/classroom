@@ -41,7 +41,7 @@ class MapControls extends React.Component {
     super(props);
   
     this.state = {
-      wccAssignmentsStatus: 'idle',
+      wccAssignmentsStatus: WILDCAMMAP_MARKERS_STATUS.IDLE,
       wccAssignmentsStatusDetails: null,
       wccAssignmentsNumberOfSubjects: 0,
     };
@@ -104,7 +104,8 @@ class MapControls extends React.Component {
               />
             </Box>
             
-            {(true || this.props.wccwcmAssignmentPath) && (
+            {(this.state.wccAssignmentsStatus === WILDCAMMAP_MARKERS_STATUS.IDLE || this.state.wccAssignmentsStatus === WILDCAMMAP_MARKERS_STATUS.SUCCESS) &&
+              (this.props.wccwcmAssignmentPath) && (
               <Box
                 className="wccwcm-connector"
                 direction="column"
@@ -123,6 +124,7 @@ class MapControls extends React.Component {
                     value={this.state.wccAssignmentsNumberOfSubjects}
                     onChange={(e) => {
                       let val = e.target && parseInt(e.target.value);
+                      if (e.target.value === '') val = 0;
                       if (isNaN(val)) val = this.props.markersDataCount;
                       val = Math.min(val, this.props.markersDataCount);
                       val = Math.max(val, 0);
@@ -135,6 +137,32 @@ class MapControls extends React.Component {
                     onClick={this.selectSubjectsForAssignment.bind(this)}
                   />
                 </Box>
+              </Box>
+            )}
+            
+            {(this.state.wccAssignmentsStatus === WILDCAMMAP_MARKERS_STATUS.FETCHING) && (
+              <Box
+                className="wccwcm-connector"
+                direction="column"
+                pad="small"
+                margin="small"
+                align="center"
+                alignContent="between"
+              >
+                <Label>Preparing...</Label>
+              </Box>
+            )}
+            
+            {(this.state.wccAssignmentsStatus === WILDCAMMAP_MARKERS_STATUS.ERROR) && (
+              <Box
+                className="wccwcm-connector"
+                direction="column"
+                pad="small"
+                margin="small"
+                align="center"
+                alignContent="between"
+              >
+                <Label>ERROR: {this.state.wccAssignmentsStatusDetails}</Label>
               </Box>
             )}
             
@@ -206,10 +234,11 @@ class MapControls extends React.Component {
       )
     );
     
-    //TODO: message
+    this.setState({
+      wccAssignmentsStatus: WILDCAMMAP_MARKERS_STATUS.FETCHING,
+      wccAssignmentsStatusDetails: null,
+    });
     
-    console.log('+++ URL: ', url);
-
     superagent.get(url)
     .then(response => {
       if (!response) { throw 'ERROR (wildcam-map/MapControls.selectSubjectsForAssignment()): No response'; }
@@ -218,21 +247,25 @@ class MapControls extends React.Component {
       }
       throw 'ERROR (wildcam-map/MapControls.selectSubjectsForAssignment()): invalid response';
     })
-    .then(data => {
-      console.log('+++ data: ', data);
-      
+    .then(data => {      
       const copyOfFilters = JSON.parse(JSON.stringify(this.props.filters));
       const copyOfSubjects = data;
 
       Actions.wildcamMap.setWccWcmSelectedFilters(copyOfFilters);
       Actions.wildcamMap.setWccWcmSelectedSubjects(copyOfSubjects);
+      
+      this.setState({ wccAssignmentsStatus: WILDCAMMAP_MARKERS_STATUS.SUCCESS });
 
       //Transition to: Assignment creation
       this.props.history.push(this.props.wccwcmAssignmentPath);
       
     })
     .catch(err => {
-      //TODO: message
+      //TODO: message, "ERROR"
+      this.setState({
+        wccAssignmentsStatus: WILDCAMMAP_MARKERS_STATUS.ERROR,
+        wccAssignmentsStatusDetails: err,
+      });
       console.error(err);
     });
   }
