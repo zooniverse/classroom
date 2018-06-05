@@ -245,12 +245,17 @@ class AssignmentForm extends React.Component {
     
     //Submit Form: create new assignment
     if (state.view === VIEWS.CREATE_NEW) {
+      const filters = (state.filters) ? state.filters : {};
+      const subjects = (state.subjects)
+        ? state.subjects.map(sub => sub.subject_id)
+        : [];
+      
       return Actions.wcc_teachers_createAssignment({
         selectedProgram: props.selectedProgram,
         selectedClassroom: props.selectedClassroom,
         assignmentData: state.form,
-        filters: state.filters,
-        subjects: state.subjects,
+        filters,
+        subjects,
         students: state.students,
       })
       .then(() => {
