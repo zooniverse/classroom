@@ -357,7 +357,7 @@ Effect('wcc_teachers_editClassroom', ({ selectedClassroom, classroomData }) => {
   
   Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
   
-  return put(`/teachers/classrooms/${selectedClassroom.id}`, classroomData)  //NOTE: the put() function requires a different argument format than post().
+  return put(`/teachers/classrooms/${selectedClassroom.id}`, { data: { attributes: classroomData } })
   .then((response) => {
     if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_editClassrooms): No response'; }
     if (response.ok) {
@@ -647,9 +647,17 @@ Effect('wcc_teachers_createAssignment', ({ selectedProgram, selectedClassroom, a
  */
 Effect('wcc_editAssignment', ({ selectedAssignment, assignmentData, students = [], filters = {}, subjects = [] }) => {
   //Sanity check
+  console.log('+++ wcc_editAssignment A: ', selectedAssignment, assignmentData);
+  
+  console.log('+++ wcc_editAssignment B: ', (!selectedAssignment || !assignmentData));
+  
   if (!selectedAssignment || !assignmentData) return;
   
+  console.log('+++ wcc_editAssignment C');
+  
   Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);
+  
+  console.log('+++ wcc_editAssignment D');
   
   const requestBody = {
     data: {
@@ -676,8 +684,12 @@ Effect('wcc_editAssignment', ({ selectedAssignment, assignmentData, students = [
     }
   };
   
-  return put(`/assignments/${selectedAssignment.id}`, assignmentData)  //NOTE: the put() function requires a different argument format than post().
+  console.log('+++ wcc_editAssignment E');
+  
+  return put(`/assignments/${selectedAssignment.id}`, requestBody)
   .then((response) => {
+    console.log('+++ wcc_editAssignment F: ', response);
+    
     if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_editClassrooms): No response'; }
     if (response.ok) {
       Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);

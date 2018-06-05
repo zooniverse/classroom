@@ -29,7 +29,7 @@ export function put(endpoint, data) {
   return superagent.put(`${config.root}${endpoint}`)
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
-    .send({ data: { attributes: data } })
+    .send(data)
     .then(response => response);
 }
 

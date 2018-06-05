@@ -171,7 +171,7 @@ Effect('createClassroom', (data) => {
 // Hmm.... Effects can only take one argument?
 Effect('updateClassroom', (data) => {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.UPDATING);
-  return put(`/teachers/classrooms/${data.id}`, data.payload)
+  return put(`/teachers/classrooms/${data.id}`, { data: { attributes: data.payload } } )
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/updateClassroom): No response'; }
       if (response.ok) {

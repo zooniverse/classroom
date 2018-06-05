@@ -274,7 +274,7 @@ Effect('createProgram', (data) => {
 
 Effect('updateProgram', (data) => {
   Actions.programs.setStatus(PROGRAMS_STATUS.UPDATING);
-  return put(`/programs/${data.id}`, data.payload)
+  return put(`/programs/${data.id}`, { data: { attributes: data.payload } })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/programs/updateProgram): No response'; }
       if (response.ok) {

@@ -127,7 +127,6 @@ class AssignmentForm extends React.Component {
         .../classrooms/123/assignments/456 - edit assignment 456 (i.e. assignment_id=456 supplied.)
    */
   initialise(props = this.props) {
-    console.log('+++ initialise: ');
     const state = this.state;
     
     const classroom_id = (props.match && props.match.params)
@@ -158,7 +157,6 @@ class AssignmentForm extends React.Component {
     
     //Check the connection to WildCam Maps: if the user recently selected
     //Subjects for the Assignment, respect it.
-    console.log('+++ props.wccwcmSelectedSubjects: ', props.wccwcmSelectedSubjects);
     if (props.wccwcmSelectedSubjects) {
       this.setState({
         subjects: props.wccwcmSelectedSubjects,
@@ -188,7 +186,6 @@ class AssignmentForm extends React.Component {
         
         //Also extract initial subjects and filters used by the Assignment
         if (!this.state.subjects || this.state.subjects.length === 0) {
-          console.log('+++ selectedAssignment: ', selectedAssignment);
           const newSubjects = (selectedAssignment.metadata && selectedAssignment.metadata.subjects)
             ? selectedAssignment.metadata.subjects.map((subject) => {
                 return {
@@ -254,6 +251,8 @@ class AssignmentForm extends React.Component {
   }
   
   submitForm(e) {
+    console.log('+++ AssignmentForm.submitForm() ', this.props);
+    
     const props = this.props;
     const state = this.state;
     
@@ -263,6 +262,8 @@ class AssignmentForm extends React.Component {
     //Sanity check
     if (!props.selectedProgram) return;
     if (!props.selectedClassroom) return;
+    
+    console.log('+++ AssignmentForm.submitForm() A');
     
     //Submit Form: create new assignment
     if (state.view === VIEWS.CREATE_NEW) {
@@ -295,6 +296,8 @@ class AssignmentForm extends React.Component {
     
     //Submit Form: update existing classroom
     } else if (state.view === VIEWS.EDIT_EXISTING) {
+      console.log('+++ AssignmentForm.submitForm() B');
+      
       const filters = (state.filters) ? state.filters : {};
       const subjects = (state.subjects)
         ? state.subjects.map(sub => sub.subject_id)
@@ -305,7 +308,7 @@ class AssignmentForm extends React.Component {
         assignmentData: state.form,
         filters,
         subjects,
-        students: state.students,        
+        students: state.students,
       }).then(() => {
         //Message
         Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.ASSIGNMENT_EDITED, status: 'ok' });
