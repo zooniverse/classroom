@@ -162,7 +162,10 @@ class MapControls extends React.Component {
                 align="center"
                 alignContent="between"
               >
-                <Label>ERROR: {this.state.wccAssignmentsStatusDetails}</Label>
+                <Label>
+                  ERROR:&nbsp;
+                  {this.state.wccAssignmentsStatusDetails && this.state.wccAssignmentsStatusDetails.toString && this.state.wccAssignmentsStatusDetails.toString()}
+                </Label>
               </Box>
             )}
             
@@ -206,18 +209,10 @@ class MapControls extends React.Component {
     this.setState({ wccAssignmentsNumberOfSubjects: props.markersDataCount });
   }
 
+  /*  Save the data that WildCam Classrooms will find interesting.
+   */
   selectSubjectsForAssignment() {
-    //Save the data that WildCam Classrooms will find interesting.
     
-    //const copyOfFilters = JSON.parse(JSON.stringify(this.props.filters));
-    //const copyOfSubjects = ['100', '200'];  //TEST
-
-    //Actions.wildcamMap.setWccWcmSelectedFilters(copyOfFilters);
-    //Actions.wildcamMap.setWccWcmSelectedSubjects(copyOfSubjects);
-
-    //Transition to: Assignment creation
-    //this.props.history.push(this.props.wccwcmAssignmentPath);
-
     const mapConfig = this.props.mapConfig;
     
     //Sanity check
@@ -241,13 +236,16 @@ class MapControls extends React.Component {
     
     superagent.get(url)
     .then(response => {
+      console.log('+++ response: ', response);
       if (!response) { throw 'ERROR (wildcam-map/MapControls.selectSubjectsForAssignment()): No response'; }
       if (response.ok && response.body && response.body.rows) {
         return response.body.rows;
       }
       throw 'ERROR (wildcam-map/MapControls.selectSubjectsForAssignment()): invalid response';
     })
-    .then(data => {      
+    .then(data => {
+      console.log('+++ data: ', data);
+      
       const copyOfFilters = JSON.parse(JSON.stringify(this.props.filters));
       const copyOfSubjects = data;
 
@@ -261,7 +259,6 @@ class MapControls extends React.Component {
       
     })
     .catch(err => {
-      //TODO: message, "ERROR"
       this.setState({
         wccAssignmentsStatus: WILDCAMMAP_MARKERS_STATUS.ERROR,
         wccAssignmentsStatusDetails: err,
