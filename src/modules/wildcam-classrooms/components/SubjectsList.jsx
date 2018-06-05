@@ -152,7 +152,7 @@ class SubjectsList extends React.Component {
           return Object.keys(props.filters).map((key, index) => {
             const val = props.filters[key];
             return (
-              <div key={`subjects-list-filter-$index`}>{key} : {val}</div>
+              <div key={`subjects-list-filter_${index}`}>{key} : {val}</div>
             );
           });
         })()}
@@ -173,11 +173,14 @@ class SubjectsList extends React.Component {
         margin="small"
         separator="all"
       >
-        {props.subjects.slice(0,MAX_SUBJECTS_COUNT).map((subject) => {
+        {props.subjects.slice(0,MAX_SUBJECTS_COUNT).map((subject, index) => {
+          if (!subject.location) return null;
+          
           return (
             <Box
               className="item"
               margin="small"
+              key={`subjects-list-subjects_${index}`}
             >
               <img src={subject.location} />
             </Box>

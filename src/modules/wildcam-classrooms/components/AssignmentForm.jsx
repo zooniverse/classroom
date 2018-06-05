@@ -127,6 +127,7 @@ class AssignmentForm extends React.Component {
         .../classrooms/123/assignments/456 - edit assignment 456 (i.e. assignment_id=456 supplied.)
    */
   initialise(props = this.props) {
+    console.log('+++ initialise: ');
     const state = this.state;
     
     const classroom_id = (props.match && props.match.params)
@@ -144,7 +145,7 @@ class AssignmentForm extends React.Component {
     
     //Data store update + Redundancy Check (prevent infinite loop, only trigger once)
     if (props.selectedClassroom !== selectedClassroom) {
-      Actions.wildcamClassrooms.setSelectedClassroom(selectedClassroom);  
+      Actions.wildcamClassrooms.setSelectedClassroom(selectedClassroom);
     }
     
     //If we don't have a list of assignments yet, fetch it.
@@ -152,11 +153,12 @@ class AssignmentForm extends React.Component {
     if (props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.IDLE) {
       Actions.wcc_fetchAssignments({ selectedClassroom });
     } else {
-      this.initialise_partTwo(classroom_id, assignment_id, props.assignmentsList);
+      this.initialise_partTwo(props, classroom_id, assignment_id, props.assignmentsList);
     }
     
     //Check the connection to WildCam Maps: if the user recently selected
     //Subjects for the Assignment, respect it.
+    console.log('+++ props.wccwcmSelectedSubjects: ', props.wccwcmSelectedSubjects);
     if (props.wccwcmSelectedSubjects) {
       this.setState({
         subjects: props.wccwcmSelectedSubjects,
@@ -164,10 +166,9 @@ class AssignmentForm extends React.Component {
       });
       Actions.wildcamMap.resetWccWcmAssignmentData();
     }
-    
   }
   
-  initialise_partTwo(classroom_id, assignment_id, assignmentsList) {
+  initialise_partTwo(props, classroom_id, assignment_id, assignmentsList) {
     //Create a new assignment
     if (!assignment_id) {  //Note: there should never be assignment_id === 0 or ''
       this.setState({ view: VIEWS.CREATE_NEW });
@@ -184,6 +185,26 @@ class AssignmentForm extends React.Component {
       if (selectedAssignment) {
         //Data store update
         Actions.wildcamClassrooms.setSelectedAssignment(selectedAssignment);
+        
+        //Also extract initial subjects and filters used by the Assignment
+        if (!this.state.subjects || this.state.subjects.length === 0) {
+          console.log('+++ selectedAssignment: ', selectedAssignment);
+          const newSubjects = (selectedAssignment.metadata && selectedAssignment.metadata.subjects)
+            ? selectedAssignment.metadata.subjects.map((subject) => {
+                return {
+                  subject_id: subject,
+                  location: null,
+                };
+              })
+            : [];
+          const newFilters = (selectedAssignment.metadata)
+            ? selectedAssignment.metadata.filters
+            : {};
+          this.setState({
+            subjects: newSubjects,
+            filters: newFilters,
+          });
+        }
         
         //View update
         this.setState({ view: VIEWS.EDIT_EXISTING });
@@ -274,11 +295,16 @@ class AssignmentForm extends React.Component {
     
     //Submit Form: update existing classroom
     } else if (state.view === VIEWS.EDIT_EXISTING) {
+      const filters = (state.filters) ? state.filters : {};
+      const subjects = (state.subjects)
+        ? state.subjects.map(sub => sub.subject_id)
+        : [];
+      
       return Actions.wcc_editAssignment({
         selectedAssignment: props.selectedAssignment,
         assignmentData: state.form,
-        filters: state.filters,
-        subjects: state.subjects,
+        filters,
+        subjects,
         students: state.students,        
       }).then(() => {
         //Message
