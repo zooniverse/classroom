@@ -16,6 +16,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
+import superagent from 'superagent';
 
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
@@ -27,7 +28,7 @@ import SuperDownloadButton from '../../../components/common/SuperDownloadButton'
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 
-import { constructWhereClause } from '../lib/wildcam-map-helpers.js';
+import { constructWhereClause, sqlString } from '../lib/wildcam-map-helpers.js';
 import { ZooTran, ZooTranGetLanguage } from '../../../lib/zooniversal-translator.js';
 
 import {
@@ -40,7 +41,9 @@ class MapControls extends React.Component {
     super(props);
   
     this.state = {
-      numberOfSelectedSubjects: 0,
+      wccAssignmentsStatus: 'idle',
+      wccAssignmentsStatusDetails: null,
+      wccAssignmentsNumberOfSubjects: 0,
     };
   }
 
@@ -117,31 +120,19 @@ class MapControls extends React.Component {
                   <NumberInput
                     min={0}
                     max={this.props.markersDataCount}
-                    value={this.state.numberOfSelectedSubjects}
+                    value={this.state.wccAssignmentsNumberOfSubjects}
                     onChange={(e) => {
                       let val = e.target && parseInt(e.target.value);
                       if (isNaN(val)) val = this.props.markersDataCount;
                       val = Math.min(val, this.props.markersDataCount);
                       val = Math.max(val, 0);
-                      this.setState({ numberOfSelectedSubjects: val });
+                      this.setState({ wccAssignmentsNumberOfSubjects: val });
                     }}
                   />
                   <Button
                     className="button"
                     label="Select"
-                    onClick={() => {
-                      //Save the data that WildCam Classrooms will find interesting.
-                      console.log('+++ props: ', this.props)
-                      
-                      const copyOfFilters = JSON.parse(JSON.stringify(this.props.filters));
-                      const copyOfSubjects = ['100', '200'];  //TEST
-                      
-                      Actions.wildcamMap.setWccWcmSelectedFilters(copyOfFilters);
-                      Actions.wildcamMap.setWccWcmSelectedSubjects(copyOfSubjects);
-                      
-                      //Transition to: Assignment creation
-                      this.props.history.push(this.props.wccwcmAssignmentPath);
-                    }}
+                    onClick={this.selectSubjectsForAssignment.bind(this)}
                   />
                 </Box>
               </Box>
@@ -184,8 +175,66 @@ class MapControls extends React.Component {
         filters: props.filters,
       });
     }
-    console.log('+++ ', props.markersDataCount);
-    this.setState({ numberOfSelectedSubjects: props.markersDataCount });
+    this.setState({ wccAssignmentsNumberOfSubjects: props.markersDataCount });
+  }
+
+  selectSubjectsForAssignment() {
+    //Save the data that WildCam Classrooms will find interesting.
+    
+    //const copyOfFilters = JSON.parse(JSON.stringify(this.props.filters));
+    //const copyOfSubjects = ['100', '200'];  //TEST
+
+    //Actions.wildcamMap.setWccWcmSelectedFilters(copyOfFilters);
+    //Actions.wildcamMap.setWccWcmSelectedSubjects(copyOfSubjects);
+
+    //Transition to: Assignment creation
+    //this.props.history.push(this.props.wccwcmAssignmentPath);
+
+    const mapConfig = this.props.mapConfig;
+    
+    //Sanity check
+    if (!mapConfig) return;
+    
+    const where = constructWhereClause(mapConfig, this.props.filters);
+    const url = mapConfig.database.urls.json.replace(
+      '{SQLQUERY}',
+      encodeURIComponent(
+        mapConfig.database.queries.selectForAssignment
+        .replace('{WHERE}', where)
+        .replace('{ORDER}', ' ORDER BY subject_id DESC ')
+        .replace('{LIMIT}', ` LIMIT ${this.state.wccAssignmentsNumberOfSubjects}`)
+      )
+    );
+    
+    //TODO: message
+    
+    console.log('+++ URL: ', url);
+
+    superagent.get(url)
+    .then(response => {
+      if (!response) { throw 'ERROR (wildcam-map/MapControls.selectSubjectsForAssignment()): No response'; }
+      if (response.ok && response.body && response.body.rows) {
+        return response.body.rows;
+      }
+      throw 'ERROR (wildcam-map/MapControls.selectSubjectsForAssignment()): invalid response';
+    })
+    .then(data => {
+      console.log('+++ data: ', data);
+      
+      const copyOfFilters = JSON.parse(JSON.stringify(this.props.filters));
+      const copyOfSubjects = data;
+
+      Actions.wildcamMap.setWccWcmSelectedFilters(copyOfFilters);
+      Actions.wildcamMap.setWccWcmSelectedSubjects(copyOfSubjects);
+
+      //Transition to: Assignment creation
+      this.props.history.push(this.props.wccwcmAssignmentPath);
+      
+    })
+    .catch(err => {
+      //TODO: message
+      console.error(err);
+    });
   }
 }
 
