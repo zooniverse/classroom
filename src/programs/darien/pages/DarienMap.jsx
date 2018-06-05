@@ -6,17 +6,28 @@ import mapConfig from '../wildcam-darien.map-config.js';
 function DarienMap(props) {
   return (
     <MapExplorer
-      mapConfig={props.mapConfig}
+      mapConfig={mapConfig}
+      history={props.history}
+      location={props.location}
+      match={props.match}
     />
   );
 };
 
 DarienMap.defaultProps = {
-  mapConfig
+  history: null,
+  location: null,
+  match: null,
+  // ----------------
+  mapConfig: null,
 };
 
 DarienMap.propTypes = {
-  mapConfig: PropTypes.object
+  history: PropTypes.object,
+  location: PropTypes.object,
+  match: PropTypes.object,
+  // ----------------
+  mapConfig: PropTypes.object,
 };
 
 export default DarienMap;

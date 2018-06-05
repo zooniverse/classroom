@@ -61,6 +61,9 @@ class MapExplorer extends React.Component {
           ? <MapControls
               mapConfig={this.props.mapConfig}
               setLanguage={this.setLanguage}
+              history={this.props.history}
+              location={this.props.location}
+              match={this.props.match}
             />
           : <CameraViewer
               mapConfig={this.props.mapConfig}
@@ -86,10 +89,20 @@ class MapExplorer extends React.Component {
 
 MapExplorer.propTypes = {
   mapConfig: PropTypes.object,
+  // ----------------
+  history: PropTypes.object,
+  location: PropTypes.object,
+  match: PropTypes.object,
+  // ----------------
   ...WILDCAMMAP_PROPTYPES,
 };
 MapExplorer.defaultProps = {
   mapConfig: null,
+  // ----------------
+  history: null,
+  location: null,
+  match: null,
+  // ----------------
   ...WILDCAMMAP_INITIAL_STATE,
 };
 const mapStateToProps = (state) => ({

@@ -9,7 +9,7 @@ list.
 Props:
 - selectedClassroom: (required)
 - selectedAssignment: (optional) the WildCam Assignment that we're listing
-    subjects for.
+    subjects for. If null, means we're creating a new Assignment.
 - history/location/match: (required) for routing purposes
 - wccwcmMapPath: (required) for routing purposes
 
@@ -77,7 +77,6 @@ class StudentsList extends React.Component {
   initialise(props = this.props) {
     //Sanity check
     if (!props.selectedClassroom) return;
-    if (!props.selectedAssignment) return;
     
   }
   
@@ -100,7 +99,6 @@ class StudentsList extends React.Component {
     
     //Sanity check
     if (!props.selectedClassroom) return null;
-    if (!props.selectedAssignment) return null;
     
     return (
       <Box

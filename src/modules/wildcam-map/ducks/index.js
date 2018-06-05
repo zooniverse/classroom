@@ -70,8 +70,8 @@ const WILDCAMMAP_INITIAL_STATE = {
   //Connection between WildCam Classroom and WildCam Map
   wccwcmMapPath: '',  //The URL/path that the Teacher is taken to when they click on "Select subject" in the WildCam Classroom - Create Assignment stage. Must be registered early on in the Program.
   wccwcmAssignmentPath: '',  //The URL/path that the Teacher is returned to when they finally finish selecting subjects on the WildCam Map.
-  wccwcmSelectedSubjects: [],
-  wccwcmSelectedFilters: {},
+  wccwcmSelectedSubjects: null,
+  wccwcmSelectedFilters: null,
 };
 
 /*

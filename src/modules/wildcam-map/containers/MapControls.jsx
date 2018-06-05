@@ -19,6 +19,8 @@ import { Actions } from 'jumpstate';
 
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
+import Label from 'grommet/components/Label';
+import NumberInput from 'grommet/components/NumberInput';
 import MultiChoiceFilter from '../components/MultiChoiceFilter';
 import SuperDownloadButton from '../../../components/common/SuperDownloadButton';
 
@@ -36,6 +38,10 @@ import {
 class MapControls extends React.Component {
   constructor(props) {
     super(props);
+  
+    this.state = {
+      numberOfSelectedSubjects: 0,
+    };
   }
 
   //----------------------------------------------------------------
@@ -94,6 +100,53 @@ class MapControls extends React.Component {
                 onClick={() => { this.props.setLanguage('es') }}
               />
             </Box>
+            
+            {(true || this.props.wccwcmAssignmentPath) && (
+              <Box
+                className="wccwcm-connector"
+                direction="column"
+                pad="small"
+                margin="small"
+                align="center"
+                alignContent="between"
+              >
+                <Label>Select subjects for Assignment</Label>
+                <Box
+                  direction="row"
+                >
+                  <NumberInput
+                    min={0}
+                    max={this.props.markersDataCount}
+                    value={this.state.numberOfSelectedSubjects}
+                    onChange={(e) => {
+                      let val = e.target && parseInt(e.target.value);
+                      if (isNaN(val)) val = this.props.markersDataCount;
+                      val = Math.min(val, this.props.markersDataCount);
+                      val = Math.max(val, 0);
+                      this.setState({ numberOfSelectedSubjects: val });
+                    }}
+                  />
+                  <Button
+                    className="button"
+                    label="Select"
+                    onClick={() => {
+                      //Save the data that WildCam Classrooms will find interesting.
+                      console.log('+++ props: ', this.props)
+                      
+                      const copyOfFilters = JSON.parse(JSON.stringify(this.props.filters));
+                      const copyOfSubjects = ['100', '200'];  //TEST
+                      
+                      Actions.wildcamMap.setWccWcmSelectedFilters(copyOfFilters);
+                      Actions.wildcamMap.setWccWcmSelectedSubjects(copyOfSubjects);
+                      
+                      //Transition to: Assignment creation
+                      this.props.history.push(this.props.wccwcmAssignmentPath);
+                    }}
+                  />
+                </Box>
+              </Box>
+            )}
+            
           </AccordionPanel>
         </Accordion>
         <Accordion openMulti={true}>
@@ -131,17 +184,29 @@ class MapControls extends React.Component {
         filters: props.filters,
       });
     }
+    console.log('+++ ', props.markersDataCount);
+    this.setState({ numberOfSelectedSubjects: props.markersDataCount });
   }
 }
 
 MapControls.propTypes = {
   mapConfig: PropTypes.object,
   setLanguage: PropTypes.func,
+  // ----------------
+  history: PropTypes.object,
+  location: PropTypes.object,
+  match: PropTypes.object,
+  // ----------------
   ...WILDCAMMAP_PROPTYPES,
 };
 MapControls.defaultProps = {
   mapConfig: null,
   setLanguage: () => {},
+  // ----------------
+  history: null,
+  location: null,
+  match: null,
+  // ----------------
   ...WILDCAMMAP_INITIAL_STATE,
 };
 const mapStateToProps = (state) => ({
