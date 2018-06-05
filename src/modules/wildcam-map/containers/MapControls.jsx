@@ -236,7 +236,6 @@ class MapControls extends React.Component {
     
     superagent.get(url)
     .then(response => {
-      console.log('+++ response: ', response);
       if (!response) { throw 'ERROR (wildcam-map/MapControls.selectSubjectsForAssignment()): No response'; }
       if (response.ok && response.body && response.body.rows) {
         return response.body.rows;
@@ -244,8 +243,6 @@ class MapControls extends React.Component {
       throw 'ERROR (wildcam-map/MapControls.selectSubjectsForAssignment()): invalid response';
     })
     .then(data => {
-      console.log('+++ data: ', data);
-      
       const copyOfFilters = JSON.parse(JSON.stringify(this.props.filters));
       const copyOfSubjects = data;
 

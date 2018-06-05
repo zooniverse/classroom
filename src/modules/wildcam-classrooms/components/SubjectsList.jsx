@@ -52,12 +52,14 @@ const TEXT = {
     SUBJECTS: 'Subjects',
   }
 }
-  
+
+const MAX_SUBJECTS_COUNT = 10;
+
 /*
 --------------------------------------------------------------------------------
  */
 
-class StudentsList extends React.Component {
+class SubjectsList extends React.Component {
   constructor() {
     super();
   }
@@ -108,6 +110,14 @@ class StudentsList extends React.Component {
       >
         <Heading tag="h3">{TEXT.HEADINGS.SUBJECTS}</Heading>
         
+        <Box className="data-count">
+          {(props.subjects) ? props.subjects.length : 0} subject(s) selected
+        </Box>
+        
+        {this.render_filters()}
+        
+        {this.render_subjects()}
+        
         <Footer>
           {(props.wccwcmMapPath && props.location) && (
             <Button
@@ -126,20 +136,76 @@ class StudentsList extends React.Component {
       </Box>
     );
   }
+  
+  render_filters() {
+    const props = this.props;
+    
+    if (!props.filters) return null;
+    
+    return (
+      <Box
+        className="data-filters"
+        pad="small"
+        margin="small"
+      >
+        {(()=> {
+          return Object.keys(props.filters).map((key, index) => {
+            const val = props.filters[key];
+            return (
+              <div key={`subjects-list-filter-$index`}>{key} : {val}</div>
+            );
+          });
+        })()}
+      </Box>
+    );
+  }
+  
+  render_subjects() {
+    const props = this.props;
+    
+    if (!props.subjects || props.subjects.length === 0) return null;
+    
+    return (
+      <Box
+        className="data-subjects"
+        direction="row"
+        wrap={true}
+        margin="small"
+        separator="all"
+      >
+        {props.subjects.slice(0,MAX_SUBJECTS_COUNT).map((subject) => {
+          return (
+            <Box
+              className="item"
+              margin="small"
+            >
+              <img src={subject.location} />
+            </Box>
+          );
+        })}
+      </Box>
+    );
+  }
 };
 
 /*
 --------------------------------------------------------------------------------
  */
 
-StudentsList.defaultProps = {
+SubjectsList.defaultProps = {
+  filters: null,
+  subjects: [],
+  // ----------------
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
   ...WILDCAMMAP_INITIAL_STATE,
 };
 
-StudentsList.propTypes = {
+SubjectsList.propTypes = {
+  filters: PropTypes.object,
+  subjects: PropTypes.array,
+  // ----------------
   ...WILDCAMCLASSROOMS_PROPTYPES,
   ...WILDCAMMAP_PROPTYPES,
 };
 
-export default StudentsList;
+export default SubjectsList;

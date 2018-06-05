@@ -105,8 +105,7 @@ class ClassroomForm extends React.Component {
     this.state = {
       view: VIEWS.CREATE_NEW,
       form: INITIAL_FORM_DATA,
-      //Note: the reason this object structure is one level deep is because
-      //the state previously had other things stored here, e.g. state.mode.
+      //TODO: students, an advanced form of data.
     };
   }
   

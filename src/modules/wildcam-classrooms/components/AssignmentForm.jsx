@@ -91,9 +91,6 @@ const TEXT = {
 const INITIAL_FORM_DATA = {
   name: '',
   description: '',
-  filters: [],
-  subjects: [],
-  students: [],
 };
 
 /*
@@ -105,9 +102,10 @@ class AssignmentForm extends React.Component {
     super();
     this.state = {
       view: VIEWS.CREATE_NEW,
-      form: INITIAL_FORM_DATA,
-      //Note: the reason this object structure is one level deep is because
-      //the state previously had other things stored here, e.g. state.mode.
+      form: INITIAL_FORM_DATA,  //Contains basic Assignment data: name, description, etc.
+      filters: {},
+      subjects: [],
+      students: [],
     };
   }
   
@@ -156,6 +154,17 @@ class AssignmentForm extends React.Component {
     } else {
       this.initialise_partTwo(classroom_id, assignment_id, props.assignmentsList);
     }
+    
+    //Check the connection to WildCam Maps: if the user recently selected
+    //Subjects for the Assignment, respect it.
+    if (props.wccwcmSelectedSubjects) {
+      this.setState({
+        subjects: props.wccwcmSelectedSubjects,
+        filters: props.wccwcmSelectedFilters,
+      });
+      Actions.wildcamMap.resetWccWcmAssignmentData();
+    }
+    
   }
   
   initialise_partTwo(classroom_id, assignment_id, assignmentsList) {
@@ -394,6 +403,8 @@ class AssignmentForm extends React.Component {
           match={props.match}
           selectedClassroom={props.selectedClassroom}
           selectedAssignment={props.selectedAssignment}
+          filters={state.filters}
+          subjects={state.subjects}
           wccwcmMapPath={props.wccwcmMapPath}
         />
         
