@@ -22,35 +22,44 @@ import Status401 from '../../components/common/Status401';
 import Status404 from '../../components/common/Status404';
 import GenericStatusPage from '../../components/common/GenericStatusPage';
 
-function DarienProgram(props) {
-  if (!props.initialised) {  //User status unknown: wait.
-    return (<GenericStatusPage status="fetching" message="Loading..." />);
-  } else if (!props.selectedProgram) {  //Anomaly: program status not set.
-    //Users should _not_ see this, but might due to weird lifecycle/timing issues.
-    return (<GenericStatusPage status="fetching" message="Loading Program..." />);
-  } else {
-    
+class DarienProgram extends React.Component {
+  constructor() {
+    super();
+  }
+  
+  componentWillReceiveProps(props = this.props) {
     //Register the connection between the WildCam Classrooms and the WildCam Maps.
     Actions.wildcamMap.setWccWcmMapPath(`${props.match.url}/map`);
+  }
 
-    if (props.user) {  //User logged in: give access to all locations.
-      return (
-        <Switch>
-          <Route exact path={`${props.match.url}/`} component={DarienHome} />
-          <Route path={`${props.match.url}/educators`} component={DarienEducators} />
-          <Route path={`${props.match.url}/map`} component={DarienMap} />
-          <Route path="*" component={Status404} />
-        </Switch>
-      );
-    } else {  //User not logged in: give limited access.
-      return (
-        <Switch>
-          <Route exact path={`${props.match.url}/`} component={DarienHome} />
-          <Route path={`${props.match.url}/educators`} component={Status401} />
-          <Route path={`${props.match.url}/map`} component={DarienMap} />
-          <Route path="*" component={Status404} />
-        </Switch>
-      );
+  render() {
+    const props = this.props;
+    
+    if (!props.initialised) {  //User status unknown: wait.
+      return (<GenericStatusPage status="fetching" message="Loading..." />);
+    } else if (!props.selectedProgram) {  //Anomaly: program status not set.
+      //Users should _not_ see this, but might due to weird lifecycle/timing issues.
+      return (<GenericStatusPage status="fetching" message="Loading Program..." />);
+    } else {
+      if (props.user) {  //User logged in: give access to all locations.
+        return (
+          <Switch>
+            <Route exact path={`${props.match.url}/`} component={DarienHome} />
+            <Route path={`${props.match.url}/educators`} component={DarienEducators} />
+            <Route path={`${props.match.url}/map`} component={DarienMap} />
+            <Route path="*" component={Status404} />
+          </Switch>
+        );
+      } else {  //User not logged in: give limited access.
+        return (
+          <Switch>
+            <Route exact path={`${props.match.url}/`} component={DarienHome} />
+            <Route path={`${props.match.url}/educators`} component={Status401} />
+            <Route path={`${props.match.url}/map`} component={DarienMap} />
+            <Route path="*" component={Status404} />
+          </Switch>
+        );
+      }
     }
   }
 }
