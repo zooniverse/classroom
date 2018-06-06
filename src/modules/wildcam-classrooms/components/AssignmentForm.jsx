@@ -76,7 +76,9 @@ const TEXT = {
   },
   ASSIGNMENT_FORM: {
     NAME: 'Assignment name',
-    DESCRIPTION: 'Instructions for Students',
+    DESCRIPTION: 'Instructions for students',
+    CLASSIFICATIONS_TARGET: 'Classifications target',
+    DUEDATE: 'Due date',
   },
   ERROR: {
     GENERAL: 'Something went wrong',
@@ -91,6 +93,8 @@ const TEXT = {
 const INITIAL_FORM_DATA = {
   name: '',
   description: '',
+  classifications_target: '',
+  duedate: '',
 };
 
 /*
@@ -227,9 +231,16 @@ class AssignmentForm extends React.Component {
       const originalForm = INITIAL_FORM_DATA;
       const updatedForm = {};
       Object.keys(originalForm).map((key) => {
-        updatedForm[key] = (selectedAssignment && selectedAssignment[key])
-          ? selectedAssignment[key]
-          : originalForm[key];
+        //The structure for Assignments is weird.
+        if (selectedAssignment && selectedAssignment.metadata && selectedAssignment.metadata[key]) {
+          updatedForm[key] = selectedAssignment.metadata[key];
+        } else if (selectedAssignment && selectedAssignment.attributes && selectedAssignment.attributes[key]) {
+          updatedForm[key] = selectedAssignment.attributes[key];
+        } else {
+          updatedForm[key] = originalForm[key];
+        }
+        
+        
       });
       this.setState({ form: updatedForm });
     }
@@ -427,6 +438,27 @@ class AssignmentForm extends React.Component {
               id="description"
               value={this.state.form.description}
               onChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+        </fieldset>
+        
+        <fieldset>
+          <FormField htmlFor="name" label={TEXT.ASSIGNMENT_FORM.CLASSIFICATIONS_TARGET}>
+            <TextInput
+              id="classifications_target"
+              required={true}
+              value={this.state.form.classifications_target}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+        </fieldset>
+        
+        <fieldset>
+          <FormField htmlFor="name" label={TEXT.ASSIGNMENT_FORM.DUEDATE}>
+            <TextInput
+              id="duedate"
+              value={this.state.form.duedate}
+              onDOMChange={this.updateForm.bind(this)}
             />
           </FormField>
         </fieldset>

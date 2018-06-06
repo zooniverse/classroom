@@ -106,16 +106,6 @@ class WildCamClassroom extends React.Component {
           />
           <Route path="*" component={Status404} />
         </Switch>
-        
-        <Box pad="medium">
-          <h4>Debug Panel</h4>
-          <Box>
-            Classrooms Status: [{props.classroomsStatus}] <br/>
-            Classrooms Count: [{props.classroomsList && props.classroomsList.length}] <br/>
-            Assignments Status: [{props.assignmentsStatus}] <br/>
-            Assignments Count: [{props.assignmentsList && props.assignmentsList.length}] <br/>
-          </Box>
-        </Box>
 
       </Box>
     );
