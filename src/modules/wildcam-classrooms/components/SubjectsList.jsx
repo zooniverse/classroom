@@ -127,6 +127,10 @@ class SubjectsList extends React.Component {
                 //Save the return path
                 Actions.wildcamMap.setWccWcmAssignmentPath(props.location.pathname);
                 
+                //Save the assignment state
+                console.log('+++ SAVING: ', props.assignmentStateForSaving);
+                Actions.wildcamMap.setWccWcmSavedAssignmentState(props.assignmentStateForSaving);
+                
                 //Transition to: WildCam Map
                 props.history.push(props.wccwcmMapPath);
               }}
@@ -198,6 +202,7 @@ class SubjectsList extends React.Component {
 SubjectsList.defaultProps = {
   filters: null,
   subjects: [],
+  assignmentStateForSaving: null,
   // ----------------
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
   ...WILDCAMMAP_INITIAL_STATE,
@@ -206,6 +211,7 @@ SubjectsList.defaultProps = {
 SubjectsList.propTypes = {
   filters: PropTypes.object,
   subjects: PropTypes.array,
+  assignmentStateForSaving: PropTypes.object,
   // ----------------
   ...WILDCAMCLASSROOMS_PROPTYPES,
   ...WILDCAMMAP_PROPTYPES,

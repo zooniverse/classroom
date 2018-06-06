@@ -111,6 +111,7 @@ class AssignmentForm extends React.Component {
     this.state = {
       view: VIEWS.CREATE_NEW,
       form: INITIAL_FORM_DATA,  //Contains basic Assignment data: name, description, etc.
+      formInitialised: false,  //Has initialiseForm() already been run?
       filters: {},
       subjects: [],
       students: [],
@@ -152,6 +153,7 @@ class AssignmentForm extends React.Component {
     
     //Data store update + Redundancy Check (prevent infinite loop, only trigger once)
     if (props.selectedClassroom !== selectedClassroom) {
+      //this.setState({ formInitialised: false });
       Actions.wildcamClassrooms.setSelectedClassroom(selectedClassroom);
     }
     
@@ -166,15 +168,16 @@ class AssignmentForm extends React.Component {
     //WildCam Map Selected Subjects:
     //Check the connection to WildCam Maps to see if the user recently selected
     //Subjects for the Assignment.
-    if (props.wccwcmSelectedSubjects) {
+    if (props.wccwcmSelectedSubjects && props.wccwcmSavedAssignmentState) {
       
-      console.log('+++ props.wccwcmSelectedSubjects: ', props.wccwcmSelectedSubjects.length, this.state);
+      console.log('+++ RESTORING ASSIGNMENT: ', props.wccwcmSavedAssignmentState);
       
       this.setState({
         subjects: props.wccwcmSelectedSubjects,
         filters: props.wccwcmSelectedFilters,
         form: {
           ...this.state.form,
+          ...props.wccwcmSavedAssignmentState,
           classifications_target: props.wccwcmSelectedSubjects.length,
         }
       });
@@ -237,6 +240,12 @@ class AssignmentForm extends React.Component {
   /*  Initialises the classroom form.
    */
   initialiseForm(selectedAssignment) {
+    //Only run this once per page load, thank you.
+    if (this.state.formInitialised) return;
+    this.setState({ formInitialised: true });
+    
+    console.log('+++ INITIALISING FORM');
+    
     if (!selectedAssignment) {
       this.setState({ form: INITIAL_FORM_DATA });
     } else {
@@ -489,6 +498,7 @@ class AssignmentForm extends React.Component {
           filters={state.filters}
           subjects={state.subjects}
           wccwcmMapPath={props.wccwcmMapPath}
+          assignmentStateForSaving={state.form}
         />
         
         {(state.subjects && state.subjects.length > 0) && (
