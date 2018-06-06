@@ -164,32 +164,13 @@ class AssignmentForm extends React.Component {
     } else {
       this.initialise_partTwo(props, classroom_id, assignment_id, props.assignmentsList);
     }
-    
-    //WildCam Map Selected Subjects:
-    //Check the connection to WildCam Maps to see if the user recently selected
-    //Subjects for the Assignment.
-    if (props.wccwcmSelectedSubjects && props.wccwcmSavedAssignmentState) {
-      
-      console.log('+++ RESTORING ASSIGNMENT: ', props.wccwcmSavedAssignmentState);
-      
-      this.setState({
-        subjects: props.wccwcmSelectedSubjects,
-        filters: props.wccwcmSelectedFilters,
-        form: {
-          ...this.state.form,
-          ...props.wccwcmSavedAssignmentState,
-          classifications_target: props.wccwcmSelectedSubjects.length,
-        }
-      });
-      Actions.wildcamMap.resetWccWcmAssignmentData();
-    }
   }
   
   initialise_partTwo(props, classroom_id, assignment_id, assignmentsList) {
     //Create a new assignment
     if (!assignment_id) {  //Note: there should never be assignment_id === 0 or ''
       this.setState({ view: VIEWS.CREATE_NEW });
-      this.initialiseForm(null);
+      this.initialiseForm(props, null);
     
     //Edit an existing assignment... if we can find it.
     } else {
@@ -224,7 +205,7 @@ class AssignmentForm extends React.Component {
         
         //View update
         this.setState({ view: VIEWS.EDIT_EXISTING });
-        this.initialiseForm(selectedAssignment);
+        this.initialiseForm(props, selectedAssignment);
         
       //Otherwise, uh oh.
       } else {
@@ -239,12 +220,10 @@ class AssignmentForm extends React.Component {
   
   /*  Initialises the classroom form.
    */
-  initialiseForm(selectedAssignment) {
+  initialiseForm(props, selectedAssignment) {
     //Only run this once per page load, thank you.
     if (this.state.formInitialised) return;
     this.setState({ formInitialised: true });
-    
-    console.log('+++ INITIALISING FORM');
     
     if (!selectedAssignment) {
       this.setState({ form: INITIAL_FORM_DATA });
@@ -263,6 +242,22 @@ class AssignmentForm extends React.Component {
       });
       this.setState({ form: updatedForm });
     }
+    
+    //WildCam Map Selected Subjects:
+    //Check the connection to WildCam Maps to see if the user recently selected
+    //Subjects for the Assignment.
+    if (props.wccwcmSelectedSubjects && props.wccwcmSavedAssignmentState) {
+      this.setState({
+        subjects: props.wccwcmSelectedSubjects,
+        filters: props.wccwcmSelectedFilters,
+        form: {
+          ...this.state.form,
+          ...props.wccwcmSavedAssignmentState,
+          classifications_target: props.wccwcmSelectedSubjects.length,
+        }
+      });
+      Actions.wildcamMap.resetWccWcmAssignmentData();
+    }
   }
   
   // ----------------------------------------------------------------
@@ -273,7 +268,6 @@ class AssignmentForm extends React.Component {
     //Special case: classificatons_target
     //The number of Classfications a Student needs to do cannot exceed the amount of Subjects selected.
     if (e.target.id === 'classifications_target') {
-      console.log('+++ classifications_target: ', val);
       let maxVal = (this.state.subjects) ? this.state.subjects.length : 0;
       val = parseInt(val);
       if (isNaN(val)) val = 0;
@@ -294,8 +288,6 @@ class AssignmentForm extends React.Component {
   }
   
   submitForm(e) {
-    console.log('+++ AssignmentForm.submitForm() ', this.props);
-    
     const props = this.props;
     const state = this.state;
     
@@ -305,8 +297,6 @@ class AssignmentForm extends React.Component {
     //Sanity check
     if (!props.selectedProgram) return;
     if (!props.selectedClassroom) return;
-    
-    console.log('+++ AssignmentForm.submitForm() A');
     
     //Submit Form: create new assignment
     if (state.view === VIEWS.CREATE_NEW) {
@@ -339,8 +329,6 @@ class AssignmentForm extends React.Component {
     
     //Submit Form: update existing classroom
     } else if (state.view === VIEWS.EDIT_EXISTING) {
-      console.log('+++ AssignmentForm.submitForm() B');
-      
       const filters = (state.filters) ? state.filters : {};
       const subjects = (state.subjects)
         ? state.subjects.map(sub => sub.subject_id)
