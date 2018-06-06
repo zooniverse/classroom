@@ -124,12 +124,10 @@ class SubjectsList extends React.Component {
               className="button"
               label={TEXT.ACTIONS.SELECT_SUBJECTS}
               onClick={() => {
-                //Save the return path
+                //Save the return path, assignment state, and the initial filters to be used by the map.
                 Actions.wildcamMap.setWccWcmAssignmentPath(props.location.pathname);
-                
-                //Save the assignment state
-                console.log('+++ SAVING: ', props.assignmentStateForSaving);
                 Actions.wildcamMap.setWccWcmSavedAssignmentState(props.assignmentStateForSaving);
+                if (props.filters) Actions.wildcamMap.setFilters(props.filters);
                 
                 //Transition to: WildCam Map
                 props.history.push(props.wccwcmMapPath);

@@ -185,6 +185,10 @@ const setActiveCameraDataStatus = (state, activeCameraDataStatus) => {
   return { ...state, activeCameraDataStatus };
 };
 
+const setFilters = (state, filters) => {
+  return { ...state, filters };
+};
+
 /*  Adds to a multi-choice filter selection.
  */
 const addFilterSelectionItem = (state, item) => {
@@ -392,6 +396,7 @@ const wildcamMap = State('wildcamMap', {
   setActiveCameraMetadataStatus,
   setActiveCameraData,
   setActiveCameraDataStatus,
+  setFilters,
   addFilterSelectionItem,
   removeFilterSelectionItem,
   setFilterSelectionItem,
