@@ -74,7 +74,10 @@ class MapControls extends React.Component {
 
     return (
       <Box className="map-controls">
-        <Accordion openMulti={true}>
+        <Accordion
+          openMulti={true}
+          active={(this.props.wccwcmAssignmentPath) ? [0] : null}
+        >
           <AccordionPanel heading={statusMessage} className="map-controls-status">
             <SuperDownloadButton
               fileNameBase="wildcam-"
@@ -87,7 +90,7 @@ class MapControls extends React.Component {
               direction="row"
               pad="small"
               colorIndex="light-2"
-              margin="small"
+              margin={{ horizontal: "small", vertical: "none" }}
               align="center"
               alignContent="between"
               separator="horizontal"
@@ -110,7 +113,7 @@ class MapControls extends React.Component {
                 className="wccwcm-connector"
                 direction="column"
                 pad="small"
-                margin="small"
+                margin={{ horizontal: "small", vertical: "none" }}
                 align="center"
                 alignContent="between"
               >

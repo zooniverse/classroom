@@ -105,7 +105,7 @@ class SubjectsList extends React.Component {
     return (
       <Box
         className="subjects-list"
-        margin="small"
+        margin={{ horizontal: "none", vertical: "small" }}
         pad="small"
       >
         <Heading tag="h3">{TEXT.HEADINGS.SUBJECTS}</Heading>

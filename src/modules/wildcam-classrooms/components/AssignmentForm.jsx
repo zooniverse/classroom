@@ -31,6 +31,7 @@ import Label from 'grommet/components/Label';
 import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
 import TextInput from 'grommet/components/TextInput';
+import NumberInput from 'grommet/components/NumberInput';
 
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
@@ -77,8 +78,11 @@ const TEXT = {
   ASSIGNMENT_FORM: {
     NAME: 'Assignment name',
     DESCRIPTION: 'Instructions for students',
-    CLASSIFICATIONS_TARGET: 'Classifications target',
+    CLASSIFICATIONS_TARGET: 'Number of subjects each student needs to classify',
     DUEDATE: 'Due date',
+  },
+  ASSIGNMENT_FORM_PLACEHOLDERS: {
+    DUEDATE: 'e.g. 2020-12-31',
   },
   ERROR: {
     GENERAL: 'Something went wrong',
@@ -159,12 +163,20 @@ class AssignmentForm extends React.Component {
       this.initialise_partTwo(props, classroom_id, assignment_id, props.assignmentsList);
     }
     
-    //Check the connection to WildCam Maps: if the user recently selected
-    //Subjects for the Assignment, respect it.
+    //WildCam Map Selected Subjects:
+    //Check the connection to WildCam Maps to see if the user recently selected
+    //Subjects for the Assignment.
     if (props.wccwcmSelectedSubjects) {
+      
+      console.log('+++ props.wccwcmSelectedSubjects: ', props.wccwcmSelectedSubjects.length, this.state);
+      
       this.setState({
         subjects: props.wccwcmSelectedSubjects,
         filters: props.wccwcmSelectedFilters,
+        form: {
+          ...this.state.form,
+          classifications_target: props.wccwcmSelectedSubjects.length,
+        }
       });
       Actions.wildcamMap.resetWccWcmAssignmentData();
     }
@@ -239,8 +251,6 @@ class AssignmentForm extends React.Component {
         } else {
           updatedForm[key] = originalForm[key];
         }
-        
-        
       });
       this.setState({ form: updatedForm });
     }
@@ -249,10 +259,23 @@ class AssignmentForm extends React.Component {
   // ----------------------------------------------------------------
   
   updateForm(e) {
+    let val = e.target.value;
+    
+    //Special case: classificatons_target
+    //The number of Classfications a Student needs to do cannot exceed the amount of Subjects selected.
+    if (e.target.id === 'classifications_target') {
+      console.log('+++ classifications_target: ', val);
+      let maxVal = (this.state.subjects) ? this.state.subjects.length : 0;
+      val = parseInt(val);
+      if (isNaN(val)) val = 0;
+      val = Math.min(maxVal, val);
+      val = Math.max(0, val);
+    }
+    
     this.setState({
       form: {
         ...this.state.form,
-        [e.target.id]: e.target.value
+        [e.target.id]: val,
       }
     });
     
@@ -443,25 +466,19 @@ class AssignmentForm extends React.Component {
         </fieldset>
         
         <fieldset>
-          <FormField htmlFor="name" label={TEXT.ASSIGNMENT_FORM.CLASSIFICATIONS_TARGET}>
-            <TextInput
-              id="classifications_target"
-              required={true}
-              value={this.state.form.classifications_target}
-              onDOMChange={this.updateForm.bind(this)}
-            />
-          </FormField>
-        </fieldset>
-        
-        <fieldset>
           <FormField htmlFor="name" label={TEXT.ASSIGNMENT_FORM.DUEDATE}>
             <TextInput
               id="duedate"
               value={this.state.form.duedate}
               onDOMChange={this.updateForm.bind(this)}
+              placeHolder={TEXT.ASSIGNMENT_FORM_PLACEHOLDERS.DUEDATE}
             />
           </FormField>
         </fieldset>
+        
+        {
+          //TODO: add (optional) Assignment link for students?
+        }
         
         <SubjectsList
           history={props.history}
@@ -473,6 +490,18 @@ class AssignmentForm extends React.Component {
           subjects={state.subjects}
           wccwcmMapPath={props.wccwcmMapPath}
         />
+        
+        {(state.subjects && state.subjects.length > 0) && (
+          <fieldset>
+            <FormField htmlFor="name" label={TEXT.ASSIGNMENT_FORM.CLASSIFICATIONS_TARGET}>
+              <NumberInput
+                id="classifications_target"
+                value={this.state.form.classifications_target || 0}
+                onChange={this.updateForm.bind(this)}
+              />
+            </FormField>
+          </fieldset>
+        )}
         
         <StudentsList
           selectedClassroom={props.selectedClassroom}
