@@ -154,7 +154,17 @@ class SubjectsList extends React.Component {
           return Object.keys(props.filters).map((key, index) => {
             const val = props.filters[key];
             return (
-              <div key={`subjects-list-filter_${index}`}>{key} : {val}</div>
+              <div key={`subjects-list-filter_${index}`}>{key} : {(()=>{
+                if (Array.isArray(val, index)) {
+                  let output = '';
+                  val.map((v) => {
+                    output += ((output !== '') ? ', ' : '' ) + v;
+                  });
+                  return output;
+                } else {
+                  return val;
+                }
+              })()}</div>
             );
           });
         })()}
