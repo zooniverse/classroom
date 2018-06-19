@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
 import Section from 'grommet/components/Section';
+import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
 import Hero from 'grommet/components/Hero';
 import Image from 'grommet/components/Image';
@@ -13,7 +14,6 @@ import Paragraph from 'grommet/components/Paragraph';
 import Label from 'grommet/components/Label';
 
 import ProgramHome from '../../../components/common/ProgramHome';
-import NeedHelp from '../../../components/common/NeedHelp';
 
 import {
   PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES, PROGRAMS_STATUS
@@ -61,7 +61,19 @@ function DarienHome(props) {
           </Box>
         </Box>
       </Section>
-      <NeedHelp />
+      {/*
+      //WildCam Darien Lab's specific version of <NeedHelp />
+      //----------------
+      */}
+      <Section className="home__section" align="center" colorIndex="accent-2">
+        <Paragraph className="section__paragraph" align="center">
+          Need help? Have questions?<br />
+          Check out the <Anchor href="https://www.zooniverse.org/projects/wildcam/wildcam-darien/talk/843">WildCam Darien Talk Board</Anchor> or <Anchor href="mailto:collab@zooniverse.org">email us</Anchor>
+        </Paragraph>
+      </Section>
+      {/*
+      //----------------
+      */}
     </ProgramHome>
   );
 }
