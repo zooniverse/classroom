@@ -15,9 +15,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import { Switch, Route } from 'react-router-dom';
+
 import DarienHome from './pages/DarienHome';
 import DarienEducators from './pages/DarienEducators';
 import DarienMap from './pages/DarienMap';
+
+import DarienInfoEcology from './pages/info/DarienInfoEcology';
+
 import Status401 from '../../components/common/Status401';
 import Status404 from '../../components/common/Status404';
 import GenericStatusPage from '../../components/common/GenericStatusPage';
@@ -45,6 +49,9 @@ class DarienProgram extends React.Component {
         return (
           <Switch>
             <Route exact path={`${props.match.url}/`} component={DarienHome} />
+            
+            <Route exact path={`${props.match.url}/educators/ecology`} component={DarienInfoEcology} />
+            
             <Route path={`${props.match.url}/educators`} component={DarienEducators} />
             <Route path={`${props.match.url}/map`} component={DarienMap} />
             <Route path="*" component={Status404} />

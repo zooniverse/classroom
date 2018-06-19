@@ -1,0 +1,25 @@
+.program-navi
+  background: TEAL_DARK
+  color: BACKGROUND
+  
+  .link
+    background: BACKGROUND
+    color: TEAL_DARK
+    display: inline-block
+    margin: 0 0.5em
+    padding: 0.25em 0.5em
+    
+    &:hover
+      color: TEAL_LIGHT
+      text-decoration: none
+
+    &.big
+      font-weight: bold
+      
+      &::after
+        content: '>'
+        margin: 0 0.5em
+
+  .grommetux-anchor__icon
+    height: auto
+    padding: 0
