@@ -18,14 +18,4 @@ describe('<AuthContainer />', function() {
   });
 
   it('without crashing', function() {});
-
-  it('renders the user menu with a user', function() {
-    expect(wrapper.find('UserMenu')).to.have.lengthOf(1);
-  });
-
-  it('the login button and registration button without a user', function() {
-    wrapper.setProps({ user: null, initialised: false });
-    expect(wrapper.find('LoginButton')).to.have.lengthOf(1);
-    expect(wrapper.find('RegisterButton')).to.have.lengthOf(1);
-  });
 });
