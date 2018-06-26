@@ -5,6 +5,8 @@ const DashboardPlugin = require('webpack-dashboard/plugin');
 const nib = require('nib');
 
 module.exports = {
+  mode: 'development',
+
   devtool: 'eval-source-map',
 
   devServer: {
@@ -44,9 +46,6 @@ module.exports = {
     }),
     // new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-    }),
     new DashboardPlugin({ port: 3999 })
   ],
 

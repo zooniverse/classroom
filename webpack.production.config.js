@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const nib = require('nib');
 
 module.exports = {
-
+  mode: 'production',
   entry: [
     path.join(__dirname, 'src/index.jsx'),
   ],
@@ -31,17 +31,9 @@ module.exports = {
       filename: '[name]-[hash].min.css',
       allChunks: true,
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        screw_ie8: true,
-      },
-    }),
     new StatsPlugin('webpack.stats.json', {
       source: false,
       modules: false,
-    }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
     new CopyWebpackPlugin([
       { from: 'src/images', to: 'images' }
