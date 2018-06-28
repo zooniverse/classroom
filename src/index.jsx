@@ -15,7 +15,7 @@ import './styles/main.styl';
 
 const store = configureStore();
 
-oauth.init(config.panoptesAppId)
+oauth.init(config.panoptesAppId, { customRedirects: true })
   .then(() => {
     ReactDOM.render((
       <Provider store={store}>

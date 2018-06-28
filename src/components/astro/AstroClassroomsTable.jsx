@@ -65,7 +65,6 @@ function AstroClassroomsTable(props) {
           const joinURL = `${config.origin}/#/${props.selectedProgram.slug}/students/classrooms/${classroom.id}/join?token=${classroom.joinToken}`;
           // Can we get linked assignments with classrooms in single get request?
           // No, if we want this, then we need to open an issue with the API
-          // TODO replace classifications_target with calculated percentage
 
           // The trailing slash is inconsistent in React Router 4's match.url property...
           const editURL = (props.match.url[props.match.url.length - 1] === '/') ? props.match.url : `${props.match.url}/`;

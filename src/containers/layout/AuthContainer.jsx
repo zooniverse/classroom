@@ -10,11 +10,7 @@ import { storeLocation, redirectErrorHandler } from '../../lib/redirect-manager'
 
 export class AuthContainer extends React.Component {
   constructor(props) {
-    super(props);
-
-    if (!props.initialised) {
-      Actions.checkLoginUser();
-    }
+    super();
 
     this.login = this.login.bind(this);
   }
@@ -26,7 +22,7 @@ export class AuthContainer extends React.Component {
   login() {
     new Promise((resolve, reject) => {
       const location = this.props.location;
-      if (location.pathname !== '/') resolve(storeLocation(location.pathname, location.search));
+      resolve(storeLocation(location.pathname, location.search));
     }).then(
       Actions.loginToPanoptes()
     ).catch((error) => { redirectErrorHandler(error); });

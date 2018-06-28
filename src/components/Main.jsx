@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Actions } from 'jumpstate';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import App from 'grommet/components/App';
 import Box from 'grommet/components/Box';
@@ -11,6 +12,7 @@ import AuthContainer from '../containers/layout/AuthContainer';
 import AppNotification from '../containers/layout/AppNotification';
 import ProgramHomeContainer from '../containers/common/ProgramHomeContainer';
 import JoinPageContainer from '../containers/common/JoinPageContainer';
+import GenericStatusPage from './common/GenericStatusPage';
 
 import AppHeader from './layout/AppHeader';
 import {
@@ -20,11 +22,16 @@ import {
   getRedirectSearch
 } from '../lib/redirect-manager';
 
-const Main = ({ admin, location }) => {
+const Main = ({ admin, initialised, location }) => {
   const redirect = isRedirectStored();
   const pathname = getRedirectPathname();
   const search = getRedirectSearch();
-  if (redirect && location.pathname !== pathname) {
+  if (!initialised) {
+    Actions.checkLoginUser();
+    return (<GenericStatusPage status="fetching" message="Loading" />)
+  }
+
+  if (redirect && location.pathname !== pathname && initialised) {
     removeLocation();
 
     if (search) {
@@ -54,16 +61,19 @@ const Main = ({ admin, location }) => {
 };
 
 Main.defaultProps = {
-  admin: false
+  admin: false,
+  initialised: false
 };
 
 Main.propTypes = {
-  admin: PropTypes.bool
+  admin: PropTypes.bool,
+  initialised: PropTypes.bool
 };
 
 function mapStateToProps(state) {
   return {
-    admin: state.auth.admin
+    admin: state.auth.admin,
+    initialised: state.auth.initialised
   };
 }
 
