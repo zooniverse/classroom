@@ -25,34 +25,29 @@ export class JoinPageContainer extends React.Component {
     // I2A doesn't have a student interface here.
     Actions.getPrograms().then((programs) => {
       Actions.getProgram({ programs, param: this.props.match.params.program })
-      .then(() => {
-        if (this.props.initialised && this.props.user) {
-          this.joinClassroom(this.props);
+      .then((program) => {
+        if (program &&
+          this.props.initialised &&
+          this.props.user &&
+          this.props.classroomsStatus === CLASSROOMS_STATUS.IDLE
+        ) {
+          this.joinClassroom(this.props, program);
         }
       });
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedProgram &&
-        nextProps.classroomsStatus === CLASSROOMS_STATUS.IDLE &&
-        nextProps.initialised &&
-        nextProps.user) {
-      // TODO debug when you are attempt to join your own classroom. Getting 500 error?
-      this.joinClassroom(nextProps);
-    }
-  }
-
-  joinClassroom(props) {
+  joinClassroom(props, program) {
     const classroomId = props.match.params.classroomId;
     const joinToken = queryString.parse(props.location.search);
+    const selectedProgram = program || props.selectedProgram;
 
     Actions.joinClassroom({ classroomId, joinToken: joinToken.token })
       .then(() => {
         if ((props.programsStatus === PROGRAMS_STATUS.SUCCESS && props.classroomsStatus === CLASSROOMS_STATUS.SUCCESS) &&
-            (props.selectedProgram && props.selectedProgram.metadata && props.selectedProgram.metadata.redirectOnJoin)) {
+            (selectedProgram && selectedProgram.metadata && selectedProgram.metadata.redirectOnJoin)) {
           // Make sure they see the success message before redirecting
-          setTimeout(props.history.replace(`/${props.selectedProgram.slug}/students`), 2000);
+          setTimeout(props.history.replace(`/${selectedProgram.slug}/students`), 2000);
         }
       });
   }

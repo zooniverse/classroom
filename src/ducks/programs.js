@@ -249,8 +249,6 @@ Effect('getProgram', (data) => {
       Actions.programs.setStatus(PROGRAMS_STATUS.SUCCESS);
       Actions.programs.selectProgram(program);
       return program;
-    }).then((program) => {
-      // Actions.getClassroomsAndAssignments(program.id);
     }).catch(error => handleError(error));
 });
 
