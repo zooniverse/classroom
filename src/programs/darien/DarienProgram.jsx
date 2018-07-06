@@ -21,6 +21,7 @@ import DarienEducators from './pages/DarienEducators';
 import DarienMap from './pages/DarienMap';
 
 import DarienInfoEcology from './pages/info/DarienInfoEcology';
+import DarienEducatorsIntro from './pages/info/DarienEducatorsIntro';
 
 import Status401 from '../../components/common/Status401';
 import Status404 from '../../components/common/Status404';
@@ -51,6 +52,7 @@ class DarienProgram extends React.Component {
             <Route exact path={`${props.match.url}/`} component={DarienHome} />
             
             <Route exact path={`${props.match.url}/educators/ecology`} component={DarienInfoEcology} />
+            <Route exact path={`${props.match.url}/educators/intro`} component={DarienEducatorsIntro} />
             
             <Route path={`${props.match.url}/educators`} component={DarienEducators} />
             <Route path={`${props.match.url}/map`} component={DarienMap} />
