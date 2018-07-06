@@ -6,6 +6,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import AstroHome from '../../components/astro/AstroHome';
 import DarienProgram from '../../programs/darien/DarienProgram';
+import GorongosaProgram from '../../programs/gorongosa/GorongosaProgram';
 import GenericStatusPage from '../../components/common/GenericStatusPage';
 
 import {
@@ -62,6 +63,7 @@ export class ProgramHomeContainer extends React.Component {
         <Route path="/astro-101-with-galaxy-zoo/educators" component={AstroHome} />
         <Redirect from="/astro-101-with-galaxy-zoo" to="/astro-101-with-galaxy-zoo/educators/" />
         <Route path="/wildcam-darien-lab" component={DarienProgram} />
+        <Route path="/wildcam-gorongosa-lab" component={GorongosaProgram} />
       </Switch>
     );
   }

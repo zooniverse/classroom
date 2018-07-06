@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
 import WildCamClassrooms from '../../../modules/wildcam-classrooms/containers/WildCamClassrooms';
-import DarienNavi from '../common/DarienNavi';
+import GorongosaNavi from '../common/GorongosaNavi';
 
 import Article from 'grommet/components/Article';
 import Box from 'grommet/components/Box';
 import Section from 'grommet/components/Section';
 
-class DarienEducators extends React.Component {
+class GorongosaEducators extends React.Component {
   render() {
     if (!this.props.selectedProgram) {
       return null;
@@ -18,7 +18,7 @@ class DarienEducators extends React.Component {
     
     return (
       <Box>
-        <DarienNavi />
+        <GorongosaNavi />
         <WildCamClassrooms
           selectedProgram={this.props.selectedProgram}
           location={this.props.match}
@@ -30,7 +30,7 @@ class DarienEducators extends React.Component {
   }
 };
 
-DarienEducators.defaultProps = {
+GorongosaEducators.defaultProps = {
   history: null,
   location: null,
   match: null,
@@ -38,7 +38,7 @@ DarienEducators.defaultProps = {
   selectedProgram: null,
 };
 
-DarienEducators.propTypes = {
+GorongosaEducators.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
@@ -52,4 +52,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(DarienEducators);
+export default connect(mapStateToProps)(GorongosaEducators);
