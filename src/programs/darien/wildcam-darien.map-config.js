@@ -22,7 +22,35 @@ const mapConfig = {
     },
     'queries': {
       //For each camera, show how many (filtered) results are available.
-      'selectCameraCount': 'SELECT cam.*, COUNT(sbjagg.*) as count FROM cameras AS cam LEFT JOIN (SELECT sbj.camera, sbj.location, sbj.date, sbj.season, sbj.time_period, agg.data_choice, agg.subject_id FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE} GROUP BY cam.cartodb_id ORDER BY count DESC',
+      'selectCameraCount': `
+        SELECT
+          cam.*, COUNT(sbjagg.*) as count
+        FROM
+          (
+            SELECT
+              DISTINCT(REPLACE(REPLACE(id, 'a', ''), 'b', '')) AS id, human_type, dist_humans_m, dist_water_m, land_use, national_park, water_type, veg_type, longitude, latitude, the_geom
+            FROM
+              cameras
+            ) AS cam
+        LEFT JOIN
+          (
+          SELECT
+              DISTINCT(REPLACE(REPLACE(camera, 'a', ''), 'b', '')) AS camera, sbj.location, sbj.date, sbj.season, sbj.time_period, agg.data_choice, agg.subject_id
+            FROM
+              subjects AS sbj
+            INNER JOIN
+               aggregations AS agg
+            ON
+               sbj.subject_id = agg.subject_id
+            ) AS sbjagg
+        ON
+          cam.id = sbjagg.camera
+        {WHERE}
+        GROUP BY
+          cam.id, human_type, dist_humans_m, dist_water_m, land_use, national_park, water_type, veg_type, longitude, latitude, the_geom
+        ORDER BY
+          count DESC
+        `,
       
       //Get all the details for all the (filtered) results.
       'selectForDownload': 'SELECT cam.*, sbjagg.* FROM cameras AS cam INNER JOIN (SELECT sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice, agg.data_answers_howmany_1, agg.data_answers_howmany_2, agg.data_answers_howmany_3, agg.data_answers_howmany_4, agg.data_answers_howmany_5, agg.data_answers_howmany_6, agg.data_answers_howmany_7, agg.data_answers_howmany_8, agg.data_answers_howmany_9, agg.data_answers_howmany_10, agg.data_answers_howmany_1120, agg.data_answers_howmany_21 FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE}',
