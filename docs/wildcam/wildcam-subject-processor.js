@@ -89,7 +89,7 @@ function parseSubjectsCsv(rawText, program) {
       programObject = {
         'subject_id': i => i.subject_id || '',
         'darien_id': i => (i.metadata && (i.metadata.Darien_id || i.metadata.darien_id)) || '',
-        'camera': i => (i.metadata && i.metadata.camera) || '',
+        'camera': i => (i.metadata && i.metadata.camera && i.metadata.camera.replace(/[ab]$/i, '').toUpperCase()) || '',  //Flatten all cameras, e.g. `cp01a` -> `CP01`
         'location': i => (i.locations && i.locations[0]) || '',
         'season': i => (i.metadata && i.metadata.season) || '',
         'month': i => (i.metadata && i.metadata.month) || '',
