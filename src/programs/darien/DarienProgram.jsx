@@ -18,6 +18,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import DarienHome from './pages/DarienHome';
 import DarienEducators from './pages/DarienEducators';
+import DarienStudents from './pages/DarienStudents';
 import DarienMap from './pages/DarienMap';
 
 import DarienInfoEcology from './pages/info/DarienInfoEcology';
@@ -55,6 +56,7 @@ class DarienProgram extends React.Component {
             <Route exact path={`${props.match.url}/educators/intro`} component={DarienEducatorsIntro} />
             
             <Route path={`${props.match.url}/educators`} component={DarienEducators} />
+            <Route path={`${props.match.url}/students`} component={DarienStudents} />
             <Route path={`${props.match.url}/map`} component={DarienMap} />
             <Route path="*" component={Status404} />
           </Switch>
