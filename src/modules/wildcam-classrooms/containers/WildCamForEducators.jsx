@@ -1,9 +1,9 @@
 /*
-WildCam Students
-----------------
+WildCam Classrooms
+------------------
 
-The primary component for Teachers, allowing them to view their assigned
-Assignments.
+The primary component for Teachers, allowing them to view and manage classrooms
+and assignments for WildCam-type programs/projects.
 
 --------------------------------------------------------------------------------
  */
@@ -35,7 +35,7 @@ import {
 --------------------------------------------------------------------------------
  */
 
-class WildCamStudents extends React.Component {
+class WildCamForEducators extends React.Component {
   constructor() {
     super();
   }
@@ -116,7 +116,7 @@ class WildCamStudents extends React.Component {
 --------------------------------------------------------------------------------
  */
 
-WildCamStudents.defaultProps = {
+WildCamForEducators.defaultProps = {
   history: null,
   location: null,
   match: null,
@@ -126,7 +126,7 @@ WildCamStudents.defaultProps = {
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
 };
 
-WildCamStudents.propTypes = {
+WildCamForEducators.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
@@ -142,4 +142,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(WildCamStudents);
+export default connect(mapStateToProps)(WildCamForEducators);

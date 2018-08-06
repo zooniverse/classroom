@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
-import WildCamClassrooms from '../../../modules/wildcam-classrooms/containers/WildCamClassrooms';
+import WildCamForEducators from '../../../modules/wildcam-classrooms/containers/WildCamForEducators';
 import DarienNavi from '../common/DarienNavi';
 
 import Article from 'grommet/components/Article';
@@ -19,7 +19,7 @@ class DarienEducators extends React.Component {
     return (
       <Box>
         <DarienNavi />
-        <WildCamClassrooms
+        <WildCamForEducators
           selectedProgram={this.props.selectedProgram}
           location={this.props.match}
           history={this.props.history}

@@ -1,9 +1,9 @@
 /*
-WildCam Classrooms
-------------------
+WildCam Students
+----------------
 
-The primary component for Teachers, allowing them to view and manage classrooms
-and assignments for WildCam-type programs/projects.
+The primary component for Teachers, allowing them to view their assigned
+Assignments.
 
 --------------------------------------------------------------------------------
  */
@@ -17,10 +17,7 @@ import { Switch, Route } from 'react-router-dom';
 import Box from 'grommet/components/Box';
 import Toast from 'grommet/components/Toast';
 
-import ClassroomsList from '../components/ClassroomsList';
-import ClassroomForm from '../components/ClassroomForm';
-import AssignmentForm from '../components/AssignmentForm';
-import Status404 from '../../../components/common/Status404';
+import AssignmentsListForStudents from '../components/AssignmentsListForStudents';
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {
@@ -35,7 +32,7 @@ import {
 --------------------------------------------------------------------------------
  */
 
-class WildCamClassroom extends React.Component {
+class WildCamForStudents extends React.Component {
   constructor() {
     super();
   }
@@ -83,29 +80,7 @@ class WildCamClassroom extends React.Component {
           </Toast>
         )}
         
-        <Switch>
-          <Route
-            path={`${match.url}/classrooms/:classroom_id/assignments/new`} exact
-            component={AssignmentForm}
-          />
-          <Route
-            path={`${match.url}/classrooms/:classroom_id/assignments/:assignment_id`} exact
-            component={AssignmentForm}
-          />
-          <Route
-            path={`${match.url}/classrooms/new`} exact
-            component={ClassroomForm}
-          />
-          <Route
-            path={`${match.url}/classrooms/:classroom_id`} exact
-            component={ClassroomForm}
-          />
-          <Route
-            path={`${match.url}`} exact
-            component={ClassroomsList}
-          />
-          <Route path="*" component={Status404} />
-        </Switch>
+        <AssignmentsListForStudents />
 
       </Box>
     );
@@ -116,7 +91,7 @@ class WildCamClassroom extends React.Component {
 --------------------------------------------------------------------------------
  */
 
-WildCamClassroom.defaultProps = {
+WildCamForStudents.defaultProps = {
   history: null,
   location: null,
   match: null,
@@ -126,7 +101,7 @@ WildCamClassroom.defaultProps = {
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
 };
 
-WildCamClassroom.propTypes = {
+WildCamForStudents.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
@@ -142,4 +117,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(WildCamClassroom);
+export default connect(mapStateToProps)(WildCamForStudents);
