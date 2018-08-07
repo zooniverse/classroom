@@ -43,7 +43,9 @@ const TEXT = {
 class ClassroomsList extends React.Component {
   constructor() {
     super();
-    
+  }
+  
+  componentDidMount() {
     //Initialise:
     //Set data to match view state
     Actions.wildcamClassrooms.resetSelectedClassroom();
@@ -54,9 +56,6 @@ class ClassroomsList extends React.Component {
   
   render() {
     const props = this.props;
-    
-    //Sanity check
-    if (!props.classroomsList) return null;
     
     return (
       <Box
@@ -80,6 +79,9 @@ class ClassroomsList extends React.Component {
   
   render_readyState() {
     const props = this.props;
+    
+    //Sanity check
+    if (!props.classroomsList) return null;
     
     return (
       <Box>

@@ -473,7 +473,9 @@ Effect('wcc_teachers_refreshData', ({ selectedProgram, selectedClassroom = null,
  */
 Effect('wcc_fetchAssignments', ({ selectedClassroom }) => {
   //NOTE: if selectedClassroom isn't specified, this will pull a list of ALL
-  //Assignments belonging to the teacher. This may be useful?
+  //Assignments belonging to the user. This is useful in certain circumstances.
+  //However, do note that the argument needs to be an empty object, e.g.
+  //  `Actions.wcc_fetchAssignments({})`
   
   const classroom_id = (selectedClassroom) ? selectedClassroom.id : undefined;
   

@@ -43,11 +43,10 @@ const TEXT = {
 class AssignmentsListForStudents extends React.Component {
   constructor() {
     super();
-    
-    //Initialise:
-    //Set data to match view state
-    Actions.wildcamClassrooms.resetSelectedClassroom();
-    //TODO: Reset selectedAssignment
+  }
+  
+  componentDidMount() {
+    Actions.wcc_fetchAssignments({});
   }
   
   // ----------------------------------------------------------------
@@ -55,30 +54,30 @@ class AssignmentsListForStudents extends React.Component {
   render() {
     const props = this.props;
     
-    //Sanity check
-    if (!props.classroomsList) return null;
-    
     return (
       <Box
-        className="classrooms-list"
+        className="assignments-list-for-students"
         margin="medium"
         pad="medium"
       >
-        <Heading tag="h2">List of Classrooms</Heading>
-        {(() => {
+        <Heading tag="h2">Your Assignments</Heading>
+        {/*(() => {
           if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
             return this.render_readyState();
           } else if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.FETCHING || props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING) {
             return this.render_workingState();
           }
-        })()}
+        })()*/}
+        
+        <p>Classrooms Status: {props.classroomsStatus}</p>
+        <p>Assignments Status: {props.assignmentsStatus}</p>
         
         <ScrollToTopOnMount />
       </Box>
     );
   }
   
-  render_readyState() {
+  /*render_readyState() {
     const props = this.props;
     
     return (
@@ -116,23 +115,6 @@ class AssignmentsListForStudents extends React.Component {
           })}
           </tbody>
         </Table>
-        
-        <Box
-          className="actions-panel"
-          direction="row"
-          justify="end"
-          pad="medium"
-        >
-          <Button
-            className="button"
-            icon={<AddIcon size="small" />}
-            label={TEXT.CREATE_NEW_CLASSROOM}
-            onClick={() => {
-              //Transition to: Create New Classroom
-              props.history && props.history.push(`${props.match.url.replace(/\/+$/,'')}/classrooms/new`);
-            }}
-          />
-        </Box>
       </Box>
     );
   }
@@ -141,7 +123,7 @@ class AssignmentsListForStudents extends React.Component {
     return (
       <StatusWorking />
     );
-  }
+  }*/
 };
 
 AssignmentsListForStudents.defaultProps = {
