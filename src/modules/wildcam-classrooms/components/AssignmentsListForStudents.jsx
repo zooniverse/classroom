@@ -61,13 +61,18 @@ class AssignmentsListForStudents extends React.Component {
         pad="medium"
       >
         <Heading tag="h2">Your Assignments</Heading>
-        {/*(() => {
-          if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
+        {(() => {
+          if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS && props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
             return this.render_readyState();
-          } else if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.FETCHING || props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING) {
+          } else if (
+            props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.FETCHING
+            || props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING
+            || props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.FETCHING
+            || props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING
+          ) {
             return this.render_workingState();
           }
-        })()*/}
+        })()}
         
         <p>Classrooms Status: {props.classroomsStatus}</p>
         <p>Assignments Status: {props.assignmentsStatus}</p>
@@ -77,44 +82,15 @@ class AssignmentsListForStudents extends React.Component {
     );
   }
   
-  /*render_readyState() {
+  render_readyState() {
     const props = this.props;
+    
+    console.log('+++ CLASSROOMS: \n', props.classroomsList);
+    console.log('+++ ASSIGNMENTS: \n', props.assignmentsList);
     
     return (
       <Box>
-        <Table className="table">
-          <tbody>
-          {props.classroomsList.map((classroom, index) => {
-            return (
-              <TableRow
-                className="item"
-                key={`classrooms-list_${index}`}
-              >
-                <td>
-                  <Heading tag="h3">{classroom.name}</Heading>
-                </td>
-                <td>
-                  <Box
-                    className="actions-panel"
-                    direction="row"
-                    justify="end"
-                  >
-                    <Button
-                      className="button"
-                      icon={<LinkNextIcon size="small" />}
-                      label={TEXT.VIEW}
-                      onClick={() => {
-                        //Transition to: View One Classroom
-                        props.history && props.history.push(`${props.match.url.replace(/\/+$/,'')}/classrooms/${classroom.id}`);
-                      }}
-                    />
-                  </Box>
-                </td>
-              </TableRow>
-            );
-          })}
-          </tbody>
-        </Table>
+        ...
       </Box>
     );
   }
@@ -123,7 +99,7 @@ class AssignmentsListForStudents extends React.Component {
     return (
       <StatusWorking />
     );
-  }*/
+  }
 };
 
 AssignmentsListForStudents.defaultProps = {

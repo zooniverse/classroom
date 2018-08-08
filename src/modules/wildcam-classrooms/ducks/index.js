@@ -275,7 +275,6 @@ Effect('wcc_teachers_fetchClassrooms', ({ selectedProgram }) => {
   });
 });
 
-  
 /*  Creates a classroom.
     
     API notes:
@@ -402,6 +401,51 @@ Effect('wcc_teachers_deleteClassroom', (selectedClassroom) => {
     throw(err);
   });
   
+});
+
+/*
+--------------------------------------------------------------------------------
+ */
+
+/*  Fetch all the Classrooms for the selected Program from the Education API.
+    Implicit: the list of Classrooms is limited to what's available to the
+    logged-in user.
+    
+    API notes: 
+      GET /students/classrooms/?program_id=123
+ */
+Effect('wcc_students_fetchClassrooms', ({ selectedProgram }) => {
+  //Sanity check
+  if (!selectedProgram) return;
+  
+  const program_id = selectedProgram.id;
+  
+  Actions.wildcamClassrooms.resetClassrooms();
+  Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.FETCHING);
+  
+  return get('/students/classrooms/', [{ program_id }])
+  
+  .then((response) => {
+    if (!response) { throw 'ERROR (wildcam-classrooms/ducks/wcc_students_fetchClassrooms): No response'; }
+    if (response.ok && response.body) {
+      return response.body;
+    }
+    throw 'ERROR (wildcam-classrooms/ducks/wcc_students_fetchClassrooms): Invalid response';
+  })
+  
+  .then((body) => {
+    Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
+    Actions.wildcamClassrooms.setClassroomsList(body.data);
+    Actions.wildcamClassrooms.setClassroomsStudents(body.included);
+    return body;
+  })
+  
+  .catch((err) => {
+    Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);
+    Actions.wildcamClassrooms.setClassroomsStatusDetails(err);
+    showErrorMessage(err);
+    throw(err);
+  });
 });
 
 /*
