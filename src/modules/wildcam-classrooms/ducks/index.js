@@ -509,8 +509,13 @@ Effect('wcc_teachers_refreshData', ({ selectedProgram, selectedClassroom = null,
  */
 
 /*  Fetch all the Assignments (optionally: for the selected Classroom) from the
-    Education API. Implicit: the list of Assignments is limited to what's
-    available to the logged-in user.
+    Education API.
+    
+    Implicit: the list of Assignments is limited to what's available to the
+    logged-in user.
+    
+    NOTE: this fetches all assignments this user is a part of, whether they are
+    a teacher or a student!
     
     API notes: 
       GET /assignments/?classroom_id=123
@@ -691,7 +696,7 @@ Effect('wcc_teachers_createAssignment', ({ selectedProgram, selectedClassroom, a
           }
         }
  */
-Effect('wcc_editAssignment', ({ selectedAssignment, assignmentData, students = [], filters = {}, subjects = [] }) => {
+Effect('wcc_teachers_editAssignment', ({ selectedAssignment, assignmentData, students = [], filters = {}, subjects = [] }) => {
   //Sanity check
   if (!selectedAssignment || !assignmentData) return;
   
@@ -746,7 +751,7 @@ Effect('wcc_editAssignment', ({ selectedAssignment, assignmentData, students = [
     API notes:
       DELETE /assignments/12345
  */
-Effect('wcc_deleteAssignment', (selectedAssignment) => {
+Effect('wcc_teachers_deleteAssignment', (selectedAssignment) => {
   //Sanity check
   if (!selectedAssignment) return;
   
@@ -754,11 +759,11 @@ Effect('wcc_deleteAssignment', (selectedAssignment) => {
   
   return httpDelete(`/assignments/${selectedAssignment.id}`)
   .then((response) => {
-    if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_deleteAssignment): No response'; }
+    if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_deleteAssignment): No response'; }
     if (response.ok) {
       return Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
     }
-    throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_deleteAssignment): Invalid response';
+    throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_deleteAssignment): Invalid response';
   })
   .catch((err) => {
     Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);

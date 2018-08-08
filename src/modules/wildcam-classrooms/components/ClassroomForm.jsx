@@ -396,6 +396,8 @@ class ClassroomForm extends React.Component {
             //TODO
             alert('ALPHA: This feature is a work in progress.');
             console.log('+++ Updated List of Students: ', updatedListOfStudents);
+            
+            //NOTE: to delete individual students: `DELETE https://education-api-staging.zooniverse.org/teachers/classrooms/439/student_users/420`
           }}
         />
       </Box>
