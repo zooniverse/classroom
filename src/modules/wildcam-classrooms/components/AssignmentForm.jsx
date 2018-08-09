@@ -202,12 +202,10 @@ class AssignmentForm extends React.Component {
             ? selectedAssignment.relationships.student_users.data.map(s => s.id)
             : [];
           
-          console.log('+++ INITIALISE_PART_TWO, STUDENTS: ', newStudents);
-          
           this.setState({
             subjects: newSubjects,
             filters: newFilters,
-            students: newStudents,  //WARNING: THIS DOES NOTHING FOR SOME REASON
+            students: newStudents,
           });
         }
         
@@ -236,7 +234,6 @@ class AssignmentForm extends React.Component {
     if (!selectedAssignment) {
       this.setState({
         form: INITIAL_FORM_DATA,
-        students: [],
       });
     } else {
       const originalForm = INITIAL_FORM_DATA;
@@ -254,7 +251,6 @@ class AssignmentForm extends React.Component {
       
       this.setState({
         form: updatedForm,
-        students: [],  //TODO
       });
     }
     
@@ -269,6 +265,7 @@ class AssignmentForm extends React.Component {
           ...this.state.form,
           ...props.wccwcmSavedAssignmentState,
           classifications_target: props.wccwcmSelectedSubjects.length,
+          //TODO: reload selected students
         }
       });
       Actions.wildcamMap.resetWccWcmAssignmentData();
@@ -376,6 +373,8 @@ class AssignmentForm extends React.Component {
   render() {
     const props = this.props;
     const state = this.state;
+    
+    console.log('+++XXX RENDER!!! ', state);
 
     //Get students and assignments only for this classroom.
     //const students = (props.selectedClassroom && props.selectedClassroom.students) ? props.selectedClassroom.students : [];
@@ -437,8 +436,6 @@ class AssignmentForm extends React.Component {
   render_editState() {
     const props = this.props;
     const state = this.state;
-    
-    console.log('+++ RENDER_EDITSTATE\'S STATE.STUDENTS: ', state.students, state);
     
     return (
       <Form
