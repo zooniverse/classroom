@@ -11,15 +11,27 @@ Props:
     students for.
 - selectedAssignment: (optional) the WildCam Assignment that we're listing
     students for.
-- doUpdateStudents: (optional) function that's called when the user updates the
-    list of selected students.
+- selectedStudents: (optional) the list of students currently selected for this
+    Assignment. Only used when viewing students in Assignments.
+- doDeleteStudent: (optional) function that's called when the user deletes one
+    student. (When viewing students for Classrooms only.)
+- doSelectStudent: (optional) function that's called when the user selects OR
+    unselects a student from the list of selected students. (When viewing
+    students for Assignments only.)
 
 Usage:
   <StudentsList
     selectedClassroom={myClassroom}
-    selectedAssignment={null}
-    doUpdateStudents={(arrayOfSelectedStudents) => {
-      console.log('The user has chosen the following students: ', arrayOfSelectedStudents);
+    doDeleteStudent={(student) => {
+      ...
+    }}
+  />
+  ...or...
+  <StudentsList
+    selectedClassroom={myClassroom}
+    selectedAssignment={myAssignment}
+    doSelectStudent={(student) => {
+      ...
     }}
   />
 
@@ -70,60 +82,22 @@ const TEXT = {
 class StudentsList extends React.Component {
   constructor() {
     super();
-    this.state = {
-      students: [],
-      form: {},
-    };
   }
   
   // ----------------------------------------------------------------
   
-  componentDidMount() {
-    this.initialise(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.initialise(nextProps);
-  }
-  
-  /*  //Initialise: populate the form with students
-   */
-  initialise(props = this.props) {
-    //Sanity check
-    if (!props.selectedClassroom) return;
-    
-    //Get all the students attached to this classroom
-    const form = {};
-    const students = props.selectedClassroom.students || [];
-    students.map((stud) => { form[stud.id] = true; });
-          
-    //If there's a selected Assignment, make sure only students in the
-    //assignment are selected.
-    if (props.selectedAssignment) {
-      //TODO
-    }
-    
-    this.setState({ students, form });
-  }
-  
-  // ----------------------------------------------------------------
-  
-  updateForm(e) {
-    this.setState({
-      form: {
-        ...this.state.form,
-        [e.target.id]: e.target.value
-      }
-    });
-  }
-
-  // ----------------------------------------------------------------
-
   render() {
     const props = this.props;
-    const state = this.state;
     
-    const userCanUpdateList = props.doUpdateStudents !== null;
+    //Sanity check
+    if (!props.selectedClassroom) return null;
+    
+    //Are we viewing the student list of a Classroom or an Assignment?
+    let listType = '';
+    if (props.doDeleteStudent) listType = 'classroom';
+    if (props.doSelectStudent && props.selectedAssignment) listType = 'assignment';
+    console.log('+++ SELECTED CLASSROOM: ', props.selectedClassroom);
+    console.log('+++ SELECTED STUDENTS: ', props.selectedStudents);
     
     return (
       <Box
@@ -134,7 +108,7 @@ class StudentsList extends React.Component {
         <Heading tag="h3">{TEXT.HEADINGS.STUDENTS}</Heading>
         <Table className="table">
           <tbody>
-            {state.students.map((stud) => {
+            {props.selectedClassroom.students.map((stud) => {
               return (
                 <TableRow
                   className="item"
@@ -145,8 +119,25 @@ class StudentsList extends React.Component {
                   </td>
                   <td>
                     ({stud.zooniverseLogin})
+                    
+                    +++{stud.id}+++
                   </td>
-                  {(userCanUpdateList) && (
+                  {(listType === 'classroom') && (
+                    <td>
+                      <Box
+                        className="actions-panel"
+                        direction="row"
+                        justify="end"
+                      >
+                        <Button
+                          onClick={(e) => {
+                            props.doDeleteStudent(stud);
+                          }}
+                        >X</Button>
+                      </Box>
+                    </td>
+                  )}
+                  {(listType === 'assignment') && (
                     <td>
                       <Box
                         className="actions-panel"
@@ -154,14 +145,9 @@ class StudentsList extends React.Component {
                         justify="end"
                       >
                         <CheckBox
-                          checked={state.form[stud.id]}
+                          checked={props.selectedStudents && !!props.selectedStudents.find((s) => s === stud.id)}
                           onChange={(e) => {
-                            this.setState({
-                              form: {
-                                ...state.form,
-                                [stud.id]: !state.form[stud.id],
-                              }
-                            });
+                            props.doSelectStudent(stud.id);
                           }}
                         />
                       </Box>
@@ -172,19 +158,6 @@ class StudentsList extends React.Component {
             })}
           </tbody>
         </Table>
-        {(userCanUpdateList) &&
-          <Footer>
-            <Button
-              className="button"
-              label={TEXT.ACTIONS.UPDATE_STUDENTS}
-              onClick={() => {
-                let updatedListOfStudents = [];
-                //TODO
-                props.doUpdateStudents(this.state.form);
-              }}
-            />
-          </Footer>
-        }
       </Box>
     );
   }
@@ -196,12 +169,14 @@ class StudentsList extends React.Component {
 
 StudentsList.defaultProps = {
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
-  doUpdateStudents: null,
+  selectedStudents: [],
+  doSelectStudent: null,
 };
 
 StudentsList.propTypes = {
   ...WILDCAMCLASSROOMS_PROPTYPES,
-  doUpdateStudents: PropTypes.func,
+  selectedStudents: PropTypes.array,
+  doSelectStudent: PropTypes.func,
 };
 
 export default StudentsList;

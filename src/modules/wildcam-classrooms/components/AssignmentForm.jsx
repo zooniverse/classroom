@@ -114,7 +114,7 @@ class AssignmentForm extends React.Component {
       formInitialised: false,  //Has initialiseForm() already been run?
       filters: {},
       subjects: [],
-      students: [],
+      students: [],  //This is a list of IDs for students selected for this Assignment.
     };
   }
   
@@ -153,7 +153,6 @@ class AssignmentForm extends React.Component {
     
     //Data store update + Redundancy Check (prevent infinite loop, only trigger once)
     if (props.selectedClassroom !== selectedClassroom) {
-      //this.setState({ formInitialised: false });
       Actions.wildcamClassrooms.setSelectedClassroom(selectedClassroom);
     }
     
@@ -197,9 +196,18 @@ class AssignmentForm extends React.Component {
           const newFilters = (selectedAssignment.metadata)
             ? selectedAssignment.metadata.filters
             : {};
+          const newStudents = (selectedAssignment.relationships
+                               && selectedAssignment.relationships.student_users
+                               && selectedAssignment.relationships.student_users.data)
+            ? selectedAssignment.relationships.student_users.data.map(s => s.id)
+            : [];
+          
+          console.log('+++ INITIALISE_PART_TWO, STUDENTS: ', newStudents);
+          
           this.setState({
             subjects: newSubjects,
             filters: newFilters,
+            students: newStudents,  //WARNING: THIS DOES NOTHING FOR SOME REASON
           });
         }
         
@@ -226,7 +234,10 @@ class AssignmentForm extends React.Component {
     this.setState({ formInitialised: true });
     
     if (!selectedAssignment) {
-      this.setState({ form: INITIAL_FORM_DATA });
+      this.setState({
+        form: INITIAL_FORM_DATA,
+        students: [],
+      });
     } else {
       const originalForm = INITIAL_FORM_DATA;
       const updatedForm = {};
@@ -240,7 +251,11 @@ class AssignmentForm extends React.Component {
           updatedForm[key] = originalForm[key];
         }
       });
-      this.setState({ form: updatedForm });
+      
+      this.setState({
+        form: updatedForm,
+        students: [],  //TODO
+      });
     }
     
     //WildCam Map Selected Subjects:
@@ -298,20 +313,22 @@ class AssignmentForm extends React.Component {
     if (!props.selectedProgram) return;
     if (!props.selectedClassroom) return;
     
+    //Change state values into something the API likes.
+    const filters = (state.filters) ? state.filters : {};
+    const subjects = (state.subjects)
+      ? state.subjects.map(sub => sub.subject_id)
+      : [];
+    const students = (state.students) ? state.students : [];
+    
     //Submit Form: create new assignment
     if (state.view === VIEWS.CREATE_NEW) {
-      const filters = (state.filters) ? state.filters : {};
-      const subjects = (state.subjects)
-        ? state.subjects.map(sub => sub.subject_id)
-        : [];
-      
       return Actions.wcc_teachers_createAssignment({
         selectedProgram: props.selectedProgram,
         selectedClassroom: props.selectedClassroom,
         assignmentData: state.form,
         filters,
         subjects,
-        students: state.students,
+        students,
       })
       .then(() => {
         //Message
@@ -329,17 +346,12 @@ class AssignmentForm extends React.Component {
     
     //Submit Form: update existing classroom
     } else if (state.view === VIEWS.EDIT_EXISTING) {
-      const filters = (state.filters) ? state.filters : {};
-      const subjects = (state.subjects)
-        ? state.subjects.map(sub => sub.subject_id)
-        : [];
-      
       return Actions.wcc_teachers_editAssignment({
         selectedAssignment: props.selectedAssignment,
         assignmentData: state.form,
         filters,
         subjects,
-        students: state.students,
+        students,
       }).then(() => {
         //Message
         Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.ASSIGNMENT_EDITED, status: 'ok' });
@@ -426,6 +438,8 @@ class AssignmentForm extends React.Component {
     const props = this.props;
     const state = this.state;
     
+    console.log('+++ RENDER_EDITSTATE\'S STATE.STUDENTS: ', state.students, state);
+    
     return (
       <Form
         className="form"
@@ -501,41 +515,24 @@ class AssignmentForm extends React.Component {
           </fieldset>
         )}
         
+        <p>--Students: {state.students.length}--</p>
+        
         <StudentsList
           selectedClassroom={props.selectedClassroom}
           selectedAssignment={props.selectedAssignment}
-          doUpdateStudents={(updatedListOfStudents) => {
-            //TODO
-            alert('ALPHA: This feature is a work in progress.');
-            console.log('+++ Updated List of Students: ', updatedListOfStudents);
+          selectedStudents={state.students}
+          doSelectStudent={(studentId) => {
+            //When a student is selected, add/remove them from the list.
+            let updatedStudents = state.students.slice();
+            if (updatedStudents.indexOf(studentId) >= 0) {
+              updatedStudents = updatedStudents.filter((s) => s !== studentId)
+            } else {
+              updatedStudents.push(studentId);
+            }
             
-            //TODO: this is how zootester4 is removed from a list that includes zootester2 and zootester3
-            /*
-              {
-                "data":{
-                  "attributes":{
-                    "name":"Gorongosa 8-Aug-2018 Lions",
-                    "metadata":{
-                      "classifications_target":"5",
-                      "description":"Lions!",
-                      "duedate":"2024-01-01",
-                      "filters":{
-                        "species":["lioncub","lionfemale","lionmale"]
-                      },
-                      "subjects":["685945","685958","685959","711502","711506"]
-                    }
-                  },
-                  "relationships":{
-                    "student_users":{
-                      "data":[
-                        {"id":"13138","type":"student_user"},
-                        {"id":"13139","type":"student_user"}
-                      ]
-                    }
-                  }
-                }
-              }*/
-
+            this.setState({
+              students: updatedStudents
+            });
           }}
         />
 
