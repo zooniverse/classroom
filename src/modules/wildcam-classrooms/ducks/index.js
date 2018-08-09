@@ -411,8 +411,6 @@ Effect('wcc_teachers_deleteStudentFromClassroom', ({ studentId, selectedClassroo
   //Sanity check
   if (!selectedClassroom) return;
   
-  console.log('+++ DELETE: ', studentId, selectedClassroom);
-  
   Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);  //WARNING: does this make sense to update Classrooms status?
   
   return httpDelete(`/teachers/classrooms/${selectedClassroom.id}/student_users/${studentId}`)

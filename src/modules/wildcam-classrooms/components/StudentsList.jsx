@@ -48,11 +48,12 @@ import PropTypes from 'prop-types';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import CheckBox from 'grommet/components/CheckBox';
-import Footer from 'grommet/components/Footer';
 import Form from 'grommet/components/Form';
 import Heading from 'grommet/components/Heading';
 import Table from 'grommet/components/Table';
 import TableRow from 'grommet/components/TableRow';
+
+import CloseIcon from 'grommet/components/icons/base/Close';
 
 import {
   WILDCAMCLASSROOMS_COMPONENT_MODES as MODES,
@@ -117,8 +118,6 @@ class StudentsList extends React.Component {
                   </td>
                   <td>
                     ({stud.zooniverseLogin})
-                    
-                    +++{stud.id}+++
                   </td>
                   {(listType === 'classroom') && (
                     <td>
@@ -131,7 +130,9 @@ class StudentsList extends React.Component {
                           onClick={(e) => {
                             props.doDeleteStudent(stud);
                           }}
-                        >X</Button>
+                        >
+                          <CloseIcon size="small" />
+                        </Button>
                       </Box>
                     </td>
                   )}
