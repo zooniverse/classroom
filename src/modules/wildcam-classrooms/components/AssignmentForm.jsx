@@ -374,8 +374,6 @@ class AssignmentForm extends React.Component {
     const props = this.props;
     const state = this.state;
     
-    console.log('+++XXX RENDER!!! ', state);
-
     //Get students and assignments only for this classroom.
     //const students = (props.selectedClassroom && props.selectedClassroom.students) ? props.selectedClassroom.students : [];
     //const assignments = (props.selectedClassroom && props.assignments && props.assignments[props.selectedClassroom.id])
@@ -512,8 +510,6 @@ class AssignmentForm extends React.Component {
           </fieldset>
         )}
         
-        <p>--Students: {state.students.length}--</p>
-        
         <StudentsList
           selectedClassroom={props.selectedClassroom}
           selectedAssignment={props.selectedAssignment}
@@ -526,7 +522,6 @@ class AssignmentForm extends React.Component {
             } else {
               updatedStudents.push(studentId);
             }
-            
             this.setState({
               students: updatedStudents
             });

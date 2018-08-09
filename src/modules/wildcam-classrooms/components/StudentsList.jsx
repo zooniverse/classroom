@@ -95,9 +95,7 @@ class StudentsList extends React.Component {
     //Are we viewing the student list of a Classroom or an Assignment?
     let listType = '';
     if (props.doDeleteStudent) listType = 'classroom';
-    if (props.doSelectStudent && props.selectedAssignment) listType = 'assignment';
-    console.log('+++ SELECTED CLASSROOM: ', props.selectedClassroom);
-    console.log('+++ SELECTED STUDENTS: ', props.selectedStudents);
+    if (props.doSelectStudent) listType = 'assignment';
     
     return (
       <Box
