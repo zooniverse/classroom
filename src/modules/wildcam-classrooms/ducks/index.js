@@ -399,8 +399,36 @@ Effect('wcc_teachers_deleteClassroom', (selectedClassroom) => {
     Actions.wildcamClassrooms.setClassroomsStatusDetails(err);
     showErrorMessage(err);
     throw(err);
-  });
+  });  
+});
+
+/*  Deletes a student from a classroom.
+
+    API notes:
+      DELETE /teachers/classrooms/12345/student_users/67890
+ */
+Effect('wcc_teachers_deleteStudentFromClassroom', ({ studentId, selectedClassroom }) => {
+  //Sanity check
+  if (!selectedClassroom) return;
   
+  console.log('+++ DELETE: ', studentId, selectedClassroom);
+  
+  Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SENDING);  //WARNING: does this make sense to update Classrooms status?
+  
+  return httpDelete(`/teachers/classrooms/${selectedClassroom.id}/student_users/${studentId}`)
+  .then((response) => {
+    if (!response) { throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_deleteStudentFromClassroom): No response'; }
+    if (response.ok) {
+      return Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
+    }
+    throw 'ERROR (ducks/wildcam-classrooms/ducks/wcc_teachers_deleteStudentFromClassroom): Invalid response';
+  })
+  .catch((err) => {
+    Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.ERROR);
+    Actions.wildcamClassrooms.setClassroomsStatusDetails(err);
+    showErrorMessage(err);
+    throw(err);
+  });  
 });
 
 /*

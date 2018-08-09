@@ -85,6 +85,7 @@ const TEXT = {
     CLASSROOM_CREATED: 'Classroom created',
     CLASSROOM_EDITED: 'Changes saved',
     CLASSROOM_DELETED: 'Classroom deleted',
+    STUDENT_DELETED_FROM_CLASSROOM: 'Student removed from classroom',
   },
 };
 
@@ -105,7 +106,6 @@ class ClassroomForm extends React.Component {
     this.state = {
       view: VIEWS.CREATE_NEW,
       form: INITIAL_FORM_DATA,
-      //TODO: students, an advanced form of data.
     };
   }
   
@@ -392,12 +392,19 @@ class ClassroomForm extends React.Component {
         <StudentsList
           selectedClassroom={props.selectedClassroom}
           selectedAssignment={null}
-          doUpdateStudents={(updatedListOfStudents) => {
-            //TODO
-            alert('ALPHA: This feature is a work in progress.');
-            console.log('+++ Updated List of Students: ', updatedListOfStudents);
+          doDeleteStudent={(student) => {
+            const studentId = student && student.id;
             
-            //NOTE: to delete individual students: `DELETE https://education-api-staging.zooniverse.org/teachers/classrooms/439/student_users/420`
+            return Actions.wcc_teachers_deleteStudentFromClassroom({ studentId, selectedClassroom: props.selectedClassroom })
+            .then(() => {
+              //Message
+              Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.STUDENT_DELETED_FROM_CLASSROOM, status: 'ok' });
+
+              //Refresh
+              return Actions.wcc_teachers_refreshData({ selectedProgram: props.selectedProgram, selectedClassroom: props.selectedClassroom });
+            }).catch((err) => {
+              //Error messaging done in Actions.wcc_teachers_deleteStudentFromClassroom()
+            });
           }}
         />
       </Box>
