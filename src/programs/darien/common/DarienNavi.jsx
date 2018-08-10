@@ -13,7 +13,7 @@ function DarienNavi(props) {
       direction="row"
       pad="small"
     >
-      <Anchor className="big link" path={`/wildcam-darien-lab`}>WildCam Darien Labs</Anchor>
+      <Anchor className="big link" path={`/wildcam-darien-lab`}>WildCam Darién Lab</Anchor>
       <Anchor className="link" path={`/wildcam-darien-lab/educators/intro`}>Intro</Anchor>
       <Anchor className="link" path={`/wildcam-darien-lab/educators`}>For Educators</Anchor>
       <Anchor className="link" path={`/wildcam-darien-lab/students`}>For Students</Anchor>

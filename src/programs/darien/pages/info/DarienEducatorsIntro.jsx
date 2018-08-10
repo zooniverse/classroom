@@ -21,7 +21,7 @@ function DarienEducatorsInfo(props) {
         backgroundColorIndex="dark"
         size="small"
       >
-        <Box align="center"><Heading className="program-home__header">Welcome to WildCam Darien Labs</Heading></Box>
+        <Box align="center"><Heading className="program-home__header">Welcome to WildCam Darién Lab</Heading></Box>
       </Hero>
       <Section
         className="program-home__section"

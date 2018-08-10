@@ -74,9 +74,9 @@ const i2a = {
 const darien = {
   staging: {
     id: '2',
-    name: 'Wildcam Darien Lab',
+    name: 'WildCam Darién Lab',
     custom: true,
-    description: 'A map for exploring camera trap data from the WildCam Darien project.',
+    description: 'A map for exploring camera trap data from the WildCam Darién project.',
     slug: 'wildcam-darien-lab',
     metadata: {
       backgroundImage: '',
@@ -88,9 +88,9 @@ const darien = {
   },
   production: {
     id: '2',
-    name: 'Wildcam Darien Lab',
+    name: 'WildCam Darién Lab',
     custom: true,
-    description: 'A map for exploring camera trap data from the WildCam Darien project.',
+    description: 'A map for exploring camera trap data from the WildCam Darién project.',
     slug: 'wildcam-darien-lab',
     metadata: {
       backgroundImage: '',

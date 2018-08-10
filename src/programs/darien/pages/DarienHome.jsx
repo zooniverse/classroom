@@ -76,7 +76,7 @@ function DarienHome(props) {
       <Section className="home__section" align="center" colorIndex="accent-2">
         <Paragraph className="section__paragraph" align="center">
           Need help? Have questions?<br />
-          Check out the <Anchor href="https://www.zooniverse.org/projects/wildcam/wildcam-darien/talk/843">WildCam Darien Talk Board</Anchor> or <Anchor href="mailto:collab@zooniverse.org">email us</Anchor>
+          Check out the <Anchor href="https://www.zooniverse.org/projects/wildcam/wildcam-darien/talk/843">WildCam Darién Talk Board</Anchor> or <Anchor href="mailto:collab@zooniverse.org">email us</Anchor>
         </Paragraph>
       </Section>
       {/*
