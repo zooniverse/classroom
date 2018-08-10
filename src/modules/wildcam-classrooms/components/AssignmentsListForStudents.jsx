@@ -17,13 +17,10 @@ import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
 
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
-import Label from 'grommet/components/Label';
 import Heading from 'grommet/components/Heading';
 import Table from 'grommet/components/Table';
 import TableRow from 'grommet/components/TableRow';
 
-import AddIcon from 'grommet/components/icons/base/Add';
-import EditIcon from 'grommet/components/icons/base/Edit';
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 
 import {
@@ -35,9 +32,12 @@ import {
 } from '../ducks/index.js';
   
 const TEXT = {
-  WORKING: 'Working...',
-  VIEW: 'View',
-  CREATE_NEW_CLASSROOM: 'Create new classroom',
+  TITLE: {
+    YOUR_ASSIGNMENTS: 'Your Assignments'
+  },
+  ACTIONS: {
+    START_ASSIGNMENT: 'Start assignment'
+  }
 };
 
 class AssignmentsListForStudents extends React.Component {
@@ -60,7 +60,7 @@ class AssignmentsListForStudents extends React.Component {
         margin="medium"
         pad="medium"
       >
-        <Heading tag="h2">Your Assignments</Heading>
+        <Heading tag="h2">{TEXT.TITLE.YOUR_ASSIGNMENTS}</Heading>
         {(() => {
           if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS && props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
             return this.render_readyState();
@@ -109,7 +109,23 @@ class AssignmentsListForStudents extends React.Component {
                 <Heading tag='h4'>{ass.name}</Heading>
               </td>
               <td>
-                <Button>=></Button>
+                <Box
+                    className="actions-panel"
+                    direction="row"
+                    justify="end"
+                  >
+                    <Button
+                      className="button"
+                      icon={<LinkNextIcon size="small" />}
+                      label={TEXT.ACTIONS.START_ASSIGNMENT}
+                      
+                      disabled={true}
+                      onClick={() => {
+                        //TODO
+                        console.error('//TODO');
+                      }}
+                    />
+                  </Box>
               </td>
             </TableRow>
           ))}

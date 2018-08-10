@@ -17,7 +17,6 @@ import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
 
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
-import Label from 'grommet/components/Label';
 import Heading from 'grommet/components/Heading';
 import Table from 'grommet/components/Table';
 import TableRow from 'grommet/components/TableRow';
