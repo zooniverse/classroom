@@ -73,10 +73,6 @@ class AssignmentsListForStudents extends React.Component {
             return this.render_workingState();
           }
         })()}
-        
-        <p>Classrooms Status: {props.classroomsStatus}</p>
-        <p>Assignments Status: {props.assignmentsStatus}</p>
-        
         <ScrollToTopOnMount />
       </Box>
     );
@@ -85,13 +81,41 @@ class AssignmentsListForStudents extends React.Component {
   render_readyState() {
     const props = this.props;
     
-    console.log('+++ CLASSROOMS: \n', props.classroomsList);
-    console.log('+++ ASSIGNMENTS: \n', props.assignmentsList);
+    //Sanity check
+    if (!props.classroomsList || !props.assignmentsList) return null;
     
     return (
-      <Box>
-        ...
-      </Box>
+      <Table>
+        {props.classroomsList.map(classroom => this.render_readyState_classroom(classroom))}
+      </Table>
+    );
+  }
+  
+  render_readyState_classroom(classroom) {
+    const props = this.props;
+    
+    //Sanity check not required.
+    
+    const assignmentsForThisClassroom = props.assignmentsList.filter(ass => parseInt(ass.classroomId) === parseInt(classroom.id));
+    
+    return (
+      <TableRow key={`student_classroom_${classroom.id}`}>
+        <td>
+          <Heading tag='h3'>{classroom.name}</Heading>
+          <Table>
+          {assignmentsForThisClassroom.map(ass => (
+            <TableRow key={`student_classroom_${classroom.id}_assignment_${ass.id}`}>
+              <td>
+                <Heading tag='h4'>{ass.name}</Heading>
+              </td>
+              <td>
+                <Button>=></Button>
+              </td>
+            </TableRow>
+          ))}
+          </Table>
+        </td>
+      </TableRow>
     );
   }
   
