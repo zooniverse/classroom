@@ -57,7 +57,7 @@ function DarienEducatorsInfo(props) {
               You can learn more about the science behind WildCam Darien's research by exploring our resource pages.
             </Paragraph>
             <Box pad="small">
-              <Button type="button" className="button--secondary" path="/wildcam-darien-lab/educators/ecology" label="Explore Ecology"></Button>
+              <Button type="button" className="button--secondary" path="/wildcam-darien-lab/info/ecology" label="Explore Ecology"></Button>
             </Box>
           </Box>
         </Box>
