@@ -28,7 +28,7 @@ function DarienInfoResources(props) {
         <Heading tag="h4">Scientific Inquiry and Data Analysis Using WildCam Darién (ACTIVITY)</Heading>
         <Paragraph>In this activity, students will be guided through the investigation of a scientific question, using data from trail cameras in Darién and Soberanía National Parks. &nbsp; <Anchor label="View Activity" icon={<LinkNextIcon/>} reverse="true" href="#" /> //TODO</Paragraph>
 
-		    <Heading tag="h4">Biodiversity Studies in Darién (ACTIVITY</Heading>
+		    <Heading tag="h4">Biodiversity Studies in Darién (ACTIVITY)</Heading>
         <Paragraph>In this activity, students will calculate species richness, evenness, and the Shannon diversity index for various habitat types using data from trail cameras in Darién and Soberanía National Parks, and then investigate the impact of human activity in these habitats. &nbsp; <Anchor label="View Activity" icon={<LinkNextIcon/>} reverse="true" href="#" /> //TODO</Paragraph>
 
         <Heading tag="h3">Related Resources</Heading>
