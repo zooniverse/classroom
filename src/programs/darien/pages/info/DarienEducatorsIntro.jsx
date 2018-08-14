@@ -32,12 +32,16 @@ function DarienEducatorsInfo(props) {
       >
         <Box>
           <Paragraph>
-            WildCam Darien Labs is an educational resource that lets you and your classroom explore trail camera data using an interactive map.
-            As an Educator, you can create and manage Classrooms of students and monitor their progress as they submit classifications to the project.
+            WildCam Darien Labs is an educational resource that lets you and your students explore trail camera data using an interactive map.
+            Simply direct your students to explore and download the data as an Explorer, or use classrooms and assignments to guide their experience.
+            Classrooms are a way to manage groups of of students, send them assignments, and monitor their progress as they identify animals.
           </Paragraph>
           <Box direction="row">
             <Paragraph>
-              To begin, you'll need to create a Classroom and invite your students to join the Classroom.
+              To begin, create a classroom and invite your students to join.
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
               <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators" label="Manage Classrooms"></Button>
@@ -45,16 +49,27 @@ function DarienEducatorsInfo(props) {
           </Box>
           <Box direction="row">
             <Paragraph>
-              Once you've invited students to your Classroom, you can guide them in exploring the scientific research data by asking them to submit their own classifications in the WildCam Darien project.
-              Our Classrooms Guide provides information and advice on how Educators can direct such activities. 
+              Once you have invited students to your classroom, you can create assignments that allow them to create their own data sets by identifying animals in trail camera photos.
+              Our assignments guide provides information on how you use assignments. 
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators/this-page-doesnt-exist-yet" label="Classrooms Guide"></Button>
+              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators/this-page-doesnt-exist-yet" label="Assignments Guide"></Button>
             </Box>
           </Box>
           <Box direction="row">
             <Paragraph>
-              You can learn more about the science behind WildCam Darien's research by exploring our resource pages.
+              Explore a variety of educational resources produced by HHMI BioInteractive to use WildCam Darién Lab in your classroom.
+            </Paragraph>
+            <Box pad="small">
+              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators/this-page-doesnt-exist-yet" label="Explore Resources"></Button>
+            </Box>
+          </Box>
+          <Box direction="row">
+            <Paragraph>
+              You can learn more about the Darién and Soberanía ecosystems here.
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
               <Button type="button" className="button--secondary" path="/wildcam-darien-lab/info/ecology" label="Explore Ecology"></Button>
