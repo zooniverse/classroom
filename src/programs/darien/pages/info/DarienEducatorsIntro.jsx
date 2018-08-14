@@ -61,7 +61,7 @@ function DarienEducatorsInfo(props) {
               Explore a variety of educational resources produced by HHMI BioInteractive to use WildCam Darién Lab in your classroom.
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators/this-page-doesnt-exist-yet" label="Explore Resources"></Button>
+              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/info/resources" label="Explore Resources"></Button>
             </Box>
           </Box>
           <Box direction="row">
