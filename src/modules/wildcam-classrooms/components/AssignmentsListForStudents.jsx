@@ -11,6 +11,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
+import { Link } from 'react-router-dom';
 
 import StatusWorking from './StatusWorking';
 import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
@@ -86,7 +87,9 @@ class AssignmentsListForStudents extends React.Component {
     
     return (
       <Table>
-        {props.classroomsList.map(classroom => this.render_readyState_classroom(classroom))}
+        <tbody>
+          {props.classroomsList.map(classroom => this.render_readyState_classroom(classroom))}
+        </tbody>
       </Table>
     );
   }
@@ -103,40 +106,32 @@ class AssignmentsListForStudents extends React.Component {
         <td>
           <Heading tag='h3'>{classroom.name}</Heading>
           <Table>
-          {assignmentsForThisClassroom.map(ass => (
-            <TableRow key={`student_classroom_${classroom.id}_assignment_${ass.id}`}>
-              <td>
-                <Heading tag='h4'>{ass.name}</Heading>
-              </td>
-              <td>
-                <Box
-                    className="actions-panel"
-                    direction="row"
-                    justify="end"
-                  >
-                    <Button
-                      className="button"
-                      icon={<LinkNextIcon size="small" />}
-                      label={TEXT.ACTIONS.START_ASSIGNMENT}
-                      
-                      disabled={true}
-                      onClick={() => {
-                        //Sanity check
-                        if (!props.urlToAssignment) return;
-                        const workflowId = (ass && ass.workflowId)
-                          ? ass.workflowId
-                          : '';  //TODO: 
-                        const urlToAssignment = props.urlToAssignment.replace(/{WORKFLOW_ID}/g, workflowId);
-                        if (!workflowId || !urlToAssignment) return;
-                      
-                        console.log('+++ ASSIGNMENT: ', ass);
-                        console.log('+++ URL TO ASSIGNMENT: ', urlToAssignment);
-                      }}
-                    />
-                  </Box>
-              </td>
-            </TableRow>
-          ))}
+            <tbody>
+              {assignmentsForThisClassroom.map(ass => {
+                if (!props.urlToAssignment) return;
+                const workflowId = (ass && ass.workflowId)
+                  ? ass.workflowId
+                  : '';  //TODO: 
+                const urlToAssignment = props.urlToAssignment.replace(/{WORKFLOW_ID}/g, workflowId);
+
+                return (
+                  <TableRow key={`student_classroom_${classroom.id}_assignment_${ass.id}`}>
+                    <td>
+                      <Heading tag='h4'>{ass.name}</Heading>
+                    </td>
+                    <td>
+                      <Box
+                          className="actions-panel"
+                          direction="row"
+                          justify="end"
+                        >
+                          <Button label={TEXT.ACTIONS.START_ASSIGNMENT} href={urlToAssignment} target="_blank" rel="noopener noreferrer" icon={<LinkNextIcon />} />
+                        </Box>
+                    </td>
+                  </TableRow>
+                );
+              })}
+            </tbody>
           </Table>
         </td>
       </TableRow>
