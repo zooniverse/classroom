@@ -121,8 +121,16 @@ class AssignmentsListForStudents extends React.Component {
                       
                       disabled={true}
                       onClick={() => {
-                        //TODO
-                        console.error('//TODO');
+                        //Sanity check
+                        if (!props.urlToAssignment) return;
+                        const workflowId = (ass && ass.workflowId)
+                          ? ass.workflowId
+                          : '';  //TODO: 
+                        const urlToAssignment = props.urlToAssignment.replace(/{WORKFLOW_ID}/g, workflowId);
+                        if (!workflowId || !urlToAssignment) return;
+                      
+                        console.log('+++ ASSIGNMENT: ', ass);
+                        console.log('+++ URL TO ASSIGNMENT: ', urlToAssignment);
                       }}
                     />
                   </Box>
@@ -143,10 +151,14 @@ class AssignmentsListForStudents extends React.Component {
 };
 
 AssignmentsListForStudents.defaultProps = {
+  urlToAssignment: '',  //Passed from parent.
+  // ----------------
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
 };
 
 AssignmentsListForStudents.propTypes = {
+  urlToAssignment: PropTypes.string,
+  // ----------------
   ...WILDCAMCLASSROOMS_PROPTYPES,
 };
 

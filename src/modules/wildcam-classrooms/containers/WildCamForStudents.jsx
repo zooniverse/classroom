@@ -80,7 +80,12 @@ class WildCamForStudents extends React.Component {
           </Toast>
         )}
         
-        <AssignmentsListForStudents />
+        <AssignmentsListForStudents
+          urlToAssignment={(props.classroomConfig && props.classroomConfig.forStudents && props.classroomConfig.forStudents.urlToAssignment)
+            ? props.classroomConfig.forStudents.urlToAssignment
+            : ''
+          }
+        />
 
       </Box>
     );
@@ -96,6 +101,7 @@ WildCamForStudents.defaultProps = {
   location: null,
   match: null,
   // ----------------
+  classroomConfig: {},
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  //Passed from parent.
   // ----------------
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
@@ -106,6 +112,7 @@ WildCamForStudents.propTypes = {
   location: PropTypes.object,
   match: PropTypes.object,
   // ----------------
+  classroomConfig: PropTypes.object,
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
   // ----------------
   ...WILDCAMCLASSROOMS_PROPTYPES,

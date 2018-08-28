@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
+import classroomConfig from '../wildcam-darien.classroom-config.js';
 
 import WildCamForStudents from '../../../modules/wildcam-classrooms/containers/WildCamForStudents';
 import DarienNavi from '../common/DarienNavi';
@@ -20,6 +21,7 @@ class DarienStudents extends React.Component {
       <Box>
         <DarienNavi />
         <WildCamForStudents
+          classroomConfig={classroomConfig}
           selectedProgram={this.props.selectedProgram}
           location={this.props.match}
           history={this.props.history}
