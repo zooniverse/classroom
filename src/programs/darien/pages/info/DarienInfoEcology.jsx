@@ -9,6 +9,8 @@ import Heading from 'grommet/components/Heading';
 import Image from 'grommet/components/Image';
 import Paragraph from 'grommet/components/Paragraph';
 
+import imgEcology1 from '../../images/ecology-1-climatogram.jpg';
+
 function DarienInfoEcology(props) {
   return (
     <Box>
@@ -19,7 +21,7 @@ function DarienInfoEcology(props) {
       >
         <Heading tag="h2">Ecology</Heading>
         <Paragraph>Although they differ greatly in size and setting, Soberanía and Darién national parks in Panama are generally similar in climate, vegetation, and fauna. Their differences are mainly due to Soberanía’s location near the two largest urban areas in Panama, while Darién National Park is in a remote and sparsely populated region. In addition, Soberanía contains only lowland environments, while Darién also has mountain ranges with submontane and montane habitats. </Paragraph>
-        <Image src="https://placeimg.com/400/250/nature" size="large" caption="" />
+        <Image src={imgEcology1} size="large" caption="" />
 
         <Heading tag="h3">Geography</Heading>
         <Paragraph>Soberanía National Park (221 square kilometers, or 85 square miles) is located on the eastern side of the Panama Canal in central Panama. The broad Chagres River divides the park into southern and northern sections. The terrain is hilly, especially in the northern part of the park, and the elevation ranges from 30 to 332 meters (100 to 1,100 feet). Many small streams cross the park to drain into the Panama Canal or Lake Gatun, a manmade reservoir that forms the central part of the Panama Canal. </Paragraph>
