@@ -117,20 +117,6 @@ class AssignmentsListForStudents extends React.Component {
     //Determine specifics for this classroom.
     const assignmentsForThisClassroom = props.assignmentsList.filter(ass => parseInt(ass.classroomId) === parseInt(classroom.id));
     
-    
-    //TODO: Determine classification count!
-    //WARNING: Complicated as all hell.
-    if (studentId && props.assignmentsAuxData) {
-      console.log(`+++ We want to list the Classification count for Student ${studentId} . \n The Assignments auxilliary data includes: `, props.assignmentsAuxData);
-      
-      //See, Student-Assignments pairings have different IDs from Students and from Assignments.
-      const studentAssignmentIds = props.assignmentsAuxData  //In the auxilliary data for Assignments...
-        .filter(i => i.attributes.student_user_id == studentId)  //...find all the Student-Assignment pairings with this student's ID...  (NOTE: Use ==, not ===, since we're comparing strings and integers)
-        .map(i => i.id);  //...and return the Student-Assignment pairings' IDs.
-      
-      console.log('+++ \n', studentAssignmentIds);
-    }
-    
     return (
       <TableRow key={`student_classroom_${classroom.id}`}>
         <td>
@@ -152,8 +138,14 @@ class AssignmentsListForStudents extends React.Component {
                   : '';  //TODO: 
                 const urlToAssignment = props.urlToAssignment.replace(/{WORKFLOW_ID}/g, workflowId);
                 
-                const classificationsCount = (false)  //TODO!
-                  ? '0'
+                //Determine Student's progress in this Assignment.
+                //NOTE: A Student-Assignment pairing is distinct from a Student
+                //or an Assignment, and is used to keep track of how far a
+                //student has progressed in a given Assignment.
+                const studentAssignment = ass.studentAssignments
+                  && ass.studentAssignments.find(i => i.studentUserId == studentId);  //NOTE: use ==, not ===
+                const classificationsCount = (studentAssignment)  //TODO!
+                  ? studentAssignment.classificationsCount
                   : '?';
                 const classificationsTarget = (ass.metadata && ass.metadata.classifications_target)
                   ? ass.metadata.classifications_target
