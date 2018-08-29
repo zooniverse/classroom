@@ -65,6 +65,7 @@ const WILDCAMCLASSROOMS_INITIAL_STATE = {
   assignmentsStatus: WILDCAMCLASSROOMS_DATA_STATUS.IDLE,  //The status of the data fetch/send.
   assignmentsStatusDetails: null,
   assignmentsList: [],
+  assignmentsAuxData: [],  //Auxilliary data from assignments.included.
   selectedAssignment: null,
   
   toast: {
@@ -99,6 +100,7 @@ const WILDCAMCLASSROOMS_PROPTYPES = {
   assignmentsStatus: PropTypes.string,
   assignmentsStatusDetails: PropTypes.object,
   assignmentsList: PropTypes.array,
+  assignmentsAuxData: PropTypes.array,
   selectedAssignment: PropTypes.object,
   
   toast: PropTypes.object,
@@ -145,6 +147,7 @@ const resetClassrooms = (state) => {
     assignmentsStatus: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsStatus,
     assignmentsStatusDetails: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsStatusDetails,
     assignmentsList: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsList,
+    assignmentsAuxData: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsAuxData,
     selectedAssignment: WILDCAMCLASSROOMS_INITIAL_STATE.selectedAssignment,
   };
 };
@@ -184,6 +187,7 @@ const resetAssignments = (state) => {
     assignmentsStatus: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsStatus,
     assignmentsStatusDetails: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsStatusDetails,
     assignmentsList: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsList,
+    assignmentsAuxData: WILDCAMCLASSROOMS_INITIAL_STATE.assignmentsAuxData,
     selectedAssignment: WILDCAMCLASSROOMS_INITIAL_STATE.selectedAssignment,
   };
 };
@@ -198,6 +202,10 @@ const setAssignmentsStatusDetails = (state, assignmentsStatusDetails) => {
 
 const setAssignmentsList = (state, assignmentsList) => {
   return { ...state, assignmentsList };
+};
+
+const setAssignmentsAuxData = (state, assignmentsAuxData) => {
+  return { ...state, assignmentsAuxData };
 };
 
 const setSelectedAssignment = (state, selectedAssignment) => {
@@ -570,6 +578,7 @@ Effect('wcc_fetchAssignments', ({ selectedClassroom }) => {
   .then((body) => {
     Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
     Actions.wildcamClassrooms.setAssignmentsList(body.data);
+    Actions.wildcamClassrooms.setAssignmentsAuxData(body.included);
     return body;
   })
   
@@ -828,6 +837,7 @@ const wildcamClassrooms = State('wildcamClassrooms', {
   setAssignmentsStatus,
   setAssignmentsStatusDetails,
   setAssignmentsList,
+  setAssignmentsAuxData,
   setSelectedAssignment,
   resetSelectedAssignment,
   setToast,
