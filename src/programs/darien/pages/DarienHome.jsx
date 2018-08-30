@@ -14,6 +14,7 @@ import Paragraph from 'grommet/components/Paragraph';
 import Label from 'grommet/components/Label';
 
 import ProgramHome from '../../../components/common/ProgramHome';
+import imgDarienSplash from '../images/darien-splash-B.jpg';
 
 import {
   PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES, PROGRAMS_STATUS
@@ -28,7 +29,7 @@ function DarienHome(props) {
     <ProgramHome className="darien-home">
       <Hero
         className="program-home__hero"
-        background={<Image src="https://placeimg.com/1000/1000/nature/any" fit="cover" />}
+        background={<Image src={imgDarienSplash} fit="cover" />}
         backgroundColorIndex="dark"
         size="medium"
       >

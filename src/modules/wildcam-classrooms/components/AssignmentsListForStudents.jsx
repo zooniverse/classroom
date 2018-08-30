@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import { Link } from 'react-router-dom';
+import { TEXT } from '../text.js';
 
 import StatusWorking from './StatusWorking';
 import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
@@ -32,15 +33,6 @@ import {
   WILDCAMCLASSROOMS_MAP_STATE,
 } from '../ducks/index.js';
   
-const TEXT = {
-  TITLE: {
-    YOUR_ASSIGNMENTS: 'Your Assignments'
-  },
-  ACTIONS: {
-    START_ASSIGNMENT: 'Start assignment'
-  }
-};
-
 class AssignmentsListForStudents extends React.Component {
   constructor() {
     super();
