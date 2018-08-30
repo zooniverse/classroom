@@ -10,6 +10,8 @@ Renders a list of assignments.
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { TEXT } from '../text.js';
+
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import CheckBox from 'grommet/components/CheckBox';
@@ -29,20 +31,6 @@ import {
   WILDCAMCLASSROOMS_MAP_STATE,
 } from '../ducks/index.js';
 
-/*
---------------------------------------------------------------------------------
- */
-
-const TEXT = {
-  HEADINGS: {
-    ASSIGNMENTS: 'Assignments',
-  },
-  ACTIONS: {
-    EDIT: 'Edit',
-    CREATE_NEW_ASSIGNMENT: 'Create new assignment',
-  },
-}
-  
 /*
 --------------------------------------------------------------------------------
  */
@@ -74,7 +62,7 @@ class AssignmentsList extends React.Component {
         margin="small"
         pad="small"
       >
-        <Heading tag="h3">{TEXT.HEADINGS.ASSIGNMENTS}</Heading>
+        <Heading tag="h3">{TEXT.TITLES.ASSIGNMENTS}</Heading>
         <Table className="table">
           <tbody>
             {assignments.map((assignment) => {

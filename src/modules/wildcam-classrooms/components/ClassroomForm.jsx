@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
 import { config } from '../../../lib/config';
+import { TEXT } from '../text.js';
 
 import StatusWorking from './StatusWorking';
 import StatusNotFound from './StatusNotFound';
@@ -55,39 +56,6 @@ const VIEWS = {
   EDIT_EXISTING: 'edit',
   NOT_FOUND: 'not found',
 }
-
-const TEXT = {
-  ACTIONS: {
-    BACK: 'Back',
-    SUBMIT: 'Submit',
-    CREATE: 'Create',
-    UPDATE: 'Update',
-    DELETE: 'Delete',
-    EDIT: 'Edit',
-  },
-  WORKING: 'Working...',
-  JOIN_URL: 'Join URL',
-  HEADINGS: {
-    CLASSROOM: 'Classroom',
-    CREATE_NEW_CLASSROOM: 'Create new classroom',
-    EDIT_CLASSROOM: 'Edit classroom',
-  },
-  CLASSROOM_FORM: {
-    NAME: 'Classroom name',
-    SUBJECT: 'Classroom subject',
-    SCHOOL: 'School',
-    DESCRIPTION: 'Description',
-  },
-  ERROR: {
-    GENERAL: 'Something went wrong',
-  },
-  SUCCESS: {
-    CLASSROOM_CREATED: 'Classroom created',
-    CLASSROOM_EDITED: 'Changes saved',
-    CLASSROOM_DELETED: 'Classroom deleted',
-    STUDENT_DELETED_FROM_CLASSROOM: 'Student removed from classroom',
-  },
-};
 
 const INITIAL_FORM_DATA = {
   name: '',
@@ -223,7 +191,7 @@ class ClassroomForm extends React.Component {
       })
       .then(() => {
         //Message
-        Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_CREATED, status: 'ok' });
+        Actions.wildcamClassrooms.setToast({ message: TEXT.STATUS.SUCCESSES.CLASSROOM_CREATED, status: 'ok' });
         
         //Refresh
         return Actions.wcc_teachers_refreshData({ selectedProgram: props.selectedProgram })
@@ -242,7 +210,7 @@ class ClassroomForm extends React.Component {
         classroomData: this.state.form,
       }).then(() => {
         //Message
-        Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_EDITED, status: 'ok' });
+        Actions.wildcamClassrooms.setToast({ message: TEXT.STATUS.SUCCESSES.CLASSROOM_EDITED, status: 'ok' });
         
         //Refresh
         return Actions.wcc_teachers_refreshData({
@@ -335,7 +303,7 @@ class ClassroomForm extends React.Component {
         onSubmit={this.submitForm.bind(this)}
       >
         <Heading tag="h2">
-          {TEXT.HEADINGS.CLASSROOM} - {props.selectedClassroom.name}
+          {TEXT.TITLES.CLASSROOM} - {props.selectedClassroom.name}
         </Heading>
         
         <List className="details-list">
@@ -352,7 +320,7 @@ class ClassroomForm extends React.Component {
             </ListItem>
           ) : null}
           <ListItem pad="small" separator="none">
-            <Label>{TEXT.JOIN_URL}</Label>
+            <Label>{TEXT.LABELS.JOIN_URL}</Label>
             <span>{joinURL}</span>
           </ListItem>
         </List>
@@ -398,7 +366,7 @@ class ClassroomForm extends React.Component {
             return Actions.wcc_teachers_deleteStudentFromClassroom({ studentId, selectedClassroom: props.selectedClassroom })
             .then(() => {
               //Message
-              Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.STUDENT_DELETED_FROM_CLASSROOM, status: 'ok' });
+              Actions.wildcamClassrooms.setToast({ message: TEXT.STATUS.SUCCESSES.STUDENT_DELETED_FROM_CLASSROOM, status: 'ok' });
 
               //Refresh
               return Actions.wcc_teachers_refreshData({ selectedProgram: props.selectedProgram, selectedClassroom: props.selectedClassroom });
@@ -423,8 +391,8 @@ class ClassroomForm extends React.Component {
         <Heading tag="h2">
           {(() => {
             switch (state.view) {
-              case VIEWS.CREATE_NEW: return TEXT.HEADINGS.CREATE_NEW_CLASSROOM;
-              case VIEWS.EDIT_EXISTING: return TEXT.HEADINGS.EDIT_CLASSROOM;
+              case VIEWS.CREATE_NEW: return TEXT.TITLES.CREATE_NEW_CLASSROOM;
+              case VIEWS.EDIT_EXISTING: return TEXT.TITLES.EDIT_CLASSROOM;
               default: return '???';  //This should never trigger
             }
           })()}
@@ -517,7 +485,7 @@ class ClassroomForm extends React.Component {
                   return Actions.wcc_teachers_deleteClassroom(props.selectedClassroom)
                   .then(() => {
                     //Message
-                    Actions.wildcamClassrooms.setToast({ message: TEXT.SUCCESS.CLASSROOM_DELETED, status: 'ok' });
+                    Actions.wildcamClassrooms.setToast({ message: TEXT.STATUS.SUCCESSES.CLASSROOM_DELETED, status: 'ok' });
                     
                     //Refresh
                     return Actions.wcc_teachers_refreshData({ selectedProgram: props.selectedProgram })

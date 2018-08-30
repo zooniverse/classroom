@@ -57,7 +57,7 @@ class AssignmentsListForStudents extends React.Component {
         margin="medium"
         pad="medium"
       >
-        <Heading tag="h2">{TEXT.TITLE.YOUR_ASSIGNMENTS}</Heading>
+        <Heading tag="h2">{TEXT.TITLES.YOUR_ASSIGNMENTS}</Heading>
         {(() => {
           if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS && props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
             return this.render_readyState();
