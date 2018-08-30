@@ -11,6 +11,7 @@ import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
 //import superagent from 'superagent';
 import { get, post, put, httpDelete } from '../../../lib/edu-api';
+import { TEXT } from '../text.js'
 
 /*
 --------------------------------------------------------------------------------
@@ -32,12 +33,6 @@ const WILDCAMCLASSROOMS_DATA_STATUS = {
   SENDING: 'sending',  //Updating classrooms/assignments...
   SUCCESS: 'success',  //SUCCESS! ...of whatever we just did.
   ERROR: 'error',  //Something effed up.
-};
-
-const TEXT = {
-  ERROR: {
-    GENERAL: 'Something went wrong',
-  }
 };
 
 /*
@@ -814,7 +809,7 @@ Effect('wcc_teachers_deleteAssignment', (selectedAssignment) => {
 
 function showErrorMessage(err) {
   //Critical Error
-  Actions.notification.setNotification({ status: 'critical', message: TEXT.ERROR.GENERAL });
+  Actions.notification.setNotification({ status: 'critical', message: TEXT.STATUS.ERRORS.GENERAL });
   console.error(err);
 }
 
