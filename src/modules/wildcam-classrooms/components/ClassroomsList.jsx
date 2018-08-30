@@ -12,6 +12,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
+import { TEXT } from '../text.js';
+
 import StatusWorking from './StatusWorking';
 import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
 
@@ -33,12 +35,6 @@ import {
   WILDCAMCLASSROOMS_MAP_STATE,
 } from '../ducks/index.js';
   
-const TEXT = {
-  WORKING: 'Working...',
-  VIEW: 'View',
-  CREATE_NEW_CLASSROOM: 'Create new classroom',
-};
-
 class ClassroomsList extends React.Component {
   constructor() {
     super();
@@ -104,7 +100,7 @@ class ClassroomsList extends React.Component {
                     <Button
                       className="button"
                       icon={<LinkNextIcon size="small" />}
-                      label={TEXT.VIEW}
+                      label={TEXT.ACTIONS.VIEW}
                       onClick={() => {
                         //Transition to: View One Classroom
                         props.history && props.history.push(`${props.match.url.replace(/\/+$/,'')}/classrooms/${classroom.id}`);
@@ -127,7 +123,7 @@ class ClassroomsList extends React.Component {
           <Button
             className="button"
             icon={<AddIcon size="small" />}
-            label={TEXT.CREATE_NEW_CLASSROOM}
+            label={TEXT.ACTIONS.CREATE_NEW_CLASSROOM}
             onClick={() => {
               //Transition to: Create New Classroom
               props.history && props.history.push(`${props.match.url.replace(/\/+$/,'')}/classrooms/new`);

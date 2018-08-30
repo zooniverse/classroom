@@ -10,13 +10,11 @@ processed, or etc, so stop bugging me dammit.
 
 import React from 'react';
 
+import { TEXT } from '../text.js';
+
 import Box from 'grommet/components/Box';
 import Label from 'grommet/components/Label';
 import SpinningIcon from 'grommet/components/icons/Spinning';
-
-const TEXT = {
-  WORKING: 'Working...',
-};
 
 const StatusWorking = (props) => {
   return (
@@ -28,7 +26,7 @@ const StatusWorking = (props) => {
         pad="medium"
       >
       <SpinningIcon />
-      <Label>{TEXT.WORKING}</Label>
+      <Label>{TEXT.STATUS.WORKING}</Label>
     </Box>
   );
 };

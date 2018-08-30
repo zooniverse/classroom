@@ -12,11 +12,9 @@ import React from 'react';
 import Box from 'grommet/components/Box';
 import Label from 'grommet/components/Label';
 
-import StatusIcon from 'grommet/components/icons/Status';
+import { TEXT } from '../text.js';
 
-const TEXT = {
-  NOT_FOUND: 'Not found',
-};
+import StatusIcon from 'grommet/components/icons/Status';
 
 const StatusNotFound = (props) => {
   return (
@@ -28,7 +26,7 @@ const StatusNotFound = (props) => {
         pad="medium"
       >
       <StatusIcon value="critical" />
-      <Label>{TEXT.NOT_FOUND}</Label>
+      <Label>{TEXT.STATUS.ERRORS.NOT_FOUND}</Label>
     </Box>
   );
 };

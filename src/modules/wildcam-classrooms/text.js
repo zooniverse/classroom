@@ -5,23 +5,29 @@ import { TEXT } from '../text.js';
 
 export const TEXT = {
   TITLES: {
-    ASSIGNMENTS: 'Assignments',
-    YOUR_ASSIGNMENTS: 'Your Assignments',
-    CREATE_NEW_ASSIGNMENT: 'Create new assignment',
-    EDIT_ASSIGNMENT: 'Edit assignment',
     CLASSROOM: 'Classroom',
     CREATE_NEW_CLASSROOM: 'Create new classroom',
     EDIT_CLASSROOM: 'Edit classroom',
+    ASSIGNMENTS: 'Assignments',
+    CREATE_NEW_ASSIGNMENT: 'Create new assignment',
+    EDIT_ASSIGNMENT: 'Edit assignment',
+    YOUR_ASSIGNMENTS: 'Your Assignments',
+    STUDENTS: 'Students',
+    SUBJECTS: 'Subjects',
   },
   ACTIONS: {
-    START_ASSIGNMENT: 'Start assignment',
-    BACK: 'Back',
-    SUBMIT: 'Submit',
-    CREATE: 'Create',
-    UPDATE: 'Update',
-    DELETE: 'Delete',
-    EDIT: 'Edit',
+    BACK: 'Back',  //Go back to the previous page.
+    CREATE: 'Create',  //Generic "create item" action.
+    CREATE_NEW_CLASSROOM: 'Create new classroom',
     CREATE_NEW_ASSIGNMENT: 'Create new assignment',
+    DELETE: 'Delete',  //Generic "delete item" action.
+    EDIT: 'Edit',  //Generic "edit item" action.
+    SELECT_SUBJECTS: 'Select subjects',
+    START_ASSIGNMENT: 'Start assignment',
+    SUBMIT: 'Submit',  //Generic "submit form" action.
+    UPDATE: 'Update',  //Generic "update item" action.
+    UPDATE_STUDENTS: 'Update students',
+    VIEW: 'View',  //Generic "view item" action.
   },
   STATUS: {
     SUCCESSES: {
@@ -35,7 +41,9 @@ export const TEXT = {
     },
     ERRORS: {
       GENERAL: 'Something went wrong',
+      NOT_FOUND: 'Not found',  //Usu
     },
+    WORKING: 'Working...',
   },
   LABELS: {
     JOIN_URL: 'Join URL',

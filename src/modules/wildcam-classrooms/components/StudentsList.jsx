@@ -45,6 +45,8 @@ https://education-api-staging.zooniverse.org/teachers/classrooms/362/student_use
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { TEXT } from '../text.js';
+
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import CheckBox from 'grommet/components/CheckBox';
@@ -63,19 +65,6 @@ import {
   WILDCAMCLASSROOMS_MAP_STATE,
 } from '../ducks/index.js';
 
-/*
---------------------------------------------------------------------------------
- */
-
-const TEXT = {
-  ACTIONS: {
-    UPDATE_STUDENTS: 'Update students'
-  },
-  HEADINGS: {
-    STUDENTS: 'Students',
-  }
-}
-  
 /*
 --------------------------------------------------------------------------------
  */
@@ -104,7 +93,7 @@ class StudentsList extends React.Component {
         margin={{ horizontal: "none", vertical: "small" }}
         pad="small"
       >
-        <Heading tag="h3">{TEXT.HEADINGS.STUDENTS}</Heading>
+        <Heading tag="h3">{TEXT.TITLES.STUDENTS}</Heading>
         <Table className="table">
           <tbody>
             {props.selectedClassroom.students.map((stud) => {

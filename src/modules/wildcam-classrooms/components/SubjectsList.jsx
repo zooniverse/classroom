@@ -44,15 +44,6 @@ import {
 --------------------------------------------------------------------------------
  */
 
-const TEXT = {
-  ACTIONS: {
-    SELECT_SUBJECTS: 'Select subjects',
-  },
-  HEADINGS: {
-    SUBJECTS: 'Subjects',
-  }
-}
-
 const MAX_SUBJECTS_COUNT = 10;
 
 /*
@@ -108,7 +99,7 @@ class SubjectsList extends React.Component {
         margin={{ horizontal: "none", vertical: "small" }}
         pad="small"
       >
-        <Heading tag="h3">{TEXT.HEADINGS.SUBJECTS}</Heading>
+        <Heading tag="h3">{TEXT.TITLES.SUBJECTS}</Heading>
         
         <Box className="data-count">
           {(props.subjects) ? props.subjects.length : 0} subject(s) selected

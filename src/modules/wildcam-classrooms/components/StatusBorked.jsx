@@ -10,6 +10,8 @@ Simple message box indicating that something horribly, terribly wrong.
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { TEXT } from '../text.js';
+
 import Box from 'grommet/components/Box';
 import Label from 'grommet/components/Label';
 
@@ -23,10 +25,6 @@ import {
   WILDCAMCLASSROOMS_MAP_STATE,
 } from '../ducks/index.js';
 
-const TEXT = {
-  ERROR: 'Error detected.',
-};
-
 const StatusBorked = (props) => {
   return (
     <Box
@@ -37,7 +35,7 @@ const StatusBorked = (props) => {
         pad="medium"
       >
       <StatusIcon value="critical" />
-      <Label>{TEXT.ERROR}</Label>
+      <Label>{TEXT.STATUS.ERRORS.GENERAL}</Label>
       {(props.classroomsStatusDetails && props.classroomsStatusDetails.toString) && (
         <p>{props.classroomsStatusDetails.toString()}</p>
       )}
