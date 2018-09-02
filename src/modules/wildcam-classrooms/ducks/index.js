@@ -67,6 +67,7 @@ const WILDCAMCLASSROOMS_INITIAL_STATE = {
     message: null,
     status: null,
   },
+  showHelp: null,  //If set to a valid string value, shows the help/tutoria/guide for the specified activity.
 };
 
 /*
@@ -99,6 +100,7 @@ const WILDCAMCLASSROOMS_PROPTYPES = {
   selectedAssignment: PropTypes.object,
   
   toast: PropTypes.object,
+  showHelp: PropTypes.string,
 };
 
 /*  WILDCAMCLASSROOMS_MAP_STATE is used as a convenience feature in
@@ -226,6 +228,15 @@ const resetToast = (state) => {
     ...state,
     toast: { message: null, status: null },
   };
+};
+
+/*  Shows or Hides help for the respective activity.
+ */
+const showHelp = (state, activity) => {
+  return { ...state, showHelp: activity };
+};
+const hideHelp = (state) => {
+  return { ...state, showHelp: null };
 };
 
 /*
@@ -837,6 +848,8 @@ const wildcamClassrooms = State('wildcamClassrooms', {
   resetSelectedAssignment,
   setToast,
   resetToast,
+  showHelp,
+  hideHelp,
 });
 
 export default wildcamClassrooms;

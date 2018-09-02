@@ -22,6 +22,7 @@ export const TEXT = {
     CREATE_NEW_ASSIGNMENT: 'Create new assignment',
     DELETE: 'Delete',  //Generic "delete item" action.
     EDIT: 'Edit',  //Generic "edit item" action.
+    HELP: 'Help',  //Generic "help" action, for How Tos, Guides, Instructions, etc.
     SELECT_SUBJECTS: 'Select subjects',
     START_ASSIGNMENT: 'Start assignment',
     SUBMIT: 'Submit',  //Generic "submit form" action.

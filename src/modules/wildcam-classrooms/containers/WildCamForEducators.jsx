@@ -106,6 +106,12 @@ class WildCamForEducators extends React.Component {
           />
           <Route path="*" component={Status404} />
         </Switch>
+        
+        {(props.showHelp) && (
+          <Box>
+            HELP FOR:{props.showHelp}
+          </Box> 
+        )}
 
       </Box>
     );

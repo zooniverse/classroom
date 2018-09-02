@@ -67,6 +67,8 @@ const WILDCAMMAP_INITIAL_STATE = {
   
   filters: {},  //Selected filters
   
+  showHelp: null,  //If set to a valid string value, shows the help/tutoria/guide for the specified activity.
+  
   //Connection between WildCam Classroom and WildCam Map
   wccwcmMapPath: '',  //The URL/path that the Teacher is taken to when they click on "Select subject" in the WildCam Classroom - Create Assignment stage. Must be registered early on in the Program.
   wccwcmAssignmentPath: '',  //The URL/path that the Teacher is returned to when they finally finish selecting subjects on the WildCam Map.
@@ -103,6 +105,8 @@ const WILDCAMMAP_PROPTYPES = {
   activeCameraDataStatus: PropTypes.string,
   
   filters: PropTypes.object,  //Dynamically constructed object.
+  
+  showHelp: PropTypes.string,
   
   wccwcmMapPath: PropTypes.string,
   wccwcmAssignmentPath: PropTypes.string,
@@ -227,6 +231,14 @@ const setFilterSelectionItem = (state, key, value) => {
   return { ...state, filters };
 };
 
+/*  Shows or Hides help for the respective activity.
+ */
+const showHelp = (state, activity) => {
+  return { ...state, showHelp: activity };
+};
+const hideHelp = (state) => {
+  return { ...state, showHelp: null };
+};
 
 /*  WildCam Classroom-WildCam Map connection functions
  */
@@ -400,6 +412,8 @@ const wildcamMap = State('wildcamMap', {
   addFilterSelectionItem,
   removeFilterSelectionItem,
   setFilterSelectionItem,
+  showHelp,
+  hideHelp,
   resetWccWcmAssignmentData,
   setWccWcmMapPath,
   setWccWcmAssignmentPath,

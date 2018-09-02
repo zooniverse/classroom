@@ -121,6 +121,13 @@ class ClassroomsList extends React.Component {
           pad="medium"
         >
           <Button
+            label={TEXT.ACTIONS.HELP}
+            onClick={() => {
+              Actions.wildcamClassrooms.showHelp('classrooms-management');
+            }}
+          />
+          
+          <Button
             className="button"
             icon={<AddIcon size="small" />}
             label={TEXT.ACTIONS.CREATE_NEW_CLASSROOM}
