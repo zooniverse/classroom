@@ -19,6 +19,7 @@ Props:
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'jumpstate';
+import { TEXT } from '../text.js';
 
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';

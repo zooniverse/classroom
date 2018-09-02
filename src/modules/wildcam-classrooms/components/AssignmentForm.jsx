@@ -11,8 +11,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
-import { TEXT } from '../text.js'
 
+import { TEXT } from '../text.js'
 import { config } from '../../../lib/config';
 
 import StatusWorking from './StatusWorking';

@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import { Link } from 'react-router-dom';
+
 import { TEXT } from '../text.js';
 
 import StatusWorking from './StatusWorking';
