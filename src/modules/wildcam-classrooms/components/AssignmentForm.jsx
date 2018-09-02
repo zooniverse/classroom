@@ -34,9 +34,10 @@ import ListItem from 'grommet/components/ListItem';
 import TextInput from 'grommet/components/TextInput';
 import NumberInput from 'grommet/components/NumberInput';
 
+import CloseIcon from 'grommet/components/icons/base/Close';
+import HelpIcon from 'grommet/components/icons/base/Help';
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
-import CloseIcon from 'grommet/components/icons/base/Close';
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {
@@ -506,6 +507,16 @@ class AssignmentForm extends React.Component {
               props.history && props.history.push('../');
             }}
           />
+          
+          <Button
+            className="button"
+            icon={<HelpIcon />}
+            label={TEXT.ACTIONS.HELP}
+            onClick={() => {
+              Actions.wildcamClassrooms.showHelp('assignments-management');
+            }}
+          />
+          
           <Button
             className="button"
             icon={<LinkNextIcon size="small" />}

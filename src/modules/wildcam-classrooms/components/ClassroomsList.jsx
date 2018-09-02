@@ -25,6 +25,7 @@ import TableRow from 'grommet/components/TableRow';
 
 import AddIcon from 'grommet/components/icons/base/Add';
 import EditIcon from 'grommet/components/icons/base/Edit';
+import HelpIcon from 'grommet/components/icons/base/Help';
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 
 import {
@@ -121,6 +122,8 @@ class ClassroomsList extends React.Component {
           pad="medium"
         >
           <Button
+            className="button"
+            icon={<HelpIcon />}
             label={TEXT.ACTIONS.HELP}
             onClick={() => {
               Actions.wildcamClassrooms.showHelp('classrooms-management');
