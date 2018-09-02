@@ -16,10 +16,16 @@ import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import { Switch, Route } from 'react-router-dom';
 
+import Box from 'grommet/components/Box';
+
 import DarienHome from './pages/DarienHome';
 import DarienEducators from './pages/DarienEducators';
 import DarienStudents from './pages/DarienStudents';
 import DarienMap from './pages/DarienMap';
+
+import DarienNaviForEducators from './common/DarienNaviForEducators';
+import DarienNaviForStudents from './common/DarienNaviForStudents';
+import DarienNaviForExplorers from './common/DarienNaviForExplorers';
 
 import DarienEducatorsIntro from './pages/info/DarienEducatorsIntro';
 import DarienInfoCSV from './pages/info/DarienInfoCSV';
@@ -51,39 +57,58 @@ class DarienProgram extends React.Component {
     } else {
       if (props.user) {  //User logged in: give access to all locations.
         return (
-          <Switch>
-            <Route exact path={`${props.match.url}/`} component={DarienHome} />
-            
-            <Route exact path={`${props.match.url}/educators/intro`} component={DarienEducatorsIntro} />
-            <Route path={`${props.match.url}/educators`} component={DarienEducators} />
-            <Route path={`${props.match.url}/students`} component={DarienStudents} />
+          <Box>
+            {this.renderNavi()}
+            <Switch>
+              <Route exact path={`${props.match.url}/`} component={DarienHome} />
 
-            <Route path={`${props.match.url}/map`} component={DarienMap} />
-            <Route exact path={`${props.match.url}/info/data-guide`} component={DarienInfoCSV} />
-            <Route exact path={`${props.match.url}/info/ecology`} component={DarienInfoEcology} />
-            <Route exact path={`${props.match.url}/info/resources`} component={DarienInfoResources} />
-            
-            <Route path="*" component={Status404} />
-          </Switch>
+              <Route exact path={`${props.match.url}/educators/intro`} component={DarienEducatorsIntro} />
+              <Route path={`${props.match.url}/educators`} component={DarienEducators} />
+              <Route path={`${props.match.url}/students`} component={DarienStudents} />
+
+              <Route path={`${props.match.url}/map`} component={DarienMap} />
+              <Route exact path={`${props.match.url}/info/data-guide`} component={DarienInfoCSV} />
+              <Route exact path={`${props.match.url}/info/ecology`} component={DarienInfoEcology} />
+              <Route exact path={`${props.match.url}/info/resources`} component={DarienInfoResources} />
+
+              <Route path="*" component={Status404} />
+            </Switch>
+          </Box>
         );
       } else {  //User not logged in: give limited access.
         return (
-          <Switch>
-            <Route exact path={`${props.match.url}/`} component={DarienHome} />
-            
-            <Route path={`${props.match.url}/educators`} component={Status401} />
-            <Route path={`${props.match.url}/students`} component={Status401} />
-            
-            <Route path={`${props.match.url}/map`} component={DarienMap} />
-            <Route exact path={`${props.match.url}/info/data-guide`} component={DarienInfoCSV} />
-            <Route exact path={`${props.match.url}/info/ecology`} component={DarienInfoEcology} />
-            <Route exact path={`${props.match.url}/info/resources`} component={DarienInfoResources} />
-            
-            <Route path="*" component={Status404} />
-          </Switch>
+          <Box>
+            {this.renderNavi()}
+            <Switch>
+              <Route exact path={`${props.match.url}/`} component={DarienHome} />
+
+              <Route path={`${props.match.url}/educators`} component={Status401} />
+              <Route path={`${props.match.url}/students`} component={Status401} />
+
+              <Route path={`${props.match.url}/map`} component={DarienMap} />
+              <Route exact path={`${props.match.url}/info/data-guide`} component={DarienInfoCSV} />
+              <Route exact path={`${props.match.url}/info/ecology`} component={DarienInfoEcology} />
+              <Route exact path={`${props.match.url}/info/resources`} component={DarienInfoResources} />
+
+              <Route path="*" component={Status404} />
+            </Switch>
+          </Box>
         );
       }
     }
+  }
+  
+  renderNavi() {
+    const props = this.props;
+    
+    return (
+      <Switch>
+        <Route path={`${props.match.url}/educators`} component={DarienNaviForEducators} />
+        <Route path={`${props.match.url}/students`} component={DarienNaviForStudents} />
+        <Route path={`${props.match.url}/explorers`} component={DarienNaviForExplorers} />
+        <Route path="*" component={null} />
+      </Switch>
+    );
   }
 }
 

@@ -19,7 +19,7 @@ import StatusWorking from './StatusWorking';
 import StatusNotFound from './StatusNotFound';
 import StatusBorked from './StatusBorked';
 import StudentsList from './StudentsList';
-import AssignmentsList from './AssignmentsListForTeachers';
+import AssignmentsList from './AssignmentsListForEducators';
 import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
 
 import Box from 'grommet/components/Box';

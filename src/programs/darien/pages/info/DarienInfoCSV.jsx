@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import DarienNavi from '../../common/DarienNavi';
-
 import Box from 'grommet/components/Box';
 import Heading from 'grommet/components/Heading';
 import Image from 'grommet/components/Image';
@@ -12,7 +10,6 @@ import Section from 'grommet/components/Section';
 function DarienInfoEcology(props) {
   return (
     <Box>
-      <DarienNavi />
       <Box
         className="wildcam-info-page"
         pad={{ vertical: 'medium', horizontal: 'large' }}

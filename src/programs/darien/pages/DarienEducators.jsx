@@ -4,11 +4,6 @@ import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
 import WildCamForEducators from '../../../modules/wildcam-classrooms/containers/WildCamForEducators';
-import DarienNavi from '../common/DarienNavi';
-
-import Article from 'grommet/components/Article';
-import Box from 'grommet/components/Box';
-import Section from 'grommet/components/Section';
 
 class DarienEducators extends React.Component {
   render() {
@@ -17,15 +12,12 @@ class DarienEducators extends React.Component {
     }
     
     return (
-      <Box>
-        <DarienNavi />
-        <WildCamForEducators
-          selectedProgram={this.props.selectedProgram}
-          location={this.props.match}
-          history={this.props.history}
-          match={this.props.match}
-        />
-      </Box>
+      <WildCamForEducators
+        selectedProgram={this.props.selectedProgram}
+        location={this.props.match}
+        history={this.props.history}
+        match={this.props.match}
+      />
     );
   }
 };

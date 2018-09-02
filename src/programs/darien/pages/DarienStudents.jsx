@@ -5,11 +5,6 @@ import { Actions } from 'jumpstate';
 import classroomConfig from '../wildcam-darien.classroom-config.js';
 
 import WildCamForStudents from '../../../modules/wildcam-classrooms/containers/WildCamForStudents';
-import DarienNavi from '../common/DarienNavi';
-
-import Article from 'grommet/components/Article';
-import Box from 'grommet/components/Box';
-import Section from 'grommet/components/Section';
 
 class DarienStudents extends React.Component {
   render() {
@@ -18,16 +13,13 @@ class DarienStudents extends React.Component {
     }
     
     return (
-      <Box>
-        <DarienNavi />
-        <WildCamForStudents
-          classroomConfig={classroomConfig}
-          selectedProgram={this.props.selectedProgram}
-          location={this.props.match}
-          history={this.props.history}
-          match={this.props.match}
-        />
-      </Box>
+      <WildCamForStudents
+        classroomConfig={classroomConfig}
+        selectedProgram={this.props.selectedProgram}
+        location={this.props.match}
+        history={this.props.history}
+        match={this.props.match}
+      />
     );
   }
 };

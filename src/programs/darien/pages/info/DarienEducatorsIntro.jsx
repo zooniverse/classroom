@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import DarienNavi from '../../common/DarienNavi';
-
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import Heading from 'grommet/components/Heading';
@@ -14,7 +12,6 @@ import Section from 'grommet/components/Section';
 function DarienEducatorsInfo(props) {
   return (
     <Box>
-      <DarienNavi />
       <Hero
         className="program-home__hero"
         background={<Image src="https://placeimg.com/1000/200/nature/any" fit="cover" />}
