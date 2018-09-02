@@ -23,6 +23,8 @@ export const TEXT = {
     DELETE: 'Delete',  //Generic "delete item" action.
     EDIT: 'Edit',  //Generic "edit item" action.
     HELP: 'Help',  //Generic "help" action, for How Tos, Guides, Instructions, etc.
+    NEXT: 'Next',  //Generic "next" action, e.g. to go to the next step in a tutorial.
+    PREVIOUS: 'Previous',  //Generic "previous" action, e.g. to go to the previous step in a tutorial.
     SELECT_SUBJECTS: 'Select subjects',
     START_ASSIGNMENT: 'Start assignment',
     SUBMIT: 'Submit',  //Generic "submit form" action.

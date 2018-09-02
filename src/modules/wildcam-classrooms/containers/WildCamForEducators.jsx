@@ -21,6 +21,7 @@ import ClassroomsList from '../components/ClassroomsList';
 import ClassroomForm from '../components/ClassroomForm';
 import AssignmentForm from '../components/AssignmentForm';
 import Status404 from '../../../components/common/Status404';
+import HelpfulGuide from '../../../components/common/HelpfulGuide';
 
 import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {
@@ -108,9 +109,12 @@ class WildCamForEducators extends React.Component {
         </Switch>
         
         {(props.showHelp) && (
-          <Box>
-            HELP FOR:{props.showHelp}
-          </Box> 
+          <HelpfulGuide
+            onClose={() => { Actions.wildcamClassrooms.hideHelp() }}
+          >
+            <Box>Part 1</Box>
+            <Box>Part 2</Box>
+          </HelpfulGuide>
         )}
 
       </Box>
