@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import Button from 'grommet/components/Button';
 import Box from 'grommet/components/Box';
 import Layer from 'grommet/components/Layer';
+import Value from 'grommet/components/Value';
 
 import CloseIcon from 'grommet/components/icons/base/Close';
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
@@ -46,6 +47,7 @@ class HelpfulGuide extends React.Component {
           <Box
             className="helpful-guide-content"
             flex="grow"
+            pad="small"
           >
             {props.children && props.children[state.page]}
           </Box>
@@ -53,6 +55,7 @@ class HelpfulGuide extends React.Component {
             className="helpful-guide-actions"
             direction="row"
             justify="around"
+            align="center"
           >
             <Button
               icon={<LinkPrevIcon size="small" />}
@@ -63,6 +66,8 @@ class HelpfulGuide extends React.Component {
                 });
               }}
             />
+            
+            <Value size="small" value={((state.page+1) + ' / ' + totalPages)} />
             
             <Button
               icon={<LinkNextIcon size="small" />}
