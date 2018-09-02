@@ -9,6 +9,7 @@ Renders a list of assignments.
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Actions } from 'jumpstate';
 
 import { TEXT } from '../text.js';
 
@@ -21,6 +22,7 @@ import Heading from 'grommet/components/Heading';
 import Table from 'grommet/components/Table';
 import TableRow from 'grommet/components/TableRow';
 
+import AddIcon from 'grommet/components/icons/base/Add';
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 
 import {
@@ -96,9 +98,22 @@ class AssignmentsList extends React.Component {
             })}
           </tbody>
         </Table>
-        <Footer>
+        <Footer
+          className="actions-panel"
+          direction="row"
+          justify="end"
+          pad="medium"
+        >
+          <Button
+            label={TEXT.ACTIONS.HELP}
+            onClick={() => {
+              Actions.wildcamClassrooms.showHelp('assignments-management');
+            }}
+          />
+          
           <Button
             className="button"
+            icon={<AddIcon size="small" />}
             label={TEXT.ACTIONS.CREATE_NEW_ASSIGNMENT}
             onClick={() => {
               //Transition to: Create New Assignment

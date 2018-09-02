@@ -119,6 +119,13 @@ class WildCamForEducators extends React.Component {
             <Box>
               <Paragraph>If you do not create a classroom, your students can still view and download the trail camera data as Explorers without creating a Zooniverse account.</Paragraph>
             </Box>
+          </HelpfulGuide>
+        )}
+        
+        {(props.showHelp === 'assignments-management') && (
+          <HelpfulGuide
+            onClose={() => { Actions.wildcamClassrooms.hideHelp() }}
+          >
             <Box>
               <Paragraph>An assignment allows you to select a specific subset of photos (e.g. 30 photos from the Dry Season) and assign those photos to a group of students in your classroom to identify. Another group of students can identify a different set of photos (e.g. 30 photos from the Wet Season). Let’s walk through how it works.</Paragraph>
             </Box>
