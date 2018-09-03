@@ -43,7 +43,7 @@ class DarienProgram extends React.Component {
   
   componentWillReceiveProps(props = this.props) {
     //Register the connection between the WildCam Classrooms and the WildCam Maps.
-    Actions.wildcamMap.setWccWcmMapPath(`${props.match.url}/map`);
+    Actions.wildcamMap.setWccWcmMapPath(`${props.match.url}/educators/map`);
   }
 
   render() {
