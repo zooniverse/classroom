@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
+import { TEXT } from '../../../modules/wildcam-classrooms/text.js';
+import { ZooTranSetLanguage, ZooTranGetLanguage } from '../../../lib/zooniversal-translator'
+
 import Section from 'grommet/components/Section';
 import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
@@ -24,6 +27,8 @@ function DarienHome(props) {
   const signedIn = (props.user && props.initialised);
   const selectedProgramExists = (props.programsStatus === PROGRAMS_STATUS.SUCCESS && props.selectedProgram);
   const name = (selectedProgramExists && props.selectedProgram.name) ? props.selectedProgram.name : '';
+  
+  const lang = ZooTranGetLanguage();
 
   return (
     <ProgramHome className="darien-home">
@@ -45,30 +50,70 @@ function DarienHome(props) {
         justify="center"
       >
         <Box align="center" direction="column">
-          <Paragraph size="large">Investigate ecological questions by exploring trail camera data using an interactive map. Filter and download data to perform analyses and test hypotheses.</Paragraph>
+          <Paragraph size="large">
+            {(lang !== 'es')
+              ? 'Investigate ecological questions by exploring trail camera data using an interactive map. Filter and download data to perform analyses and test hypotheses.'
+              : 'Investigue las cuestiones ecológicas explorando los datos de la cámara de camino usando un mapa interactivo. Filtra y descarga datos para realizar análisis y probar hipótesis.'
+            }
+          </Paragraph>
           <Box align="end" direction="row" justify="center" wrap={true}>
             <Box pad="medium" size="medium">
-              <Paragraph>If you are an educator, you can set up private classrooms and invite your students to join. Curate data sets or let your students explore on their own. Guided activities and supporting educational resources are also available. {(signedIn) ? null : '(Sign In required)'}</Paragraph>
+              <Paragraph>
+                {(lang !== 'es')
+                  ? 'If you are an educator, you can set up private classrooms and invite your students to join. Curate data sets or let your students explore on their own. Guided activities and supporting educational resources are also available.'
+                  : 'Si eres un educador, puedes configurar aulas privadas e invitar a tus alumnos a unirse. Cura los conjuntos de datos o deja que tus alumnos lo exploren solos. Actividades dirigidas y recursos educativos de apoyo también están disponibles.'
+                }
+                {(signedIn) ? null : `(${TEXT.LABELS.SIGN_IN_REQUIRED})`}
+              </Paragraph>
               {(signedIn)
-                ? <Button type="button" className="button--secondary" path="/wildcam-darien-lab/educators/intro" label="Educator" />
-                : <Button type="button" className="button--secondary" onClick={Actions.auth.toggleOauthModal} label="Sign In" />
+                ? <Button type="button" className="button--secondary" path="/wildcam-darien-lab/educators/intro" label={TEXT.LABELS.EDUCATOR} />
+                : <Button type="button" className="button--secondary" onClick={Actions.auth.toggleOauthModal} label={TEXT.ACTIONS.SIGN_IN} />
               }            
             </Box>
             
             <Box pad="medium" size="medium">
-              <Paragraph>If you are a student, you can work on assignments you've been given. {(signedIn) ? null : '(Sign In required)'}</Paragraph>
+              <Paragraph>
+                {(lang !== 'es')
+                  ? 'If you are a student, you can work on assignments you\'ve been given.'
+                  : 'Si eres un estudiante, puedes trabajar en las tareas que te han asignado.'
+                }
+                {(signedIn) ? null : `(${TEXT.LABELS.SIGN_IN_REQUIRED})`}
+              </Paragraph>
               {(signedIn)
-                ? <Button type="button" className="button--secondary" path="/wildcam-darien-lab/students" label="Student" />
-                : <Button type="button" className="button--secondary" onClick={Actions.auth.toggleOauthModal} label="Sign In" />
+                ? <Button type="button" className="button--secondary" path="/wildcam-darien-lab/students" label={TEXT.LABELS.STUDENT} />
+                : <Button type="button" className="button--secondary" onClick={Actions.auth.toggleOauthModal} label={TEXT.ACTIONS.SIGN_IN} />
               }            
             </Box>
 
             <Box pad="medium" size="medium">
-              <Paragraph> Alternatively, you can simply explore the data. As an explorer, you can view the camera data and study the distribution of animal species across both Darién National Park and Soberanía National Park.</Paragraph>
-              <Button type="button" className="button--secondary" path="/wildcam-darien-lab/map/" label="Explorer" />
+              <Paragraph>
+                {(lang !== 'es')
+                  ? 'Alternatively, you can simply explore the data. As an explorer, you can view the camera data and study the distribution of animal species across both Darién National Park and Soberanía National Park.'
+                  : 'Alternativamente, puedes simplemente explorar los datos. Como explorador, puede ver los datos de la cámara y estudiar la distribución de especies animales a través del Parque Nacional Darién y el Parque Nacional Soberanía.'
+                }
+              </Paragraph>
+              <Button type="button" className="button--secondary" path="/wildcam-darien-lab/explorers/map/" label={TEXT.LABELS.EXPLORER} />
             </Box>
           </Box>
         </Box>
+      </Section>
+      <Section
+        className="home__section"
+        align="center"
+        justify="center"
+        colorIndex="accent-4"
+        direction="row"
+      >
+        <Button
+          className="button"
+          label="English"
+          onClick={() => { ZooTranSetLanguage(''); location.reload(); }}
+        />
+        <Button
+          className="button"
+          label="Español"
+          onClick={() => { ZooTranSetLanguage('es'); location.reload(); }}
+        />
       </Section>
       {/*
       //WildCam Darien Lab's specific version of <NeedHelp />

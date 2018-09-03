@@ -1,9 +1,6 @@
-/*
-//TODO: HELPER
-import { TEXT } from '../text.js';
-*/
+import { ZooTranGetLanguage } from '../../lib/zooniversal-translator'
 
-export const TEXT = {
+let TEXT = {
   TITLES: {
     CLASSROOM: 'Classroom',
     CREATE_NEW_CLASSROOM: 'Create new classroom',
@@ -27,6 +24,7 @@ export const TEXT = {
     PREVIOUS: 'Previous',  //Generic "previous" action, e.g. to go to the previous step in a tutorial.
     SELECT_SUBJECTS: 'Select subjects',
     START_ASSIGNMENT: 'Start assignment',
+    SIGN_IN: 'Sign in',
     SUBMIT: 'Submit',  //Generic "submit form" action.
     UPDATE: 'Update',  //Generic "update item" action.
     UPDATE_STUDENTS: 'Update students',
@@ -44,12 +42,19 @@ export const TEXT = {
     },
     ERRORS: {
       GENERAL: 'Something went wrong',
-      NOT_FOUND: 'Not found',  //Usu
+      NOT_FOUND: 'Not found',
     },
     WORKING: 'Working...',
   },
   LABELS: {
     JOIN_URL: 'Join URL',
+    EDUCATOR: 'Educator',
+    EDUCATORS: 'Educators',
+    STUDENT: 'Student',
+    STUDENTS: 'Students',
+    EXPLORER: 'Explorer',
+    EXPLORERS: 'Explorers',
+    SIGN_IN_REQUIRED: 'Sign in required',
   },
   CLASSROOM_FORM: {
     NAME: 'Classroom name',
@@ -67,3 +72,5 @@ export const TEXT = {
     DUEDATE: 'e.g. 2020-12-31',
   },
 };
+
+export { TEXT };
