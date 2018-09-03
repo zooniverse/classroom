@@ -14,12 +14,10 @@ function DarienNavi(props) {
       pad="small"
     >
       <Anchor className="big link" path={`/wildcam-darien-lab`}>WildCam Darién Lab</Anchor>
-      <Anchor className="link" path={`/wildcam-darien-lab/educators/intro`}>Intro</Anchor>
-      <Anchor className="link" path={`/wildcam-darien-lab/educators`}>For Educators</Anchor>
-      <Anchor className="link" path={`/wildcam-darien-lab/students`}>For Students</Anchor>
-      <Anchor className="link" path={`/wildcam-darien-lab/info/ecology`}>Ecology</Anchor>
-      <Anchor className="link" path={`/wildcam-darien-lab/info/data-guide`}>Data Guide</Anchor>
-      <Anchor className="link" path={`/wildcam-darien-lab/info/resources`}>Resources</Anchor>
+      <Anchor className="link" path={`/wildcam-darien-lab/explorers/map`}>Map Explorer</Anchor>
+      <Anchor className="link" path={`/wildcam-darien-lab/explorers/ecology`}>Ecology</Anchor>
+      <Anchor className="link" path={`/wildcam-darien-lab/explorers/data-guide`}>Data Guide</Anchor>
+      <Anchor className="link" path={`/wildcam-darien-lab/explorers/resources`}>Resources</Anchor>
       <Anchor className="external link" href="https://www.hhmi.org/biointeractive/wildcam-darien" target="_blank" rel="noopener noreferrer">HHMI <ShareIcon size="xsmall" /></Anchor>
       <Anchor className="external link" href="https://www.zooniverse.org/projects/wildcam/wildcam-darien" target="_blank" rel="noopener noreferrer">Zooniverse <ShareIcon size="xsmall" /></Anchor>
     </Box>
