@@ -14,7 +14,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Box from 'grommet/components/Box';
 
@@ -67,7 +67,9 @@ class DarienProgram extends React.Component {
               <Route exact path={`${props.match.url}/(educators|students|explorers)/ecology`} component={DarienInfoEcology} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/resources`} component={DarienInfoResources} />
               
-              <Route exact path={`${props.match.url}/educators/intro`} component={DarienEducatorsIntro} />
+              <Route exact path={`${props.match.url}/educators/intro`} component={DarienEducatorsIntro} />              
+              {/* //HACK: The following redirect avoids a weird bug where, if you go to a Classroom, then an Assignment, then press Back, then Back again, you end up in the /educators/classrooms URL. */}
+              <Redirect exact from={`${props.match.url}/educators/classrooms`} to={`${props.match.url}/educators`}/>
               <Route path={`${props.match.url}/educators`} component={DarienEducators} />
               
               <Route path={`${props.match.url}/students`} component={DarienStudents} />
