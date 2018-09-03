@@ -109,6 +109,7 @@ function DarienHome(props) {
           label="English"
           onClick={() => { ZooTranSetLanguage(''); location.reload(); }}
         />
+        &nbsp;
         <Button
           className="button"
           label="Español"
