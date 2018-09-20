@@ -147,7 +147,7 @@ class AssignmentsListForStudents extends React.Component {
                 return (
                   <TableRow key={`student_classroom_${classroom.id}_assignment_${ass.id}`}>
                     <td>
-                      <Heading tag='h4'> [{ass.id}] {ass.name}</Heading>
+                      <Heading tag='h4'>{ass.name}</Heading>
                     </td>
                     <td>
                       {classificationsCount} / {classificationsTarget}
