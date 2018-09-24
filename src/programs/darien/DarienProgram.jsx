@@ -15,8 +15,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { ZooTranSetLanguage, ZooTranGetLanguage } from '../../lib/zooniversal-translator'
 
 import Box from 'grommet/components/Box';
+import Button from 'grommet/components/Button';
+import Section from 'grommet/components/Section';
 
 import DarienHome from './pages/DarienHome';
 import DarienEducators from './pages/DarienEducators';
@@ -78,6 +81,7 @@ class DarienProgram extends React.Component {
 
               <Route path="*" component={Status404} />
             </Switch>
+            {this.renderLanguage()}
           </Box>
         );
       } else {  //User not logged in: give limited access.
@@ -98,6 +102,7 @@ class DarienProgram extends React.Component {
 
               <Route path="*" component={Status404} />
             </Switch>
+            {this.renderLanguage()}
           </Box>
         );
       }
@@ -114,6 +119,32 @@ class DarienProgram extends React.Component {
         <Route path={`${props.match.url}/explorers`} component={DarienNaviForExplorers} />
         <Route path="*" component={null} />
       </Switch>
+    );
+  }
+  
+  renderLanguage() {
+    const props = this.props;
+    
+    return (
+      <Section
+        className="program-language-selection"
+        align="center"
+        justify="center"
+        colorIndex="accent-4"
+        direction="row"
+      >
+        <Button
+          className="button"
+          label="English"
+          onClick={() => { ZooTranSetLanguage(''); location.reload(); }}
+        />
+        &nbsp;
+        <Button
+          className="button"
+          label="Español"
+          onClick={() => { ZooTranSetLanguage('es'); location.reload(); }}
+        />
+      </Section>
     );
   }
 }

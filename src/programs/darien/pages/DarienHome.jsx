@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 
 import { TEXT } from '../../../modules/wildcam-classrooms/text.js';
-import { ZooTranSetLanguage, ZooTranGetLanguage } from '../../../lib/zooniversal-translator'
+import { ZooTranGetLanguage } from '../../../lib/zooniversal-translator'
 
 import Section from 'grommet/components/Section';
 import Anchor from 'grommet/components/Anchor';
@@ -96,25 +96,6 @@ function DarienHome(props) {
             </Box>
           </Box>
         </Box>
-      </Section>
-      <Section
-        className="home__section"
-        align="center"
-        justify="center"
-        colorIndex="accent-4"
-        direction="row"
-      >
-        <Button
-          className="button"
-          label="English"
-          onClick={() => { ZooTranSetLanguage(''); location.reload(); }}
-        />
-        &nbsp;
-        <Button
-          className="button"
-          label="Español"
-          onClick={() => { ZooTranSetLanguage('es'); location.reload(); }}
-        />
       </Section>
       {/*
       //WildCam Darien Lab's specific version of <NeedHelp />
