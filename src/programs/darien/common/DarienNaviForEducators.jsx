@@ -18,7 +18,7 @@ function DarienNavi(props) {
       <Anchor className="link" path={`/wildcam-darien-lab/educators`}>Classrooms</Anchor>
       <Anchor className="link" path={`/wildcam-darien-lab/educators/map`}>Map Explorer</Anchor>
       <Anchor className="link" path={`/wildcam-darien-lab/educators/ecology`}>Ecology</Anchor>
-      <Anchor className="link" path={`/wildcam-darien-lab/educators/data-guide`}>Data Guide</Anchor>
+      {/*<Anchor className="link" path={`/wildcam-darien-lab/educators/data-guide`}>Data Guide</Anchor>*/}
       <Anchor className="link" path={`/wildcam-darien-lab/educators/resources`}>Resources</Anchor>
       <Anchor className="external link" href="https://blog.wildcamdarien.org/" target="_blank" rel="noopener noreferrer">Blog <ShareIcon size="xsmall" /></Anchor>
       <Anchor className="external link" href="https://www.zooniverse.org/projects/wildcam/wildcam-darien/talk/843" target="_blank" rel="noopener noreferrer">Discuss <ShareIcon size="xsmall" /></Anchor>
