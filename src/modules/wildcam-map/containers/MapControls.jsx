@@ -28,6 +28,8 @@ import SuperDownloadButton from '../../../components/common/SuperDownloadButton'
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 
+import HelpIcon from 'grommet/components/icons/base/Help';
+
 import { constructWhereClause, sqlString } from '../lib/wildcam-map-helpers.js';
 import { ZooTran, ZooTranGetLanguage } from '../../../lib/zooniversal-translator.js';
 
@@ -50,24 +52,27 @@ class MapControls extends React.Component {
   //----------------------------------------------------------------
 
   render() {
-    if (!this.props.mapConfig) return null;
+    const props = this.props;
+    const state = this.state;
+    
+    if (!props.mapConfig) return null;
 
-    const mapConfig = this.props.mapConfig;
+    const mapConfig = props.mapConfig;
 
-    const where = constructWhereClause(mapConfig, this.props.filters);
+    const where = constructWhereClause(mapConfig, props.filters);
     const downloadUrl = mapConfig.database.urls.csv.replace(
       '{SQLQUERY}',
       encodeURIComponent(mapConfig.database.queries.selectForDownload.replace('{WHERE}', where))
     );
 
-    const hasAnySelections = this.props.filters && Object.keys(this.props.filters).length > 0;
+    const hasAnySelections = props.filters && Object.keys(props.filters).length > 0;
     let statusMessage = '...';
-    if (this.props.markersStatus === WILDCAMMAP_MARKERS_STATUS.FETCHING) {
+    if (props.markersStatus === WILDCAMMAP_MARKERS_STATUS.FETCHING) {
       statusMessage = ZooTran('Loading...');
-    } else if (this.props.markersStatus === WILDCAMMAP_MARKERS_STATUS.ERROR) {
+    } else if (props.markersStatus === WILDCAMMAP_MARKERS_STATUS.ERROR) {
       statusMessage = ZooTran('ERROR');
-    } else if (this.props.markersStatus === WILDCAMMAP_MARKERS_STATUS.SUCCESS) {
-      statusMessage = `${this.props.markersDataCount} ${ZooTran('result(s)')}`;
+    } else if (props.markersStatus === WILDCAMMAP_MARKERS_STATUS.SUCCESS) {
+      statusMessage = `${props.markersDataCount} ${ZooTran('photo(s)')}`;
     }
 
     const lang = ZooTranGetLanguage();
@@ -76,39 +81,33 @@ class MapControls extends React.Component {
       <Box className="map-controls">
         <Accordion
           openMulti={true}
-          active={(this.props.wccwcmAssignmentPath) ? [0] : null}
+          active={[0]}
         >
           <AccordionPanel heading={statusMessage} className="map-controls-status">
-            <SuperDownloadButton
-              fileNameBase="wildcam-"
-              url={downloadUrl}
-              text={ZooTran('Download')}
-              useZooniversalTranslator={true}
-            />
             <Box
-              className="zooniversal-translator"
               direction="row"
-              pad="small"
-              colorIndex="light-2"
-              margin={{ horizontal: "small", vertical: "none" }}
-              align="center"
-              alignContent="between"
-              separator="horizontal"
+              justify="between"
             >
-              <Button
-                className={(lang !== 'es') ? 'selected' : ''}
-                label="English"
-                onClick={() => { this.props.setLanguage('en') }}
+              <SuperDownloadButton
+                fileNameBase="wildcam-"
+                url={downloadUrl}
+                text={ZooTran('Download')}
+                useZooniversalTranslator={true}
               />
-              <Button
-                className={(lang === 'es') ? 'selected' : ''}
-                label="Español"
-                onClick={() => { this.props.setLanguage('es') }}
-              />
+              {props.mapConfig.program && props.mapConfig.program.dataGuideURL && (
+                <Button
+                  className="button map-controls-small-button"
+                  icon={<HelpIcon />}
+                  label={ZooTran('Data Guide')}
+                  onClick={() => {
+                    window.open(props.mapConfig.program.dataGuideURL, '_blank');
+                  }}
+                />
+              )}
             </Box>
             
-            {(this.state.wccAssignmentsStatus === WILDCAMMAP_MARKERS_STATUS.IDLE || this.state.wccAssignmentsStatus === WILDCAMMAP_MARKERS_STATUS.SUCCESS) &&
-              (this.props.wccwcmAssignmentPath) && (
+            {(state.wccAssignmentsStatus === WILDCAMMAP_MARKERS_STATUS.IDLE || state.wccAssignmentsStatus === WILDCAMMAP_MARKERS_STATUS.SUCCESS) &&
+              (props.wccwcmAssignmentPath) && (
               <Box
                 className="wccwcm-connector"
                 direction="column"
@@ -117,19 +116,19 @@ class MapControls extends React.Component {
                 align="center"
                 alignContent="between"
               >
-                <Label>Select subjects for Assignment</Label>
+                <Label>ZooTran('Select number of photos for Assignment')</Label>
                 <Box
                   direction="row"
                 >
                   <NumberInput
                     min={0}
-                    max={this.props.markersDataCount}
-                    value={this.state.wccAssignmentsNumberOfSubjects}
+                    max={props.markersDataCount}
+                    value={state.wccAssignmentsNumberOfSubjects}
                     onChange={(e) => {
                       let val = e.target && parseInt(e.target.value);
                       if (e.target.value === '') val = 0;
-                      if (isNaN(val)) val = this.props.markersDataCount;
-                      val = Math.min(val, this.props.markersDataCount);
+                      if (isNaN(val)) val = props.markersDataCount;
+                      val = Math.min(val, props.markersDataCount);
                       val = Math.max(val, 0);
                       this.setState({ wccAssignmentsNumberOfSubjects: val });
                     }}
@@ -143,7 +142,7 @@ class MapControls extends React.Component {
               </Box>
             )}
             
-            {(this.state.wccAssignmentsStatus === WILDCAMMAP_MARKERS_STATUS.FETCHING) && (
+            {(state.wccAssignmentsStatus === WILDCAMMAP_MARKERS_STATUS.FETCHING) && (
               <Box
                 className="wccwcm-connector"
                 direction="column"
@@ -152,11 +151,11 @@ class MapControls extends React.Component {
                 align="center"
                 alignContent="between"
               >
-                <Label>Preparing...</Label>
+                <Label>{ZooTran('Preparing...')}</Label>
               </Box>
             )}
             
-            {(this.state.wccAssignmentsStatus === WILDCAMMAP_MARKERS_STATUS.ERROR) && (
+            {(state.wccAssignmentsStatus === WILDCAMMAP_MARKERS_STATUS.ERROR) && (
               <Box
                 className="wccwcm-connector"
                 direction="column"
@@ -167,7 +166,7 @@ class MapControls extends React.Component {
               >
                 <Label>
                   ERROR:&nbsp;
-                  {this.state.wccAssignmentsStatusDetails && this.state.wccAssignmentsStatusDetails.toString && this.state.wccAssignmentsStatusDetails.toString()}
+                  {state.wccAssignmentsStatusDetails && state.wccAssignmentsStatusDetails.toString && state.wccAssignmentsStatusDetails.toString()}
                 </Label>
               </Box>
             )}
@@ -181,12 +180,12 @@ class MapControls extends React.Component {
               const item = mapConfig.map.filters[key];
               if (item.type === "multichoice") {
                 return (
-                  <AccordionPanel heading={ZooTran(item.label)} key={`map-controls-${key}`} className={(this.props.filters[key]) ? 'selected' : ''}>
+                  <AccordionPanel heading={ZooTran(item.label)} key={`map-controls-${key}`} className={(props.filters[key]) ? 'selected' : ''}>
                     <MultiChoiceFilter
                       filterKey={key}
                       filterLabel={item.label}
                       options={item.options}
-                      selected={this.props.filters[key]}  //This will be undefined if the key doesn't exist.
+                      selected={props.filters[key]}  //This will be undefined if the key doesn't exist.
                     />
                   </AccordionPanel>
                 );
@@ -270,7 +269,6 @@ class MapControls extends React.Component {
 
 MapControls.propTypes = {
   mapConfig: PropTypes.object,
-  setLanguage: PropTypes.func,
   // ----------------
   history: PropTypes.object,
   location: PropTypes.object,
@@ -280,7 +278,6 @@ MapControls.propTypes = {
 };
 MapControls.defaultProps = {
   mapConfig: null,
-  setLanguage: () => {},
   // ----------------
   history: null,
   location: null,

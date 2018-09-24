@@ -1,6 +1,6 @@
 let SpanishTranslations = {
   //MapControls
-  'result(s)': 'resultado(s)',
+  'photo(s)': 'foto(s)',
   'ERROR': 'ERROR',
   'Loading...': 'Cargarse...',
   'Filters': 'Filtros',
