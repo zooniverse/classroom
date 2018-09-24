@@ -7,7 +7,7 @@ import Image from 'grommet/components/Image';
 import Paragraph from 'grommet/components/Paragraph';
 import Section from 'grommet/components/Section';
 
-function DarienInfoEcology(props) {
+function DarienInfoCSV(props) {
   return (
     <Box>
       <Box
@@ -92,8 +92,8 @@ function DarienInfoEcology(props) {
   );
 };
 
-DarienInfoEcology.defaultProps = {};
+DarienInfoCSV.defaultProps = {};
 
-DarienInfoEcology.propTypes = {};
+DarienInfoCSV.propTypes = {};
 
-export default DarienInfoEcology;
+export default DarienInfoCSV;

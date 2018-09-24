@@ -50,7 +50,7 @@ function DarienEducatorsInfo(props) {
               Our assignments guide provides information on how you use assignments. 
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators/this-page-doesnt-exist-yet" label="Assignments Guide"></Button>
+              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators/assignments-guide" label="Assignments Guide"></Button>
             </Box>
           </Box>
           <Box direction="row">
