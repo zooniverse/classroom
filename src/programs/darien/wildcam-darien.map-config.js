@@ -503,7 +503,12 @@ const mapConfig = {
         ]
       }
     }
-  }
+  },
+  
+  //Misc stuff related to the program
+  'program': {
+    dataGuideURL: '/#/wildcam-darien-lab/explorers/data-guide/',
+  },
 };
 
 export default mapConfig;
