@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import Heading from 'grommet/components/Heading';
@@ -9,9 +10,11 @@ import Image from 'grommet/components/Image';
 import Paragraph from 'grommet/components/Paragraph';
 import Section from 'grommet/components/Section';
 
+import ShareIcon from 'grommet/components/icons/base/Share';
+
 import imgDarienSplash from '../../images/darien-splash-A.jpg';
 
-function DarienEducatorsIntro(props) {
+function DarienStudentsIntro(props) {
   return (
     <Box>
       <Hero
@@ -31,36 +34,28 @@ function DarienEducatorsIntro(props) {
       >
         <Box>
           <Paragraph>
-            WildCam Darien Labs is an educational resource that lets you and your students explore trail camera data using an interactive map.
-            Simply direct your students to explore and download the data as an Explorer, or use classrooms and assignments to guide their experience.
-            Classrooms are a way to manage groups of of students, send them assignments, and monitor their progress as they identify animals.
+            WildCam Darién Lab is a tool for you to explore the trail camera data collected in Darién and Soberanía National Parks, or to generate your own data through an assignment you have been given by your instructor.
           </Paragraph>
           <Box direction="row">
             <Paragraph>
-              To begin, create a classroom and invite your students to join.
+              Begin by exploring the trail camera data in an interactive map. You can also filter and download the data here.
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators" label="Manage Classrooms"></Button>
+              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/students/map" label="Explore Data"></Button>
             </Box>
           </Box>
           <Box direction="row">
             <Paragraph>
-              Once you have invited students to your classroom, you can create assignments that allow them to create their own data sets by identifying animals in trail camera photos.
-              Our assignments guide provides information on how you use assignments. 
+              Work on assignments your instructor gives you. In an assignment, you identify a set of photos and download your own data to analyze it.
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators/assignments-guide" label="Assignments Guide"></Button>
-            </Box>
-          </Box>
-          <Box direction="row">
-            <Paragraph>
-              Explore a variety of educational resources produced by HHMI BioInteractive to use WildCam Darién Lab in your classroom.
-            </Paragraph>
-            <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators/resources" label="Explore Resources"></Button>
+              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/students" label="View Assignments"></Button>
             </Box>
           </Box>
           <Box direction="row">
@@ -71,7 +66,18 @@ function DarienEducatorsIntro(props) {
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
-              <Button type="button" className="button--secondary" path="/wildcam-darien-lab/educators/ecology" label="Explore Ecology"></Button>
+              <Button type="button" className="button--secondary" path="/wildcam-darien-lab/students/ecology" label="Explore Ecology"></Button>
+            </Box>
+          </Box>
+          <Box direction="row">
+            <Paragraph>
+              Read updates from the scientists in Panama in their blog.
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+            </Paragraph>
+            <Box pad="small">
+              <Anchor className="external link" href="https://blog.wildcamdarien.org/" target="_blank" rel="noopener noreferrer">View Blog <ShareIcon size="xsmall" /></Anchor>
             </Box>
           </Box>
         </Box>
@@ -80,8 +86,8 @@ function DarienEducatorsIntro(props) {
   );
 };
 
-DarienEducatorsIntro.defaultProps = {};
+DarienStudentsIntro.defaultProps = {};
 
-DarienEducatorsIntro.propTypes = {};
+DarienStudentsIntro.propTypes = {};
 
-export default DarienEducatorsIntro;
+export default DarienStudentsIntro;

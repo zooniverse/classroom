@@ -31,6 +31,7 @@ import DarienNaviForStudents from './common/DarienNaviForStudents';
 import DarienNaviForExplorers from './common/DarienNaviForExplorers';
 
 import DarienEducatorsIntro from './pages/info/DarienEducatorsIntro';
+import DarienStudentsIntro from './pages/info/DarienStudentsIntro';
 import DarienInfoCSV from './pages/info/DarienInfoCSV';
 import DarienInfoEcology from './pages/info/DarienInfoEcology';
 import DarienInfoResources from './pages/info/DarienInfoResources';
@@ -72,11 +73,12 @@ class DarienProgram extends React.Component {
               <Route exact path={`${props.match.url}/(educators|students|explorers)/resources`} component={DarienInfoResources} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/assignments-guide`} component={DarienInfoAssignmentsGuide} />
               
-              <Route exact path={`${props.match.url}/educators/intro`} component={DarienEducatorsIntro} />              
+              <Route exact path={`${props.match.url}/educators/intro`} component={DarienEducatorsIntro} />
               {/* //HACK: The following redirect avoids a weird bug where, if you go to a Classroom, then an Assignment, then press Back, then Back again, you end up in the /educators/classrooms URL. */}
               <Redirect exact from={`${props.match.url}/educators/classrooms`} to={`${props.match.url}/educators`}/>
               <Route path={`${props.match.url}/educators`} component={DarienEducators} />
               
+              <Route exact path={`${props.match.url}/students/intro`} component={DarienStudentsIntro} />
               <Route path={`${props.match.url}/students`} component={DarienStudents} />
 
               <Route path="*" component={Status404} />

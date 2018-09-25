@@ -80,7 +80,7 @@ function DarienHome(props) {
                 {(signedIn) ? null : `(${TEXT.LABELS.SIGN_IN_REQUIRED})`}
               </Paragraph>
               {(signedIn)
-                ? <Button type="button" className="button--secondary" path="/wildcam-darien-lab/students" label={TEXT.LABELS.STUDENT} />
+                ? <Button type="button" className="button--secondary" path="/wildcam-darien-lab/students/intro" label={TEXT.LABELS.STUDENT} />
                 : <Button type="button" className="button--secondary" onClick={Actions.auth.toggleOauthModal} label={TEXT.ACTIONS.SIGN_IN} />
               }            
             </Box>
