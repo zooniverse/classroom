@@ -37,6 +37,7 @@ const TEXT_ES = {
       ASSIGNMENT_CREATED: 'Asignación creada',
       ASSIGNMENT_EDITED: 'Cambios guardados',
       ASSIGNMENT_DELETED: 'Asignación eliminada',
+      COPIED_TO_CLIPBOARD: 'Copiado al portapapeles',
     },
     ERRORS: {
       GENERAL: 'Algo salió mal',
