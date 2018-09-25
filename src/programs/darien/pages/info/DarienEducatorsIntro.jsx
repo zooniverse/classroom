@@ -9,12 +9,14 @@ import Image from 'grommet/components/Image';
 import Paragraph from 'grommet/components/Paragraph';
 import Section from 'grommet/components/Section';
 
+import imgDarienSplash from '../../images/darien-splash-A.jpg';
+
 function DarienEducatorsInfo(props) {
   return (
     <Box>
       <Hero
         className="program-home__hero"
-        background={<Image src="https://placeimg.com/1000/200/nature/any" fit="cover" />}
+        background={<Image src={imgDarienSplash} fit="cover" />}
         backgroundColorIndex="dark"
         size="small"
       >
