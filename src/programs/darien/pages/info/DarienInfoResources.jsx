@@ -8,6 +8,9 @@ import Image from 'grommet/components/Image';
 import Paragraph from 'grommet/components/Paragraph';
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 
+import imgMapping from '../../images/resources-mapping.jpg';
+import imgFoodwebs from '../../images/resources-foodweb.jpg';
+
 function DarienInfoResources(props) {
   return (
     <Box
@@ -30,10 +33,22 @@ function DarienInfoResources(props) {
       <Heading tag="h3">Related Resources</Heading>
 
       <Heading tag="h4">Modeling Food Webs in Darién Panama (ACTIVITY)</Heading>
-      <Paragraph>Students use cards to build model food webs and evaluate how ecological disturbances affect each trophic level. &nbsp; <Anchor label="View Activity" icon={<LinkNextIcon/>} reverse={true} href="https://www.hhmi.org/biointeractive/modeling-food-webs-in-darien-panama" target="_blank" rel="noopener noreferrer" /></Paragraph>
+      <Box direction="row">
+        <Image className="thumbnail" src={imgFoodwebs} />
+        <Paragraph>
+          Students use cards to build model food webs and evaluate how ecological disturbances affect each trophic level. &nbsp;
+          <Anchor label="View Activity" icon={<LinkNextIcon/>} reverse={true} href="https://www.hhmi.org/biointeractive/modeling-food-webs-in-darien-panama" target="_blank" rel="noopener noreferrer" />
+        </Paragraph>
+      </Box>
 
       <Heading tag="h4">Mapping the Darién Gap (VIDEO)</Heading>
-      <Paragraph>Indigenous communities from the tropical rainforest of Darién, Panama use drones to map their land to protect it from outside threats and to make sustainable land use plans. &nbsp; <Anchor label="View Video" icon={<LinkNextIcon/>} reverse={true} href="https://www.hhmi.org/biointeractive/mapping-darien-gap" target="_blank" rel="noopener noreferrer" /></Paragraph>
+      <Box direction="row">
+        <Image className="thumbnail" src={imgMapping} />
+        <Paragraph>
+          Indigenous communities from the tropical rainforest of Darién, Panama use drones to map their land to protect it from outside threats and to make sustainable land use plans. &nbsp;
+          <Anchor label="View Video" icon={<LinkNextIcon/>} reverse={true} href="https://www.hhmi.org/biointeractive/mapping-darien-gap" target="_blank" rel="noopener noreferrer" />
+        </Paragraph>
+      </Box>
     </Box>
   );
 };
