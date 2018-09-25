@@ -20,11 +20,13 @@ const TEXT_EN = {
     HELP: 'Help',  //Generic "help" action, for How Tos, Guides, Instructions, etc.
     NEXT: 'Next',  //Generic "next" action, e.g. to go to the next step in a tutorial.
     PREVIOUS: 'Previous',  //Generic "previous" action, e.g. to go to the previous step in a tutorial.
+    SELECT_ALL: 'Select all',  //Generic "select all" action, e.g. for a list of students.
     SELECT_SUBJECTS: 'Select photos',
     SELECT_SUBJECTS_AGAIN: 'Change photo selection',
     START_ASSIGNMENT: 'Start assignment',
     SIGN_IN: 'Sign in',
     SUBMIT: 'Submit',  //Generic "submit form" action.
+    UNSELECT_ALL: 'Unselect all',  //Generic "unselect all" action, e.g. for a list of students.
     UPDATE: 'Update',  //Generic "update item" action.
     UPDATE_STUDENTS: 'Update students',
     VIEW: 'View',  //Generic "view item" action.

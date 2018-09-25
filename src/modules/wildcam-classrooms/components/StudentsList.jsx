@@ -18,6 +18,10 @@ Props:
 - doSelectStudent: (optional) function that's called when the user selects OR
     unselects a student from the list of selected students. (When viewing
     students for Assignments only.)
+    structure: function (studentObject) {}
+- doSelectAllStudents: (optional) function that's call when the user selects OR
+    unselects all students from the list. (For Assignments only.)
+    structure: function (boolAddAllStudents) {}
 
 Usage:
   <StudentsList
@@ -34,10 +38,6 @@ Usage:
       ...
     }}
   />
-
-//TODO:
-When deleting students...
-https://education-api-staging.zooniverse.org/teachers/classrooms/362/student_users/304
 
 --------------------------------------------------------------------------------
  */
@@ -86,6 +86,10 @@ class StudentsList extends React.Component {
     let listType = '';
     if (props.doDeleteStudent) listType = 'classroom';
     if (props.doSelectStudent) listType = 'assignment';
+    
+    const everyoneIsSelected = (props.selectedClassroom.students && props.selectedStudents)
+      ? props.selectedClassroom.students.length === props.selectedStudents.length
+      : false;
     
     return (
       <Box
@@ -146,6 +150,19 @@ class StudentsList extends React.Component {
             })}
           </tbody>
         </Table>
+        {(listType === 'assignment' && props.doSelectAllStudents) && (
+          <Box>
+            <Button
+              label={(!everyoneIsSelected)
+                ? TEXT.ACTIONS.SELECT_ALL
+                : TEXT.ACTIONS.UNSELECT_ALL
+              }
+              onClick={() => {
+                props.doSelectAllStudents(!everyoneIsSelected);
+              }}
+            />
+          </Box>
+        )}
       </Box>
     );
   }
@@ -159,12 +176,14 @@ StudentsList.defaultProps = {
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
   selectedStudents: [],
   doSelectStudent: null,
+  doSelectAllStudents: null,
 };
 
 StudentsList.propTypes = {
   ...WILDCAMCLASSROOMS_PROPTYPES,
   selectedStudents: PropTypes.array,
   doSelectStudent: PropTypes.func,
+  doSelectAllStudents: PropTypes.func,
 };
 
 export default StudentsList;

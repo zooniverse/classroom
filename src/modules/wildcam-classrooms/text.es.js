@@ -20,11 +20,13 @@ const TEXT_ES = {
     HELP: 'Ayuda',  //Generic "help" action, for How Tos, Guides, Instructions, etc.
     NEXT: 'Siguiente',  //Generic "next" action, e.g. to go to the next step in a tutorial.
     PREVIOUS: 'Anterior',  //Generic "previous" action, e.g. to go to the previous step in a tutorial.
+    SELECT_ALL: 'Seleccionar todo',  //Generic "select all" action, e.g. for a list of students.
     SELECT_SUBJECTS: 'Seleccionar fotos',
     SELECT_SUBJECTS_AGAIN: 'Cambiar la selección de fotos',
     START_ASSIGNMENT: 'Seleccionar asignaciones',
     SIGN_IN: 'Registrarse',
     SUBMIT: 'Enviar',  //Generic "submit form" action.
+    UNSELECT_ALL: 'Deseleccionar todo',  //Generic "unselect all" action, e.g. for a list of students.
     UPDATE: 'Actualizar',  //Generic "update item" action.
     UPDATE_STUDENTS: 'Actualizar estudiantes',
     VIEW: 'Ver',  //Generic "view item" action.

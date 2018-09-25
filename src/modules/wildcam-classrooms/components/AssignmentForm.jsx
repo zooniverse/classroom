@@ -493,6 +493,19 @@ class AssignmentForm extends React.Component {
               students: updatedStudents
             });
           }}
+          doSelectAllStudents={(selectEveryone) => {
+            if (selectEveryone) {
+              this.setState({
+                students: (props.selectedClassroom && props.selectedClassroom.students)
+                  ? props.selectedClassroom.students.map((stud) => stud.id)
+                  : []
+              });
+            } else {
+              this.setState({
+                students: []
+              });
+            }
+          }}
         />
 
         <Footer
