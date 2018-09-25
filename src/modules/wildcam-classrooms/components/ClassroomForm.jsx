@@ -61,7 +61,7 @@ const VIEWS = {
 const INITIAL_FORM_DATA = {
   name: '',
   subject: '',
-  school: '',
+  school: '',  //Not used
   description: '',  //Not used
 };
 
@@ -314,12 +314,6 @@ class ClassroomForm extends React.Component {
               <span>{props.selectedClassroom.subject}</span>
             </ListItem>
           ) : null}
-          {(props.selectedClassroom.school) ? (
-            <ListItem pad="small" separator="none">
-              <Label>{TEXT.CLASSROOM_FORM.SCHOOL}</Label>
-              <span>{props.selectedClassroom.school}</span>
-            </ListItem>
-          ) : null}
           <ListItem pad="small" separator="none">
             <Label>{TEXT.LABELS.JOIN_URL}</Label>
             <span>{joinURL}</span>
@@ -430,15 +424,20 @@ class ClassroomForm extends React.Component {
           </FormField>
         </fieldset>
 
-        <fieldset>
-          <FormField htmlFor="school" label={TEXT.CLASSROOM_FORM.SCHOOL}>
-            <TextInput
-              id="school"
-              value={this.state.form.school}
-              onDOMChange={this.updateForm.bind(this)}
-            />
-          </FormField>
-        </fieldset>
+        {
+        //Removed at the request of HHMI
+        //--------
+        //<fieldset>
+        //  <FormField htmlFor="school" label={TEXT.CLASSROOM_FORM.SCHOOL}>
+        //    <TextInput
+        //      id="school"
+        //      value={this.state.form.school}
+        //      onDOMChange={this.updateForm.bind(this)}
+        //    />
+        //  </FormField>
+        //</fieldset>
+        //--------
+        }
 
         {
         //Removed at the request of HHMI, based on teacher feedback
