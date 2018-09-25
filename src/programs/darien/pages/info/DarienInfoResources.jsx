@@ -33,7 +33,7 @@ function DarienInfoResources(props) {
       <Paragraph>Students use cards to build model food webs and evaluate how ecological disturbances affect each trophic level. &nbsp; <Anchor label="View Activity" icon={<LinkNextIcon/>} reverse={true} href="https://www.hhmi.org/biointeractive/modeling-food-webs-in-darien-panama" target="_blank" rel="noopener noreferrer" /></Paragraph>
 
       <Heading tag="h4">Mapping the Darién Gap (VIDEO)</Heading>
-      <Paragraph>Indigenous communities from the tropical rainforest of Darién, Panama use drones to map their land to protect it from outside threats and to make sustainable land use plans. &nbsp; <Anchor label="View Video" icon={<LinkNextIcon/>} reverse={true} href="#" /> //TODO</Paragraph>
+      <Paragraph>Indigenous communities from the tropical rainforest of Darién, Panama use drones to map their land to protect it from outside threats and to make sustainable land use plans. &nbsp; <Anchor label="View Video" icon={<LinkNextIcon/>} reverse={true} href="https://www.hhmi.org/biointeractive/mapping-darien-gap" target="_blank" rel="noopener noreferrer" /></Paragraph>
     </Box>
   );
 };

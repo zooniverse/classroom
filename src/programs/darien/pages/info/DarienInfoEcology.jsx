@@ -93,8 +93,8 @@ function DarienInfoEcology(props) {
       <Paragraph>Watch this video about community conservation using drones in Darien:</Paragraph>
 
       <Heading tag="h3">Mapping the Darién Gap</Heading>
-      <Paragraph>
-        <Anchor href="https://youtu.be/SD_9J5Ybwt4">https://youtu.be/SD_9J5Ybwt4</Anchor>
+      <Paragraph>        
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/SD_9J5Ybwt4?rel=0" frameBorder="0" allowFullScreen></iframe>
       </Paragraph>
 
     </Box>
