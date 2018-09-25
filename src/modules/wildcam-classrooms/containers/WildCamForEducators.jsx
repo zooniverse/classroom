@@ -104,7 +104,12 @@ class WildCamForEducators extends React.Component {
           />
           <Route
             path={`${match.url}`} exact
-            component={ClassroomsList}
+            render={(routeProps)=>(  //This is how set a component for a route with specific props.
+              <ClassroomsList
+                {...routeProps}  //Passes history, location, match
+                classroomConfig={props.classroomConfig}
+              />
+            )}
           />
           <Route path="*" component={Status404} />
         </Switch>
@@ -171,6 +176,7 @@ WildCamForEducators.defaultProps = {
   match: null,
   // ----------------
   selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  //Passed from parent.
+  classroomConfig: null,  //Passed from parent.
   // ----------------
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
 };
@@ -181,6 +187,7 @@ WildCamForEducators.propTypes = {
   match: PropTypes.object,
   // ----------------
   selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
+  classroomConfig: PropTypes.object,
   // ----------------
   ...WILDCAMCLASSROOMS_PROPTYPES,
 };

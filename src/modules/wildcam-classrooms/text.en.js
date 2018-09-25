@@ -9,6 +9,7 @@ const TEXT_EN = {
     YOUR_ASSIGNMENTS: 'Your Assignments',
     STUDENTS: 'Students',
     SUBJECTS: 'Photos',
+    LIST_OF_CLASSROOMS: 'List of Classrooms',
   },
   ACTIONS: {
     BACK: 'Back',  //Go back to the previous page.

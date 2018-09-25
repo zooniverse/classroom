@@ -20,6 +20,7 @@ import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import Heading from 'grommet/components/Heading';
+import Paragraph from 'grommet/components/Paragraph';
 import Table from 'grommet/components/Table';
 import TableRow from 'grommet/components/TableRow';
 
@@ -59,7 +60,14 @@ class ClassroomsList extends React.Component {
         margin="medium"
         pad="medium"
       >
-        <Heading tag="h2">List of Classrooms</Heading>
+        <Heading tag="h2">{TEXT.TITLES.LIST_OF_CLASSROOMS}</Heading>
+        
+        {(props.classroomConfig && props.classroomConfig.forEducators && props.classroomConfig.forEducators.extraInfoFor && props.classroomConfig.forEducators.extraInfoFor.classroomsList) && (
+          <Box>
+            <Paragraph>{props.classroomConfig.forEducators.extraInfoFor.classroomsList}</Paragraph>
+          </Box>
+        )}
+        
         {(() => {
           if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
             return this.render_readyState();
@@ -77,6 +85,7 @@ class ClassroomsList extends React.Component {
     const props = this.props;
     
     //Sanity check
+    if (!props.classroomsList) return null;
     if (!props.classroomsList) return null;
     
     return (
@@ -153,10 +162,12 @@ class ClassroomsList extends React.Component {
 
 ClassroomsList.defaultProps = {
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
+  classroomConfig: null,
 };
 
 ClassroomsList.propTypes = {
   ...WILDCAMCLASSROOMS_PROPTYPES,
+  classroomConfig: PropTypes.object,
 };
 
 function mapStateToProps(state) {
