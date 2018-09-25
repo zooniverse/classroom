@@ -103,7 +103,7 @@ class SubjectsList extends React.Component {
         <Heading tag="h3">{TEXT.TITLES.SUBJECTS}</Heading>
         
         <Box className="data-count">
-          {(props.subjects) ? props.subjects.length : 0} subject(s) selected
+          {(props.subjects) ? props.subjects.length : 0} {TEXT.LABELS.PHOTOS_SELECTED}
         </Box>
         
         {this.render_filters()}
@@ -114,7 +114,10 @@ class SubjectsList extends React.Component {
           {(props.wccwcmMapPath && props.location) && (
             <Button
               className="button"
-              label={TEXT.ACTIONS.SELECT_SUBJECTS}
+              label={(props.subjects && props.subjects.length > 0)
+                ? TEXT.ACTIONS.SELECT_SUBJECTS_AGAIN
+                : TEXT.ACTIONS.SELECT_SUBJECTS
+              }
               onClick={() => {
                 //Save the return path, assignment state, and the initial filters to be used by the map.
                 Actions.wildcamMap.setWccWcmAssignmentPath(props.location.pathname);

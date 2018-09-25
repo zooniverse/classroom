@@ -21,6 +21,7 @@ const TEXT_ES = {
     NEXT: 'Siguiente',  //Generic "next" action, e.g. to go to the next step in a tutorial.
     PREVIOUS: 'Anterior',  //Generic "previous" action, e.g. to go to the previous step in a tutorial.
     SELECT_SUBJECTS: 'Seleccionar fotos',
+    SELECT_SUBJECTS_AGAIN: 'Cambiar la selección de fotos',
     START_ASSIGNMENT: 'Seleccionar asignaciones',
     SIGN_IN: 'Registrarse',
     SUBMIT: 'Enviar',  //Generic "submit form" action.
@@ -54,6 +55,7 @@ const TEXT_ES = {
     EXPLORER: 'Explorador',
     EXPLORERS: 'Exploradores',
     SIGN_IN_REQUIRED: 'Inicio de sesión requerido',
+    PHOTOS_SELECTED: 'foto(s) seleccionadas',
   },
   CLASSROOM_FORM: {
     NAME: 'Nombre del aula',
@@ -68,7 +70,7 @@ const TEXT_ES = {
     DUEDATE: 'Fecha de vencimiento',
   },
   ASSIGNMENT_FORM_PLACEHOLDERS: {
-    DUEDATE: 'e.g. 2020-12-31',
+    DUEDATE: 'e.g. 12-31-2020',
   },
 };
 
