@@ -18,9 +18,14 @@ import { TEXT } from '../text.js';
 import StatusWorking from './StatusWorking';
 import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
 
+import Accordion from 'grommet/components/Accordion';
+import AccordionPanel from 'grommet/components/AccordionPanel';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import Heading from 'grommet/components/Heading';
+import List from 'grommet/components/List';
+import ListItem from 'grommet/components/ListItem';
+import Paragraph from 'grommet/components/Paragraph';
 import Table from 'grommet/components/Table';
 import TableRow from 'grommet/components/TableRow';
 
@@ -37,10 +42,6 @@ import {
 class AssignmentsListForStudents extends React.Component {
   constructor() {
     super();
-    
-    this.state = {
-      expandedAssignments: [],
-    };
   }
   
   componentDidMount() {
@@ -111,18 +112,10 @@ class AssignmentsListForStudents extends React.Component {
     const assignmentsForThisClassroom = props.assignmentsList.filter(ass => parseInt(ass.classroomId) === parseInt(classroom.id));
     
     return (
-      <TableRow key={`student_classroom_${classroom.id}`}>
+      <TableRow className="classroom" key={`student_classroom_${classroom.id}`}>
         <td>
           <Heading tag='h3'>{classroom.name}</Heading>
           <Table>
-            <thead>
-              <TableRow>
-                <td>Assignment Name</td>
-                <td>Progress</td>
-                <td>&nbsp;</td>
-              </TableRow>
-            </thead>
-            
             <tbody>
               {assignmentsForThisClassroom.map(ass => {
                 if (!props.urlToAssignment) return;
@@ -143,22 +136,32 @@ class AssignmentsListForStudents extends React.Component {
                 const classificationsTarget = (ass.metadata && ass.metadata.classifications_target)
                   ? ass.metadata.classifications_target
                   : '?';
+                
+                console.log('+++ ass: ', ass);
 
                 return (
-                  <TableRow key={`student_classroom_${classroom.id}_assignment_${ass.id}`}>
+                  <TableRow className="assignment" key={`student_classroom_${classroom.id}_assignment_${ass.id}`}>
                     <td>
-                      <Heading tag='h4'>{ass.name}</Heading>
-                    </td>
-                    <td>
-                      {classificationsCount} / {classificationsTarget}
+                      <Accordion>
+                        <AccordionPanel heading={ass.name}>
+                          {(ass.metadata && ass.metadata.description) && (
+                            <Paragraph>{ass.metadata.description}</Paragraph>
+                          )}
+                          {(ass.metadata && ass.metadata.duedate) && (
+                            <Paragraph size="small">{TEXT.ASSIGNMENT_FORM.DUEDATE}: {ass.metadata.duedate}</Paragraph>
+                          )}
+                        </AccordionPanel>
+                      </Accordion>
                     </td>
                     <td>
                       <Box
                           className="actions-panel"
-                          direction="row"
+                          direction="column"
                           justify="end"
+                          align="center"
                         >
-                          <Button label={TEXT.ACTIONS.START_ASSIGNMENT} href={urlToAssignment} target="_blank" rel="noopener noreferrer" icon={<LinkNextIcon />} />
+                          <Button className="button" label={TEXT.ACTIONS.START_ASSIGNMENT + ' '} href={urlToAssignment} target="_blank" rel="noopener noreferrer" icon={<LinkNextIcon size="small" />} reverse={true} />
+                          <Paragraph size="small">{TEXT.LABELS.PROGRESS}: {classificationsCount} / {classificationsTarget}</Paragraph>
                       </Box>
                     </td>
                   </TableRow>

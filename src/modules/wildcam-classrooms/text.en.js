@@ -59,6 +59,7 @@ const TEXT_EN = {
     EXPLORERS: 'Explorers',
     SIGN_IN_REQUIRED: 'Sign in required',
     PHOTOS_SELECTED: 'photo(s) selected',
+    PROGRESS: 'Progress',
   },
   CLASSROOM_FORM: {
     NAME: 'Classroom name',

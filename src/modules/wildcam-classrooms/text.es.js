@@ -59,6 +59,7 @@ const TEXT_ES = {
     EXPLORERS: 'Exploradores',
     SIGN_IN_REQUIRED: 'Inicio de sesión requerido',
     PHOTOS_SELECTED: 'foto(s) seleccionadas',
+    PROGRESS: 'Progreso',
   },
   CLASSROOM_FORM: {
     NAME: 'Nombre del aula',
