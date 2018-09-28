@@ -55,7 +55,7 @@ class AssignmentsListForStudents extends React.Component {
     
     return (
       <Box
-        className="assignments-list-for-students"
+        className="assignments-list for-students"
         margin="medium"
         pad="medium"
       >

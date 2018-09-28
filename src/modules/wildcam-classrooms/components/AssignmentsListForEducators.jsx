@@ -13,12 +13,17 @@ import { Actions } from 'jumpstate';
 
 import { TEXT } from '../text.js';
 
+import Accordion from 'grommet/components/Accordion';
+import AccordionPanel from 'grommet/components/AccordionPanel';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import CheckBox from 'grommet/components/CheckBox';
 import Footer from 'grommet/components/Footer';
 import Form from 'grommet/components/Form';
 import Heading from 'grommet/components/Heading';
+import Label from 'grommet/components/Label';
+import List from 'grommet/components/List';
+import ListItem from 'grommet/components/ListItem';
 import Table from 'grommet/components/Table';
 import TableRow from 'grommet/components/TableRow';
 
@@ -61,7 +66,7 @@ class AssignmentsList extends React.Component {
     
     return (
       <Box
-        className="assignments-list"
+        className="assignments-list for-educators"
         margin="small"
         pad="small"
       >
@@ -71,11 +76,15 @@ class AssignmentsList extends React.Component {
             {assignments.map((assignment) => {
               return (
                 <TableRow
-                  className="item"
+                  className="assignment"
                   key={`assignments-list_${assignment.id}`}
                 >
                   <td>
-                    <Heading tag="h4">{assignment.name}</Heading>
+                    <Accordion>
+                      <AccordionPanel heading={assignment.name}>
+                        {this.render_studentProgress(props.selectedClassroom, assignment)}
+                      </AccordionPanel>
+                    </Accordion>
                   </td>
                   <td>
                     <Box
@@ -125,6 +134,40 @@ class AssignmentsList extends React.Component {
           />
         </Footer>
       </Box>
+    );
+  }
+
+  render_studentProgress(classroom, assignment) {
+    //Sanity check
+    if (!classroom || !assignment) return null;
+    
+    const classificationsTarget = (assignment.metadata)
+      ? assignment.metadata.classifications_target
+      : '-';
+
+    const students = (assignment.studentAssignments && assignment.studentAssignments.map)
+      ? assignment.studentAssignments.map((stuass) => {
+          const thisStudent = classroom.students && classroom.students.find(s=>s.id==stuass.studentUserId);  //Use == instead of === due to the differing data types.
+          return {
+            id: stuass.id,
+            name: (thisStudent && thisStudent.zooniverseDisplayName)
+              ? thisStudent.zooniverseDisplayName
+              : '-',
+            progress: stuass.classificationsCount,
+          };
+        })
+      : [];
+    
+    return (
+      <List className="details-list">
+        {students.map((s)=>
+          <ListItem key={`assignments-list_${assignment.id}_${s.id}`}>
+            <Label>{s.name}</Label>
+            <span>{s.progress} / {classificationsTarget}</span>
+          </ListItem>
+        )}
+        
+      </List>
     );
   }
 };

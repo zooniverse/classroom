@@ -41,9 +41,6 @@ BORDER_SIZE = 0.25rem
   .students-list
     border: BORDER_SIZE solid #fff
   
-  .assignments-list
-    border: BORDER_SIZE solid #fff
-  
   .subjects-list
     border: BORDER_SIZE solid #fff
 
@@ -54,14 +51,16 @@ BORDER_SIZE = 0.25rem
     .button
       margin: 0 0.5em
 
-  .assignments-list-for-students
-    .assignment
+  .assignments-list
+    border: BORDER_SIZE solid #fff
+    
+    .assignment      
       tr, td
         vertical-align: top
       
       td:nth-child(2)
-        width: 18rem
-        padding: 1.5rem 0
+        width: 12rem
+        padding: 2rem 0
         
         .button
           flex: 0 0 auto
@@ -74,3 +73,14 @@ BORDER_SIZE = 0.25rem
           .grommetux-button__label
             font-size: 0.75rem
             margin: 0
+            
+    .details-list
+      > li
+        label
+          font-weight: bold
+          margin: 0
+          flex: 1 1 auto
+
+        span
+          width: 12rem
+          flex: 0 0 auto
