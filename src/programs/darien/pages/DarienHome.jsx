@@ -63,7 +63,7 @@ function DarienHome(props) {
                   ? 'If you are an educator, you can set up private classrooms and invite your students to join. Curate data sets or let your students explore on their own. Guided activities and supporting educational resources are also available.'
                   : 'Si eres un educador, puedes configurar aulas privadas e invitar a tus alumnos a unirse. Cura los conjuntos de datos o deja que tus alumnos lo exploren solos. Actividades dirigidas y recursos educativos de apoyo también están disponibles.'
                 }
-                {(signedIn) ? null : `(${TEXT.LABELS.SIGN_IN_REQUIRED})`}
+                {(signedIn) ? null : ` (${TEXT.LABELS.SIGN_IN_REQUIRED}) `}
               </Paragraph>
               {(signedIn)
                 ? <Button type="button" className="button--secondary" path="/wildcam-darien-lab/educators/intro" label={TEXT.LABELS.EDUCATOR} />
@@ -77,7 +77,7 @@ function DarienHome(props) {
                   ? 'If you are a student, you can work on assignments you\'ve been given.'
                   : 'Si eres un estudiante, puedes trabajar en las tareas que te han asignado.'
                 }
-                {(signedIn) ? null : `(${TEXT.LABELS.SIGN_IN_REQUIRED})`}
+                {(signedIn) ? null : ` (${TEXT.LABELS.SIGN_IN_REQUIRED}) `}
               </Paragraph>
               {(signedIn)
                 ? <Button type="button" className="button--secondary" path="/wildcam-darien-lab/students/intro" label={TEXT.LABELS.STUDENT} />
