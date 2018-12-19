@@ -16,7 +16,7 @@ function DarienNavi(props) {
       <Anchor className="big link" path={`/wildcam-darien-lab`}>WildCam Darién Lab</Anchor>
       <Anchor className="link" path={`/wildcam-darien-lab/educators/intro`}>Educator Home</Anchor>
       <Anchor className="link" path={`/wildcam-darien-lab/educators`}>Classrooms</Anchor>
-      <Anchor className="link" path={`/wildcam-darien-lab/educators/map`}>Map Explorer</Anchor>
+      <Anchor className="link" path={`/wildcam-darien-lab/educators/map`}>Explore Data</Anchor>
       <Anchor className="link" path={`/wildcam-darien-lab/educators/ecology`}>Ecology</Anchor>
       {/*<Anchor className="link" path={`/wildcam-darien-lab/educators/data-guide`}>Data Guide</Anchor>*/}
       <Anchor className="link" path={`/wildcam-darien-lab/educators/resources`}>Resources</Anchor>
