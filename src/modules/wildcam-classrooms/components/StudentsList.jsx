@@ -98,6 +98,19 @@ class StudentsList extends React.Component {
         pad="small"
       >
         <Heading tag="h3">{TEXT.TITLES.STUDENTS}</Heading>
+        {(listType === 'assignment' && props.doSelectAllStudents) && (
+          <Box>
+            <Button
+              label={(!everyoneIsSelected)
+                ? TEXT.ACTIONS.SELECT_ALL
+                : TEXT.ACTIONS.UNSELECT_ALL
+              }
+              onClick={() => {
+                props.doSelectAllStudents(!everyoneIsSelected);
+              }}
+            />
+          </Box>
+        )}
         <Table className="table">
           <tbody>
             {props.selectedClassroom.students.map((stud) => {
@@ -150,19 +163,6 @@ class StudentsList extends React.Component {
             })}
           </tbody>
         </Table>
-        {(listType === 'assignment' && props.doSelectAllStudents) && (
-          <Box>
-            <Button
-              label={(!everyoneIsSelected)
-                ? TEXT.ACTIONS.SELECT_ALL
-                : TEXT.ACTIONS.UNSELECT_ALL
-              }
-              onClick={() => {
-                props.doSelectAllStudents(!everyoneIsSelected);
-              }}
-            />
-          </Box>
-        )}
       </Box>
     );
   }
