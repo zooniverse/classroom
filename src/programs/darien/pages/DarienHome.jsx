@@ -74,8 +74,8 @@ function DarienHome(props) {
             <Box pad="medium" size="medium">
               <Paragraph>
                 {(lang !== 'es')
-                  ? 'If you are a student, you can work on assignments you\'ve been given.'
-                  : 'Si eres un estudiante, puedes trabajar en las tareas que te han asignado.'
+                  ? 'If you are a student, you can explore and download the trail camera data, and work on assignments you have been given.'
+                  : 'Si eres un estudiante, puedes explorar y descargar los datos de la cámara del camino y trabajar en las tareas que te han sido asignadas.'
                 }
                 {(signedIn) ? null : ` (${TEXT.LABELS.SIGN_IN_REQUIRED}) `}
               </Paragraph>
@@ -88,8 +88,8 @@ function DarienHome(props) {
             <Box pad="medium" size="medium">
               <Paragraph>
                 {(lang !== 'es')
-                  ? 'Alternatively, you can simply explore the data. As an explorer, you can view the camera data and study the distribution of animal species across both Darién National Park and Soberanía National Park.'
-                  : 'Alternativamente, puedes simplemente explorar los datos. Como explorador, puede ver los datos de la cámara y estudiar la distribución de especies animales a través del Parque Nacional Darién y el Parque Nacional Soberanía.'
+                  ? 'If you simply want to explore the data, enter as an explorer. You can use an interactive map to view and analyze the trail camera data from Darién and Soberanía National Parks.'
+                  : 'Si simplemente desea explorar los datos, ingrese como explorador. Puede usar un mapa interactivo para ver y analizar los datos de la cámara del sendero de los Parques Nacionales Darién y Soberanía.'
                 }
               </Paragraph>
               <Button type="button" className="button--secondary" path="/wildcam-darien-lab/explorers/map/" label={TEXT.LABELS.EXPLORER} />
