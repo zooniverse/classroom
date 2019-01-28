@@ -331,6 +331,9 @@ class ClassroomForm extends React.Component {
                   onClick={() => {}}
                 />
               </CopyToClipboard>
+              <div className="helper-text">
+                {TEXT.HELPERS.EDUCATORS_JOIN_URL}
+              </div>
             </span>
           </ListItem>
         </List>

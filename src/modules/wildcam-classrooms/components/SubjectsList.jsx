@@ -102,6 +102,10 @@ class SubjectsList extends React.Component {
       >
         <Heading tag="h3">{TEXT.TITLES.SUBJECTS}</Heading>
         
+        <div className="helper-text">
+          {TEXT.HELPERS.SUBJECT_LIST}
+        </div>
+        
         <Box className="data-count">
           {(props.subjects) ? props.subjects.length : 0} {TEXT.LABELS.PHOTOS_SELECTED}
         </Box>

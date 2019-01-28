@@ -49,6 +49,11 @@ const TEXT_ES = {
     },
     WORKING: 'Trabajando...',
   },
+  HELPERS: {
+    EDUCATORS_ASSIGNMENT_LIST: 'Haga clic en la flecha al lado del nombre de la tarea para ver la lista de estudiantes y su estado de finalización.',
+    EDUCATORS_JOIN_URL: 'Envíe esta URL a todos los estudiantes a los que desea unirse a este aula. ¡Pero primero, asegúrese de que sus estudiantes tengan una cuenta de Zooniverse y que hayan iniciado sesión antes de hacer clic en el enlace para unirse!',
+    SUBJECTS_LIST: 'Elija el tipo y la cantidad de fotos de la cámara de fotos que desea que los estudiantes identifiquen.',
+  },
   LABELS: {
     JOIN_URL: 'Únete a la URL',
     EDUCATOR: 'Educador',
@@ -74,7 +79,7 @@ const TEXT_ES = {
     DUEDATE: 'Fecha de vencimiento',
   },
   ASSIGNMENT_FORM_PLACEHOLDERS: {
-    DUEDATE: 'e.g. 12-31-2020',
+    DUEDATE: 'MM-DD-YYYY',
   },
 };
 

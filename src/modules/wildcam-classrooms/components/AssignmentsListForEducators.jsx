@@ -71,6 +71,9 @@ class AssignmentsList extends React.Component {
         pad="small"
       >
         <Heading tag="h3">{TEXT.TITLES.ASSIGNMENTS}</Heading>
+        <Box className="helper-text">
+          {TEXT.HELPERS.EDUCATORS_ASSIGNMENT_LIST}
+        </Box>
         <Table className="table">
           <tbody>
             {assignments.map((assignment) => {
