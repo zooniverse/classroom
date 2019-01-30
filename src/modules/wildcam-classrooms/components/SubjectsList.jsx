@@ -149,6 +149,7 @@ class SubjectsList extends React.Component {
         pad="small"
         margin="small"
       >
+        <div>--{ TEXT.LABELS.FILTERS_SELECTED }--</div>
         {(()=> {
           return Object.keys(props.filters).map((key, index) => {
             const val = props.filters[key];

@@ -115,6 +115,9 @@ class AssignmentsListForStudents extends React.Component {
       <TableRow className="classroom" key={`student_classroom_${classroom.id}`}>
         <td>
           <Heading tag='h3'>{classroom.name}</Heading>
+          <Box className="helper-text">
+            {TEXT.HELPERS.STUDENTS_ASSIGNMENT_LIST}
+          </Box>
           <Table>
             <tbody>
               {assignmentsForThisClassroom.map(ass => {

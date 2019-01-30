@@ -24,7 +24,7 @@ const TEXT_ES = {
     SELECT_ALL: 'Seleccionar todo',  //Generic "select all" action, e.g. for a list of students.
     SELECT_SUBJECTS: 'Seleccionar fotos',
     SELECT_SUBJECTS_AGAIN: 'Cambiar la selección de fotos',
-    START_ASSIGNMENT: 'Seleccionar asignaciones',
+    START_ASSIGNMENT: 'Comenzar la asignación',
     SIGN_IN: 'Registrarse',
     SUBMIT: 'Enviar',  //Generic "submit form" action.
     UNSELECT_ALL: 'Deseleccionar todo',  //Generic "unselect all" action, e.g. for a list of students.
@@ -51,6 +51,7 @@ const TEXT_ES = {
   },
   HELPERS: {
     EDUCATORS_ASSIGNMENT_LIST: 'Haga clic en la flecha al lado del nombre de la tarea para ver la lista de estudiantes y su estado de finalización.',
+    STUDENTS_ASSIGNMENT_LIST: 'Haga clic en la flecha al lado del nombre de la asignación para ver la fecha de vencimiento y las instrucciones.',
     EDUCATORS_JOIN_URL: 'Envíe esta URL a todos los estudiantes a los que desea unirse a este aula. ¡Pero primero, asegúrese de que sus estudiantes tengan una cuenta de Zooniverse y que hayan iniciado sesión antes de hacer clic en el enlace para unirse!',
     SUBJECTS_LIST: 'Elija el tipo y la cantidad de fotos de la cámara de fotos que desea que los estudiantes identifiquen.',
   },
@@ -64,6 +65,7 @@ const TEXT_ES = {
     EXPLORERS: 'Exploradores',
     SIGN_IN_REQUIRED: 'Inicio de sesión requerido',
     PHOTOS_SELECTED: 'foto(s) seleccionadas',
+    FILTERS_SELECTED: 'filtros selected',
     PROGRESS: 'Progreso',
   },
   CLASSROOM_FORM: {
