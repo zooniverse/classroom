@@ -82,6 +82,7 @@ const darien = {
       backgroundImage: '',
       cardImage: 'home-card-wildcam-darien.jpg',
       redirectOnJoin: true,
+      redirectOnJoinPath: '/wildcam-darien-lab/students',
       sampleSubjects: ['73437', '73438', '73434'],
       workflowId: '3116' // belongs to project 1807
     }
@@ -96,6 +97,7 @@ const darien = {
       backgroundImage: '',
       cardImage: 'home-card-wildcam-darien.jpg',
       redirectOnJoin: true,
+      redirectOnJoinPath: '/wildcam-darien-lab/students',
       sampleSubjects: [],
       workflowId: '3033' // belongs to project 3525
     }

@@ -44,10 +44,13 @@ export class JoinPageContainer extends React.Component {
 
     Actions.joinClassroom({ classroomId, joinToken: joinToken.token })
       .then(() => {
-        if ((props.programsStatus === PROGRAMS_STATUS.SUCCESS && props.classroomsStatus === CLASSROOMS_STATUS.SUCCESS) &&
+        if (props.programsStatus === PROGRAMS_STATUS.SUCCESS &&
             (selectedProgram && selectedProgram.metadata && selectedProgram.metadata.redirectOnJoin)) {
           // Make sure they see the success message before redirecting
-          setTimeout(props.history.replace(`/${selectedProgram.slug}/students`), 2000);
+          setTimeout(() => {
+            const redirectPath = selectedProgram.metadata.redirectOnJoinPath || `/${selectedProgram.slug}/students`;
+            props.history.replace(redirectPath)
+          }, 5000);
         }
       });
   }
