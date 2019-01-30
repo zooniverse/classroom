@@ -5,6 +5,9 @@ let SpanishTranslations = {
   'Loading...': 'Cargarse...',
   'Filters': 'Filtros',
   
+  //For 
+  'Select photos by choosing filters, then edit the number of photos to be identified and click "Select"': 'Seleccione las fotos eligiendo los filtros, luego edite la cantidad de fotos a identificar y haga clic en "Select"',
+  
   //SuperDownloadButton
   'Success: file downloaded.': 'Éxito: archivo descargado.',
   'Error: could not download the file.': 'Error: no se pudo descargar el archivo.',

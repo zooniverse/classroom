@@ -116,7 +116,7 @@ class MapControls extends React.Component {
                 align="center"
                 alignContent="between"
               >
-                <Label>ZooTran('Select number of photos for Assignment')</Label>
+                <Label>{ZooTran('Select photos by choosing filters, then edit the number of photos to be identified and click "Select"')}</Label>
                 <Box
                   direction="row"
                 >
