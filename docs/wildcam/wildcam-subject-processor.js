@@ -30,6 +30,7 @@ var fs = require('fs');  //FileSystem; used to read/write files.
 const OUTPUT_FILE = './PROCESSED_SUBJECTS.csv';
 const SANITY_LIMIT = 10000001;  //Some CSV files are HUGE. Let's not break our
                             //machines with them.
+const VALID_WORKFLOW_IDS = ['3033', ''];
 
 if (process.argv.length < 4) {
   console.log('Not enough arguments.');
@@ -138,8 +139,13 @@ function parseSubjectsCsv(rawText, program) {
       return programObject[key](inputObject);
     });
     
+    //Filter: only allow valid workflow IDs.
+    var workflow_id = programObject['workflow_id'](inputObject);
+    if (VALID_WORKFLOW_IDS.includes(workflow_id)) {
+      csvOutputRows.push(outputRow);
+    }
+    
     //Done.
-    csvOutputRows.push(outputRow);
   }
   //----------------------------------------------------------------
   

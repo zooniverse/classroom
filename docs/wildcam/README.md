@@ -115,6 +115,12 @@ in for a ride.
 3. You should now have a Subjects CSV with the Zooniverse value fields properly
    mapped to value fields that are compatible with the map database.
 
+WARNING: be aware that the raw Subject CSV exports has one entry PER Subject ID
+PER associated Workflow PER associated Subject Set. This matters because every
+new Classroom Assignment created will have a Subject with a new associated
+Workflow/Subject Set; if we don't filter the raw Subject CSV exports for only
+the ORIGINAL WildCam Darien workflow, we'll have a lot of duplicates.
+
 NOTE: `wildcam-subject-processor.js` should be located in the same folder as
 this README. It's a simple CSV field re-mapping tool, and while it only works on
 WildCam Darien Lab at the moment (hence the `darien` argument in the example
