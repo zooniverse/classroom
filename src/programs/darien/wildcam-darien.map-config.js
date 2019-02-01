@@ -12,6 +12,8 @@ Requires:
 ********************************************************************************
  */
 
+import { ZooTran, ZooTranCSV } from '../../lib/zooniversal-translator.js';
+
 const mapConfig = {
   //Connection details for the external data source.
   'database': {
@@ -508,7 +510,47 @@ const mapConfig = {
   //Misc stuff related to the program
   'program': {
     dataGuideURL: '/#/wildcam-darien-lab/explorers/data-guide/',
+    transformDownloadData: function (csvData) {
+      if (csvData && csvData.data && csvData.data.length > 0 && csvData.errors.length === 0) {
+        return Promise.resolve(transformDarienDownloadData(csvData));
+      }
+
+      if (csvData && csvData.errors.length > 0) {
+        return Promise.reject(csvData.errors[0].message);
+      }
+
+      return Promise.resolve(null);      
+    }
   },
 };
 
 export default mapConfig;
+
+/*  WildCam Darien data exports need to 1. be translated to the proper language, and 2. need to have a 'Consensus Count' field added.
+ */
+function transformDarienDownloadData(csvData) {
+  let output = '';
+  const header = csvData.data[0].slice();
+  header.push('consensus_count');
+  
+  output = header.map(str => csvStr(str)).join(',') + '\n';
+  
+  for (let i = 1; i < csvData.data.length; i ++) {
+    let row = csvData.data[i];
+    let consensusCount = undefined;
+    
+    if (!consensusCount) {
+      row.push('-')
+    } else {
+      row.push(consensusCount)
+    }
+    
+    output += row.map(str => csvStr(str)).join(',') + '\n';
+  }
+  
+  return ZooTranCSV(output);
+}
+
+function csvStr(str) {
+  return '"' + ZooTran(str).replace(/"/g, '""') + '"';
+}

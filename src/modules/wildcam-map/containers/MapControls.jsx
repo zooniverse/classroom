@@ -76,6 +76,12 @@ class MapControls extends React.Component {
     }
 
     const lang = ZooTranGetLanguage();
+    
+    const transformDownloadData = (mapConfig.program)
+      ? mapConfig.program.transformDownloadData : null;
+    
+    const dataGuideURL = (mapConfig.program)
+      ? mapConfig.program.dataGuideURL : null;
 
     return (
       <Box className="map-controls">
@@ -93,14 +99,15 @@ class MapControls extends React.Component {
                 url={downloadUrl}
                 text={ZooTran('Download')}
                 useZooniversalTranslator={true}
+                transformData={transformDownloadData}
               />
-              {props.mapConfig.program && props.mapConfig.program.dataGuideURL && (
+              {dataGuideURL && (
                 <Button
                   className="button map-controls-small-button"
                   icon={<HelpIcon />}
                   label={ZooTran('Data Guide')}
                   onClick={() => {
-                    window.open(props.mapConfig.program.dataGuideURL, '_blank');
+                    window.open(dataGuideURL, '_blank');
                   }}
                 />
               )}
