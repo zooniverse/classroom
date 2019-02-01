@@ -12,7 +12,7 @@ Requires:
 ********************************************************************************
  */
 
-import { ZooTran, ZooTranCSV } from '../../lib/zooniversal-translator.js';
+import { ZooTran } from '../../lib/zooniversal-translator.js';
 
 const mapConfig = {
   //Connection details for the external data source.
@@ -548,7 +548,7 @@ function transformDarienDownloadData(csvData) {
     output += row.map(str => csvStr(str)).join(',') + '\n';
   }
   
-  return ZooTranCSV(output);
+  return output;
 }
 
 function csvStr(str) {
