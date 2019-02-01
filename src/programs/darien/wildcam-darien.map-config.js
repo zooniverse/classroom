@@ -531,13 +531,35 @@ export default mapConfig;
 function transformDarienDownloadData(csvData) {
   let output = '';
   const header = csvData.data[0].slice();
-  header.push('consensus_count');
+  header.push('consensus_count');  //Append consensus count to the final column of each row.
+  
+  const headerLookup = {};
+  header.forEach((item, index) => {
+    if (item.startsWith('data_answers_howmany_')) headerLookup[item] = index;
+  }); 
   
   output = header.map(str => csvStr(str)).join(',') + '\n';
   
   for (let i = 1; i < csvData.data.length; i ++) {
     let row = csvData.data[i];
+    
+    if (row.join().length === 0) continue
+    
     let consensusCount = undefined;
+    let numberForConsensus = 0;
+    
+    //Which "animal was seen X times in this photo" has the highest count?    
+    Object.keys(headerLookup).forEach((key) => {
+      const index = headerLookup[key];
+      const currentNumber = row[index];
+      if (!consensusCount || numberForConsensus < currentNumber) {
+        numberForConsensus = currentNumber;
+        consensusCount = key.replace('data_answers_howmany_', '');
+        if (consensusCount === '1120') consensusCount = '11-20';
+        if (consensusCount === '21') consensusCount = '21+';
+      }
+    });
+    
     
     if (!consensusCount) {
       row.push('-')

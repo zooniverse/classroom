@@ -32,10 +32,10 @@ let EnglishTranslations = {
   'data_answers_howmany_7': 'Number of people who saw 7 animals',
   'data_answers_howmany_8': 'Number of people who saw 8 animals',
   'data_answers_howmany_9': 'Number of people who saw 9 animals',
-  'data_answers_howmany_10': 'Number of people who saw 10 animals,',
+  'data_answers_howmany_10': 'Number of people who saw 10 animals',
   'data_answers_howmany_1120': 'Number of people who saw 11-20 animals',
   'data_answers_howmany_21': 'Number of people who saw 21+ animals',
-  'consensus_count': 'Consensus Count'
+  'consensus_count': 'Number of animals (consensus)'
 };
 
 //HACK: database support for WildCam Darien.

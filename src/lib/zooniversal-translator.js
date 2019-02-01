@@ -31,37 +31,6 @@ export function ZooTranExists(text) {
   return translations[text] !== null;
 }
 
-export function ZooTranCSV(lotsOfText) {
-  const translations = ZooTranGetTranslationsObject();
-  if (!translations || !lotsOfText) return lotsOfText;
-  
-  let output = lotsOfText;
-  Object.keys(translations).map((original, index) => {
-    let translation = translations[original];
-    if (translation === null) return;
-    
-    const regex = new RegExp(
-      original  //Make this a literal expression, not a RegEx expression
-      .replace(/\\/g, '\\\\')
-      .replace(/\+/g, '\\+')
-      .replace(/\-/g, '\\-')
-      .replace(/\|/g, '\\|')
-      .replace(/\./g, '\\.')
-      .replace(/\(/g, '\\(')
-      .replace(/\)/g, '\\)')
-      .replace(/\*/g, '\\*')
-      .replace(/\?/g, '\\?'),
-      'g'
-    );
-    
-    //Make translation CSV-safe
-    translation = translation.replace(/,/g, '');
-    output = output.replace(regex, translation);
-  });
-  
-  return output;
-}
-
 export function ZooTranSetLanguage(lang) {
   if (!localStorage) return;
   localStorage.setItem('zooniversal-translator-language', lang);

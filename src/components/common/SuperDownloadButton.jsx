@@ -36,7 +36,7 @@ import DownloadIcon from 'grommet/components/icons/base/Download';
 
 import { config } from '../../lib/config';
 import { blobbifyData, generateFilename } from '../../lib/file-download-helpers';
-import { ZooTran, ZooTranCSV } from '../../lib/zooniversal-translator.js';
+import { ZooTran } from '../../lib/zooniversal-translator.js';
 
 const STATUS = {
   IDLE: 'idle',

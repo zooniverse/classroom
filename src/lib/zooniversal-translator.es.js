@@ -77,7 +77,7 @@ let SpanishTranslations = {
   'data_answers_howmany_10': 'Número de personas que vieron 10 animales',
   'data_answers_howmany_1120': 'Número de personas que vieron 11-20 animales',
   'data_answers_howmany_21': 'Número de personas que vieron 21+ animales',
-  'consensus_count': 'Número de consenso',
+  'consensus_count': 'Número de animales (consenso)',
   
   //wildcam-darien.mapConfig
   'Species': 'Especies',  

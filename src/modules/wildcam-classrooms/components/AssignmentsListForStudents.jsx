@@ -139,8 +139,6 @@ class AssignmentsListForStudents extends React.Component {
                 const classificationsTarget = (ass.metadata && ass.metadata.classifications_target)
                   ? ass.metadata.classifications_target
                   : '?';
-                
-                console.log('+++ ass: ', ass);
 
                 return (
                   <TableRow className="assignment" key={`student_classroom_${classroom.id}_assignment_${ass.id}`}>
