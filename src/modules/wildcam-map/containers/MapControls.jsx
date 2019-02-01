@@ -98,7 +98,6 @@ class MapControls extends React.Component {
                 fileNameBase="wildcam-"
                 url={downloadUrl}
                 text={ZooTran('Download')}
-                useZooniversalTranslator={true}
                 transformData={transformDownloadData}
               />
               {dataGuideURL && (

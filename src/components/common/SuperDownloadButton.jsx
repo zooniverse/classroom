@@ -102,10 +102,6 @@ class SuperDownloadButton extends React.Component {
       throw 'ERROR (SuperDownloadButton): invalid response';
     })
     .then((data) => {
-      if (this.props.useZooniversalTranslator && this.props.contentType === 'text/csv') {
-        data = ZooTranCSV(data);
-      }
-
       const enableSafariWorkaround =
         !(/Chrome/i.test(navigator.userAgent)) &&
         /Safari/i.test(navigator.userAgent);
@@ -169,8 +165,7 @@ SuperDownloadButton.propTypes = {
     PropTypes.func,
     PropTypes.object
   ]),
-  url: PropTypes.string,
-  useZooniversalTranslator: PropTypes.bool
+  url: PropTypes.string
 };
 
 SuperDownloadButton.defaultProps = {
@@ -182,8 +177,7 @@ SuperDownloadButton.defaultProps = {
   primary: false,
   text: ZooTran('Download'),
   transformData: null,
-  url: '',
-  useZooniversalTranslator: true
+  url: ''
 };
 
 export default SuperDownloadButton;
