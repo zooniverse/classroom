@@ -17,6 +17,7 @@ import { TEXT } from '../text.js';
 
 import StatusWorking from './StatusWorking';
 import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
+import ClassificationsDownloadButton from './ClassificationsDownloadButton';
 
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
@@ -163,6 +164,9 @@ class AssignmentsListForStudents extends React.Component {
                         >
                           <Button className="button" label={TEXT.ACTIONS.START_ASSIGNMENT + ' '} href={urlToAssignment} target="_blank" rel="noopener noreferrer" icon={<LinkNextIcon size="small" />} reverse={true} />
                           <Paragraph size="small">{TEXT.LABELS.PROGRESS}: {classificationsCount} / {classificationsTarget}</Paragraph>
+                          <ClassificationsDownloadButton
+                            
+                          />
                       </Box>
                     </td>
                   </TableRow>
