@@ -165,7 +165,7 @@ class AssignmentsListForStudents extends React.Component {
                           <Button className="button" label={TEXT.ACTIONS.START_ASSIGNMENT + ' '} href={urlToAssignment} target="_blank" rel="noopener noreferrer" icon={<LinkNextIcon size="small" />} reverse={true} />
                           <Paragraph size="small">{TEXT.LABELS.PROGRESS}: {classificationsCount} / {classificationsTarget}</Paragraph>
                           <ClassificationsDownloadButton
-                            
+                            label={TEXT.ACTIONS.DOWNLOAD_MY_DATA}
                           />
                       </Box>
                     </td>

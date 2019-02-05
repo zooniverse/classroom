@@ -11,6 +11,7 @@ module.exports = {
 
   devServer: {
     contentBase: path.join(__dirname, '/src/'),
+    disableHostCheck: true,  //Allow access using custom host names, e.g. local.zooniverse.org:3998, which is necessary for testing certain API calls.
     // hot: true,
     inline: true,
     stats: {

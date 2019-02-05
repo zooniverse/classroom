@@ -17,6 +17,7 @@ const TEXT_ES = {
     CREATE_NEW_CLASSROOM: 'Crear un salón de clases nuevo',
     CREATE_NEW_ASSIGNMENT: 'Crear una nueva asignaciones',
     DELETE: 'Borrar',  //Generic "delete item" action.
+    DOWNLOAD_MY_DATA: 'Mis datos',
     EDIT: 'Editar',  //Generic "edit item" action.
     HELP: 'Ayuda',  //Generic "help" action, for How Tos, Guides, Instructions, etc.
     NEXT: 'Siguiente',  //Generic "next" action, e.g. to go to the next step in a tutorial.
