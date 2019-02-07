@@ -15,6 +15,8 @@ import { Actions } from 'jumpstate';
 //import superagentJsonapify from 'superagent-jsonapify';
 import apiClient from 'panoptes-client/lib/api-client';
 //import { config } from '../../../lib/config';
+import { saveAs } from 'browser-filesaver';
+import { blobbifyData, generateFilename } from '../../../lib/file-download-helpers';
 
 //superagentJsonapify(superagent);
 
@@ -120,20 +122,40 @@ class ClassificationsDownloadButton extends React.Component {
   finishFetchData() {
     console.log('+++ finishFetchData \n  total data: ', this.jsonData);
     
+    let csvData = '';
+    
+    //Get the header
+    if (this.jsonData[0]) {
+      csvData += Object.keys(this.jsonData[0]).map(csvStr).join(',') + '\n';
+    }
+    
+    //Now let's do each row.
+    this.jsonData.forEach((data) => {
+      csvData += Object.values(data).map(csvStr).join(',') + '\n'
+    });
+    
+    this.saveFile(csvData);
     this.setState({ state: 'idle' });
   }
   
   handleError(err) {
-    Actions.auth.setStatus(AUTH_STATUS.ERROR);
-    Actions.auth.setError(error);
     Actions.notification.setNotification({ status: 'critical' , message: 'Something went wrong.' });
-    console.error(error);
+    console.error(err);
+  }
+  
+  saveFile(data) {
+    saveAs(blobbifyData(data, this.props.contentType), generateFilename(this.props.fileNameBase));
   }
 };
 
 /*
 --------------------------------------------------------------------------------
  */
+
+function csvStr(str) {
+  if (!str) return '';
+  return '"' + str.replace(/"/g, '""') + '"';
+}
 
 function transformWildCamData(classification) {
   console.log('+++ transformdata: ', classification);
@@ -179,12 +201,16 @@ function transformWildCamData(classification) {
  */
 
 ClassificationsDownloadButton.defaultProps = {
+  contentType: 'text/csv',
+  fileNameBase: 'download-',
   label: '',
   transformData: transformWildCamData,
   workflow_id: undefined,
 };
 
 ClassificationsDownloadButton.propTypes = {
+  contentType: PropTypes.string,
+  fileNameBase: PropTypes.string,
   label: PropTypes.string,
   transformData: PropTypes.func,
   workflow_id: PropTypes.string,
