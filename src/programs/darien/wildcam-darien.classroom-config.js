@@ -13,8 +13,8 @@ import { env } from '../../lib/config';
 const classroomConfig = {
   forStudents: {
     urlToAssignment: (env === 'production')
-      ? 'https://www.zooniverse.org/projects/wildcam/wildcam-darien/classify?workflow={WORKFLOW_ID}'
-      : 'https://www.zooniverse.org/projects/wildcam/wildcam-darien/classify?workflow={WORKFLOW_ID}',  //TODO: find the staging equivalent for WildCam Darien
+      ? 'https://www.zooniverse.org/projects/wildcam/wildcam-darien/classify?workflow={WORKFLOW_ID}&classroom=1'
+      : 'https://www.zooniverse.org/projects/wildcam/wildcam-darien/classify?workflow={WORKFLOW_ID}&classroom=1',  //TODO: find the staging equivalent for WildCam Darien
   },
   forEducators: {
     extraInfoFor: {
