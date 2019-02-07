@@ -19,7 +19,8 @@ import apiClient from 'panoptes-client/lib/api-client';
 //superagentJsonapify(superagent);
 
 import Button from 'grommet/components/Button';
-import DownloadButton from 'grommet/components/icons/base/Download';
+import DownloadIcon from 'grommet/components/icons/base/Download';
+import LoadingIcon from 'grommet/components/icons/Spinning';
 
 class ClassificationsDownloadButton extends React.Component {
   constructor() {
@@ -46,7 +47,9 @@ class ClassificationsDownloadButton extends React.Component {
     const props = this.props;
     const state = this.state;
     
-    const icon = <DownloadButton size="small" />;
+    let icon = <DownloadIcon size="small" />;
+    if (state.state === 'fetching') icon = <LoadingIcon size="small" />;
+    
     const onClick = this.onClick.bind(this);
     
     return (
@@ -78,6 +81,7 @@ class ClassificationsDownloadButton extends React.Component {
     const fetchArguments = { page: 1, page_size: 3 };
     if (props.workflow_id) fetchArguments.workflow_id = props.workflow_id;
     
+    this.setState({ state: 'fetching' });
     this.doFetchData(fetchArguments);
   }
   
@@ -115,6 +119,8 @@ class ClassificationsDownloadButton extends React.Component {
   
   finishFetchData() {
     console.log('+++ finishFetchData \n  total data: ', this.jsonData);
+    
+    this.setState({ state: 'idle' });
   }
   
   handleError(err) {
@@ -133,7 +139,16 @@ function transformWildCamData(classification) {
   console.log('+++ transformdata: ', classification);
   
   const classification_id = classification.id;
-  const subject_id = classification.links.subjects[0];
+  const subject_id =
+    classification.links &&
+    classification.links.subjects &&
+    classification.links.subjects[0];
+  const user_id =
+    classification.links &&
+    classification.links.user;
+  const assignment_id =
+    classification.links &&
+    classification.links.workflow;
   
   let data = [];
   
@@ -141,10 +156,12 @@ function transformWildCamData(classification) {
     task.value.forEach(answer => {
       
       const species = answer.choice;
-      const count = answer.answers.HOWMANY;
+      const count = answer.answers && answer.answers.HOWMANY;
       
-      if (classification_id && subject_id && species) {
+      if (user_id && assignment_id && classification_id && subject_id && species) {
         data.push({
+          user_id,
+          assignment_id,
           classification_id,
           subject_id,
           species,
