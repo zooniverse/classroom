@@ -166,6 +166,7 @@ class AssignmentsListForStudents extends React.Component {
                           <Paragraph size="small">{TEXT.LABELS.PROGRESS}: {classificationsCount} / {classificationsTarget}</Paragraph>
                           <ClassificationsDownloadButton
                             label={TEXT.ACTIONS.DOWNLOAD_MY_DATA}
+                            workflow_id={ass.workflowId}
                           />
                       </Box>
                     </td>
