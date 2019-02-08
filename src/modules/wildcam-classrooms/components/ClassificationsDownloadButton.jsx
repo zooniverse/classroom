@@ -80,7 +80,7 @@ class ClassificationsDownloadButton extends React.Component {
     //  .set('Content-Type', 'application/json')
     //  .set('Authorization', apiClient.headers.Authorization);
     
-    const fetchArguments = { page: 1, page_size: 3 };
+    const fetchArguments = { page: 1 };  //Default page_size is 20
     if (props.workflow_id) fetchArguments.workflow_id = props.workflow_id;
     
     this.setState({ state: 'fetching' });
