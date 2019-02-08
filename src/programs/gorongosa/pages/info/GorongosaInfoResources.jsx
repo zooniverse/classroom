@@ -158,6 +158,10 @@ function GorongosaInfoResources(props) {
         </Paragraph>
       </Box>
       
+      <Box margin={{ top: 'small' }} colorIndex="light-1" pad="small">
+        <Anchor label="Explore All Resources" target="_blank" icon={<LinkNextIcon/>} reverse={true} href="https://www.hhmi.org/biointeractive/gorongosa-national-park" />
+      </Box>
+      
     </Box>
   );
 };
