@@ -4,18 +4,18 @@ import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import classroomConfig from '../wildcam-gorongosa.classroom-config.js';
 
-import WildCamForEducators from '../../../modules/wildcam-classrooms/containers/WildCamForEducators';
+import WildCamForStudents from '../../../modules/wildcam-classrooms/containers/WildCamForStudents';
 
-class GorongosaEducators extends React.Component {
+class GorongosaStudents extends React.Component {
   render() {
     if (!this.props.selectedProgram) {
       return null;
     }
     
     return (
-      <WildCamForEducators
-        selectedProgram={this.props.selectedProgram}
+      <WildCamForStudents
         classroomConfig={classroomConfig}
+        selectedProgram={this.props.selectedProgram}
         location={this.props.match}
         history={this.props.history}
         match={this.props.match}
@@ -24,7 +24,7 @@ class GorongosaEducators extends React.Component {
   }
 };
 
-GorongosaEducators.defaultProps = {
+GorongosaStudents.defaultProps = {
   history: null,
   location: null,
   match: null,
@@ -32,7 +32,7 @@ GorongosaEducators.defaultProps = {
   selectedProgram: null,
 };
 
-GorongosaEducators.propTypes = {
+GorongosaStudents.propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
@@ -46,4 +46,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(GorongosaEducators);
+export default connect(mapStateToProps)(GorongosaStudents);
