@@ -1,9 +1,9 @@
 /*
-WildCam Darien Classroom Config
+WildCam Gorongosa Classroom Config
 ===============================
 
 Configuration file for the WildCam Classroom feature. Each ClassroomConfig is
-tailored to a specific project, and this config file is for WildCam Darien.
+tailored to a specific project, and this config file is for WildCam Gorongosa.
 
 ********************************************************************************
  */

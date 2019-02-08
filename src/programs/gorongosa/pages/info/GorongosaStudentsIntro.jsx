@@ -71,13 +71,13 @@ function GorongosaStudentsIntro(props) {
           </Box>
           <Box direction="row">
             <Paragraph>
-              Read the Darién blog for updates from the scientists in Panama.
+              Read the Gorongosa blog for updates from the scientists.
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
-              <Button type="button" className="button--secondary" href="https://blog.wildcamdarien.org/" label="View Blog " rel="noopener noreferrer" icon={<ShareIcon size="small" />} reverse={true}></Button>
+              <Button type="button" className="button--secondary" href="https://blog.wildcamgorongosa.org/" label="View Blog " rel="noopener noreferrer" icon={<ShareIcon size="small" />} reverse={true}></Button>
             </Box>
           </Box>
         </Box>
@@ -86,8 +86,8 @@ function GorongosaStudentsIntro(props) {
   );
 };
 
-DarienStudentsIntro.defaultProps = {};
+GorongosaStudentsIntro.defaultProps = {};
 
-DarienStudentsIntro.propTypes = {};
+GorongosaStudentsIntro.propTypes = {};
 
-export default DarienStudentsIntro;
+export default GorongosaStudentsIntro;

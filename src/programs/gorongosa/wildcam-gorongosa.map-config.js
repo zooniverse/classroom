@@ -40,7 +40,7 @@ const mapConfig = {
   
   //The map visualisation bits. Compatible with Leaflet tech.
   'map': {
-    'centre': {  //Some arbitrary point between Soberania National Park and Darien National Park. 
+    'centre': {  //Some arbitrary point in Gorongosa National Park. 
       "latitude": -18.9278,
       "longitude": 34.45,
       "zoom": 11
@@ -72,71 +72,7 @@ const mapConfig = {
         'attribution': '&copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> &copy; <a href=\'http://cartodb.com/attributions\'>CartoDB</a>'
       }
     ],
-    extraLayers: [
-      /*{
-        'name': 'darien_national_park',
-        'label': 'Darien National Park',
-        'query': 'SELECT * FROM darien_national_park',
-        'style': function (feature) {
-          return {
-            stroke: true,
-            color: '#3cc',
-            fill: false,
-          };
-        },
-      },
-      {
-        'name': 'soberania_national_park',
-        'label': 'Soberania National Park',
-        'query': 'SELECT * FROM soberania_national_park',
-        'style': function (feature) {
-          return {
-            stroke: true,
-            color: '#3cc',
-            fill: false,
-          };
-        },
-      },
-      {
-        'name': 'veg_type',
-        'label': 'Habitats',
-        'query': 'SELECT * FROM vegetation_map',
-        'style': function (feature) {
-          let color = '#ccc';
-          if (feature && feature.properties) {
-            switch (feature.properties.veg_type) {
-              case 'Evergreen tropical ombrophilous broadleaf submontane (500 - 1,000 m Caribbean, 700 - 1,200 m Pacific)':
-                color = '#9c3'; break;
-              case 'Production system with significant natural or spontaneous woody vegetation (10 - 50%)':
-                color = '#993'; break;
-              case 'Production system with significant natural or spontaneous woody vegetation (<10%)':
-                color = '#693'; break;
-              case 'Evergreen ombrophylous tropical lowland broadleaf forest - heavily logged':
-                color = '#663'; break;
-              case 'Tropical lowland semi-deciduous forest - heavily logged':
-                color = '#393'; break;
-              case 'Water region':
-                color = '#39c'; break;
-              case 'Tropical lowland semi-deciduous forest':
-                color = '#9c6'; break;
-              case 'Tropical lowland semi-deciduous forest - minimally logged':
-                color = '#6c6'; break;
-              case 'Evergreen tropical ombrophilous broadleaf montane montane (1,000 - 1,500 m Caribbean, 1,200 - 1,800 m Pacific)':
-                color = '#cc6'; break;
-              case 'Evergreen, broad-leaved tropical broad-leaved evergreen forest':
-                color = '#9c9'; break;
-            }
-          }
-          
-          return {
-            stroke: false,
-            fill: true,
-            fillColor: color,
-            fillOpacity: 0.5,
-          };
-        },
-      },*/
-    ],
+    extraLayers: [],
     'legend': {
       'type': 'simple',
       'items': {
