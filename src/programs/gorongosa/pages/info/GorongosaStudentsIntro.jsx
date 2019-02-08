@@ -23,7 +23,7 @@ function GorongosaStudentsIntro(props) {
         backgroundColorIndex="dark"
         size="small"
       >
-        <Box align="center"><Heading className="program-home__header">Welcome to WildCam Darién Lab</Heading></Box>
+        <Box align="center"><Heading className="program-home__header">Welcome to WildCam Gorongosa Lab</Heading></Box>
       </Hero>
       <Section
         className="program-home__section"
@@ -34,7 +34,7 @@ function GorongosaStudentsIntro(props) {
       >
         <Box>
           <Paragraph>
-            WildCam Darién Lab is a tool for you to explore the trail camera data collected in Darién and Soberanía National Parks, or to generate your own data through an assignment you have been given by your instructor.
+            WildCam Gorongosa Lab is a tool for you to explore the trail camera data collected in Gorongosa National Park, or to generate your own data through an assignment you have been given by your instructor.
           </Paragraph>
           <Box direction="row">
             <Paragraph>
@@ -60,7 +60,7 @@ function GorongosaStudentsIntro(props) {
           </Box>
           <Box direction="row">
             <Paragraph>
-              You can learn more about the Darién and Soberanía ecosystems here.
+              You can learn more about the Gorongosa ecosystem here.
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 

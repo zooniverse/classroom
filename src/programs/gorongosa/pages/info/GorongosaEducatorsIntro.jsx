@@ -20,7 +20,7 @@ function GorongosaEducatorsIntro(props) {
         backgroundColorIndex="dark"
         size="small"
       >
-        <Box align="center"><Heading className="program-home__header">Welcome to WildCam Darién Lab</Heading></Box>
+        <Box align="center"><Heading className="program-home__header">Welcome to WildCam Gorongosa Lab</Heading></Box>
       </Hero>
       <Section
         className="program-home__section"
@@ -31,7 +31,7 @@ function GorongosaEducatorsIntro(props) {
       >
         <Box>
           <Paragraph>
-            WildCam Darién Lab is an educational resource that lets you and your students explore trail camera data using an interactive map.
+            WildCam Gorongosa Lab is an educational resource that lets you and your students explore trail camera data using an interactive map.
             Simply direct your students to explore and download the data, or use classrooms and assignments to guide their experience.
             Classrooms are a way to manage groups of of students, send them assignments, and monitor their progress as they identify animals.
           </Paragraph>
@@ -57,7 +57,7 @@ function GorongosaEducatorsIntro(props) {
           </Box>
           <Box direction="row">
             <Paragraph>
-              Explore a variety of educational resources produced by HHMI BioInteractive to use WildCam Darién Lab in your classroom.
+              Explore a variety of educational resources produced by HHMI BioInteractive to use WildCam Gorongosa Lab in your classroom.
             </Paragraph>
             <Box pad="small">
               <Button  type="button" className="button--secondary" path="/wildcam-gorongosa-lab/educators/resources" label="Explore Resources"></Button>

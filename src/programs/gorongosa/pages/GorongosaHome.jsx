@@ -75,7 +75,7 @@ function GorongosaHome(props) {
 
             <Box pad="medium" size="medium">
               <Paragraph>
-                If you simply want to explore the data, enter as an explorer. You can use an interactive map to view and analyze the trail camera data from Darién and Soberanía National Parks.
+                If you simply want to explore the data, enter as an explorer. You can use an interactive map to view and analyze the trail camera data from Gorongosa National Park.
               </Paragraph>
               <Button type="button" className="button--secondary" path="/wildcam-gorongosa-lab/explorers/map/" label={TEXT.LABELS.EXPLORER} />
             </Box>
@@ -89,7 +89,7 @@ function GorongosaHome(props) {
       <Section className="home__section" align="center" colorIndex="accent-2">
         <Paragraph className="section__paragraph" align="center">
           Need help? Have questions?<br />
-          Check out the <Anchor href="https://www.zooniverse.org/projects/zooniverse/wildcam-gorongosa/talk/81">WildCam Darién Talk Board</Anchor> or <Anchor href="mailto:collab@zooniverse.org">email us</Anchor>
+          Check out the <Anchor href="https://www.zooniverse.org/projects/zooniverse/wildcam-gorongosa/talk/81">WildCam Gorongosa Talk Board</Anchor> or <Anchor href="mailto:collab@zooniverse.org">email us</Anchor>
         </Paragraph>
       </Section>
       {/*
