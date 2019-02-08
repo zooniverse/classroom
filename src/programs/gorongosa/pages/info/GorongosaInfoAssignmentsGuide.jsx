@@ -7,7 +7,7 @@ import Image from 'grommet/components/Image';
 import Paragraph from 'grommet/components/Paragraph';
 import Section from 'grommet/components/Section';
 
-function DarienInfoAssignmentsGuide(props) {
+function GorongosaInfoAssignmentsGuide(props) {
   return (
     <Box>
       <Box
@@ -45,8 +45,8 @@ function DarienInfoAssignmentsGuide(props) {
   );
 };
 
-DarienInfoAssignmentsGuide.defaultProps = {};
+GorongosaInfoAssignmentsGuide.defaultProps = {};
 
-DarienInfoAssignmentsGuide.propTypes = {};
+GorongosaInfoAssignmentsGuide.propTypes = {};
 
-export default DarienInfoAssignmentsGuide;
+export default GorongosaInfoAssignmentsGuide;

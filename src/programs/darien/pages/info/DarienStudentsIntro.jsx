@@ -77,7 +77,7 @@ function DarienStudentsIntro(props) {
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
-              <Button type="button" className="button--secondary" href="https://blog.wildcamdarien.org/" label="View Blog " rel="noopener noreferrer" icon={<ShareIcon size="small" />} reverse={true}></Button>
+              <Button type="button" className="button--secondary" href="https://blog.wildcamgorongosa.org/" label="View Blog " rel="noopener noreferrer" icon={<ShareIcon size="small" />} reverse={true}></Button>
             </Box>
           </Box>
         </Box>

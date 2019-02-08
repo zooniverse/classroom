@@ -9,14 +9,14 @@ import Image from 'grommet/components/Image';
 import Paragraph from 'grommet/components/Paragraph';
 import Section from 'grommet/components/Section';
 
-import imgDarienSplash from '../../images/darien-splash-A.jpg';
+import imgGorongosaSplash from '../../images/lake-urema.jpg';
 
-function DarienEducatorsIntro(props) {
+function GorongosaEducatorsIntro(props) {
   return (
     <Box>
       <Hero
         className="program-home__hero"
-        background={<Image src={imgDarienSplash} fit="cover" />}
+        background={<Image src={imgGorongosaSplash} fit="cover" />}
         backgroundColorIndex="dark"
         size="small"
       >
@@ -43,7 +43,7 @@ function DarienEducatorsIntro(props) {
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators" label="Manage Classrooms"></Button>
+              <Button  type="button" className="button--secondary" path="/wildcam-gorongosa-lab/educators" label="Manage Classrooms"></Button>
             </Box>
           </Box>
           <Box direction="row">
@@ -52,7 +52,7 @@ function DarienEducatorsIntro(props) {
               Our assignments guide provides information on how you can use assignments. 
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators/assignments-guide" label="Assignments Guide"></Button>
+              <Button  type="button" className="button--secondary" path="/wildcam-gorongosa-lab/educators/assignments-guide" label="Assignments Guide"></Button>
             </Box>
           </Box>
           <Box direction="row">
@@ -60,18 +60,18 @@ function DarienEducatorsIntro(props) {
               Explore a variety of educational resources produced by HHMI BioInteractive to use WildCam Darién Lab in your classroom.
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators/resources" label="Explore Resources"></Button>
+              <Button  type="button" className="button--secondary" path="/wildcam-gorongosa-lab/educators/resources" label="Explore Resources"></Button>
             </Box>
           </Box>
           <Box direction="row">
             <Paragraph>
-              You can learn more about the Darién and Soberanía ecosystems here.
+              You can learn more about the Gorongosa ecosystem here.
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
-              <Button type="button" className="button--secondary" path="/wildcam-darien-lab/educators/ecology" label="Explore Ecology"></Button>
+              <Button type="button" className="button--secondary" path="/wildcam-gorongosa-lab/educators/ecology" label="Explore Ecology"></Button>
             </Box>
           </Box>
         </Box>
@@ -80,8 +80,8 @@ function DarienEducatorsIntro(props) {
   );
 };
 
-DarienEducatorsIntro.defaultProps = {};
+GorongosaEducatorsIntro.defaultProps = {};
 
-DarienEducatorsIntro.propTypes = {};
+GorongosaEducatorsIntro.propTypes = {};
 
-export default DarienEducatorsIntro;
+export default GorongosaEducatorsIntro;

@@ -12,14 +12,14 @@ import Section from 'grommet/components/Section';
 
 import ShareIcon from 'grommet/components/icons/base/Share';
 
-import imgDarienSplash from '../../images/darien-splash-A.jpg';
+import imgGorongosaSplash from '../../images/lake-urema.jpg';
 
-function DarienStudentsIntro(props) {
+function GorongosaStudentsIntro(props) {
   return (
     <Box>
       <Hero
         className="program-home__hero"
-        background={<Image src={imgDarienSplash} fit="cover" />}
+        background={<Image src={imgGorongosaSplash} fit="cover" />}
         backgroundColorIndex="dark"
         size="small"
       >
@@ -44,7 +44,7 @@ function DarienStudentsIntro(props) {
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/students/map" label="Explore Data"></Button>
+              <Button  type="button" className="button--secondary" path="/wildcam-gorongosa-lab/students/map" label="Explore Data"></Button>
             </Box>
           </Box>
           <Box direction="row">
@@ -55,7 +55,7 @@ function DarienStudentsIntro(props) {
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/students" label="View Assignments"></Button>
+              <Button  type="button" className="button--secondary" path="/wildcam-gorongosa-lab/students" label="View Assignments"></Button>
             </Box>
           </Box>
           <Box direction="row">
@@ -66,7 +66,7 @@ function DarienStudentsIntro(props) {
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
-              <Button type="button" className="button--secondary" path="/wildcam-darien-lab/students/ecology" label="Explore Ecology"></Button>
+              <Button type="button" className="button--secondary" path="/wildcam-gorongosa-lab/students/ecology" label="Explore Ecology"></Button>
             </Box>
           </Box>
           <Box direction="row">

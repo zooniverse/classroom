@@ -7,7 +7,7 @@ import Image from 'grommet/components/Image';
 import Paragraph from 'grommet/components/Paragraph';
 import Section from 'grommet/components/Section';
 
-function DarienInfoCSV(props) {
+function GorongosaInfoCSV(props) {
   return (
     <Box>
       <Box
@@ -20,7 +20,7 @@ function DarienInfoCSV(props) {
 
         <Section>
           <Heading tag="h3">Columns</Heading>
-          <Heading tag="h4">darien_id</Heading>
+          <Heading tag="h4">id</Heading>
           <Paragraph>Unique identifier for each individual photo</Paragraph>
           
           <Heading tag="h4">camera</Heading>
@@ -92,8 +92,8 @@ function DarienInfoCSV(props) {
   );
 };
 
-DarienInfoCSV.defaultProps = {};
+GorongosaInfoCSV.defaultProps = {};
 
-DarienInfoCSV.propTypes = {};
+GorongosaInfoCSV.propTypes = {};
 
-export default DarienInfoCSV;
+export default GorongosaInfoCSV;
