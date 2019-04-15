@@ -76,7 +76,17 @@ const mapConfig = {
     'legend': {
       'type': 'simple',
       'items': {
-        '#9c3': 'Work In Progress',
+        '#063': 'Miombo Woodland',
+        '#693': 'Mixed Savanna and Woodland',
+        '#3c9': 'Floodplain Grassland',
+        '#cc0': 'Limestone Gorges',
+
+        '#c3c': 'Montane Woodland',
+        '#606': 'Montane Forest',
+        '#30c': 'Montane Grassland',
+
+        '#0ff': 'Lake Urema',
+        '#f30': 'Inselberg'
       },
     },
     'filters': {
