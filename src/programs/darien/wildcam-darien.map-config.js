@@ -148,6 +148,7 @@ const mapConfig = {
             stroke: true,
             color: '#3cc',
             fill: false,
+            interactive: false,
           };
         },
       },
@@ -177,6 +178,7 @@ const mapConfig = {
             fill: true,
             fillColor: color,
             fillOpacity: 0.5,
+            interactive: false,
           };
         },
       },
