@@ -100,26 +100,55 @@ class MapVisuals extends React.Component {
     
     const geomapLayers = {};
     extraLayers.map(item => {  //TODO: Maybe move this to an external duck?
-      geomapLayers[ZooTran(item.label)] = L.geoJson(null, { style: item.style }).addTo(this.map);
+      const externalLayerType = (item.query)
+        ? 'online'
+        : 'offline';
       
-      const url = this.props.mapConfig.database.urls.geojson.replace('{SQLQUERY}', encodeURIComponent(item.query));
-      superagent.get(url)
-      .then(response => {
-        if (!response) { throw 'ERROR (MapVisuals/getExtraLayers): No response'; }
-        if (response.ok && response.body) {
-          return response.body;
-        }
-        throw 'ERROR (MapVisuals/getExtraLayers): invalid response';
-      })
-      .then(geojson => {
-        if (!geomapLayers[ZooTran(item.label)]) return;
-        geomapLayers[ZooTran(item.label)].clearLayers();
-        geomapLayers[ZooTran(item.label)].addData(geojson);
-        this.dataLayer && this.dataLayer.bringToFront();  //Always keep the data layer at the forefront.
-      })
-      .catch(err => {
-        console.error(err);
-      });
+      //Extra Layer type: Offline (stored in mapconfig JSON)
+      //----------------
+      if (externalLayerType === 'offline') {
+        geomapLayers[ZooTran(item.label)] = L.geoJson(item.data, { style: item.style }).addTo(this.map);
+        /*
+        L.geoJson(vegetationGeodata.geojson, {
+          style: function (feature) {
+            const specificStyles = vegetationGeodata.specificStyles;
+            let baseStyle = vegetationGeodata.options.style;
+            const featureName = feature.properties.NAME;
+            return (specificStyles[featureName])
+              ? Object.assign(baseStyle, specificStyles[featureName])
+              : baseStyle;
+          }
+        }).addTo(this.map)
+        */
+        
+        
+      //----------------
+      
+      //Extra Layer type: Online (stored in external database)
+      //----------------
+      } else if (externalLayerType === 'online') {
+        geomapLayers[ZooTran(item.label)] = L.geoJson(null, { style: item.style }).addTo(this.map);
+
+        const url = this.props.mapConfig.database.urls.geojson.replace('{SQLQUERY}', encodeURIComponent(item.query));
+        superagent.get(url)
+        .then(response => {
+          if (!response) { throw 'ERROR (MapVisuals/getExtraLayers): No response'; }
+          if (response.ok && response.body) {
+            return response.body;
+          }
+          throw 'ERROR (MapVisuals/getExtraLayers): invalid response';
+        })
+        .then(geojson => {
+          if (!geomapLayers[ZooTran(item.label)]) return;
+          geomapLayers[ZooTran(item.label)].clearLayers();
+          geomapLayers[ZooTran(item.label)].addData(geojson);
+          this.dataLayer && this.dataLayer.bringToFront();  //Always keep the data layer at the forefront.
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      }
+      //----------------
     });
     //--------------------------------
     
