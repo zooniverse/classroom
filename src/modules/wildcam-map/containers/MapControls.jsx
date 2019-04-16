@@ -179,7 +179,10 @@ class MapControls extends React.Component {
             
           </AccordionPanel>
         </Accordion>
-        <Accordion openMulti={true}>
+        <Accordion
+          openMulti={true}
+          active={[0]}
+        >
           <AccordionPanel heading={ZooTran('Filters')} className={'map-controls-filters ' + ((hasAnySelections) ? 'selected' : '')}>
             <Accordion openMulti={true}>
             {Object.keys(mapConfig.map.filters).map(key =>{
