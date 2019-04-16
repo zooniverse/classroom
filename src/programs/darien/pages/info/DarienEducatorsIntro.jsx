@@ -33,10 +33,10 @@ function DarienEducatorsIntro(props) {
           <Paragraph>
             WildCam Darién Lab is an educational resource that lets you and your students explore trail camera data using an interactive map.
             Simply direct your students to explore and download the data, or use classrooms and assignments to guide their experience.
-            Classrooms are a way to manage groups of of students, send them assignments, and monitor their progress as they identify animals.
           </Paragraph>
           <Box direction="row">
             <Paragraph>
+              Classrooms are a way to manage groups of of students, send them assignments, and monitor their progress as they identify animals.
               To begin, create a classroom and invite your students to join.
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
