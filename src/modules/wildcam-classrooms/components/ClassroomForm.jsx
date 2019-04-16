@@ -354,15 +354,6 @@ class ClassroomForm extends React.Component {
           
           <Button
             className="button"
-            icon={<HelpIcon />}
-            label={TEXT.ACTIONS.HELP}
-            onClick={() => {
-              Actions.wildcamClassrooms.showHelp('classrooms-management');
-            }}
-          />
-          
-          <Button
-            className="button"
             icon={<LinkNextIcon size="small" />}
             label={TEXT.ACTIONS.EDIT}
             onClick={() => {
