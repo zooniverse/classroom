@@ -69,7 +69,7 @@ function GorongosaHome(props) {
               </Paragraph>
               {(signedIn)
                 ? <Button type="button" className="button--secondary" path="/wildcam-gorongosa-lab/students/intro" label={TEXT.LABELS.STUDENT} />
-                : <Button type="button" className="button--secondary" onClick={Actions.auth.toggleOauthModal} label={TEXT.LABELS.EDUCATOR} />
+                : <Button type="button" className="button--secondary" onClick={Actions.auth.toggleOauthModal} label={TEXT.LABELS.STUDENT} />
               }            
             </Box>
 
