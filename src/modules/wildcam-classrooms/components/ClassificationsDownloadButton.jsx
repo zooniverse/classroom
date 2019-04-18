@@ -11,7 +11,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'jumpstate';
 
-//import superagent from 'superagent';
+import superagent from 'superagent';
 //import superagentJsonapify from 'superagent-jsonapify';
 import apiClient from 'panoptes-client/lib/api-client';
 //import { config } from '../../../lib/config';
@@ -75,7 +75,7 @@ class ClassificationsDownloadButton extends React.Component {
   initiateFetchData() {
     const props = this.props;
     
-    this.jsonData = [];
+    this.classificationsData = [];
     this.safetyCounter = 0;
     
     //const request = superagent.get(`${config.root}${endpoint}`)
@@ -96,16 +96,13 @@ class ClassificationsDownloadButton extends React.Component {
     
     apiClient.type('classifications').get(fetchArguments)
       .then((data) => {
-        //For each Classification, add it to our collection.
-        data.forEach((classification) => {
-          const data = this.props.transformData(classification);
-
+        //For each Classification resource, add it to our collection.
+        data.forEach((data) => {
           if (Array.isArray(data)) {  //If we have an array, add _each element_ to our collection, not the array itself.
-            this.jsonData.push(...data)
+            this.classificationsData.push(...data)
           } else if (data) {
-            this.jsonData.push(data)
+            this.classificationsData.push(data)
           }
-
         });
       
         //Fetch next set of data
@@ -122,22 +119,29 @@ class ClassificationsDownloadButton extends React.Component {
   }
   
   finishFetchData() {
-    console.log('+++ finishFetchData \n  total data: ', this.jsonData);
+    console.log('+++ finishFetchData \n  total data: ', this.classificationsData);
     
-    let csvData = '';
+    Promise.resolve(this.props.transformData(this.classificationsData))
+    .then((classifications) => {
+      let csvData = '';
+      
+      console.log('+++ SAVING THIS: ', classifications);
     
-    //Get the header
-    if (this.jsonData[0]) {
-      csvData += Object.keys(this.jsonData[0]).map(csvStr).join(',') + '\n';
-    }
-    
-    //Now let's do each row.
-    this.jsonData.forEach((data) => {
-      csvData += Object.values(data).map(csvStr).join(',') + '\n'
+      /*
+      //Get the header
+      if (classificationsData[0]) {
+        csvData += Object.keys(classifications[0]).map(csvStr).join(',') + '\n';
+      }
+
+      //Now let's do each row.
+      classifications.forEach((data) => {
+        csvData += Object.values(data).map(csvStr).join(',') + '\n'
+      });
+      */
+
+      this.saveFile(csvData);
+      this.setState({ state: 'idle' });
     });
-    
-    this.saveFile(csvData);
-    this.setState({ state: 'idle' });
   }
   
   handleError(err) {
@@ -167,7 +171,7 @@ ClassificationsDownloadButton.defaultProps = {
   contentType: 'text/csv',
   fileNameBase: 'download-',
   label: '',
-  transformData: null,
+  transformData: (data) => { return data },
   workflow_id: undefined,
 };
 

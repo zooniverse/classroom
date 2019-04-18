@@ -562,7 +562,6 @@ function transformDarienDownloadData(csvData) {
       }
     });
     
-    
     if (!consensusCount) {
       row.push('-')
     } else {
