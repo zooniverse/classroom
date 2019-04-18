@@ -9,6 +9,7 @@ tailored to a specific project, and this config file is for WildCam Darien.
  */
 
 import { env } from '../../lib/config';
+import mapConfig from './wildcam-darien.map-config.js';
 
 const classroomConfig = {
   forStudents: {
@@ -25,6 +26,12 @@ const classroomConfig = {
 };
   
 function transformWildCamAssignments (classifications) {
+  return Promise.resolve(classificationResourceToJson(classifications))
+    .then(combineWithSubjectMetadata);
+}
+  
+function classificationResourceToJson (classifications) {
+  
   let data = [];
   
   classifications.forEach((classification) => {
@@ -62,6 +69,14 @@ function transformWildCamAssignments (classifications) {
   });
   
   return data;
+}
+
+function combineWithSubjectMetadata (classifications) {
+  
+  const query = mapConfig.database.queries.selectForDownload.replace('{WHERE}', '');
+  console.log('+++ ', query);
+  
+  return classifications;
 }
 
 export default classroomConfig;

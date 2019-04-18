@@ -119,8 +119,6 @@ class ClassificationsDownloadButton extends React.Component {
   }
   
   finishFetchData() {
-    console.log('+++ finishFetchData \n  total data: ', this.classificationsData);
-    
     Promise.resolve(this.props.transformData(this.classificationsData))
     .then((classifications) => {
       let csvData = jsonToCsv(classifications);
