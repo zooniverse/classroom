@@ -123,22 +123,7 @@ class ClassificationsDownloadButton extends React.Component {
     
     Promise.resolve(this.props.transformData(this.classificationsData))
     .then((classifications) => {
-      let csvData = '';
-      
-      console.log('+++ SAVING THIS: ', classifications);
-    
-      /*
-      //Get the header
-      if (classificationsData[0]) {
-        csvData += Object.keys(classifications[0]).map(csvStr).join(',') + '\n';
-      }
-
-      //Now let's do each row.
-      classifications.forEach((data) => {
-        csvData += Object.values(data).map(csvStr).join(',') + '\n'
-      });
-      */
-
+      let csvData = jsonToCsv(classifications);
       this.saveFile(csvData);
       this.setState({ state: 'idle' });
     });
@@ -158,9 +143,25 @@ class ClassificationsDownloadButton extends React.Component {
 --------------------------------------------------------------------------------
  */
 
-function csvStr(str) {
+function csvStr (str) {
   if (!str) return '';
   return '"' + str.replace(/"/g, '""') + '"';
+}
+
+function jsonToCsv (json) {
+  let csv = '';
+  
+  //Get the header
+  if (json[0]) {
+    csv += Object.keys(json[0]).map(csvStr).join(',') + '\n';
+  }
+
+  //Now let's do each row.
+  json.forEach((row) => {
+    csv += Object.values(row).map(csvStr).join(',') + '\n'
+  });
+  
+  return csv;
 }
 
 /*
