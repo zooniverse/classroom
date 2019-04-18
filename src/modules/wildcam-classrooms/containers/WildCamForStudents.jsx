@@ -81,6 +81,10 @@ class WildCamForStudents extends React.Component {
         )}
         
         <AssignmentsListForStudents
+          transformData={(props.classroomConfig && props.classroomConfig.forStudents && props.classroomConfig.forStudents.transformClassificationsDownload)
+            ? props.classroomConfig.forStudents.transformClassificationsDownload
+            : null
+          }
           urlToAssignment={(props.classroomConfig && props.classroomConfig.forStudents && props.classroomConfig.forStudents.urlToAssignment)
             ? props.classroomConfig.forStudents.urlToAssignment
             : ''

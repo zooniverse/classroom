@@ -159,45 +159,6 @@ function csvStr(str) {
   return '"' + str.replace(/"/g, '""') + '"';
 }
 
-function transformWildCamData(classification) {
-  console.log('+++ transformdata: ', classification);
-  
-  const classification_id = classification.id;
-  const subject_id =
-    classification.links &&
-    classification.links.subjects &&
-    classification.links.subjects[0];
-  const user_id =
-    classification.links &&
-    classification.links.user;
-  const assignment_id =
-    classification.links &&
-    classification.links.workflow;
-  
-  let data = [];
-  
-  classification.annotations.forEach(task => {
-    task.value.forEach(answer => {
-      
-      const species = answer.choice;
-      const count = answer.answers && answer.answers.HOWMANY;
-      
-      if (user_id && assignment_id && classification_id && subject_id && species) {
-        data.push({
-          user_id,
-          assignment_id,
-          classification_id,
-          subject_id,
-          species,
-          count,
-        });
-      }
-    });
-  });
-  
-  return data;
-}
-
 /*
 --------------------------------------------------------------------------------
  */
@@ -206,7 +167,7 @@ ClassificationsDownloadButton.defaultProps = {
   contentType: 'text/csv',
   fileNameBase: 'download-',
   label: '',
-  transformData: transformWildCamData,
+  transformData: null,
   workflow_id: undefined,
 };
 

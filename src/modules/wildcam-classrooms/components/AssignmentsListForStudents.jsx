@@ -166,6 +166,7 @@ class AssignmentsListForStudents extends React.Component {
                           <Paragraph size="small">{TEXT.LABELS.PROGRESS}: {classificationsCount} / {classificationsTarget}</Paragraph>
                           <ClassificationsDownloadButton
                             label={TEXT.ACTIONS.DOWNLOAD_MY_DATA}
+                            transformData={props.transformData}
                             workflow_id={ass.workflowId}
                           />
                       </Box>
@@ -188,6 +189,7 @@ class AssignmentsListForStudents extends React.Component {
 };
 
 AssignmentsListForStudents.defaultProps = {
+  transformData: null,
   urlToAssignment: '',  //Passed from parent.
   // ----------------
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
@@ -196,6 +198,10 @@ AssignmentsListForStudents.defaultProps = {
 };
 
 AssignmentsListForStudents.propTypes = {
+  transformData: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.object
+  ]),
   urlToAssignment: PropTypes.string,
   // ----------------
   ...WILDCAMCLASSROOMS_PROPTYPES,
