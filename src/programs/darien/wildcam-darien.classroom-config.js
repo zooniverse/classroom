@@ -94,12 +94,25 @@ function combineWithSubjectMetadata (classifications) {
         let subject = subjects.find(s => s.subject_id == classification.subject_id);  // Use ==, not ===, due to different data types.
         
         if (!subject) {
-          subject = {
-            'wtf': '???'
+          subject = {  // Default Subject data; the data structure consistency is required to keep JSON-to-CSV automation working
+            camera: '',
+            date: '',
+            dist_humans_m: '',
+            dist_water_m: '',
+            image_url: '',
+            land_use: '',
+            latitude: '',
+            longitude: '',
+            month: '',
+            national_park: '',
+            season: '',
+            //subject_id: ''  // No, leave this alone
+            time_period: '',
+            veg_type: '',
+            water_type: '',
+            year: '',
           };
         }
-        
-        console.log('+++ > ', subject);
         
         return { ...classification, ...subject };
       });
