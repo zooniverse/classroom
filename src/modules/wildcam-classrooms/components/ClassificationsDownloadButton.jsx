@@ -11,14 +11,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'jumpstate';
 
-import superagent from 'superagent';
+//import superagent from 'superagent';
 //import superagentJsonapify from 'superagent-jsonapify';
+//superagentJsonapify(superagent);
+
 import apiClient from 'panoptes-client/lib/api-client';
 //import { config } from '../../../lib/config';
 import { saveAs } from 'browser-filesaver';
 import { blobbifyData, generateFilename } from '../../../lib/file-download-helpers';
-
-//superagentJsonapify(superagent);
 
 import Button from 'grommet/components/Button';
 import DownloadIcon from 'grommet/components/icons/base/Download';
@@ -143,7 +143,7 @@ class ClassificationsDownloadButton extends React.Component {
 
 function csvStr (str) {
   if (!str) return '';
-  return '"' + str.replace(/"/g, '""') + '"';
+  return '"' + String(str).replace(/"/g, '""') + '"';
 }
 
 function jsonToCsv (json) {

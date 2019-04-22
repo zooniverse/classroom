@@ -8,6 +8,10 @@ tailored to a specific project, and this config file is for WildCam Darien.
 ********************************************************************************
  */
 
+import superagent from 'superagent';
+import superagentJsonapify from 'superagent-jsonapify';
+superagentJsonapify(superagent);
+
 import { env } from '../../lib/config';
 import mapConfig from './wildcam-darien.map-config.js';
 
@@ -73,10 +77,39 @@ function classificationResourceToJson (classifications) {
 
 function combineWithSubjectMetadata (classifications) {
   
-  const query = mapConfig.database.queries.selectForDownload.replace('{WHERE}', '');
-  console.log('+++ ', query);
+  const query = mapConfig.database.queries.selectAllSubjects
+    .replace('{WHERE}', '')
+    .replace('{ORDER}', '')
+    .replace('{LIMIT}', '');
+  const url = mapConfig.database.urls.json.replace('{SQLQUERY}', query);
   
-  return classifications;
+  return superagent.get(url)
+    .then(res => {
+      if (res.ok && res.body && res.body.rows) return res.body.rows;
+      throw 'ERROR';
+    })
+    .then(subjects => {
+      return classifications.map(classification => {
+        console.log(classification);
+        let subject = subjects.find(s => s.subject_id == classification.subject_id);  // Use ==, not ===, due to different data types.
+        
+        if (!subject) {
+          subject = {
+            'wtf': '???'
+          };
+        }
+        
+        console.log('+++ > ', subject);
+        
+        return { ...classification, ...subject };
+      });
+    
+    
+      return classifications;
+    })
+    .catch(err => {
+      return classifications;
+    });
 }
 
 export default classroomConfig;
