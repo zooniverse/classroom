@@ -14,6 +14,7 @@ import { Actions } from 'jumpstate';
 
 import { TEXT } from '../text.js'
 import { config } from '../../../lib/config';
+import { get, post, put } from '../../../lib/edu-api';
 
 import StatusWorking from './StatusWorking';
 import StatusNotFound from './StatusNotFound';
@@ -35,6 +36,7 @@ import NumberInput from 'grommet/components/NumberInput';
 import CloseIcon from 'grommet/components/icons/base/Close';
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
+import StatusIcon from 'grommet/components/icons/Status';
 
 import {
   WILDCAMMAP_INITIAL_STATE, WILDCAMMAP_PROPTYPES, WILDCAMMAP_MAP_STATE,
@@ -65,9 +67,7 @@ class AssignmentForm extends React.Component {
     this.state = {
       form: INITIAL_FORM_DATA,  //Contains basic Assignment data: name, description, etc.
       formInitialised: false,  //Has initialiseForm() already been run?
-      filters: {},
-      subjects: [],
-      students: [],  //This is a list of IDs for students selected for this Assignment.
+      status: WILDCAMCLASSROOMS_DATA_STATUS.IDLE,
     };
   }
   
@@ -147,7 +147,10 @@ class AssignmentForm extends React.Component {
     
     //State: Working
     //Data is being processed. Don't let the user do anything.
-    if (false) {
+    if (!props.initialised
+        || state.status === WILDCAMCLASSROOMS_DATA_STATUS.FETCHING
+        || state.status === WILDCAMCLASSROOMS_DATA_STATUS.SENDING
+    ) {
       return (
         <Box
           className="teacher-registration-form"
@@ -161,7 +164,7 @@ class AssignmentForm extends React.Component {
     
     //State: Ready
     //Page is now ready to accept user input.
-    if (true) {
+    if (state.status === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
       return (
         <Box
           className="teacher-registration-form"
@@ -175,7 +178,7 @@ class AssignmentForm extends React.Component {
     }
     
     //State: Error
-    if (false) {
+    if (state.status === WILDCAMCLASSROOMS_DATA_STATUS.ERROR) {
       return (
         <Box
           className="teacher-registration-form"
@@ -247,18 +250,19 @@ class AssignmentForm extends React.Component {
     );
   }
   
-  render_notFoundState() {
-    return (
-      <StatusNotFound />
-    );
-  }
-  
   render_errorState() {
     return (
-      <StatusBorked
-        classroomsStatusDetails={this.props.classroomsStatusDetails}
-        assignmentsStatusDetails={this.props.assignmentsStatusDetails}
-      />
+      <Box
+        align="center"
+        alignContent="center"
+        className="status-box"
+        direction="column"
+        pad="medium"
+      >
+      <StatusIcon value="critical" />
+      <Label>{TEXT.STATUS.ERRORS.GENERAL}</Label>
+      <p>Could not access registration details</p>
+    </Box>
     );
   }
 };
@@ -269,15 +273,21 @@ class AssignmentForm extends React.Component {
 
 AssignmentForm.defaultProps = {
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
+  initialised: false,
+  user: null,
 };
 
 AssignmentForm.propTypes = {
   ...WILDCAMCLASSROOMS_PROPTYPES,
+  initialised: PropTypes.bool,
+  user: PropTypes.shape({ login: PropTypes.string }),
 };
 
 function mapStateToProps(state) {
   return {
     ...WILDCAMCLASSROOMS_MAP_STATE(state),
+    initialised: state.auth.initialised,
+    user: state.auth.user,
   };
 }
 
