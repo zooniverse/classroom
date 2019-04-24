@@ -21,6 +21,7 @@ import Toast from 'grommet/components/Toast';
 import ClassroomsList from '../components/ClassroomsList';
 import ClassroomForm from '../components/ClassroomForm';
 import AssignmentForm from '../components/AssignmentForm';
+import TeacherRegistrationForm from '../components/TeacherRegistrationForm'
 import Status404 from '../../../components/common/Status404';
 import HelpfulGuide from '../../../components/common/HelpfulGuide';
 
@@ -86,6 +87,10 @@ class WildCamForEducators extends React.Component {
         )}
         
         <Switch>
+          <Route
+            path={`${match.url}/register`} exact
+            component={TeacherRegistrationForm}
+          />
           <Route
             path={`${match.url}/classrooms/:classroom_id/assignments/new`} exact
             component={AssignmentForm}
