@@ -78,40 +78,64 @@ class AssignmentForm extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.initialise(nextProps);
+    if (!this.props.userInitialised && nextProps.userInitialised) {
+      this.initialise(nextProps);
+    }
   }
   
   /*  //Initialise
    */
   initialise(props = this.props) {
     const state = this.state;
-    
-    this.initialiseForm(props, null);
+
+    if (props.userInitialised && !state.formInitialised) {
+      this.setState({ formInitialised: true });
+      
+      console.log('+++ INITIALISE FORM > ', props.user.id);
+      
+      if (props.user && props.user.id) {
+        
+        this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.FETCHING });
+        
+        get(`/users/${props.user.id}`)
+        
+        .then((response) => {
+          if (response && response.ok && response.body) return response.body;
+          throw 'ERROR';
+        })
+
+        .then((body) => {
+          console.log('+++ BODY: ', body);
+          
+          /*
+          age: "Elementary School"
+          country: "Bhutan"
+          course: null
+          feedback: null
+          foundon: null
+          resource: "Yes"
+          setting: "Formal ..."
+           */
+          this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS });
+          this.initialiseForm(body.metadata);
+        })
+
+        .catch((err) => {
+          this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.ERROR });
+        });
+        
+      } else {
+        this.initialiseForm();
+      }
+      
+    }
   }
   
   /*  Initialises the classroom form.
    */
-  initialiseForm(props, selectedAssignment) {
-    //Only run this once per page load, thank you.
-    if (this.state.formInitialised) return;
-    this.setState({ formInitialised: true });
-    
-    if (!selectedAssignment) {
-      this.setState({
-        form: INITIAL_FORM_DATA,
-      });
-    } else {
-      const originalForm = INITIAL_FORM_DATA;
-      const updatedForm = {};
-      
-      Object.keys(originalForm).map((key) => {
-
-      });
-      
-      this.setState({
-        form: updatedForm,
-      });
-    }
+  initialiseForm(formData = {}) {
+    const form = { INITIAL_FORM_DATA, ...formData };
+    this.setState({ form });
   }
   
   // ----------------------------------------------------------------
@@ -147,7 +171,7 @@ class AssignmentForm extends React.Component {
     
     //State: Working
     //Data is being processed. Don't let the user do anything.
-    if (!props.initialised
+    if (!props.userInitialised
         || state.status === WILDCAMCLASSROOMS_DATA_STATUS.FETCHING
         || state.status === WILDCAMCLASSROOMS_DATA_STATUS.SENDING
     ) {
@@ -273,21 +297,21 @@ class AssignmentForm extends React.Component {
 
 AssignmentForm.defaultProps = {
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
-  initialised: false,
   user: null,
+  userInitialised: false,
 };
 
 AssignmentForm.propTypes = {
   ...WILDCAMCLASSROOMS_PROPTYPES,
-  initialised: PropTypes.bool,
   user: PropTypes.shape({ login: PropTypes.string }),
+  userInitialised: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
   return {
     ...WILDCAMCLASSROOMS_MAP_STATE(state),
-    initialised: state.auth.initialised,
     user: state.auth.user,
+    userInitialised: state.auth.initialised,
   };
 }
 
