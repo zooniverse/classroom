@@ -85,6 +85,61 @@ const TEXT_EN = {
   ASSIGNMENT_FORM_PLACEHOLDERS: {
     DUEDATE: 'MM-DD-YYYY',
   },
+  TEACHER_REGISTRATION_FORM: {
+    FIELDS: {
+      COUNTRY: 'Where do you teach?',
+      SETTING: 'In what educational setting do you plan to use this resource?',
+      AGE: 'I plan to use this resource with my students.',
+      COURSE: 'In what course(s) do you plan to use this resource?',
+      FOUNDON: 'How did you find out about this resource?',
+      RESOURCE: 'Have you used HHMI BioInteractive resources in your teaching before?',
+      FEEDBACK: 'Feedback from educators like you helps us improve our free educational resources. May we contact you at a later time?',
+    },
+    ANSWERS: {
+      SETTING: [
+        'Formal education (e.g., classroom, lab)',
+        'Informal education (e.g., zoo, museum, nature center)',
+        'Home school',
+        'Other',
+      ],
+      AGE: [
+        'Elementary School',
+        'Middle School/Junior High',
+        'High School',
+        '2-yr College',
+        '4-yr College/University',
+        'Other',
+      ],
+      COURSE: [
+        'Ecology',
+        'Biology',
+        'Environmental Science',
+        'Geology/Earth Science',
+        'Geography',
+        'Other',
+      ],
+      FOUNDON: [
+        'Zooniverse',
+        'BioInteractive News e-newsletter',
+        'Workshop/conference',
+        'Social Media',
+        'News story/blog',
+        'Internet search',
+        'News story/blog',
+        'Educator Forum or ListServ',
+        'Friend/Colleague',
+        'Other',
+      ],
+      RESOURCE: [
+        'Yes',
+        'No',
+      ],
+      FEEDBACK: [
+        'Yes',
+        'No',
+      ],
+    },
+  },
 };
 
 export { TEXT_EN };

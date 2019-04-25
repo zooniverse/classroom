@@ -59,10 +59,10 @@ const INITIAL_FORM_DATA = {
   country: '',
   setting: '',
   age: '',
-  course: null,
-  foundon: null,
+  course: '',
+  foundon: '',
   resource: '',
-  feedback: null,
+  feedback: '',
 };
 
 /*
@@ -107,13 +107,13 @@ class AssignmentForm extends React.Component {
         get(`/users/${props.user.id}`)
         
         .then((response) => {
-          if (response && response.ok && response.body) return response.body;
+          if (response && response.ok && response.body && response.body.data) return response.body.data;
           throw 'ERROR or USER NOT FOUND';  // Warning: we don't differentiate between problems fetching a user's data, and the user data having not yet been created.
         })
 
-        .then((body) => {
+        .then((data) => {
           this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS });
-          this.initialiseForm(body && body.data);
+          this.initialiseForm(data && data.metadata);
         })
 
         // If the user data can't be found or hasn't been initialised (404), or
