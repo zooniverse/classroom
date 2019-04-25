@@ -55,6 +55,14 @@ import {
 
 const INITIAL_FORM_DATA = {
   name: 'TESTER',
+  
+  country: '',
+  setting: '',
+  age: '',
+  course: null,
+  foundon: null,
+  resource: '',
+  feedback: null,
 };
 
 /*
@@ -83,7 +91,7 @@ class AssignmentForm extends React.Component {
     }
   }
   
-  /*  //Initialise
+  /*  Initialise
    */
   initialise(props = this.props) {
     const state = this.state;
@@ -91,8 +99,7 @@ class AssignmentForm extends React.Component {
     if (props.userInitialised && !state.formInitialised) {
       this.setState({ formInitialised: true });
       
-      console.log('+++ INITIALISE FORM > ', props.user.id);
-      
+      // If we have a user, try to pull
       if (props.user && props.user.id) {
         
         this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.FETCHING });
@@ -101,30 +108,26 @@ class AssignmentForm extends React.Component {
         
         .then((response) => {
           if (response && response.ok && response.body) return response.body;
-          throw 'ERROR';
+          throw 'ERROR or USER NOT FOUND';  // Warning: we don't differentiate between problems fetching a user's data, and the user data having not yet been created.
         })
 
         .then((body) => {
-          console.log('+++ BODY: ', body);
-          
-          /*
-          age: "Elementary School"
-          country: "Bhutan"
-          course: null
-          feedback: null
-          foundon: null
-          resource: "Yes"
-          setting: "Formal ..."
-           */
           this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS });
-          this.initialiseForm(body.metadata);
+          this.initialiseForm(body && body.data);
         })
 
+        // If the user data can't be found or hasn't been initialised (404), or
+        // if there's an error fetching the data, just load the default form.
         .catch((err) => {
-          this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.ERROR });
+          //this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.ERROR });
+          
+          this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS });
+          this.initialiseForm();
         });
-        
+       
+      // Otherwise, intialise the form with default values.
       } else {
+        this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS });
         this.initialiseForm();
       }
       
@@ -134,7 +137,15 @@ class AssignmentForm extends React.Component {
   /*  Initialises the classroom form.
    */
   initialiseForm(formData = {}) {
-    const form = { INITIAL_FORM_DATA, ...formData };
+    const form = { ...INITIAL_FORM_DATA, ...formData };
+    
+    console.log('+++ INITIALISE FORM: ', form);
+    
+    // Don't allow nulls or undefineds.
+    Object.keys(form).forEach((key) => {
+      if (form[key] === undefined || form[key] === null) form[key] = '';
+    });
+    
     this.setState({ form });
   }
   
@@ -158,9 +169,9 @@ class AssignmentForm extends React.Component {
     //Prevent standard browser actions
     e.preventDefault();
     
-    //Sanity check
-    if (!props.selectedProgram) return;
-    if (!props.selectedClassroom) return;
+    // ... TODO
+    
+    console.log('+++ SUBMIT: ', state.form);
   }
 
   // ----------------------------------------------------------------
@@ -229,7 +240,7 @@ class AssignmentForm extends React.Component {
         onSubmit={this.submitForm.bind(this)}
       >
         <Heading tag="h2">
-          ...
+          {TEXT.TITLES.TEACHER_REGISTRATION_FORM}
         </Heading>
 
         <fieldset>

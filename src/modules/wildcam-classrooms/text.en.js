@@ -10,6 +10,7 @@ const TEXT_EN = {
     STUDENTS: 'Students',
     SUBJECTS: 'Photos',
     LIST_OF_CLASSROOMS: 'List of Classrooms',
+    TEACHER_REGISTRATION_FORM: 'Teacher Registration Form',
   },
   ACTIONS: {
     BACK: 'Back',  //Go back to the previous page.

@@ -10,6 +10,7 @@ const TEXT_ES = {
     STUDENTS: 'Estudiantes',
     SUBJECTS: 'Fotos',
     LIST_OF_CLASSROOMS: 'Lista de aulas',
+    TEACHER_REGISTRATION_FORM: 'Formulario de registro de maestro',
   },
   ACTIONS: {
     BACK: 'Regreso',  //Go back to the previous page.
