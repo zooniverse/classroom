@@ -54,8 +54,6 @@ import {
  */
 
 const INITIAL_FORM_DATA = {
-  name: 'TESTER',
-  
   country: '',
   setting: '',
   age: '',
@@ -244,14 +242,69 @@ class AssignmentForm extends React.Component {
         </Heading>
 
         <fieldset>
-          <FormField htmlFor="name" label="Name">
+          <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.COUNTRY}>
             <TextInput
-              id="name"
+              id="country"
               required={true}
-              value={this.state.form.name}
+              value={this.state.form.country}
               onDOMChange={this.updateForm.bind(this)}
             />
           </FormField>
+          
+          <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.SETTING}>
+            <TextInput
+              id="setting"
+              required={true}
+              value={this.state.form.setting}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+          
+          <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.AGE}>
+            <TextInput
+              id="age"
+              required={true}
+              value={this.state.form.age}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+          
+          <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.COURSE}>
+            <TextInput
+              id="course"
+              required={true}
+              value={this.state.form.course}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+          
+          <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.FOUNDON}>
+            <TextInput
+              id="foundon"
+              required={true}
+              value={this.state.form.foundon}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+          
+          <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.RESOURCE}>
+            <TextInput
+              id="resource"
+              required={true}
+              value={this.state.form.resource}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+          
+          <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.FEEDBACK}>
+            <TextInput
+              id="feedback"
+              required={true}
+              value={this.state.form.feedback}
+              onDOMChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+          
         </fieldset>
 
         <Footer
