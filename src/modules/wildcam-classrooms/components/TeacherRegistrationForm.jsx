@@ -170,6 +170,33 @@ class AssignmentForm extends React.Component {
     
     console.log('+++ SUBMIT: ', state.form);
     
+    const data = {
+      data: {
+        attributes: {
+          metadata: { ...state.form }
+        }
+      }
+    };
+    
+    this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.SENDING });
+    
+    put(`/users/${props.user.id}`, data)
+        
+    .then((response) => {
+      if (response && response.ok) return;
+      throw 'ERROR';
+    })
+
+    .then(() => {
+      Actions.wildcamClassrooms.setToast({ status: 'ok', message: TEXT.TEACHER_REGISTRATION_FORM.STATUS.DATA_SENT });
+      this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS });
+    })
+
+    .catch((err) => {
+      Actions.wildcamClassrooms.setToast({ status: 'ok', message: TEXT.TEACHER_REGISTRATION_FORM.STATUS.ERROR });
+      this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.ERROR });
+    });
+    
     /*
     PUT https://education-api-staging.zooniverse.org/users/1325800
 
@@ -264,7 +291,6 @@ class AssignmentForm extends React.Component {
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.COUNTRY}>
             <TextInput
               id="country"
-              required={true}
               value={this.state.form.country}
               onDOMChange={this.updateForm.bind(this)}
             />
@@ -273,7 +299,6 @@ class AssignmentForm extends React.Component {
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.SETTING}>
             <TextInput
               id="setting"
-              required={true}
               value={this.state.form.setting}
               onDOMChange={this.updateForm.bind(this)}
             />
@@ -282,7 +307,6 @@ class AssignmentForm extends React.Component {
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.AGE}>
             <TextInput
               id="age"
-              required={true}
               value={this.state.form.age}
               onDOMChange={this.updateForm.bind(this)}
             />
@@ -291,7 +315,6 @@ class AssignmentForm extends React.Component {
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.COURSE}>
             <TextInput
               id="course"
-              required={true}
               value={this.state.form.course}
               onDOMChange={this.updateForm.bind(this)}
             />
@@ -300,7 +323,6 @@ class AssignmentForm extends React.Component {
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.FOUNDON}>
             <TextInput
               id="foundon"
-              required={true}
               value={this.state.form.foundon}
               onDOMChange={this.updateForm.bind(this)}
             />
@@ -309,7 +331,6 @@ class AssignmentForm extends React.Component {
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.RESOURCE}>
             <TextInput
               id="resource"
-              required={true}
               value={this.state.form.resource}
               onDOMChange={this.updateForm.bind(this)}
             />
@@ -318,7 +339,6 @@ class AssignmentForm extends React.Component {
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.FEEDBACK}>
             <TextInput
               id="feedback"
-              required={true}
               value={this.state.form.feedback}
               onDOMChange={this.updateForm.bind(this)}
             />
