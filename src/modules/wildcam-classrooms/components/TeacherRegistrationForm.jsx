@@ -196,26 +196,6 @@ class AssignmentForm extends React.Component {
       Actions.wildcamClassrooms.setToast({ status: 'ok', message: TEXT.TEACHER_REGISTRATION_FORM.STATUS.ERROR });
       this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.ERROR });
     });
-    
-    /*
-    PUT https://education-api-staging.zooniverse.org/users/1325800
-
-    {
-      "data": {
-        "attributes": {
-          "metadata": {
-            "country":"Afghanistan",
-            "setting":"Formal education (e.g., classroom, lab),Informal education (e.g., zoo, museum, nature center),Home school",
-            "age":null,
-            "course":null,
-            "foundon":null,
-            "resource":null,
-            "feedback":null
-          }
-        }
-      }
-    }
-    */
   }
 
   // ----------------------------------------------------------------
