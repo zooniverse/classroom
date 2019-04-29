@@ -110,6 +110,7 @@ class AssignmentForm extends React.Component {
         })
 
         .then((data) => {
+          Actions.wildcamClassrooms.setToast({ status: 'ok', message: TEXT.TEACHER_REGISTRATION_FORM.STATUS.DATA_FETCHED });
           this.setState({ status: WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS });
           this.initialiseForm(data && data.metadata);
         })
@@ -136,8 +137,6 @@ class AssignmentForm extends React.Component {
    */
   initialiseForm(formData = {}) {
     const form = { ...INITIAL_FORM_DATA, ...formData };
-    
-    console.log('+++ INITIALISE FORM: ', form);
     
     // Don't allow nulls or undefineds.
     Object.keys(form).forEach((key) => {
@@ -170,6 +169,26 @@ class AssignmentForm extends React.Component {
     // ... TODO
     
     console.log('+++ SUBMIT: ', state.form);
+    
+    /*
+    PUT https://education-api-staging.zooniverse.org/users/1325800
+
+    {
+      "data": {
+        "attributes": {
+          "metadata": {
+            "country":"Afghanistan",
+            "setting":"Formal education (e.g., classroom, lab),Informal education (e.g., zoo, museum, nature center),Home school",
+            "age":null,
+            "course":null,
+            "foundon":null,
+            "resource":null,
+            "feedback":null
+          }
+        }
+      }
+    }
+    */
   }
 
   // ----------------------------------------------------------------

@@ -86,6 +86,11 @@ const TEXT_ES = {
     DUEDATE: 'MM-DD-YYYY',
   },
   TEACHER_REGISTRATION_FORM: {
+    STATUS: {
+      DATA_FETCHED: 'You have already registered.',
+      DATA_SENT: 'Success: registration data submitted.',
+      ERROR: 'Error: could not communicate registration data.',
+    },
     FIELDS: {
       COUNTRY: 'Where do you teach?',
       SETTING: 'In what educational setting do you plan to use this resource?',
