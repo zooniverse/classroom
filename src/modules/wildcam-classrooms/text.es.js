@@ -130,7 +130,6 @@ const TEXT_ES = {
         'Social Media',
         'News story/blog',
         'Internet search',
-        'News story/blog',
         'Educator Forum or ListServ',
         'Friend/Colleague',
         'Other',

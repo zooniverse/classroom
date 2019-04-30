@@ -174,7 +174,7 @@ class AssignmentForm extends React.Component {
     this.setState({
       form: {
         ...this.state.form,
-        [name]: answers.join(';'),
+        [name]: answers.join(DELIMITER),
       }
     });
   }
@@ -303,52 +303,71 @@ class AssignmentForm extends React.Component {
                 onChange={this.updateForm_checkbox.bind(this)}
               />
             )}
-            
-            <TextInput
-              id="setting"
-              value={this.state.form.setting}
-              onDOMChange={this.updateForm_text.bind(this)}
-            />
           </FormField>
           
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.AGE}>
-            <TextInput
-              id="age"
-              value={this.state.form.age}
-              onDOMChange={this.updateForm_text.bind(this)}
-            />
+            {TEXT.TEACHER_REGISTRATION_FORM.ANSWERS.AGE.map((answer, index) => 
+              <CheckBox
+                key={`age_${index}`}
+                id={`age_${index}`}
+                name="age"
+                checked={state.form.age.includes(answer)}
+                label={answer}
+                onChange={this.updateForm_checkbox.bind(this)}
+              />
+            )}
           </FormField>
           
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.COURSE}>
-            <TextInput
-              id="course"
-              value={this.state.form.course}
-              onDOMChange={this.updateForm_text.bind(this)}
-            />
+            {TEXT.TEACHER_REGISTRATION_FORM.ANSWERS.COURSE.map((answer, index) => 
+              <CheckBox
+                key={`course_${index}`}
+                id={`course_${index}`}
+                name="course"
+                checked={state.form.course.includes(answer)}
+                label={answer}
+                onChange={this.updateForm_checkbox.bind(this)}
+              />
+            )}
           </FormField>
           
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.FOUNDON}>
-            <TextInput
-              id="foundon"
-              value={this.state.form.foundon}
-              onDOMChange={this.updateForm_text.bind(this)}
-            />
+            {TEXT.TEACHER_REGISTRATION_FORM.ANSWERS.FOUNDON.map((answer, index) => 
+              <CheckBox
+                key={`foundon_${index}`}
+                id={`foundon_${index}`}
+                name="foundon"
+                checked={state.form.foundon.includes(answer)}
+                label={answer}
+                onChange={this.updateForm_checkbox.bind(this)}
+              />
+            )}
           </FormField>
           
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.RESOURCE}>
-            <TextInput
-              id="resource"
-              value={this.state.form.resource}
-              onDOMChange={this.updateForm_text.bind(this)}
-            />
+            {TEXT.TEACHER_REGISTRATION_FORM.ANSWERS.RESOURCE.map((answer, index) => 
+              <CheckBox
+                key={`resource_${index}`}
+                id={`resource_${index}`}
+                name="resource"
+                checked={state.form.resource.includes(answer)}
+                label={answer}
+                onChange={this.updateForm_checkbox.bind(this)}
+              />
+            )}
           </FormField>
           
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.FEEDBACK}>
-            <TextInput
-              id="feedback"
-              value={this.state.form.feedback}
-              onDOMChange={this.updateForm_text.bind(this)}
-            />
+            {TEXT.TEACHER_REGISTRATION_FORM.ANSWERS.FEEDBACK.map((answer, index) => 
+              <CheckBox
+                key={`feedback_${index}`}
+                id={`feedback_${index}`}
+                name="feedback"
+                checked={state.form.feedback.includes(answer)}
+                label={answer}
+                onChange={this.updateForm_checkbox.bind(this)}
+              />
+            )}
           </FormField>
           
         </fieldset>
