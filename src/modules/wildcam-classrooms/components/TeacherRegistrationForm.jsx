@@ -30,6 +30,7 @@ import Heading from 'grommet/components/Heading';
 import Label from 'grommet/components/Label';
 import TextInput from 'grommet/components/TextInput';
 import CheckBox from 'grommet/components/CheckBox';
+import RadioButton from 'grommet/components/RadioButton';
 
 import CloseIcon from 'grommet/components/icons/base/Close';
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
@@ -175,6 +176,18 @@ class AssignmentForm extends React.Component {
       form: {
         ...this.state.form,
         [name]: answers.join(DELIMITER),
+      }
+    });
+  }
+  
+  updateForm_radio (e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    
+    this.setState({
+      form: {
+        ...this.state.form,
+        [name]: value,
       }
     });
   }
@@ -346,26 +359,28 @@ class AssignmentForm extends React.Component {
           
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.RESOURCE}>
             {TEXT.TEACHER_REGISTRATION_FORM.ANSWERS.RESOURCE.map((answer, index) => 
-              <CheckBox
+              <RadioButton
                 key={`resource_${index}`}
                 id={`resource_${index}`}
                 name="resource"
-                checked={state.form.resource.includes(answer)}
+                checked={(state.form.resource === answer)}
                 label={answer}
-                onChange={this.updateForm_checkbox.bind(this)}
+                value={answer}
+                onChange={this.updateForm_radio.bind(this)}
               />
             )}
           </FormField>
           
           <FormField htmlFor="name" label={TEXT.TEACHER_REGISTRATION_FORM.FIELDS.FEEDBACK}>
             {TEXT.TEACHER_REGISTRATION_FORM.ANSWERS.FEEDBACK.map((answer, index) => 
-              <CheckBox
+              <RadioButton
                 key={`feedback_${index}`}
                 id={`feedback_${index}`}
                 name="feedback"
-                checked={state.form.feedback.includes(answer)}
+                checked={(state.form.feedback === answer)}
                 label={answer}
-                onChange={this.updateForm_checkbox.bind(this)}
+                value={answer}
+                onChange={this.updateForm_radio.bind(this)}
               />
             )}
           </FormField>
