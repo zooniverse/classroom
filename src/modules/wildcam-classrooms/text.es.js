@@ -57,6 +57,7 @@ const TEXT_ES = {
     STUDENTS_ASSIGNMENT_LIST: 'Haga clic en la flecha al lado del nombre de la asignación para ver la fecha de vencimiento y las instrucciones.',
     EDUCATORS_JOIN_URL: 'Envíe esta URL a todos los estudiantes a los que desea unirse a este aula. ¡Pero primero, asegúrese de que sus estudiantes tengan una cuenta de Zooniverse y que hayan iniciado sesión antes de hacer clic en el enlace para unirse!',
     SUBJECTS_LIST: 'Elija el tipo y la cantidad de fotos de la cámara de fotos que desea que los estudiantes identifiquen.',
+    REMEMBER_TO_LOGIN: 'Por favor, recuerde iniciar sesión en zooniverse.org antes de comenzar su tarea. Haga clic en "Comenzar la asignación" de nuevo una vez que esté listo.',
   },
   LABELS: {
     JOIN_URL: 'Únete a la URL',
