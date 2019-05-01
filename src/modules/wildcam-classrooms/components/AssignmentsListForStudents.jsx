@@ -43,6 +43,10 @@ import {
 class AssignmentsListForStudents extends React.Component {
   constructor() {
     super();
+  
+    this.state = {
+      showLoginReminder: undefined,  // undefined if reminder isn't being show; assignment ID if one assignment has been selected.
+    };
   }
   
   componentDidMount() {
@@ -162,8 +166,19 @@ class AssignmentsListForStudents extends React.Component {
                           justify="end"
                           align="center"
                         >
-                          <Button className="button" label={TEXT.ACTIONS.START_ASSIGNMENT + ' '} href={urlToAssignment} target="_blank" rel="noopener noreferrer" icon={<LinkNextIcon size="small" />} reverse={true} />
+                          {(!this.state.showLoginReminder)
+                            ? <Button className="button" label={TEXT.ACTIONS.START_ASSIGNMENT + ' '} target="_blank" rel="noopener noreferrer" icon={<LinkNextIcon size="small" />} reverse={true} onClick={() => { this.setState({ showLoginReminder: ass.id }) }} />
+                            : <Button className="button" label={TEXT.ACTIONS.START_ASSIGNMENT + ' '} href={urlToAssignment} target="_blank" rel="noopener noreferrer" icon={<LinkNextIcon size="small" />} reverse={true} />
+                          }
+                        
+                          {(this.state.showLoginReminder !== ass.id) ? null :
+                            <Paragraph size="small">
+                              Please remember to login at zooniverse.org before starting your assignment. Click on "Start Assignment" again once you're ready.
+                            </Paragraph>
+                          }
+                        
                           <Paragraph size="small">{TEXT.LABELS.PROGRESS}: {classificationsCount} / {classificationsTarget}</Paragraph>
+
                           <ClassificationsDownloadButton
                             label={TEXT.ACTIONS.DOWNLOAD_MY_DATA}
                             transformData={props.transformData}
