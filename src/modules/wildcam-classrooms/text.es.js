@@ -10,7 +10,7 @@ const TEXT_ES = {
     STUDENTS: 'Estudiantes',
     SUBJECTS: 'Fotos',
     LIST_OF_CLASSROOMS: 'Lista de aulas',
-    TEACHER_REGISTRATION_FORM: 'Formulario de registro de maestro',
+    TEACHER_REGISTRATION_FORM: 'Formulario de registro de educador',
   },
   ACTIONS: {
     BACK: 'Regreso',  //Go back to the previous page.
@@ -23,6 +23,7 @@ const TEXT_ES = {
     HELP: 'Ayuda',  //Generic "help" action, for How Tos, Guides, Instructions, etc.
     NEXT: 'Siguiente',  //Generic "next" action, e.g. to go to the next step in a tutorial.
     PREVIOUS: 'Anterior',  //Generic "previous" action, e.g. to go to the previous step in a tutorial.
+    REGISTER_TEACHER: 'Registrar educador',
     SELECT_ALL: 'Seleccionar todo',  //Generic "select all" action, e.g. for a list of students.
     SELECT_SUBJECTS: 'Seleccionar fotos',
     SELECT_SUBJECTS_AGAIN: 'Cambiar la selección de fotos',

@@ -132,6 +132,16 @@ class ClassroomsList extends React.Component {
         >
           <Button
             className="button"
+            icon={<AddIcon size="small" />}
+            label={TEXT.ACTIONS.REGISTER_TEACHER}
+            onClick={() => {
+              //Transition to: Create New Classroom
+              props.history && props.history.push(`${props.match.url.replace(/\/+$/,'')}/register`);
+            }}
+          />
+          
+          <Button
+            className="button"
             icon={<HelpIcon />}
             label={TEXT.ACTIONS.HELP}
             onClick={() => {
