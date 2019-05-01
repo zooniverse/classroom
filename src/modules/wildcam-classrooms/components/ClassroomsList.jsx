@@ -28,6 +28,7 @@ import AddIcon from 'grommet/components/icons/base/Add';
 import EditIcon from 'grommet/components/icons/base/Edit';
 import HelpIcon from 'grommet/components/icons/base/Help';
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
+import UserIcon from 'grommet/components/icons/base/User';
 
 import {
   WILDCAMCLASSROOMS_COMPONENT_MODES as MODES,
@@ -132,7 +133,7 @@ class ClassroomsList extends React.Component {
         >
           <Button
             className="button"
-            icon={<AddIcon size="small" />}
+            icon={<UserIcon size="small" />}
             label={TEXT.ACTIONS.REGISTER_TEACHER}
             onClick={() => {
               //Transition to: Create New Classroom
