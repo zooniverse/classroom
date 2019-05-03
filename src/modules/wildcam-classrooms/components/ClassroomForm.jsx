@@ -118,12 +118,14 @@ class ClassroomForm extends React.Component {
       
       //If classroom is found, edit it.
       if (selectedClassroom) {
-        //Data store update
+        const previousClassroomId = props.selectedClassroom && props.selectedClassroom.id;
+        const shouldFetchAssignments = (previousClassroomId !== selectedClassroom.id) || (props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.IDLE);
+        
+        //Set the selected classroom...
         Actions.wildcamClassrooms.setSelectedClassroom(selectedClassroom);
         
-        //Fetch dependencies
-        //Redundancy Check: prevent infinite loop, only trigger once.
-        if (props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.IDLE) {
+        //...and if either the selected classroom changed, or the assignments haven't been fetched yet, fetch those assignments. 
+        if (shouldFetchAssignments) {
           Actions.wcc_fetchAssignments({ selectedClassroom });
         }
         
