@@ -36,7 +36,7 @@ function DarienEducatorsIntro(props) {
           </Paragraph>
           <Box direction="row">
             <Paragraph>
-              Classrooms are a way to manage groups of of students, send them assignments, and monitor their progress as they identify animals.
+              Classrooms are a way to manage groups of students, send them assignments, and monitor their progress as they identify animals.
               To begin, create a classroom and invite your students to join.
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
