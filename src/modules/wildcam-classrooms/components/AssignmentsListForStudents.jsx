@@ -96,7 +96,7 @@ class AssignmentsListForStudents extends React.Component {
     if (props.user && props.classroomsStudents) {  //Go through the whole list of students in the classrooms and figure out which Education API Student IDs (yes, plural) belong to this student.
       myStudentIds = props.classroomsStudents
         .filter(stud => stud.attributes && (stud.attributes.zooniverse_id === props.user.id))
-        .map(stud => String(stud.id));
+        .map(stud => String(stud.id));  // Consistency: make sure student IDs are a string for later comparison.
     }
     
     return (
@@ -138,7 +138,7 @@ class AssignmentsListForStudents extends React.Component {
                 //or an Assignment, and is used to keep track of how far a
                 //student has progressed in a given Assignment.
                 const studentAssignment = ass.studentAssignments
-                  && ass.studentAssignments.find(i => studentIds.includes(String(i.studentUserId)));
+                  && ass.studentAssignments.find(i => studentIds.includes(String(i.studentUserId)));  // Consistency: make sure students IDs are a string.
                 const classificationsCount = (studentAssignment)  //TODO!
                   ? studentAssignment.classificationsCount
                   : '?';
