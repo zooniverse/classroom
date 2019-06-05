@@ -92,22 +92,23 @@ class AssignmentsListForStudents extends React.Component {
     //progress later. This mildly hacky way tries to determine the user's
     //student ID via their Panoptes login ID, since there's no easy way to
     //do this via the Education API.
-    let myStudentId = undefined;
-    if (props.user && props.classroomsStudents) {  //Go through the whole list of students in the classrooms and figu
-      const myStudentData = props.classroomsStudents.find(stud => stud.attributes && (stud.attributes.zooniverse_id === props.user.id));
-      myStudentId = myStudentData && myStudentData.id;
+    let myStudentIds = [];  // Yes, PLURAL.
+    if (props.user && props.classroomsStudents) {  //Go through the whole list of students in the classrooms and figure out which Education API Student IDs (yes, plural) belong to this student.
+      myStudentIds = props.classroomsStudents
+        .filter(stud => stud.attributes && (stud.attributes.zooniverse_id === props.user.id))
+        .map(stud => String(stud.id));
     }
     
     return (
       <Table>
         <tbody>
-          {props.classroomsList.map(classroom => this.render_readyState_classroom(classroom, myStudentId))}
+          {props.classroomsList.map(classroom => this.render_readyState_classroom(classroom, myStudentIds))}
         </tbody>
       </Table>
     );
   }
   
-  render_readyState_classroom(classroom, studentId) {
+  render_readyState_classroom(classroom, studentIds = []) {
     const props = this.props;
     
     //Sanity check not required.
@@ -137,7 +138,7 @@ class AssignmentsListForStudents extends React.Component {
                 //or an Assignment, and is used to keep track of how far a
                 //student has progressed in a given Assignment.
                 const studentAssignment = ass.studentAssignments
-                  && ass.studentAssignments.find(i => i.studentUserId == studentId);  //NOTE: use ==, not ===
+                  && ass.studentAssignments.find(i => studentIds.includes(String(i.studentUserId)));
                 const classificationsCount = (studentAssignment)  //TODO!
                   ? studentAssignment.classificationsCount
                   : '?';
