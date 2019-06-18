@@ -79,7 +79,35 @@ const mapConfig = {
         `,*/
       
       //Get all the details for all the (filtered) results.
-      'selectForDownload': 'SELECT cam.*, sbjagg.* FROM cameras AS cam INNER JOIN (SELECT sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice, agg.data_answers_howmany_1, agg.data_answers_howmany_2, agg.data_answers_howmany_3, agg.data_answers_howmany_4, agg.data_answers_howmany_5, agg.data_answers_howmany_6, agg.data_answers_howmany_7, agg.data_answers_howmany_8, agg.data_answers_howmany_9, agg.data_answers_howmany_10, agg.data_answers_howmany_1120, agg.data_answers_howmany_21 FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE}',
+      'selectForDownload': `
+        SELECT
+          cam.national_park,
+          cam.veg_type,
+          cam.human_type,
+          cam.dist_humans_m,
+          cam.water_type,
+          cam.dist_water_m,
+          cam.land_use,
+          cam.latitude,
+          cam.longitude,
+          sbjagg.*
+        FROM
+          cameras AS cam
+        INNER JOIN
+          (
+          SELECT
+            sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice, agg.data_answers_howmany_1, agg.data_answers_howmany_2, agg.data_answers_howmany_3, agg.data_answers_howmany_4, agg.data_answers_howmany_5, agg.data_answers_howmany_6, agg.data_answers_howmany_7, agg.data_answers_howmany_8, agg.data_answers_howmany_9, agg.data_answers_howmany_10, agg.data_answers_howmany_1120, agg.data_answers_howmany_21
+          FROM
+            subjects AS sbj
+          INNER JOIN
+            aggregations AS agg
+          ON
+            sbj.subject_id = agg.subject_id
+          ) AS sbjagg
+        ON
+          cam.id = sbjagg.camera
+        {WHERE}
+      `,
       
       //Get all the minimum Subject details for all the (filtered) results. Has Order By and Limit clauses.
       'selectForAssignment': 'SELECT sbjagg.subject_id, sbjagg.location FROM cameras AS cam INNER JOIN (SELECT sbj.subject_id, sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice, agg.data_answers_howmany_1, agg.data_answers_howmany_2, agg.data_answers_howmany_3, agg.data_answers_howmany_4, agg.data_answers_howmany_5, agg.data_answers_howmany_6, agg.data_answers_howmany_7, agg.data_answers_howmany_8, agg.data_answers_howmany_9, agg.data_answers_howmany_10, agg.data_answers_howmany_1120, agg.data_answers_howmany_21 FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE} {ORDER} {LIMIT}',

@@ -11,12 +11,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'jumpstate';
 
-//import superagent from 'superagent';
-//import superagentJsonapify from 'superagent-jsonapify';
-//superagentJsonapify(superagent);
-
 import apiClient from 'panoptes-client/lib/api-client';
-//import { config } from '../../../lib/config';
 import { saveAs } from 'browser-filesaver';
 import { blobbifyData, generateFilename } from '../../../lib/file-download-helpers';
 
@@ -77,10 +72,6 @@ class ClassificationsDownloadButton extends React.Component {
     
     this.classificationsData = [];
     this.safetyCounter = 0;
-    
-    //const request = superagent.get(`${config.root}${endpoint}`)
-    //  .set('Content-Type', 'application/json')
-    //  .set('Authorization', apiClient.headers.Authorization);
     
     const fetchArguments = { page: 1 };  //Default page_size is 20
     if (props.workflow_id) fetchArguments.workflow_id = props.workflow_id;

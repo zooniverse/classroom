@@ -35,7 +35,6 @@ function transformWildCamAssignments (classifications) {
 }
   
 function classificationResourceToJson (classifications) {
-  
   let data = [];
   
   classifications.forEach((classification) => {
@@ -54,7 +53,6 @@ function classificationResourceToJson (classifications) {
 
     classification.annotations.forEach(task => {
       task.value.forEach(answer => {
-
         const species = answer.choice;
         const count = answer.answers && answer.answers.HOWMANY;
 
@@ -90,7 +88,6 @@ function combineWithSubjectMetadata (classifications) {
     })
     .then(subjects => {
       return classifications.map(classification => {
-        console.log(classification);
         let subject = subjects.find(s => s.subject_id == classification.subject_id);  // Use ==, not ===, due to different data types.
         
         if (!subject) {
