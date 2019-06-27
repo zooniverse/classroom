@@ -80,7 +80,7 @@ Effect('getCaesarExports', (data) => {
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
     .query({
-      requested_data: 'user_reductions',
+      requested_data: 'subject_reductions',
       subgroup: data.classroom.zooniverseGroupId
     })
     .then((response) => {
@@ -182,7 +182,7 @@ Effect('createCaesarExport', (data) => {
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
     .send({
-      requested_data: 'user_reductions',
+      requested_data: 'subject_reductions',
       subgroup: data.classroom.zooniverseGroupId
     })
     .then((response) => {

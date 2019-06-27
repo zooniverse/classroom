@@ -22,8 +22,6 @@ class AstroClassroomsTableContainer extends React.Component {
 
     this.handleRequestForNewExport = this.handleRequestForNewExport.bind(this);
     this.onExportModalClose = this.onExportModalClose.bind(this);
-    this.handleRequestForNewExport = this.handleRequestForNewExport.bind(this);
-    this.onExportModalClose = this.onExportModalClose.bind(this);
     this.showExportModal = this.showExportModal.bind(this);
     this.transformData = this.transformData.bind(this);
   }
@@ -44,7 +42,8 @@ class AstroClassroomsTableContainer extends React.Component {
 
     if (Object.keys(this.props.requestedExports).length > 0 &&
         this.props.requestedExports[classroom.id] &&
-        this.props.requestedExports[classroom.id].workflow_id.toString() === assignment.workflowId) {
+        this.props.requestedExports[classroom.id].exportable_id &&
+        this.props.requestedExports[classroom.id].exportable_id.toString() === assignment.workflowId) {
       this.checkPendingExport(assignment, classroom, this.props.requestedExports[classroom.id].id);
     } else {
       this.checkExportExistence(assignment, classroom)
