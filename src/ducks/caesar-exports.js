@@ -80,7 +80,7 @@ Effect('getCaesarExports', (data) => {
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
     .query({
-      requested_data: 'reductions',
+      requested_data: 'user_reductions',
       subgroup: data.classroom.zooniverseGroupId
     })
     .then((response) => {
@@ -182,14 +182,16 @@ Effect('createCaesarExport', (data) => {
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
     .send({
-      requested_data: 'reductions',
+      requested_data: 'user_reductions',
       subgroup: data.classroom.zooniverseGroupId
     })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/caesarExports/getCaesarExport): No response'; }
       if (response.ok && response.body) {
+        console.log('response.ok', response.body)
         const responseData = response.body;
         if (responseData.status === 'pending') {
+          console.log('pending status')
           const requestedExport = { [data.classroom.id]: responseData };
           Actions.caesarExports.setRequestedExports(requestedExport);
           Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.PENDING);

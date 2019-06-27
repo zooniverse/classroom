@@ -46,7 +46,8 @@ function ExportModal({
     toExport.classroom &&
     toExport.assignment &&
     requestedExports[toExport.classroom.id] &&
-    requestedExports[toExport.classroom.id].workflow_id.toString() === toExport.assignment.workflowId;
+    requestedExports[toExport.classroom.id].exportable_id &&
+    requestedExports[toExport.classroom.id].exportable_id.toString() === toExport.assignment.workflowId;
   const disableButton = noExport || fetching || pending;
   const success = Object.keys(caesarExport).length > 0 && caesarExportStatus === CAESAR_EXPORTS_STATUS.SUCCESS;
   const assignmentName = (toExport.assignment && toExport.assignment.name) ? prepStringForFilename(toExport.assignment.name) : null;
