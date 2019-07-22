@@ -188,10 +188,8 @@ Effect('createCaesarExport', (data) => {
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/caesarExports/getCaesarExport): No response'; }
       if (response.ok && response.body) {
-        console.log('response.ok', response.body)
         const responseData = response.body;
         if (responseData.status === 'pending') {
-          console.log('pending status')
           const requestedExport = { [data.classroom.id]: responseData };
           Actions.caesarExports.setRequestedExports(requestedExport);
           Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.PENDING);
