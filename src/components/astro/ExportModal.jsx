@@ -75,7 +75,7 @@ function ExportModal({
           {pending &&
             <Paragraph>
               <Status value="warning" />{' '}
-              Export request is processing. Please check again later.
+              Export request is processing. Please check back soon.
             </Paragraph>}
           {caesarExportStatus === CAESAR_EXPORTS_STATUS.EXPORTING &&
             <Paragraph>
