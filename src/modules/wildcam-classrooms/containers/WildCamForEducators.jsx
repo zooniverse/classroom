@@ -119,16 +119,16 @@ class WildCamForEducators extends React.Component {
           <Route path="*" component={Status404} />
         </Switch>
         
-        {(props.showHelp === 'classrooms-management') && (
+        {(props.showHelp === 'classrooms-management') &&
+          (props.classroomConfig && props.classroomConfig.forEducators && props.classroomConfig.forEducators.extraInfoFor && props.classroomConfig.forEducators.extraInfoFor.classroomsHelpPart1) && (
           <HelpfulGuide
             onClose={() => { Actions.wildcamClassrooms.hideHelp() }}
           >
-            <Box>
-              <Paragraph>The value of creating classrooms is the ability to create assignments for your students.</Paragraph>
-            </Box>
-            <Box>
-              <Paragraph>If you do not create a classroom, your students can still view and download the trail camera data as Explorers without creating a Zooniverse account.</Paragraph>
-            </Box>
+            {props.classroomConfig.forEducators.extraInfoFor.classroomsHelpPart1.map((text, index) =>
+              <Box key={`helpful-guide-classrooms-management-${index}`}>
+                <Paragraph>{text}</Paragraph>
+              </Box>
+            )}
           </HelpfulGuide>
         )}
         

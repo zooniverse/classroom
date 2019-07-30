@@ -141,14 +141,16 @@ class ClassroomsList extends React.Component {
             }}
           />
           
-          <Button
-            className="button"
-            icon={<HelpIcon />}
-            label={TEXT.ACTIONS.HELP}
-            onClick={() => {
-              Actions.wildcamClassrooms.showHelp('classrooms-management');
-            }}
-          />
+          {(props.classroomConfig && props.classroomConfig.forEducators && props.classroomConfig.forEducators.extraInfoFor && props.classroomConfig.forEducators.extraInfoFor.classroomsHelpPart1 && props.classroomConfig.forEducators.extraInfoFor.classroomsHelpPart1.length) && (
+            <Button
+              className="button"
+              icon={<HelpIcon />}
+              label={TEXT.ACTIONS.HELP}
+              onClick={() => {
+                Actions.wildcamClassrooms.showHelp('classrooms-management');
+              }}
+            />
+          )}
           
           <Button
             className="button"

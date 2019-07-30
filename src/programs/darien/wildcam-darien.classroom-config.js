@@ -25,6 +25,10 @@ const classroomConfig = {
   forEducators: {
     extraInfoFor: {
       classroomsList: 'A classroom allows you to see how many animal identifications each of your students do and to create assignments for groups of students. Students must create Zooniverse accounts to join a classroom. Create a new classroom or view and edit an existing classroom below.',
+      classroomsHelpPart1: [
+        'The value of creating classrooms is the ability to create assignments for your students.',
+        'If you do not create a classroom, your students can still view and download the trail camera data as Explorers without creating a Zooniverse account.',
+      ],
     },
   },
 };
