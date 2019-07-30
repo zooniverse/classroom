@@ -480,7 +480,7 @@ const mapConfig = {
   
   //Misc stuff related to the program
   'program': {
-    dataGuideURL: '/#/wildcam-darien-lab/explorers/data-guide/',
+    dataGuideURL: '/#/wildcam-gorongosa-lab/explorers/data-guide/',
     transformDownloadData: undefined
   },
 };
