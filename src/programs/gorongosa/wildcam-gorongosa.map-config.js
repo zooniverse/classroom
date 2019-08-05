@@ -31,7 +31,7 @@ const mapConfig = {
       'selectForDownload': `
         SELECT
           cam.veg_type,
-          cam.human_type,
+          cam.human_type AS "human_structure",
           cam.dist_humans_m,
           cam.dist_water_m,
           cam.water_type,
@@ -43,7 +43,24 @@ const mapConfig = {
         INNER JOIN
           (
           SELECT
-            sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.timeutc, sbj.dateutc, sbj.gorongosa_id, agg.species, agg.num_classifications
+            sbj.subject_id AS image_id,
+            sbj.camera,
+            sbj.location AS img_url,
+            sbj.month,
+            sbj.year,
+            sbj.season,
+            sbj.time_period,
+            sbj.dateutc AS "date",
+            sbj.gorongosa_id,
+            agg.species,
+            agg.num_classifications AS "species_count",
+            agg.percentage_behaviour_resting AS "percentage_resting",
+            agg.percentage_behaviour_standing AS "percentage_standing",
+            agg.percentage_behaviour_moving AS "percentage_moving",
+            agg.percentage_behaviour_eating AS "percentage_eating",
+            agg.percentage_behaviour_interacting AS "percentage_interacting",
+            agg.most_likely_are_there_any_young_present AS "young_present",
+            agg.most_likely_do_you_see_any_horns AS "horns" 
           FROM
             wildcam_gorongosa_subjects_201601_16000 AS sbj
           INNER JOIN
