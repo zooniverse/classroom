@@ -32,8 +32,8 @@ const mapConfig = {
         SELECT
           cam.veg_type,
           cam.human_type AS "human_structure",
-          cam.dist_humans_m,
-          cam.dist_water_m,
+          cam.dist_humans_m AS distance_human_m,
+          cam.dist_water_m AS distance_water_m,
           cam.water_type,
           cam.latitude,
           cam.longitude,
@@ -45,7 +45,7 @@ const mapConfig = {
           SELECT
             sbj.subject_id AS image_id,
             sbj.camera,
-            sbj.location AS img_url,
+            sbj.location AS image_url,
             sbj.month,
             sbj.year,
             sbj.season,
@@ -498,8 +498,50 @@ const mapConfig = {
   //Misc stuff related to the program
   'program': {
     dataGuideURL: '/#/wildcam-gorongosa-lab/explorers/data-guide/',
-    transformDownloadData: undefined
+    transformDownloadData: function (csvData) {
+      if (csvData && csvData.data && csvData.data.length > 0 && csvData.errors.length === 0) {
+        return Promise.resolve(transformGorongosaDownloadData(csvData));
+      }
+
+      if (csvData && csvData.errors.length > 0) {
+        return Promise.reject(csvData.errors[0].message);
+      }
+
+      return Promise.resolve(null);      
+    }
   },
 };
+
+function transformGorongosaDownloadData (csvData) {
+  let output = '';
+  
+  const tgtColumns = [
+    "image_id","camera","longitude","latitude","date","month","year","season","time_period","veg_type","human_structure","distance_human_m","water_type","distance_water_m","species","species_count","percentage_resting","percentage_standing","percentage_moving","percentage_eating","percentage_interacting","young_present","horns","image_url"
+  ];
+  const srcColumns = csvData.data[0];
+  
+  output = tgtColumns.map(str => csvStr(str)).join(',') + '\n';
+  
+  for (let i = 1; i < csvData.data.length; i ++) {
+    let srcRow = csvData.data[i];
+    let tgtRow = [];
+    
+    if (srcRow.length < tgtColumns.length) continue;  // Ignore empty rows
+    
+    tgtColumns.forEach(tgtCol => {
+      const cellIndex = srcColumns.findIndex(i => i===tgtCol);
+      const cell = (cellIndex >= 0) ? srcRow[cellIndex] : '';
+      tgtRow.push(cell);
+    });
+    
+    output += tgtRow.map(str => csvStr(str)).join(',') + '\n';
+  }
+  
+  return output;
+}
+
+function csvStr(str) {
+  return '"' + str.replace(/"/g, '""') + '"';
+}
 
 export default mapConfig;
