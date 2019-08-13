@@ -21,7 +21,9 @@ function GorongosaInfoAssignmentsGuide(props) {
         <Heading tag="h2">Assignments Guide</Heading>
         
         <ol>
-          <li><Paragraph>If you do not create a classroom, your students can still view and download the trail camera data as Explorers without creating a Zooniverse account.</Paragraph></li>
+          <li>
+            <Paragraph>If you do not create a classroom, your students can still view and download the trail camera data as Explorers without creating a Zooniverse account.</Paragraph>
+          </li>
 
           <li>
             <Paragraph>The value of creating classrooms is the ability to create assignments for your students. An assignment allows you to select a specific subset of photos (e.g. 30 photos from the Dry Season) and assign those photos to a group of students in your classroom to identify. Another group of students can identify a different set of photos (e.g. 30 photos from the Wet Season). Let’s walk through how it works.</Paragraph>
@@ -33,17 +35,29 @@ function GorongosaInfoAssignmentsGuide(props) {
             <Anchor href={p3} target="_blank"><Image size="large" src={p3} /></Anchor>
           </li>
           
-          <li><Paragraph>Fill in the Assignment name, instructions, and due date that your students will see. Include as much detail as you like in the instructions. For example, you may ask students to do a task outside the WildCam Lab platform (e.g. record observations while making animal identifications).</Paragraph></li>
+          <li>
+            <Paragraph>Fill in the Assignment name, instructions, and due date that your students will see. Include as much detail as you like in the instructions. For example, you may ask students to do a task outside the WildCam Lab platform (e.g. record observations while making animal identifications).</Paragraph>
+          </li>
           
-          <li><Paragraph>Click select photos. On the interactive map, the entire set of trail camera photos will be preselected. The number in this box shows the total number of photos selected. If you want your students to identify any type of photo, do not select any filters. Click Select.</Paragraph></li>
+          <li>
+            <Paragraph>Click select photos. On the interactive map, the entire set of trail camera photos will be preselected. The number in this box shows the total number of photos selected. If you want your students to identify any type of photo, do not select any filters. Click Select.</Paragraph>
+          </li>
           
-          <li><Paragraph>If you want your students to identify a particular type of photo, click the filters dropdown and select as many filters as you wish to apply. Click Select.</Paragraph></li>
+          <li>
+            <Paragraph>If you want your students to identify a particular type of photo, click the filters dropdown and select as many filters as you wish to apply. Click Select.</Paragraph>
+          </li>
           
-          <li><Paragraph>Edit the number of photos you want your students to identify. Next, select the students to send this assignment to. You can send an assignment to the entire class or send different assignments to groups of students. Click Create.</Paragraph></li>
+          <li>
+            <Paragraph>Edit the number of photos you want your students to identify. Next, select the students to send this assignment to. You can send an assignment to the entire class or send different assignments to groups of students. Click Create.</Paragraph>
+          </li>
           
-          <li><Paragraph>To view and edit your assignments, navigate to that classroom and click Edit. You can see a list of your students and the number of classifications they made.</Paragraph></li>
+          <li>
+            <Paragraph>To see a list of your students and the number of classifications they made, navigate to that classroom and click the dropdown arrow next to the assignment. To edit or delete your assignment, click Edit.</Paragraph>
+          </li>
           
-          <li><Paragraph>Your students can view their assignment by logging in and going to the assignments page in the Student section.</Paragraph></li>          
+          <li>
+            <Paragraph>Your students can start their assignment by logging in and going to the assignments page in the Student section.</Paragraph>
+          </li>
         </ol>
 
       </Box>

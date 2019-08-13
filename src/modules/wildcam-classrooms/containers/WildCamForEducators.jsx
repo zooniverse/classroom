@@ -132,7 +132,7 @@ class WildCamForEducators extends React.Component {
           </HelpfulGuide>
         )}
         
-        {(props.showHelp === 'assignments-management') && (
+        {(props.showHelp === 'assignments-management') &&
           (props.classroomConfig && props.classroomConfig.forEducators && props.classroomConfig.forEducators.extraInfoFor && props.classroomConfig.forEducators.extraInfoFor.assignmentsHelp) && (
           <HelpfulGuide
             onClose={() => { Actions.wildcamClassrooms.hideHelp() }}
