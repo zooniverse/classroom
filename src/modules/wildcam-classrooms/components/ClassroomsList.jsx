@@ -141,7 +141,7 @@ class ClassroomsList extends React.Component {
             }}
           />
           
-          {(props.classroomConfig && props.classroomConfig.forEducators && props.classroomConfig.forEducators.extraInfoFor && props.classroomConfig.forEducators.extraInfoFor.classroomsHelpPart1 && props.classroomConfig.forEducators.extraInfoFor.classroomsHelpPart1.length) && (
+          {(props.classroomConfig && props.classroomConfig.forEducators && props.classroomConfig.forEducators.extraInfoFor && props.classroomConfig.forEducators.extraInfoFor.classroomsHelpPart1 && props.classroomConfig.forEducators.extraInfoFor.classroomsHelpPart1.length > 0) && (
             <Button
               className="button"
               icon={<HelpIcon />}
