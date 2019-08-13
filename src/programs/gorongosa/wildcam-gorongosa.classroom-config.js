@@ -26,7 +26,17 @@ const classroomConfig = {
     extraInfoFor: {
       classroomsList: 'A classroom allows you to see how many animal identifications each of your students do and to create assignments for groups of students. If you do not create a classroom, your students can still view and download the trail camera data as Explorers without creating a Zooniverse account. Students must create Zooniverse accounts to join a classroom. Create a new classroom or view and edit an existing classroom below.',
       classroomsHelpPart1: [],
-      assignmentsHelp: [],
+      assignmentsHelp: [
+        'If you do not create a classroom, your students can still view and download the trail camera data as Explorers without creating a Zooniverse account.',
+        'The value of creating classrooms is the ability to create assignments for your students. An assignment allows you to select a specific subset of photos (e.g. 30 photos from the Dry Season) and assign those photos to a group of students in your classroom to identify. Another group of students can identify a different set of photos (e.g. 30 photos from the Wet Season). Let’s walk through how it works.',
+        'After you create a classroom share the link for your students join. After they have all joined, view your classroom and click “Create New Assignment”.',
+        'Fill in the Assignment name, instructions, and due date that your students will see. Include as much detail as you like in the instructions. For example, you may ask students to do a task outside the WildCam Lab platform (e.g. record observations while making animal identifications).',
+        'Click select photos. On the interactive map, the entire set of trail camera photos will be preselected. The number in this box shows the total number of photos selected. If you want your students to identify any type of photo, do not select any filters. Click Select.',
+        'If you want your students to identify a particular type of photo, click the filters dropdown and select as many filters as you wish to apply. Click Select.',
+        'Edit the number of photos you want your students to identify. Next, select the students to send this assignment to. You can send an assignment to the entire class or send different assignments to groups of students. Click Create.',
+        'To see a list of your students and the number of classifications they made, navigate to that classroom and click the dropdown arrow next to the assignment. To edit or delete your assignment, click Edit.',
+        'Your students can start their assignment by logging in and going to the assignments page in the Student section. ',
+      ],
     },
   },
 };
