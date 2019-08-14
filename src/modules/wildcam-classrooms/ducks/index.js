@@ -569,12 +569,10 @@ Effect('wcc_fetchAssignments', ({ selectedProgram, selectedClassroom }) => {
   const classroom_id = (selectedClassroom) ? selectedClassroom.id : undefined;
   const program_id = (selectedProgram) ? selectedProgram.id : undefined;
   
-  console.log('+++ PROGRAM: ', selectedProgram);
-  
   Actions.wildcamClassrooms.resetAssignments();
   Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.FETCHING);
   
-  return get('/assignments/', [{ classroom_id }])
+  return get('/assignments/', [{ program_id, classroom_id }])
   
   .then((response) => {
     if (!response) { throw 'ERROR (wildcam-classrooms/ducks/wcc_fetchAssignments): No response'; }
