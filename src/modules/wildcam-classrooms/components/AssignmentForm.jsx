@@ -110,6 +110,8 @@ class AssignmentForm extends React.Component {
     const assignment_id = (props.match && props.match.params)
       ? props.match.params.assignment_id : undefined;
     
+    const selectedProgram = props.selectedProgram;
+    
     //Sanity check
     if (!classroom_id) return;
     const selectedClassroom = props.classroomsList &&
@@ -126,7 +128,7 @@ class AssignmentForm extends React.Component {
     //If we don't have a list of assignments yet, fetch it.
     //Redundancy Check: prevent infinite loop, only trigger once.
     if (props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.IDLE) {
-      Actions.wcc_fetchAssignments({ selectedClassroom });
+      Actions.wcc_fetchAssignments({ selectedProgram, selectedClassroom });
     } else {
       this.initialise_partTwo(props, classroom_id, assignment_id, props.assignmentsList);
     }

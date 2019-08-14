@@ -32,6 +32,7 @@ import TableRow from 'grommet/components/TableRow';
 
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext';
 
+import { PROGRAMS_PROPTYPES, PROGRAMS_INITIAL_STATE } from '../../../ducks/programs';
 import {
   WILDCAMCLASSROOMS_COMPONENT_MODES as MODES,
   WILDCAMCLASSROOMS_DATA_STATUS,
@@ -50,7 +51,7 @@ class AssignmentsListForStudents extends React.Component {
   }
   
   componentDidMount() {
-    Actions.wcc_fetchAssignments({});
+    Actions.wcc_fetchAssignments({ selectedProgram: this.props.selectedProgram });
   }
   
   // ----------------------------------------------------------------
@@ -207,6 +208,7 @@ class AssignmentsListForStudents extends React.Component {
 AssignmentsListForStudents.defaultProps = {
   transformData: null,
   urlToAssignment: '',  //Passed from parent.
+  selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  //Passed from parent.
   // ----------------
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
   // ----------------
@@ -219,6 +221,7 @@ AssignmentsListForStudents.propTypes = {
     PropTypes.object
   ]),
   urlToAssignment: PropTypes.string,
+  selectedProgram: PROGRAMS_PROPTYPES.selectedProgram,
   // ----------------
   ...WILDCAMCLASSROOMS_PROPTYPES,
   // ----------------

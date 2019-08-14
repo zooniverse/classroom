@@ -103,6 +103,8 @@ class ClassroomForm extends React.Component {
     const classroom_id = (props.match && props.match.params)
       ? props.match.params.classroom_id : undefined;
     
+    const selectedProgram = props.selectedProgram;
+    
     //Create a new classroom
     if (!classroom_id) {  //Note: there should never be classroom_id === 0 or ''
       this.setState({ view: VIEWS.CREATE_NEW });
@@ -126,7 +128,7 @@ class ClassroomForm extends React.Component {
         
         //...and if either the selected classroom changed, or the assignments haven't been fetched yet, fetch those assignments. 
         if (shouldFetchAssignments) {
-          Actions.wcc_fetchAssignments({ selectedClassroom });
+          Actions.wcc_fetchAssignments({ selectedProgram, selectedClassroom });
         }
         
         //View update
