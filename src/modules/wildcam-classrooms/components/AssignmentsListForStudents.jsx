@@ -52,8 +52,7 @@ class AssignmentsListForStudents extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const props = this.props;
-    
-    if (props.classroomsStatus !== WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS
+    if (props.classroomsStatus !== WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS  // Only fetch assignments when classroom status changes to success
         && nextProps.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS
         ) {
       Actions.wcc_fetchAssignments({ selectedProgram: nextProps.selectedProgram });
@@ -72,7 +71,6 @@ class AssignmentsListForStudents extends React.Component {
         pad="medium"
       >
         <Heading tag="h2">{TEXT.TITLES.YOUR_ASSIGNMENTS}</Heading>
-        <Heading tag="h3">Cla: {props.classroomsStatus} || Ass: {props.assignmentsStatus}</Heading>
         
         {(() => {
           if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS && props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {

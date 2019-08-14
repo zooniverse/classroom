@@ -264,8 +264,6 @@ Effect('wcc_teachers_fetchClassrooms', ({ selectedProgram }) => {
   Actions.wildcamClassrooms.resetClassrooms();
   Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.FETCHING);
   
-  console.log('+++ A fetchClassrooms (teachers)')
-  
   return get('/teachers/classrooms/', [{ program_id }])
   
   .then((response) => {
@@ -465,8 +463,6 @@ Effect('wcc_students_fetchClassrooms', ({ selectedProgram }) => {
   Actions.wildcamClassrooms.resetClassrooms();
   Actions.wildcamClassrooms.setClassroomsStatus(WILDCAMCLASSROOMS_DATA_STATUS.FETCHING);
   
-  console.log('+++ A fetchClassrooms (students)')
-  
   return get('/students/classrooms/', [{ program_id }])
   
   .then((response) => {
@@ -576,8 +572,6 @@ Effect('wcc_fetchAssignments', ({ selectedProgram, selectedClassroom }) => {
   Actions.wildcamClassrooms.resetAssignments();
   Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.FETCHING);
   
-  console.log('+++ B fetchAssignments: ', WILDCAMCLASSROOMS_DATA_STATUS.FETCHING);
-  
   return get('/assignments/', [{ program_id, classroom_id }])
   
   .then((response) => {
@@ -589,8 +583,6 @@ Effect('wcc_fetchAssignments', ({ selectedProgram, selectedClassroom }) => {
   })
   
   .then((body) => {
-    console.log('+++ B fetchAssignments: ', WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
-    
     Actions.wildcamClassrooms.setAssignmentsStatus(WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS);
     Actions.wildcamClassrooms.setAssignmentsList(body.data);
     Actions.wildcamClassrooms.setAssignmentsAuxData(body.included);
