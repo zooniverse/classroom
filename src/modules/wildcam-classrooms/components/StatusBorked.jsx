@@ -2,7 +2,8 @@
 StatusBorked
 ------------
 
-Simple message box indicating that something horribly, terribly wrong.
+Simple message box indicating that something horribly, terribly wrong has
+happened.
 
 --------------------------------------------------------------------------------
  */
