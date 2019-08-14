@@ -18,7 +18,7 @@ const computeRedirectURL = () => {
 function handleError(error) {
   Actions.auth.setStatus(AUTH_STATUS.ERROR);
   Actions.auth.setError(error);
-  Actions.notification.setNotification({ status: 'critical' , message: 'Something went wrong.' });
+  Actions.notification.setNotification({ status: 'critical' , message: `Something went wrong: ${(error && error.toString())}` });
   console.error(error);
 }
 

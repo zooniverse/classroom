@@ -821,7 +821,12 @@ Effect('wcc_teachers_deleteAssignment', (selectedAssignment) => {
 
 function showErrorMessage(err) {
   //Critical Error
-  Actions.notification.setNotification({ status: 'critical', message: TEXT.STATUS.ERRORS.GENERAL });
+  const errMsg = (err) ? err.toString() : undefined;
+  if (errMsg) {
+    Actions.notification.setNotification({ status: 'critical', message: `${TEXT.STATUS.ERRORS.GENERAL} : ${err && err.toString()}`});
+  } else {
+    Actions.notification.setNotification({ status: 'critical', message: TEXT.STATUS.ERRORS.GENERAL});
+  }
   console.error(err);
 }
 
