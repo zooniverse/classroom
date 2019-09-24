@@ -5,8 +5,8 @@ let SpanishTranslations = {
   'Loading...': 'Cargarse...',
   'Filters': 'Filtros',
   
-  //For 
-  'Select photos by choosing filters, then edit the number of photos to be identified and click "Select"': 'Seleccione las fotos eligiendo los filtros, luego edite la cantidad de fotos a identificar y haga clic en "Select"',
+  //For "Select Photos for Assignments" in MapControls 
+  'Select photos by choosing filters and click "Select". Optionally, edit the number of photos from which the assigned photos will be randomly chosen (a small number will lead to students identifying similar photos).': 'Seleccione fotos seleccionando filtros y haga clic en "Seleccionar". Opcionalmente, edite el número de fotos de las que se elegirán las fotos asignadas al azar (un pequeño número llevará a los estudiantes a identificar fotos similares).',
   
   //SuperDownloadButton
   'Success: file downloaded.': 'Éxito: archivo descargado.',
