@@ -27,7 +27,6 @@ module.exports = {
 
   entry: [
     'eventsource-polyfill', // necessary for hot reloading with IE
-    // 'react-hot-loader/patch',
     path.join(__dirname, 'src/index.jsx')
   ],
 
@@ -38,14 +37,15 @@ module.exports = {
   },
 
   plugins: [
-
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }),
     new HtmlWebpackPlugin({
       template: 'src/index.tpl.html',
       inject: 'body',
       filename: 'index.html',
       gtm: ''
     }),
-    // new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new DashboardPlugin({ port: 3999 })
   ],

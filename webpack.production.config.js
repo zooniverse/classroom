@@ -2,11 +2,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const StatsPlugin = require('stats-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const nib = require('nib');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: 'production',
@@ -14,22 +14,43 @@ module.exports = {
     path.join(__dirname, 'src/index.jsx'),
   ],
 
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: 'main',
+          test: /\.(css|styl)$/,
+          chunks: 'all',
+          enforce: true
+        },
+        vendor: {
+          name: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'all',
+          enforce: true
+        }
+      }
+    }
+  },
+
   output: {
     path: path.join(__dirname, '/dist/'),
     filename: '[name]-[hash].min.js',
   },
 
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.tpl.html',
       inject: 'body',
       filename: 'index.html',
       gtm: '<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WDW6V4" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="//www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-WDW6V4");</script>',
     }),
-    new ExtractTextPlugin({
-      filename: '[name]-[hash].min.css',
-      allChunks: true,
+    new MiniCssExtractPlugin({
+      filename: '[name]-[contenthash].css'
     }),
     new StatsPlugin('webpack.stats.json', {
       source: false,
@@ -52,7 +73,8 @@ module.exports = {
       use: 'babel-loader',
     }, {
       test: /\.css$/,
-      use: ['style-loader', {
+      use: [
+        MiniCssExtractPlugin.loader, {
         loader: 'css-loader',
         options: {
           includePaths: [
@@ -63,17 +85,17 @@ module.exports = {
       }]
     }, {
       test: /\.styl$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: [{
+      use: [
+        MiniCssExtractPlugin.loader,
+        {
           loader: 'css-loader',
         }, {
           loader: 'stylus-loader',
           options: {
             use: [nib()],
           },
-        }],
-      }),
+        },
+      ],
     }, {
       test: /\.(jpg|png|gif|otf|eot|svg|ttf|woff\d?)$/,
       use: [{
