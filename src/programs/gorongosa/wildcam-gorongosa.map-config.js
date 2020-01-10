@@ -25,7 +25,37 @@ const mapConfig = {
     },
     'queries': {
       //For each camera, show how many (filtered) results are available.
-      'selectCameraCount': 'SELECT cam.*, COUNT(sbjagg.*) as count FROM wildcam_gorongosa_cameras_201601 AS cam LEFT JOIN (SELECT sbj.camera, sbj.location, sbj.dateutc, sbj.season, sbj.time_period, agg.species, agg.subject_id FROM wildcam_gorongosa_subjects_201601_16000 AS sbj INNER JOIN wildcam_gorongosa_aggregations_201603a AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE} GROUP BY cam.cartodb_id ORDER BY count DESC',
+      'selectCameraCount': `
+        SELECT
+          cam.*,
+          COUNT(sbjagg.*) as count
+        FROM
+          wildcam_gorongosa_cameras_201601 AS cam
+        LEFT JOIN
+          (
+          SELECT
+            sbj.camera,
+            sbj.location,
+            sbj.dateutc,
+            sbj.season,
+            sbj.time_period,
+            agg.species,
+            agg.subject_id
+          FROM
+            wildcam_gorongosa_subjects_201601_16000 AS sbj
+          INNER JOIN
+            wildcam_gorongosa_aggregations_201603a AS agg
+          ON
+            sbj.subject_id = agg.subject_id
+          ) AS sbjagg
+        ON
+          cam.id = sbjagg.camera
+        {WHERE}
+        GROUP BY
+          cam.cartodb_id
+        ORDER BY
+          count DESC
+      `,
       
       //Get all the details for all the (filtered) results.
       'selectForDownload': `
@@ -74,7 +104,40 @@ const mapConfig = {
       `,
       
       //Get all the minimum Subject details for all the (filtered) results. Has Order By and Limit clauses.
-      'selectForAssignment': 'SELECT sbjagg.subject_id, sbjagg.location FROM wildcam_gorongosa_cameras_201601 AS cam INNER JOIN (SELECT sbj.subject_id, sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.timeutc, sbj.dateutc, sbj.gorongosa_id, agg.species, agg.num_classifications FROM wildcam_gorongosa_subjects_201601_16000 AS sbj INNER JOIN wildcam_gorongosa_aggregations_201603a AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE} {ORDER} {LIMIT}',
+      'selectForAssignment': `
+        SELECT
+          sbjagg.subject_id,
+          sbjagg.location
+        FROM
+          wildcam_gorongosa_cameras_201601 AS cam
+        INNER JOIN
+          (
+          SELECT
+            sbj.subject_id,
+            sbj.camera,
+            sbj.location,
+            sbj.month,
+            sbj.year,
+            sbj.season,
+            sbj.time_period,
+            sbj.timeutc,
+            sbj.dateutc,
+            sbj.gorongosa_id,
+            agg.species,
+            agg.num_classifications
+          FROM
+            wildcam_gorongosa_subjects_201601_16000 AS sbj
+          INNER JOIN
+            wildcam_gorongosa_aggregations_201603a AS agg
+          ON
+            sbj.subject_id = agg.subject_id
+          ) AS sbjagg
+        ON
+          cam.id = sbjagg.camera
+        {WHERE}
+        {ORDER}
+        {LIMIT}
+      `,
       
       //Get all subjects, with camera data.
       'selectAllSubjects': `
@@ -105,7 +168,37 @@ const mapConfig = {
       `,
       
       //Select all the photos from a specific camera. Similar to selectForDownload
-      'selectCameraData': 'SELECT DISTINCT(sbjagg.location) FROM wildcam_gorongosa_cameras_201601 AS cam INNER JOIN (SELECT sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.timeutc, sbj.dateutc, sbj.gorongosa_id, agg.species FROM wildcam_gorongosa_subjects_201601_16000 AS sbj INNER JOIN wildcam_gorongosa_aggregations_201603a AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE}',
+      'selectCameraData': `
+        SELECT
+          DISTINCT(sbjagg.location)
+        FROM
+          wildcam_gorongosa_cameras_201601 AS cam
+        INNER JOIN
+          (
+          SELECT
+            sbj.camera,
+            sbj.location,
+            sbj.month,
+            sbj.year,
+            sbj.season,
+            sbj.time_period,
+            sbj.timeutc,
+            sbj.dateutc,
+            sbj.gorongosa_id,
+            agg.species
+          FROM
+            wildcam_gorongosa_subjects_201601_16000 AS sbj
+          INNER JOIN
+            wildcam_gorongosa_aggregations_201603a AS agg
+          ON
+            sbj.subject_id = agg.subject_id
+          )
+        AS
+          sbjagg
+        ON
+          cam.id = sbjagg.camera
+        {WHERE}
+      `,
       
       //Select a single camera, mostly for the camera's metadata.
       'selectCameraMetadata': 'SELECT * FROM wildcam_gorongosa_cameras_201601 {WHERE}',
