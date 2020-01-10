@@ -44,7 +44,9 @@ const mapConfig = {
           FROM
             wildcam_gorongosa_subjects_201601_16000 AS sbj
           INNER JOIN
-            wildcam_gorongosa_aggregations_201603a AS agg
+            (
+            SELECT * FROM wildcam_gorongosa_aggregations_201603a WHERE num_classifications >= 5
+            ) AS agg
           ON
             sbj.subject_id = agg.subject_id
           ) AS sbjagg
@@ -83,7 +85,7 @@ const mapConfig = {
             sbj.dateutc AS "date",
             sbj.gorongosa_id,
             agg.species,
-            agg.num_classifications AS "species_count",
+            agg.most_likely_number_of_animals AS "species_count",
             agg.percentage_behaviour_resting AS "percentage_resting",
             agg.percentage_behaviour_standing AS "percentage_standing",
             agg.percentage_behaviour_moving AS "percentage_moving",
@@ -94,7 +96,9 @@ const mapConfig = {
           FROM
             wildcam_gorongosa_subjects_201601_16000 AS sbj
           INNER JOIN
-            wildcam_gorongosa_aggregations_201603a AS agg
+            (
+            SELECT * FROM wildcam_gorongosa_aggregations_201603a WHERE num_classifications >= 5
+            ) AS agg
           ON
             sbj.subject_id = agg.subject_id
           ) AS sbjagg
@@ -128,7 +132,9 @@ const mapConfig = {
           FROM
             wildcam_gorongosa_subjects_201601_16000 AS sbj
           INNER JOIN
-            wildcam_gorongosa_aggregations_201603a AS agg
+            (
+            SELECT * FROM wildcam_gorongosa_aggregations_201603a WHERE num_classifications >= 5
+            ) AS agg
           ON
             sbj.subject_id = agg.subject_id
           ) AS sbjagg
@@ -189,7 +195,9 @@ const mapConfig = {
           FROM
             wildcam_gorongosa_subjects_201601_16000 AS sbj
           INNER JOIN
-            wildcam_gorongosa_aggregations_201603a AS agg
+            (
+            SELECT * FROM wildcam_gorongosa_aggregations_201603a WHERE num_classifications >= 5
+            ) AS agg
           ON
             sbj.subject_id = agg.subject_id
           )
