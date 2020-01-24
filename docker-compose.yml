@@ -1,0 +1,15 @@
+version: '3'
+services:
+  classrooms:
+    build: .
+    volumes:
+      - ./:/node_app
+      - node_modules_cache:/node_app/node_modules
+    ports:
+      - "3998:3998"
+    environment:
+      - "PORT=3998"
+      - "HOST=0.0.0.0"
+
+volumes:
+  node_modules_cache:

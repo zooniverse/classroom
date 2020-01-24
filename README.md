@@ -39,6 +39,17 @@ __When you are done, create a production-ready version of the JS bundle:__
 
 `npm run build`
 
+#### Alternatviely run it via docker & docker-compose
+Depends on [docker install](https://docs.docker.com/install/) and [docker-compose install](https://docs.docker.com/compose/install/)
+1. `docker-compose build`
+2. `docker-compose up`
+
+Or get a bash console where you can run `npm` cmds via the built container (ensure step 1 above is done)
+`docker-compose run --rm --service-ports --entrypoint="bash" classrooms`
+
+Run the tests via docker
+`docker-compose run --rm --entrypoint="npm run test" classrooms`
+
 ## External Dependencies
 
 Core:

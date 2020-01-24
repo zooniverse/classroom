@@ -22,7 +22,9 @@ module.exports = {
       chunkModules: false,
       modules: false
     },
-    port: 3998 // Change this for your project
+    // Change this for your project
+    port: process.env.PORT || 3998,
+    host: process.env.HOST || 'localhost'
   },
 
   entry: [
