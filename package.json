@@ -31,7 +31,7 @@
     "grommet": "~1.13.0",
     "jumpstate": "~2.2.2",
     "leaflet": "1.2.0",
-    "panoptes-client": "~3.0.0-rc.0",
+    "panoptes-client": "~3.1.0",
     "papaparse": "~4.3.6",
     "prop-types": "~15.5.10",
     "query-string": "~5.0.0",
