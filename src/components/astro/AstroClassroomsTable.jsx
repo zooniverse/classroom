@@ -137,15 +137,23 @@ function AstroClassroomsTable(props) {
                       </td>
                       <td headers="classroom view-project">
                         {projectUrl &&
-                          <Anchor
-                            className="manager-table__link"
-                            href={projectUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            Project Page{' '}
-                            <i className="fa fa-mail-forward" aria-hidden="true" />
-                          </Anchor>}
+                          <Box style={{ width: 'fit-content' }}>
+                            <Anchor
+                              className="manager-table__link"
+                              href={projectUrl}
+                              style={{ marginBottom: '1ch' }}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Project Page{' '}
+                              <i className="fa fa-mail-forward" aria-hidden="true" />
+                            </Anchor>
+                            <CopyToClipboard text={projectUrl} onCopy={() => { Actions.classrooms.setToastState({ status: 'ok', message: 'Copied project link.' }); }}>
+                              <Button type="button" className="manager-table__button--as-link" plain={true} onClick={() => { }}>
+                                Copy Project Link
+                              </Button>
+                            </CopyToClipboard>
+                          </Box>}
                         {!projectUrl &&
                           <span>Unavailable</span>}
                       </td>
