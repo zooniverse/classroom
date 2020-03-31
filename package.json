@@ -15,7 +15,7 @@
     "deploy-production": "export NODE_ENV=production; npm run build && publisssh dist zooniverse-static/classroom.zooniverse.org"
   },
   "engines": {
-    "node": ">=10",
+    "node": ">=12",
     "npm": ">=6"
   },
   "author": "Zooniverse",
