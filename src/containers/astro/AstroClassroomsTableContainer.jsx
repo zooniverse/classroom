@@ -92,7 +92,7 @@ class AstroClassroomsTableContainer extends React.Component {
   }
 
   transformGalaxyDataCsv(csvData) {
-    let csvRows = 'Galaxy ID,Total # of classifications,Spiral,Elliptical,Merger,Artifact,SSDS ID,Image,GZ Original Spiral,GZ Original Elliptical,GZ Original Merger,GZ Original Artifact\n';
+    let csvRows = 'Galaxy ID,Total # of classifications,Spiral,Elliptical,Merger,Artifact,SSDS ID,Image,GZ Original Spiral,GZ Original Elliptical,GZ Original Merger,GZ Original Artifact,Computer Classification\n';
     const exportData = csvData.data;
     const originalHeaders = exportData.shift();
     const reducerKeyIndex = originalHeaders.indexOf('reducer_key');
@@ -108,6 +108,7 @@ class AstroClassroomsTableContainer extends React.Component {
     const gzEllipticalIndex = originalHeaders.indexOf('data.GZ Original Elliptical');
     const gzMergerIndex = originalHeaders.indexOf('data.GZ Original Merger');
     const gzArtifactIndex = originalHeaders.indexOf('data.GZ Original Artifact');
+    const computerClassificationIndex = originalHeaders.indexOf('data.Computer Classification')
 
     const votesReducerData = exportData.filter((row, index) => {
       return row[reducerKeyIndex] === 'votes';
@@ -127,15 +128,16 @@ class AstroClassroomsTableContainer extends React.Component {
           const elliptical = votesRow[ellipticalIndex] ? votesRow[ellipticalIndex] : 0;
           const merger = votesRow[mergerIndex] ? votesRow[mergerIndex] : 0;
           const artifact = votesRow[artifactIndex] ? votesRow[artifactIndex] : 0;
-          const total = +spiral + +elliptical + +merger + +artifact;
+          const total = Math.abs(spiral) + Math.abs(elliptical) + Math.abs(merger) + Math.abs(artifact);
           const sdssId = metadataRow[sdssIdIndex];
           const image = metadataRow[imageIndex];
           const gzSpiral = metadataRow[gzSpiralIndex];
           const gzElliptical = metadataRow[gzEllipticalIndex];
           const gzMerger = metadataRow[gzMergerIndex];
           const gzArtifact = metadataRow[gzArtifactIndex];
+          const computerClassification = metadataRow[computerClassificationIndex];
 
-          newHumanReadableTable.push([galaxyId, total, spiral, elliptical, merger, artifact, sdssId, image, gzSpiral, gzElliptical, gzMerger, gzArtifact]);
+          newHumanReadableTable.push([galaxyId, total, spiral, elliptical, merger, artifact, sdssId, image, gzSpiral, gzElliptical, gzMerger, gzArtifact, computerClassification]);
         }
       });
     });
