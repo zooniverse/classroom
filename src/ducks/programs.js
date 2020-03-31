@@ -61,10 +61,10 @@ const i2a = {
           classifications_target: "10",
           slug: 'zooniverse/intro2astro-hubbles-law'
         },
-        "5521": {
+        "11981": {
           name: i2aAssignmentNames.galaxy,
           classifications_target: "22",
-          slug: 'zooniverse/galaxy-zoo-in-astronomy-101'
+          slug: 'mollysimon/galaxy-zoo-crowdsourcing-activity'
         }
       }
     }
