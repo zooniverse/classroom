@@ -9,7 +9,6 @@ import Tile from 'grommet/components/Tile';
 import Heading from 'grommet/components/Heading';
 import Paragraph from 'grommet/components/Paragraph';
 import Spinning from 'grommet/components/icons/Spinning';
-import nsf from '../../images/nsf.png'
 
 import { Actions } from 'jumpstate';
 import { Link } from 'react-router-dom';
@@ -71,6 +70,7 @@ export default function Home(props) {
       <hr />
       <Box direction='row' justify='center'>
         <Image alt='National Science Foundation' src='../../images/nsf.png' size='small' />
+        <Paragraph>This project is made possible in part thanks to a grant from the National Science Foundation.</Paragraph>
       </Box>
     </Section>
   );
