@@ -68,9 +68,9 @@ export default function Home(props) {
           })}
       </Tiles>
       <hr />
-      <Box direction='row' justify='center'>
+      <Box align='center' justify='center'>
         <Image alt='National Science Foundation' src='../../images/nsf.png' size='small' />
-        <Paragraph>This project is made possible in part thanks to a grant from the National Science Foundation.</Paragraph>
+        <Paragraph width='large'>This project is made possible in part thanks to a grant from the National Science Foundation.</Paragraph>
       </Box>
     </Section>
   );
