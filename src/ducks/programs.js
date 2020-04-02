@@ -207,33 +207,13 @@ function sortPrograms(programs) {
   return programs;
 }
 
-// temporary for the transition
-function useI2AMock(selectedProgram) {
-  const isProduction = env === 'production'
-  const productionMock = i2a.production
-  if (isProduction && selectedProgram && selectedProgram.name === productionMock.name) {
-    delete selectedProgram.metadata.assignments["5521"]
-    return Object.assign({}, selectedProgram, { 
-      metadata: {
-        assignments: {
-          "5522": productionMock.metadata.assignments["5522"],
-          "11981": productionMock.metadata.assignments["11981"]
-        }
-      }
-    })
-  } else {
-    return selectedProgram
-  }
-}
-
 // Synchonous actions
 const setStatus = (state, status) => {
   return { ...state, status };
 };
 
 const selectProgram = (state, selectedProgram) => {
-  const programToSet = useI2AMock(selectedProgram)
-  return { ...state, selectedProgram: programToSet };
+  return { ...state, selectedProgram };
 };
 
 const setPrograms = (state, programs) => {
