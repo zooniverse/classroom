@@ -211,11 +211,12 @@ function sortPrograms(programs) {
 function useI2AMock(selectedProgram) {
   const isProduction = env === 'production'
   const productionMock = i2a.production
-  if (isProduction && selectedProgram.name === productionMock.name) {
+  if (isProduction && selectedProgram && selectedProgram.name === productionMock.name) {
     delete selectedProgram.metadata.assignments["5521"]
     return Object.assign({}, selectedProgram, { 
       metadata: {
         assignments: {
+          "5522": productionMock.metadata.assignments["5522"],
           "11981": productionMock.metadata.assignments["11981"]
         }
       }

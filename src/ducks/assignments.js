@@ -67,8 +67,10 @@ function sortAssignments(assignments) {
   const firstAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.galaxy);
   const secondAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.hubble);
 
-  if (firstAssignment && secondAssignment) {
-    return [firstAssignment, secondAssignment];
+  // temp for testing and transition to new project and workflow
+  const galaxyZooAssignment = Object.assign({}, firstAssignment, { workflowId: "11981" })
+  if (galaxyZooAssignment && secondAssignment) {
+    return [galaxyZooAssignment, secondAssignment];
   }
 
   return assignments;
@@ -89,7 +91,7 @@ function joinStudentAssignmentsToAssignments(assignments, studentAssignments) {
   return joinedData;
 }
 
-// Synchonous actions
+// Synchronous actions
 const selectAssignment = (state, selectedAssignment) => {
   return { ...state, selectedAssignment };
 };
