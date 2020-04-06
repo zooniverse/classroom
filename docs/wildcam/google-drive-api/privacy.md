@@ -1,4 +1,4 @@
-# Zooniverse Classrooms
+# Zooniverse Classrooms Google Drive API Privacy Policy
 
 We (the Zooniverse) need to ask for permission for our web application to authenticate with your Google account and view and edit the contents of your Google Drive in order for the CSV export of the student classification data to be saved if that export option is chosen. This saves an extra step of having to download the CSV to your computer's local hard drive and importing it into Google Sheets yourself.
 
