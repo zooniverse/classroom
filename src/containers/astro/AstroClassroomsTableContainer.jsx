@@ -92,14 +92,14 @@ class AstroClassroomsTableContainer extends React.Component {
   }
 
   transformGalaxyDataCsv(csvData) {
-    let csvRows = 'Galaxy ID,Total # of classifications,Spiral,Elliptical,Merger,Artifact,SSDS ID,Image,GZ Original Spiral,GZ Original Elliptical,GZ Original Merger,GZ Original Artifact,Computer Classification\n';
+    let csvRows = 'Galaxy ID,Total # of classifications,Elliptical,Spiral,Merger,Artifact,SSDS ID,Image,GZ Original Elliptical,GZ Original Spiral,GZ Original Merger,GZ Original Artifact,Computer Classification\n';
     const exportData = csvData.data;
     const originalHeaders = exportData.shift();
     const reducerKeyIndex = originalHeaders.indexOf('reducer_key');
     const subjectIdIndex = originalHeaders.indexOf('subject_id');
     const galaxyIdIndex = originalHeaders.indexOf('data.Galaxy Id');
-    const spiralIndex = originalHeaders.indexOf('data.0');
-    const ellipticalIndex = originalHeaders.indexOf('data.1');
+    const ellipticalIndex = originalHeaders.indexOf('data.0');
+    const spiralIndex = originalHeaders.indexOf('data.1');
     const mergerIndex = originalHeaders.indexOf('data.2');
     const artifactIndex = originalHeaders.indexOf('data.3');
     const sdssIdIndex = originalHeaders.indexOf('data.SDSS_ID');
@@ -137,7 +137,7 @@ class AstroClassroomsTableContainer extends React.Component {
           const gzArtifact = metadataRow[gzArtifactIndex];
           const computerClassification = metadataRow[computerClassificationIndex];
 
-          newHumanReadableTable.push([galaxyId, total, spiral, elliptical, merger, artifact, sdssId, image, gzSpiral, gzElliptical, gzMerger, gzArtifact, computerClassification]);
+          newHumanReadableTable.push([galaxyId, total, elliptical, spiral, merger, artifact, sdssId, image, gzElliptical, gzSpiral, gzMerger, gzArtifact, computerClassification]);
         }
       });
     });
