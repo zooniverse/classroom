@@ -631,7 +631,14 @@ function transformGorongosaDownloadData (csvData) {
     
     tgtColumns.forEach(tgtCol => {
       const cellIndex = srcColumns.findIndex(i => i===tgtCol);
-      const cell = (cellIndex >= 0) ? srcRow[cellIndex] : '';
+      let cell = (cellIndex >= 0) ? srcRow[cellIndex] : '';
+      
+      // Special case: species_count
+      // All 'range' values should be translated into arbitrary single values,
+      // to allow mathematical calculations.
+      if (tgtCol === 'species_count' && cell === '11-50') cell = '25';
+      if (tgtCol === 'species_count' && cell === '51+') cell = '75';
+      
       tgtRow.push(cell);
     });
     
