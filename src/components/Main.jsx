@@ -13,6 +13,7 @@ import AppNotification from '../containers/layout/AppNotification';
 import ProgramHomeContainer from '../containers/common/ProgramHomeContainer';
 import JoinPageContainer from '../containers/common/JoinPageContainer';
 import GenericStatusPage from './common/GenericStatusPage';
+import GooglePrivacyPrivacy from './GooglePrivacyPolicy';
 
 import AppHeader from './layout/AppHeader';
 import {
@@ -53,6 +54,7 @@ const Main = ({ admin, initialised, location }) => {
           <Route exact path="/" component={HomeContainer} />
           <Route exact path="/:program/students/classrooms/:classroomId/join" component={JoinPageContainer} />
           <Route path="/:program" component={ProgramHomeContainer} />
+          <Route path="/google-privacy-policy" component={GooglePrivacyPolicy} />
         </Switch>
         <ZooFooter adminContainer={<AdminContainer />} />
       </Box>
