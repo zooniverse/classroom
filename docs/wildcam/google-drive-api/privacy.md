@@ -13,3 +13,7 @@ Our Google Drive integration works using the Google Drive API scopes:
 - `https://www.googleapis.com/auth/drive.metadata.readonly`
 - `https://www.googleapis.com/auth/drive.appdata`
 - `https://www.googleapis.com/auth/drive.file`
+
+## General Privacy Policy
+
+We (the Zooniverse) have [a general privacy policy](https://www.zooniverse.org/privacy) for our sites, including Zooniverse Classrooms.
