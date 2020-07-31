@@ -127,7 +127,7 @@ function ExportModal({
               url={caesarExport.url}
             />
             <GoogleDriveExportButton
-              className="export-modal__button"
+              className="export-modal__button--google"
               disabled={disableButton}
               fileNameBase={fileNameBase}
               transformData={transformData}

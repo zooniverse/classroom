@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'jumpstate';
 import Button from 'grommet/components/Button';
-import Spinning from 'grommet/components/icons/Spinning';
+import Box from 'grommet/components/Box';
+
+import GoogleIcon from './GoogleIcon';
 import Papa from 'papaparse';
 import { config } from '../../lib/config';
 import { blobbifyData, generateFilename } from '../../lib/file-download-helpers';
@@ -126,11 +128,21 @@ class GoogleDriveExportButton extends React.Component {
     const disabled = (this.state.status !== STATUS.SUCCESS || this.props.disabled);
     if (this.state.status === STATUS.SUCCESS) {
       return (
-        <Button
-          className={this.props.className || null}
-          label="Export to Google Drive"
-          onClick={disabled ? null : this.tryExport}
-        />
+        <Box
+          className='button__container--google'
+          direction='row'
+          height='30px'
+          justify='between'
+          margin={{ horizontal: 'none', vertical: 'small'  }}
+        >
+          <span className='button__container--google__label'>Export with:</span>
+          <Button
+            className={this.props.className || null}
+            label={<div><GoogleIcon />Google</div>}
+            onClick={disabled ? null : this.tryExport}
+            plain
+          />
+        </Box>
       );
     }
 
