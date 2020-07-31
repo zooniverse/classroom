@@ -5,6 +5,7 @@ import Button from 'grommet/components/Button';
 import Box from 'grommet/components/Box';
 
 import GoogleIcon from './GoogleIcon';
+import DisabledGoogleIcon from './DisabledGoogleIcon';
 import Papa from 'papaparse';
 import { config } from '../../lib/config';
 import { blobbifyData, generateFilename } from '../../lib/file-download-helpers';
@@ -126,6 +127,7 @@ class GoogleDriveExportButton extends React.Component {
 
   render() {
     const disabled = (this.state.status !== STATUS.SUCCESS || this.props.disabled);
+    const Icon = (disabled) ? DisabledGoogleIcon  : GoogleIcon
     if (this.state.status === STATUS.SUCCESS) {
       return (
         <Box
@@ -138,7 +140,7 @@ class GoogleDriveExportButton extends React.Component {
           <span className='button__container--google__label'>Export with:</span>
           <Button
             className={this.props.className || null}
-            label={<div><GoogleIcon />Google</div>}
+            label={<div><Icon />Google</div>}
             onClick={disabled ? null : this.tryExport}
             plain
           />

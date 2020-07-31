@@ -4,12 +4,33 @@
 
   &__button--google
     background: #4285F4
-    border: solid thin #4285F4
+    border: solid thin #4285F4 !important
     max-width: 100px
+
+    &:active
+      background: #3367D6
+
+    .grommetux-button--disabled, &:disabled
+      background: #EBEBEB
+      border: solid thin #EBEBEB !important
+      opacity: 1
+
+      .grommetux-button__label
+        color: rgba(0,0,0,0.4)
+
+      svg
+        background: #EBEBEB
+
+    .grommetux-button__focus, &:hover
+      box-shadow: 0 0 2px rgba(66,133,244,0.3)
+      border: solid thin #4285F4
+      outline: rgba(66,133,244,0.3)
 
     .grommetux-button__label
       color: #ffffff
+      font-family: 'Roboto', sans-serif
       font-size: 14px
+      font-weight: 500
       margin: 0
 
       div
