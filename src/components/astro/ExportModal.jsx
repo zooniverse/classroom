@@ -116,7 +116,7 @@ function ExportModal({
                 <Button secondary={true} fill={false} onClick={requestNewExport} label="Request new export" />
               </Paragraph>
             </Box>}
-          <Box direction="row">
+          <Box direction="row" pad={{ vertical: 'small' }} separator='top'>
             <SuperDownloadButton
               className="export-modal__button"
               disabled={disableButton}
