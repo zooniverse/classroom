@@ -129,7 +129,7 @@ function AstroClassroomsTable(props) {
                           type="button"
                           className="manager-table__button--as-link"
                           plain={true}
-                          onClick={props.showExportModal.bind(null, assignment, classroom)}
+                          onClick={calculatedCompleteness !== 0 ? props.showExportModal.bind(null, assignment, classroom) : null}
                         >
                           Export Data{' '}
                           <i className="fa fa-arrow-down" aria-hidden="true" />
