@@ -5,6 +5,8 @@ import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import Label from 'grommet/components/Label';
 import Paragraph from 'grommet/components/Paragraph';
+import CloseIcon from 'grommet/components/icons/base/Close';
+import DownIcon from 'grommet/components/icons/base/Down';
 
 class GlobalNotification extends React.Component {
   constructor(props) {
@@ -24,11 +26,21 @@ class GlobalNotification extends React.Component {
     if (user) return null
     
     return (
-      <Box colorIndex="accent-2" pad="small">
-        <Box direction="row">
-          <Paragraph size="small" margin="small">Notice</Paragraph>
-          <Button size="xsmall" onClick={() => { this.setState({ expand: !expand }) }}>[more]</Button>
-          <Button size="xsmall" onClick={() => { this.setState({ hide: true }) }}>[x]</Button>
+      <Box colorIndex="accent-1" pad="small">
+        <Box
+          align="center"
+          direction="row"
+          pad="none"
+        >
+          <Label size="small">Notice</Label>
+          <Button
+            icon={<DownIcon size="small" style={{ padding: '4px' }} />}
+            onClick={() => { this.setState({ expand: !expand }) }}
+          />
+          <Button
+            icon={<CloseIcon size="small" style={{ padding: '4px' }} />}
+            onClick={() => { this.setState({ hide: true }) }}
+          />
         </Box>
         {expand && (
           <Paragraph>
