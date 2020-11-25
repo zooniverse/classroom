@@ -11,8 +11,8 @@
     "test": "NODE_ENV=development BABEL_ENV=test mocha mocha-setup.js $(find src -name *.spec.jsx) --compilers js:@babel/register --require mock-local-storage || true",
     "eslint": "eslint .",
     "build": "export BABEL_ENV=production; check-engines && check-dependencies && webpack --config webpack.production.config.js -p",
-    "deploy-staging": "export NODE_ENV=staging; npm run build && publisssh dist zooniverse-static/preview.zooniverse.org/classroom",
-    "deploy-production": "export NODE_ENV=production; npm run build && publisssh dist zooniverse-static/classroom.zooniverse.org"
+    "deploy-staging": "export NODE_ENV=staging; npm run build && node ./bin/upload.js dist preview.zooniverse.org/classroom",
+    "deploy-production": "export NODE_ENV=production; npm run build && node ./bin/upload.js dist classroom.zooniverse.org"
   },
   "engines": {
     "node": ">=12",
