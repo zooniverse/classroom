@@ -40,7 +40,7 @@ class GlobalNotification extends React.Component {
             size="small"
           >
             &nbsp;
-            November 2020: Sign In issues
+            December 2020: Sign In functionality restored
             &nbsp;
           </Label>
           <Button
@@ -55,20 +55,10 @@ class GlobalNotification extends React.Component {
         {expand && (
           <Box>
             <Paragraph margin="small" pad="small" size="small" style={{ maxWidth: 'none' }}>
-              We are currently looking into an issue where educators and
-              students cannot login to Zooniverse Classrooms via the Sign In
-              button at the top of this website.
-              We apologise for this inconvenience.
-              While we work on a long term fix, we've found that the following
-              workaround allows users to sign in to Zooniverse Classrooms:
-            </Paragraph>
-            <Paragraph margin="small" pad="small" size="small" style={{ maxWidth: 'none' }}>
-              1. Go to <Anchor href="https://www.zooniverse.org">Zooniverse.org</Anchor>,
-              click on the Sign In button, and proceed to log in.
-            </Paragraph>
-            <Paragraph margin="small" pad="small" size="small" style={{ maxWidth: 'none' }}>
-              2. Once you're logged in at Zooniverse.org, return to this
-              website and click the Sign In button.
+              We've recently fixed an issue which prevented educators and students from signing in to Zooniverse Classrooms.
+              Now, if you click on the Sign In button at the top of the website, should be able to log in to your Zooniverse account like normal.
+              If you're still encountering any problems however, please send an email to contact@zooniverse.org.
+              We thank you for your patience while we resolved this issue.
             </Paragraph>
           </Box>
         )}
