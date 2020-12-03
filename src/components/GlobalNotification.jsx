@@ -7,7 +7,7 @@ import Button from 'grommet/components/Button';
 import Label from 'grommet/components/Label';
 import Paragraph from 'grommet/components/Paragraph';
 
-import AlertIcon from 'grommet/components/icons/base/Alert';
+import CheckmarkIcon from 'grommet/components/icons/base/Checkmark';
 import CloseIcon from 'grommet/components/icons/base/Close';
 import DownIcon from 'grommet/components/icons/base/Down';
 
@@ -35,7 +35,7 @@ class GlobalNotification extends React.Component {
           direction="row"
           pad="none"
         >
-          <AlertIcon />
+          <CheckmarkIcon />
           <Label
             size="small"
           >
@@ -56,9 +56,9 @@ class GlobalNotification extends React.Component {
           <Box>
             <Paragraph margin="small" pad="small" size="small" style={{ maxWidth: 'none' }}>
               We've recently fixed an issue which prevented educators and students from signing in to Zooniverse Classrooms.
-              Now, if you click on the Sign In button at the top of the website, should be able to log in to your Zooniverse account like normal.
+              Now, if you click on the Sign In button at the top of the website, you should be able to log in with your Zooniverse account like normal.
               If you're still encountering any problems however, please send an email to contact@zooniverse.org.
-              We thank you for your patience while we resolved this issue.
+              Thank you for your patience.
             </Paragraph>
           </Box>
         )}
