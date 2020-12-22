@@ -14,7 +14,6 @@ const selectedClassroom = {
 describe('<ClassroomEditorContainer />', function() {
   let wrapper;
   const editClassroomStub = sinon.stub(ClassroomEditorContainer.prototype, 'editClassroom').callsFake(() => {});
-  const exportGradesStub = sinon.stub(ClassroomEditorContainer.prototype, 'exportGrades').callsFake(() => {});
   const removeStudentFromClassroomStub = sinon.stub(ClassroomEditorContainer.prototype, 'removeStudentFromClassroom').callsFake(() => {});
 
   before(function() {

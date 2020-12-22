@@ -4,19 +4,23 @@
 
 import React from 'react';
 import { mount } from 'enzyme';
+import TextInput from 'grommet/components/TextInput';
 import sinon from 'sinon';
 import ClassroomForm from './ClassroomForm';
+import { expect } from 'chai';
 
 describe('<ClassroomForm />', function() {
-  let wrapper;
-  const onChangeSpy = sinon.spy();
-  const onSubmitSpy = sinon.spy();
+  let wrapper, onChangeSpy, onSubmitSpy; 
   before(function() {
+    onChangeSpy = sinon.spy();
+    onSubmitSpy = sinon.spy();
     // Using mount. For some reason the simulating form submit wasn't working with shallow render
     wrapper = mount(<ClassroomForm onChange={onChangeSpy} onSubmit={onSubmitSpy} />);
   });
 
-  it('without crashing', function() {});
+  it('without crashing', function() {
+    expect(wrapper).to.be.ok()
+  });
 
   it('renders grommet components', function() {
     expect(wrapper.find('Form')).to.have.lengthOf(1);
@@ -29,11 +33,14 @@ describe('<ClassroomForm />', function() {
   });
 
   it('calls onChange when typing in the text input', function() {
-    const textInput = wrapper.find('#name');
+    const textInputs = wrapper.find(TextInput);
     const value = 'My Classroom';
     const change = { target: { value } };
-    textInput.simulate('change', change);
-    expect(onChangeSpy.called).to.be.true();
+    textInputs.forEach((input) => {
+      input.simulate('change', change);
+      expect(onChangeSpy.calledOnce).to.be.true();
+      onChangeSpy.resetHistory()
+    })
   });
 
   it('calls onSubmit when the form is submitted', function() {
