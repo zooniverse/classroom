@@ -13,7 +13,6 @@ import AppNotification from '../containers/layout/AppNotification';
 import ProgramHomeContainer from '../containers/common/ProgramHomeContainer';
 import JoinPageContainer from '../containers/common/JoinPageContainer';
 import GenericStatusPage from './common/GenericStatusPage';
-import GlobalNotification from './GlobalNotification';
 import GooglePrivacyPolicy from './GooglePrivacyPolicy';
 
 import AppHeader from './layout/AppHeader';
@@ -49,7 +48,6 @@ const Main = ({ admin, initialised, location }) => {
         <AdminLayoutIndicator />}
       <Box>
         <ZooHeader authContainer={<AuthContainer location={location} />} isAdmin={admin} />
-        <GlobalNotification />
         <AppHeader location={location} />
         <AppNotification />
         <Switch>

@@ -40,7 +40,7 @@ class GlobalNotification extends React.Component {
             size="small"
           >
             &nbsp;
-            December 2020: Sign In functionality restored
+            ...
             &nbsp;
           </Label>
           <Button
@@ -55,10 +55,7 @@ class GlobalNotification extends React.Component {
         {expand && (
           <Box>
             <Paragraph margin="small" pad="small" size="small" style={{ maxWidth: 'none' }}>
-              We've recently fixed an issue which prevented educators and students from signing in to Zooniverse Classrooms.
-              Now, if you click on the Sign In button at the top of the website, you should be able to log in with your Zooniverse account like normal.
-              If you're still encountering any problems however, please send an email to contact@zooniverse.org.
-              Thank you for your patience.
+              ...
             </Paragraph>
           </Box>
         )}
