@@ -1,10 +1,10 @@
 {
-  "name": "edu-api-front-end",
+  "name": "classroom",
   "version": "1.1.0",
-  "description": "Education API front-end application",
+  "description": "Zooniverse Classrooms is the Zooniverse's web portal for educational tools, designed for Teachers and Students who want to learn more about science using real world people-powered research projects.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zooniverse/edu-api-front-end"
+    "url": "https://github.com/zooniverse/classroom"
   },
   "scripts": {
     "start": "export NODE_ENV=development; BABEL_ENV=development check-engines && check-dependencies && webpack-dashboard -p 3999 -- webpack-dev-server --config ./webpack.config.js",
@@ -15,15 +15,15 @@
     "deploy-production": "export NODE_ENV=production; npm run build && node ./bin/upload.js dist classroom.zooniverse.org"
   },
   "engines": {
-    "node": ">=12",
+    "node": ">=14",
     "npm": ">=6"
   },
   "author": "Zooniverse",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/zooniverse/edu-api-front-end"
+    "url": "https://github.com/zooniverse/classroom"
   },
-  "homepage": "https://github.com/zooniverse/edu-api-front-end",
+  "homepage": "https://github.com/zooniverse/classroom",
   "dependencies": {
     "browser-filesaver": "1.1.1",
     "classnames": "~2.2.5",

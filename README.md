@@ -1,9 +1,9 @@
-# Education API Front End (Zooniverse Classroom)
+# Zooniverse Classrooms
 
-The Education API Front End (also known as the Zooniverse Classrooms, for
-reasons that will become obvious) is the [Zooniverse's](https://www.zooniverse.org/)
-web portal for educational tools, designed for Teachers and Students who want to
-learn more about science using real world people-powered research projects.
+Zooniverse Classrooms (formerly Education API Front End, or edu-api-front-end)
+is the [Zooniverse's](https://www.zooniverse.org/) web portal for educational
+tools, designed for Teachers and Students who want to learn more about science
+using real world people-powered research projects.
 
 The website is available at [https://classroom.zooniverse.org/](https://classroom.zooniverse.org/)
 

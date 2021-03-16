@@ -7,8 +7,7 @@ Prepared by
 @shaun.a.noordin 2018.07.24
 
 For use with
-[WildCam Darien Lab](https://github.com/zooniverse/edu-api-front-end),
-WildCam Gorongosa Lab (https://github.com/zooniverse/wildcam-gorongosa-education)
+[WildCam Gorongosa & Darien Lab](https://github.com/zooniverse/classroom)
 and the [Carto](https://wildcam-darien.carto.com/) map database.
 
 ## Overview
