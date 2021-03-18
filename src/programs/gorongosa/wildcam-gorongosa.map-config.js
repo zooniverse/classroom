@@ -19,9 +19,9 @@ const mapConfig = {
   //Connection details for the external data source.
   'database': {
     'urls': {
-      'json': '//localhost:8001/gorongosa.json?_shape=objects&sql={SQLQUERY}',
-      'geojson': '//localhost:8001/gorongosa.geojson?sql={SQLQUERY}',
-      'csv': '//localhost:8001/gorongosa.csv?sql={SQLQUERY}'
+      'json': '//classroom-maps-api.zooniverse.org/gorongosa.json?_shape=objects&sql={SQLQUERY}',
+      'geojson': '//classroom-maps-api.zooniverse.org/gorongosa.geojson?sql={SQLQUERY}',
+      'csv': '//classroom-maps-api.zooniverse.org/gorongosa.csv?sql={SQLQUERY}'
     },
     'queries': {
       //For each camera, show how many (filtered) results are available.
