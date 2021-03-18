@@ -45,10 +45,10 @@ Depends on [docker install](https://docs.docker.com/install/) and [docker-compos
 2. `docker-compose up`
 
 Or get a bash console where you can run `npm` cmds via the built container (ensure step 1 above is done)
-`docker-compose run --rm --service-ports --entrypoint="bash" classrooms`
+`docker-compose run --rm --service-ports classrooms bash`
 
 Run the tests via docker
-`docker-compose run --rm --entrypoint="npm run test" classrooms`
+`docker-compose run --rm classrooms npm run test`
 
 ## External Dependencies
 

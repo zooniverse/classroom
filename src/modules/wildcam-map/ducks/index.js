@@ -58,17 +58,17 @@ const WILDCAMMAP_INITIAL_STATE = {
   markersStatus: WILDCAMMAP_MARKERS_STATUS.IDLE,
   markersError: null,
   markersDataCount: 0,
-  
+
   activeCameraId: null,
   activeCameraMetadata: null,
   activeCameraMetadataStatus: WILDCAMMAP_CAMERA_STATUS.IDLE,
   activeCameraData: null,
   activeCameraDataStatus: WILDCAMMAP_CAMERA_STATUS.IDLE,
-  
+
   filters: {},  //Selected filters
-  
+
   showHelp: null,  //If set to a valid string value, shows the help/tutoria/guide for the specified activity.
-  
+
   //Connection between WildCam Classroom and WildCam Map
   wccwcmMapPath: '',  //The URL/path that the Teacher is taken to when they click on "Select subject" in the WildCam Classroom - Create Assignment stage. Must be registered early on in the Program.
   wccwcmAssignmentPath: '',  //The URL/path that the Teacher is returned to when they finally finish selecting subjects on the WildCam Map.
@@ -97,17 +97,17 @@ const WILDCAMMAP_PROPTYPES = {
   markersError: PropTypes.object,
   markersStatus: PropTypes.string,
   markersDataCount: PropTypes.number,
-  
+
   activeCameraId: PropTypes.string,
   activeCameraMetadata: PropTypes.object,
   activeCameraMetadataStatus: PropTypes.string,
   activeCameraData: PropTypes.arrayOf(PropTypes.object),
   activeCameraDataStatus: PropTypes.string,
-  
+
   filters: PropTypes.object,  //Dynamically constructed object.
-  
+
   showHelp: PropTypes.string,
-  
+
   wccwcmMapPath: PropTypes.string,
   wccwcmAssignmentPath: PropTypes.string,
   wccwcmSavedAssignmentState: PropTypes.object,
@@ -126,7 +126,7 @@ const WILDCAMMAP_PROPTYPES = {
       }
  */
 const WILDCAMMAP_MAP_STATE = (state, prefix = '') => {
-  const dataStore = state.wildcamMap;  
+  const dataStore = state.wildcamMap;
   const mappedObject = {};
   Object.keys(WILDCAMMAP_INITIAL_STATE).map((key) => {
     //The prefix is optional, and is useful to avoid naming collisions.
@@ -280,15 +280,15 @@ const setWccWcmSelectedFilters = (state, wccwcmSelectedFilters) => {
 Effect('wcm_getMapMarkers', (payload = {}) => {
   const mapConfig = payload.mapConfig;
   const selectedFilters = payload.filters;
-  
-  if (!mapConfig) return;  //We absolutely need mapConfig, but we're fine if filters is null or undefined (i.e. user has not selected any filters.) 
-  
+
+  if (!mapConfig) return;  //We absolutely need mapConfig, but we're fine if filters is null or undefined (i.e. user has not selected any filters.)
+
   Actions.wildcamMap.setMarkersStatus(WILDCAMMAP_MARKERS_STATUS.FETCHING);
   const where = constructWhereClause(mapConfig, selectedFilters);
   const url = mapConfig.database.urls.geojson.replace('{SQLQUERY}',
     encodeURIComponent(mapConfig.database.queries.selectCameraCount.replace('{WHERE}', where))
   );
-  
+
   superagent.get(url)
   .then(response => {
     if (!response) { throw 'ERROR (wildcam-map/ducks/getMapMarkers): No response'; }
@@ -300,8 +300,8 @@ Effect('wcm_getMapMarkers', (payload = {}) => {
   .then(geojson => {
     Actions.wildcamMap.setMarkersStatus(WILDCAMMAP_MARKERS_STATUS.SUCCESS);
     Actions.wildcamMap.setMarkersData(geojson);
-    
-    let count = 0;    
+
+    let count = 0;
     if (geojson && geojson.features) {
       count = geojson.features.reduce((total, item) => {
         if (item.properties && item.properties.count) {
@@ -324,16 +324,16 @@ Effect('wcm_getActiveCamera', (payload = {}) => {
   const mapConfig = payload.mapConfig;
   const selectedFilters = payload.filters;
   const cameraId = payload.cameraId;
-  
-  if (!mapConfig) return;  
+
+  if (!mapConfig) return;
   if (!cameraId) return;
-  
+
   Actions.wildcamMap.setActiveCameraId(cameraId);
   Actions.wildcamMap.setActiveCameraDataStatus(WILDCAMMAP_CAMERA_STATUS.FETCHING);
   Actions.wildcamMap.setActiveCameraMetadataStatus(WILDCAMMAP_CAMERA_STATUS.FETCHING);
-  
+
   let where, url;
-  
+
   //Get Camera Data
   //--------------------------------
   where = constructWhereClause(mapConfig, selectedFilters);
@@ -353,14 +353,14 @@ Effect('wcm_getActiveCamera', (payload = {}) => {
   })
   .then(json => {
     Actions.wildcamMap.setActiveCameraDataStatus(WILDCAMMAP_CAMERA_STATUS.SUCCESS);
-    Actions.wildcamMap.setActiveCameraData(json.rows);    
+    Actions.wildcamMap.setActiveCameraData(json.rows);
   })
   .catch(err => {
     Actions.wildcamMap.setActiveCameraDataStatus(WILDCAMMAP_CAMERA_STATUS.ERROR);
     console.error(err);
   });
   //--------------------------------
-  
+
   //Get Camera Metadata
   //--------------------------------
   where = ` WHERE id LIKE '${sqlString(cameraId)}'`;  //TODO: Move this to the project config. This is very project-specific.
@@ -381,7 +381,7 @@ Effect('wcm_getActiveCamera', (payload = {}) => {
       Actions.wildcamMap.setActiveCameraMetadata(json.rows[0]);  //SELECT query should only return one result.
     } else {
       Actions.wildcamMap.setActiveCameraMetadata(null);
-    }    
+    }
   })
   .catch(err => {
     Actions.wildcamMap.setActiveCameraMetadataStatus(WILDCAMMAP_CAMERA_STATUS.ERROR);

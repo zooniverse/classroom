@@ -18,15 +18,15 @@ const mapConfig = {
   //Connection details for the external data source.
   'database': {
     'urls': {
-      'json': '//wildcam-darien.carto.com/api/v2/sql?q={SQLQUERY}',
-      'geojson': '//wildcam-darien.carto.com/api/v2/sql?format=GeoJSON&q={SQLQUERY}',
-      'csv': '//wildcam-darien.carto.com/api/v2/sql?format=CSV&q={SQLQUERY}'
+      'json': '//classroom-maps-api.zooniverse.org/darien.json?_shape=objects&sql={SQLQUERY}',
+      'geojson': '//classroom-maps-api.zooniverse.org/darien.geojson?sql={SQLQUERY}',
+      'csv': '//classroom-maps-api.zooniverse.org/darien.csv?sql={SQLQUERY}'
     },
     'queries': {
       //For each camera, show how many (filtered) results are available.
       'selectCameraCount': `
         SELECT
-          cam.*, COUNT(sbjagg.*) as count
+          cam.*, COUNT(*) as count
         FROM
           cameras AS cam
         LEFT JOIN

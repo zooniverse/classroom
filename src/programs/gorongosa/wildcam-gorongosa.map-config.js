@@ -19,18 +19,18 @@ const mapConfig = {
   //Connection details for the external data source.
   'database': {
     'urls': {
-      'json': '//shaunanoordin-zooniverse.carto.com/api/v2/sql?q={SQLQUERY}',
-      'geojson': '//shaunanoordin-zooniverse.carto.com/api/v2/sql?format=GeoJSON&q={SQLQUERY}',
-      'csv': '//shaunanoordin-zooniverse.carto.com/api/v2/sql?format=CSV&q={SQLQUERY}'
+      'json': '//classroom-maps-api.zooniverse.org/gorongosa.json?_shape=objects&sql={SQLQUERY}',
+      'geojson': '//classroom-maps-api.zooniverse.org/gorongosa.geojson?sql={SQLQUERY}',
+      'csv': '//classroom-maps-api.zooniverse.org/gorongosa.csv?sql={SQLQUERY}'
     },
     'queries': {
       //For each camera, show how many (filtered) results are available.
       'selectCameraCount': `
         SELECT
           cam.*,
-          COUNT(sbjagg.*) as count
+          COUNT(*) as count
         FROM
-          wildcam_gorongosa_cameras_201601 AS cam
+          cameras AS cam
         LEFT JOIN
           (
           SELECT
@@ -42,10 +42,10 @@ const mapConfig = {
             agg.species,
             agg.subject_id
           FROM
-            wildcam_gorongosa_subjects_201601_16000 AS sbj
+            subjects AS sbj
           INNER JOIN
             (
-            SELECT * FROM wildcam_gorongosa_aggregations_201603a WHERE num_classifications >= 5
+            SELECT * FROM aggregations WHERE num_classifications >= 5
             ) AS agg
           ON
             sbj.subject_id = agg.subject_id
@@ -58,7 +58,7 @@ const mapConfig = {
         ORDER BY
           count DESC
       `,
-      
+
       //Get all the details for all the (filtered) results.
       'selectForDownload': `
         SELECT
@@ -71,7 +71,7 @@ const mapConfig = {
           cam.longitude,
           sbjagg.*
         FROM
-          wildcam_gorongosa_cameras_201601 AS cam
+          cameras AS cam
         INNER JOIN
           (
           SELECT
@@ -92,12 +92,12 @@ const mapConfig = {
             agg.percentage_behaviour_eating AS "percentage_eating",
             agg.percentage_behaviour_interacting AS "percentage_interacting",
             agg.most_likely_are_there_any_young_present AS "young_present",
-            agg.most_likely_do_you_see_any_horns AS "horns" 
+            agg.most_likely_do_you_see_any_horns AS "horns"
           FROM
-            wildcam_gorongosa_subjects_201601_16000 AS sbj
+            subjects AS sbj
           INNER JOIN
             (
-            SELECT * FROM wildcam_gorongosa_aggregations_201603a WHERE num_classifications >= 5
+            SELECT * FROM aggregations WHERE num_classifications >= 5
             ) AS agg
           ON
             sbj.subject_id = agg.subject_id
@@ -106,14 +106,14 @@ const mapConfig = {
           cam.id = sbjagg.camera
         {WHERE}
       `,
-      
+
       //Get all the minimum Subject details for all the (filtered) results. Has Order By and Limit clauses.
       'selectForAssignment': `
         SELECT
           sbjagg.subject_id,
           sbjagg.location
         FROM
-          wildcam_gorongosa_cameras_201601 AS cam
+          cameras AS cam
         INNER JOIN
           (
           SELECT
@@ -130,10 +130,10 @@ const mapConfig = {
             agg.species,
             agg.num_classifications
           FROM
-            wildcam_gorongosa_subjects_201601_16000 AS sbj
+            subjects AS sbj
           INNER JOIN
             (
-            SELECT * FROM wildcam_gorongosa_aggregations_201603a WHERE num_classifications >= 5
+            SELECT * FROM aggregations WHERE num_classifications >= 5
             ) AS agg
           ON
             sbj.subject_id = agg.subject_id
@@ -144,7 +144,7 @@ const mapConfig = {
         {ORDER}
         {LIMIT}
       `,
-      
+
       //Get all subjects, with camera data.
       'selectAllSubjects': `
         SELECT
@@ -166,19 +166,19 @@ const mapConfig = {
           sbj.dateutc,
           sbj.location AS image_url
         FROM
-          wildcam_gorongosa_subjects_201601_16000 AS sbj
+          subjects AS sbj
         LEFT JOIN
-          wildcam_gorongosa_cameras_201601 AS cam
+          cameras AS cam
         ON
           sbj.camera = cam.id
       `,
-      
+
       //Select all the photos from a specific camera. Similar to selectForDownload
       'selectCameraData': `
         SELECT
           DISTINCT(sbjagg.location)
         FROM
-          wildcam_gorongosa_cameras_201601 AS cam
+          cameras AS cam
         INNER JOIN
           (
           SELECT
@@ -193,10 +193,10 @@ const mapConfig = {
             sbj.gorongosa_id,
             agg.species
           FROM
-            wildcam_gorongosa_subjects_201601_16000 AS sbj
+            subjects AS sbj
           INNER JOIN
             (
-            SELECT * FROM wildcam_gorongosa_aggregations_201603a WHERE num_classifications >= 5
+            SELECT * FROM aggregations WHERE num_classifications >= 5
             ) AS agg
           ON
             sbj.subject_id = agg.subject_id
@@ -207,15 +207,15 @@ const mapConfig = {
           cam.id = sbjagg.camera
         {WHERE}
       `,
-      
+
       //Select a single camera, mostly for the camera's metadata.
-      'selectCameraMetadata': 'SELECT * FROM wildcam_gorongosa_cameras_201601 {WHERE}',
+      'selectCameraMetadata': 'SELECT * FROM cameras {WHERE}',
     }
   },
-  
+
   //The map visualisation bits. Compatible with Leaflet tech.
   'map': {
-    'centre': {  //Some arbitrary point in Gorongosa National Park. 
+    'centre': {  //Some arbitrary point in Gorongosa National Park.
       "latitude": -18.9278,
       "longitude": 34.45,
       "zoom": 11
@@ -289,7 +289,7 @@ const mapConfig = {
                 color = '#f30'; break;
             }
           }
-          
+
           return {
             stroke: false,
             fill: true,
@@ -595,7 +595,7 @@ const mapConfig = {
       },
     }
   },
-  
+
   //Misc stuff related to the program
   'program': {
     dataGuideURL: '/#/wildcam-gorongosa-lab/explorers/data-guide/',
@@ -608,43 +608,43 @@ const mapConfig = {
         return Promise.reject(csvData.errors[0].message);
       }
 
-      return Promise.resolve(null);      
+      return Promise.resolve(null);
     }
   },
 };
 
 function transformGorongosaDownloadData (csvData) {
   let output = '';
-  
+
   const tgtColumns = [
     "image_id","camera","longitude","latitude","date","month","year","season","time_period","veg_type","human_structure","distance_human_m","water_type","distance_water_m","species","species_count","percentage_resting","percentage_standing","percentage_moving","percentage_eating","percentage_interacting","young_present","horns","image_url"
   ];
   const srcColumns = csvData.data[0];
-  
+
   output = tgtColumns.map(str => csvStr(str)).join(',') + '\n';
-  
+
   for (let i = 1; i < csvData.data.length; i ++) {
     let srcRow = csvData.data[i];
     let tgtRow = [];
-    
+
     if (srcRow.length < tgtColumns.length) continue;  // Ignore empty rows
-    
+
     tgtColumns.forEach(tgtCol => {
       const cellIndex = srcColumns.findIndex(i => i===tgtCol);
       let cell = (cellIndex >= 0) ? srcRow[cellIndex] : '';
-      
+
       // Special case: species_count
       // All 'range' values should be translated into arbitrary single values,
       // to allow mathematical calculations.
       if (tgtCol === 'species_count' && cell === '11-50') cell = '25';
       if (tgtCol === 'species_count' && cell === '51+') cell = '75';
-      
+
       tgtRow.push(cell);
     });
-    
+
     output += tgtRow.map(str => csvStr(str)).join(',') + '\n';
   }
-  
+
   return output;
 }
 
