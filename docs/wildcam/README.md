@@ -5,8 +5,8 @@ WildCam Labs (e.g. WildCam Gorongosa Lab and WildCam Darien Lab) has a
 database requires a bunch of setup to work properly. This guide explains how
 to do that.
 
-For use with [WildCam Lab](https://github.com/zooniverse/classroom) and the
-[Zooniverse-hosted map database](https://github.com/zooniverse/classroom-maps-api/)
+For use with [WildCam Lab (maps module)](https://github.com/zooniverse/classroom/tree/master/src/modules/wildcam-map)
+and the [Zooniverse-hosted map database](https://github.com/zooniverse/classroom-maps-api/)
 
 Prepared by @shaunanoordin 2018.07.24
 
