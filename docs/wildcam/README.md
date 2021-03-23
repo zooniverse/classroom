@@ -1,14 +1,16 @@
 # Processing WildCam Lab Data
 
-This is a guide on how to process data for the map database (Carto.com) used by
-Zooniverse's WildCam Labs educational programs.
+WildCam Labs (e.g. WildCam Gorongosa Lab and WildCam Darien Lab) has a
+**map explorer system** that requires an external map database, and that
+database requires a bunch of setup to work properly. This guide explains how
+to do that.
 
-Prepared by
-@shaun.a.noordin 2018.07.24
+For use with [WildCam Lab](https://github.com/zooniverse/classroom) and the
+[Zooniverse-hosted map database](https://github.com/zooniverse/classroom-maps-api/)
 
-For use with
-[WildCam Gorongosa & Darien Lab](https://github.com/zooniverse/classroom)
-and the [Carto](https://wildcam-darien.carto.com/) map database.
+Prepared by @shaunanoordin 2018.07.24
+
+Updated 2021.03.23 to remove old database (Carto.com) references
 
 ## Overview
 
