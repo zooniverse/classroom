@@ -7,7 +7,7 @@
 # top-level.
 #
 # Usage:
-#   TODO
+#   python3 process-kenya-subjects.py inputFilename.csv outputFilename.csv
 #
 # (@shaunanoordin 20210322)
 
@@ -43,6 +43,8 @@ with open(inputFilename, mode='r', newline='') as inputFile, \
     locations = json.loads(inRow['locations'])
     metadata = json.loads(inRow['metadata'])
     
+    # --------------------------------
+    
     # Extract project-specific information
     metadata_name = re.sub('_(\d)+\.JPG$', '', metadata['name'])
     
@@ -63,7 +65,8 @@ with open(inputFilename, mode='r', newline='') as inputFile, \
     outRow['year'] = year
     outRow['month'] = month
     
+    # --------------------------------
+    
     # Print the output row
     outputWriter.writerow(outRow)
-    # print(outRow)
-    print(outRow['camera'], '----', outRow['kenya_id'])
+    print(outRow)
