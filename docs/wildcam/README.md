@@ -17,8 +17,8 @@ Updated 2021.03.23 to remove old database (Carto.com) references
 For a WildCam-type "Map Explorer" component to work, we need the following
 things:
 
-1. a map explorer system - the actual component we code.
-2. a map layer service - provides the visuals for our geographic map.
+1. a map explorer system - our modular [React components](https://github.com/zooniverse/classroom/tree/master/src/modules/wildcam-map) that we can [customise](https://github.com/zooniverse/classroom/blob/master/src/programs/darien/wildcam-darien.map-config.js) for each Program.
+2. a map layer service - provides the visuals for our geographic map. (We use [Leaflet](https://leafletjs.com/))
 3. a map data service - what we query when we want the data in 4-7. 
 4. **Camera** data - shows us where the camera traps are on the geomap.
 5. **Subjects** data - shows us individual photos from camera traps.
@@ -63,7 +63,7 @@ Solution: During the export process, double check the coordinate system being
 used. If it's not the same as the target map database, you'll need to find the
 option in the export process to change the coordinate system.
 
-## Converting Zooniverse Data
+## Processing Zooniverse Data
 
 **Getting Aggregations Data**
 
@@ -107,25 +107,43 @@ map-specific information (e.g. which camera this Subject photo was taken, the
 URL of the Subject photo, etc) are all buried in the metadata.
 
 We can 'massage' the raw Subject CSV exports from Panoptes/Zooniverse into a
-form that the map database can use, but good luck! You'll need to use some code
-written by Shaun, and as a certified Shaun myself, I can tell you that you're
-in for a ride.
+form that the map database can use, but good luck! The script you use needs to
+be _customised for each Program/Project._
 
-1. Download the latest Subjects data from the Zooniverse project page.
-2. Run `node wildcam-subject-processor.js darien darien-subjects.csv`
-3. You should now have a Subjects CSV with the Zooniverse value fields properly
-   mapped to value fields that are compatible with the map database.
+1. Look in the [./tools](./tools) folder and pick a script template, either
+  `process-kenya-subjects.py` (Python) or `process-darien-subjects.js`
+  (JavaScript, Node)
+2. Let's say you picked the the Wildwatch Kenya one. Make a copy of it called
+  `process-myproject-subjects.py`
+3. Modify `process-myproject-subjects.py` so it extracts project-specific
+   information out of your project's Subjects. e.g. in the Kenya example, you'll
+   note that we extract the "camera_name", "year", and "month" from the
+   metadata field.
+4. AT MINIMUM, each Subject needs to have some sort of Camera ID that you can
+   extract, and one image file URL.
+5. Run the script, e.g. `python3 process-myproject-subjects.py myproject-subjects-export.csv processed-subjects.csv`
 
 WARNING: be aware that the raw Subject CSV exports has one entry PER Subject ID
 PER associated Workflow PER associated Subject Set. This matters because every
 new Classroom Assignment created will have a Subject with a new associated
 Workflow/Subject Set; if we don't filter the raw Subject CSV exports for only
-the ORIGINAL WildCam Darien workflow, we'll have a lot of duplicates.
+the ORIGINAL project's workflow, we'll have a lot of duplicates.
 
-NOTE: `wildcam-subject-processor.js` should be located in the same folder as
-this README. It's a simple CSV field re-mapping tool, and while it only works on
-WildCam Darien Lab at the moment (hence the `darien` argument in the example
-above), it can be upgraded to work on different WildCam Programs.
+**Adding Data to the Map Database**
+
+See [https://github.com/zooniverse/classroom-maps-api](https://github.com/zooniverse/classroom-maps-api)
+for more details.
+
+But basically, the gist of it is:
+
+1. Put your `aggregations.csv`, `cameras.csv`, `subjects.csv`, and etc into a
+   `/myproject` folder.
+2. Zip that folder into `myproject.zip`
+3. Plonk that zip file into `classroom-maps-api/data`
+4. Modify `classroom-maps-api`'s `Dockerfile` and `docker-compose.yaml` so
+   that its Datasette system recognises your `myproject` database
+5. docker-compose build, docker-compose up, and you're done. You've just added a
+   `myproject` database with the tables `aggregations`, `cameras`, `subjects`.
 
 ## More Caveats
 
