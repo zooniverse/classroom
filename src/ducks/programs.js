@@ -133,22 +133,58 @@ const gorongosa = {
       workflowId: '338' // belongs to project 593
     }
   }
-}
+};
+
+const kenya = {
+  staging: {
+    id: '4',
+    name: 'Wildwatch Kenya Lab',
+    custom: true,
+    description: 'A map for exploring camera trap data from the Wildwatch Kenya project.',
+    slug: 'wildcam-kenya-lab',
+    metadata: {
+      backgroundImage: '',
+      cardImage: 'home-card-wildwatch-kenya.png',
+      redirectOnJoin: true,
+      redirectOnJoinPath: '/wildwatch-kenya-lab/students',
+      sampleSubjects: [],
+      workflowId: ''
+    }
+  },
+  production: {
+    id: '4',
+    name: 'Wildwatch Kenya Lab',
+    custom: true,
+    description: 'A map for exploring camera trap data from the Wildwatch Kenya project.',
+    slug: 'wildcam-kenya-lab',
+    metadata: {
+      backgroundImage: '',
+      cardImage: 'home-card-wildwatch-kenya.png',
+      redirectOnJoin: true,
+      redirectOnJoinPath: '/wildwatch-kenya-lab/students',
+      sampleSubjects: [],
+      workflowId: '11374' // belongs to project 2789
+    }
+  }
+};
 
 i2a.development = i2a.staging;
 darien.development = darien.staging;
 gorongosa.development = gorongosa.staging;
+kenya.development = kenya.staging;
 
 const programsArray = [
   i2a[env],
   darien[env],
-  gorongosa[env]
+  gorongosa[env],
+  kenya[env],
 ];
 
 const programsMocks = {
   i2a: i2a[env],
   darien: darien[env],
-  gorongosa: gorongosa[env]
+  gorongosa: gorongosa[env],
+  kenya: kenya[env],
 };
 
 // Constants
