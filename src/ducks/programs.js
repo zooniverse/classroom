@@ -137,14 +137,14 @@ const gorongosa = {
 
 const kenya = {
   staging: {
-    id: '4',
+    id: '5',
     name: 'Wildwatch Kenya Lab',
     custom: true,
     description: 'A map for exploring camera trap data from the Wildwatch Kenya project.',
-    slug: 'wildcam-kenya-lab',
+    slug: 'wildwatch-kenya-lab',
     metadata: {
       backgroundImage: '',
-      cardImage: 'home-card-wildwatch-kenya.png',
+      cardImage: 'home-card-wildwatch-kenya.jpg',
       redirectOnJoin: true,
       redirectOnJoinPath: '/wildwatch-kenya-lab/students',
       sampleSubjects: [],
@@ -152,14 +152,14 @@ const kenya = {
     }
   },
   production: {
-    id: '4',
+    id: '5',
     name: 'Wildwatch Kenya Lab',
     custom: true,
     description: 'A map for exploring camera trap data from the Wildwatch Kenya project.',
-    slug: 'wildcam-kenya-lab',
+    slug: 'wildwatch-kenya-lab',
     metadata: {
       backgroundImage: '',
-      cardImage: 'home-card-wildwatch-kenya.png',
+      cardImage: 'home-card-wildwatch-kenya.jpg',
       redirectOnJoin: true,
       redirectOnJoinPath: '/wildwatch-kenya-lab/students',
       sampleSubjects: [],

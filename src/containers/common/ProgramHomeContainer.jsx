@@ -65,7 +65,7 @@ export class ProgramHomeContainer extends React.Component {
         <Redirect from="/astro-101-with-galaxy-zoo" to="/astro-101-with-galaxy-zoo/educators/" />
         <Route path="/wildcam-darien-lab" component={DarienProgram} />
         <Route path="/wildcam-gorongosa-lab" component={GorongosaProgram} />
-        <Route path="/wildcam-kenya-lab" component={KenyaProgram} />
+        <Route path="/wildwatch-kenya-lab" component={KenyaProgram} />
       </Switch>
     );
   }
