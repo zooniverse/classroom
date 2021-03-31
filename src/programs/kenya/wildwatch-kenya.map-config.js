@@ -12,15 +12,15 @@ Requires:
 ********************************************************************************
  */
 
-import { ZooTran } from '../../lib/zooniversal-translator.js';
+const kenyaGeodata = require('./map-geojson/kenya.json');
 
 const mapConfig = {
   //Connection details for the external data source.
   'database': {
     'urls': {
-      'json': '//classroom-maps-api.zooniverse.org/darien.json?_shape=objects&sql={SQLQUERY}',
-      'geojson': '//classroom-maps-api.zooniverse.org/darien.geojson?sql={SQLQUERY}',
-      'csv': '//classroom-maps-api.zooniverse.org/darien.csv?sql={SQLQUERY}'
+      'json': '//classroom-maps-api.zooniverse.org/kenya.json?_shape=objects&sql={SQLQUERY}',
+      'geojson': '//classroom-maps-api.zooniverse.org/kenya.geojson?sql={SQLQUERY}',
+      'csv': '//classroom-maps-api.zooniverse.org/kenya.csv?sql={SQLQUERY}'
     },
     'queries': {
       //For each camera, show how many (filtered) results are available.
@@ -48,35 +48,6 @@ const mapConfig = {
         ORDER BY
           count DESC
         `,
-        /*  //Variant for dynamically flattening camera IDs, e.g. 'CP01a' -> 'CP01'. Technically not needed as flattening is now done during database setup instead of at runtime.
-        `SELECT
-          cam.*, COUNT(sbjagg.*) as count
-        FROM
-          (
-            SELECT
-              DISTINCT(REPLACE(REPLACE(id, 'a', ''), 'b', '')) AS id, human_type, dist_humans_m, dist_water_m, land_use, national_park, water_type, veg_type, longitude, latitude, the_geom
-            FROM
-              cameras
-            ) AS cam
-        LEFT JOIN
-          (
-          SELECT
-              DISTINCT(REPLACE(REPLACE(camera, 'a', ''), 'b', '')) AS camera, sbj.location, sbj.date, sbj.season, sbj.time_period, agg.data_choice, agg.subject_id
-            FROM
-              subjects AS sbj
-            INNER JOIN
-               aggregations AS agg
-            ON
-               sbj.subject_id = agg.subject_id
-            ) AS sbjagg
-        ON
-          cam.id = sbjagg.camera
-        {WHERE}
-        GROUP BY
-          cam.id, human_type, dist_humans_m, dist_water_m, land_use, national_park, water_type, veg_type, longitude, latitude, the_geom
-        ORDER BY
-          count DESC
-        `,*/
       
       //Get all the details for all the (filtered) results.
       'selectForDownload': `
@@ -125,10 +96,10 @@ const mapConfig = {
   
   //The map visualisation bits. Compatible with Leaflet tech.
   'map': {
-    'centre': {  //Some arbitrary point between Soberania National Park and Darien National Park. 
-      'latitude': 8.300,
-      'longitude': -78.600,
-      'zoom': 8
+    'centre': {  //Some arbitrary point in Kenya. 
+      'latitude': 1.5,
+      'longitude': 40,
+      'zoom': 7,
     },
     'tileLayers': [
       {
@@ -159,57 +130,14 @@ const mapConfig = {
     ],
     extraLayers: [
       {
-        'name': 'darien_national_park',
-        'label': 'Darien National Park',
-        'query': 'SELECT * FROM darien_national_park',
+        'name': 'kenya_zone',
+        'label': 'Kenya',
+        'data': kenyaGeodata,
         'style': function (feature) {
           return {
             stroke: true,
             color: '#3cc',
             fill: false,
-          };
-        },
-      },
-      {
-        'name': 'soberania_national_park',
-        'label': 'Soberania National Park',
-        'query': 'SELECT * FROM soberania_national_park',
-        'style': function (feature) {
-          return {
-            stroke: true,
-            color: '#3cc',
-            fill: false,
-            interactive: false,
-          };
-        },
-      },
-      {
-        'name': 'veg_type',
-        'label': 'Habitats',
-        'query': 'SELECT * FROM vegetation_map',
-        'style': function (feature) {
-          let color = '#ccc';
-          if (feature && feature.properties) {
-            switch (feature.properties.veg_type) {
-              case 'Montane evergreen tropical forest':
-                color = '#9c3'; break;
-              case 'Lowland evergreen tropical forest':
-                color = '#993'; break;
-              case 'Submontane evergreen tropical forest':
-                color = '#693'; break;
-              case 'Lowland semideciduous tropical forest':
-                color = '#9c6'; break;
-              case 'Water':
-                color = '#39c'; break;
-            }
-          }
-          
-          return {
-            stroke: false,
-            fill: true,
-            fillColor: color,
-            fillOpacity: 0.5,
-            interactive: false,
           };
         },
       },
@@ -606,5 +534,5 @@ function transformDarienDownloadData(csvData) {
 }
 
 function csvStr(str) {
-  return '"' + ZooTran(str).replace(/"/g, '""') + '"';
+  return '"' + str.replace(/"/g, '""') + '"';
 }
