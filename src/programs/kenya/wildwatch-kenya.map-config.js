@@ -26,25 +26,27 @@ const mapConfig = {
       //For each camera, show how many (filtered) results are available.
       'selectCameraCount': `
         SELECT
-          cam.*, COUNT(*) as count
+          cam.id, cam.latitude, cam.longitude, COUNT(*) as count
         FROM
           cameras AS cam
         LEFT JOIN
           (
           SELECT
-            sbj.camera, sbj.location, sbj.date, sbj.season, sbj.time_period, agg.data_choice, agg.subject_id
+            sbj.camera, sbj.location, agg.[data.choice], agg.subject_id
           FROM
             subjects AS sbj
           INNER JOIN
-             aggregations AS agg
+            aggregations AS agg
           ON
-             sbj.subject_id = agg.subject_id
+            sbj.subject_id = agg.subject_id
+          WHERE
+            [data.choice] >= 3
           ) AS sbjagg
         ON
           cam.id = sbjagg.camera
         {WHERE}
         GROUP BY
-          cam.id, human_type, dist_humans_m, dist_water_m, land_use, national_park, water_type, veg_type, longitude, latitude, the_geom, cam.cartodb_id
+          cam.id, longitude, latitude
         ORDER BY
           count DESC
         `,
