@@ -40,7 +40,7 @@ const mapConfig = {
           ON
             sbj.subject_id = agg.subject_id
           WHERE
-            [data.choice] >= 3
+            [data.choice_count] >= 3
           ) AS sbjagg
         ON
           cam.id = sbjagg.camera
@@ -54,28 +54,25 @@ const mapConfig = {
       //Get all the details for all the (filtered) results.
       'selectForDownload': `
         SELECT
-          cam.national_park,
-          cam.veg_type,
-          cam.human_type,
-          cam.dist_humans_m,
-          cam.water_type,
-          cam.dist_water_m,
-          cam.land_use,
+          cam.id,
           cam.latitude,
           cam.longitude,
+          cam.season,
           sbjagg.*
         FROM
           cameras AS cam
         INNER JOIN
           (
           SELECT
-            sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice, agg.data_answers_howmany_1, agg.data_answers_howmany_2, agg.data_answers_howmany_3, agg.data_answers_howmany_4, agg.data_answers_howmany_5, agg.data_answers_howmany_6, agg.data_answers_howmany_7, agg.data_answers_howmany_8, agg.data_answers_howmany_9, agg.data_answers_howmany_10, agg.data_answers_howmany_1120, agg.data_answers_howmany_21
+            sbj.camera, sbj.location, sbj.month, sbj.year, agg.[data.choice], agg.[data.choice_count], agg.[data.total_vote_count], agg.[data.answers.whatbehaviorsdoyousee.standing], agg.[data.answers.whatbehaviorsdoyousee.interacting], agg.[data.answers.whatbehaviorsdoyousee.moving], agg.[data.answers.whatbehaviorsdoyousee.resting], agg.[data.answers.whatbehaviorsdoyousee.eating], agg.[data.answers.arethereanyyoungpresent.yes], agg.[data.answers.arethereanyyoungpresent.no], agg.[data.answers.howmany.1], agg.[data.answers.howmany.2], agg.[data.answers.howmany.3], agg.[data.answers.howmany.4], agg.[data.answers.howmany.5], agg.[data.answers.howmany.6], agg.[data.answers.howmany.7], agg.[data.answers.howmany.8], agg.[data.answers.howmany.9], agg.[data.answers.howmany.10], agg.[data.answers.howmany.1150], agg.[data.answers.howmany.51]
           FROM
             subjects AS sbj
           INNER JOIN
             aggregations AS agg
           ON
             sbj.subject_id = agg.subject_id
+          WHERE
+            [data.choice_count] >= 3
           ) AS sbjagg
         ON
           cam.id = sbjagg.camera
