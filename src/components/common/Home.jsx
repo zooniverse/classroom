@@ -54,6 +54,12 @@ export default function Home(props) {
             const programLink = (program.metadata && program.metadata.redirect) ?
               <Anchor href={program.metadata.redirect} label="Visit Lab" /> :
               <Link to={program.slug} onClick={() => { Actions.getProgram({ programs: props.programs, param: program.slug }); }}>Enter</Link>;
+          
+            // TEMPORARY  //HACK
+            // Wildwatch Kenya has been added to the Education API for dev/preview purposes,
+            // but it's NOT ready for showtime yet!
+            // (@shaunanoordin 20210402)
+            if (program.slug === 'wildwatch-kenya-lab') return null
 
             return (
               <Tile key={program.name}>
