@@ -107,21 +107,13 @@ function combineWithSubjectMetadata (classifications) {
         if (!subject) {
           subject = {  // Default Subject data; the data structure consistency is required to keep JSON-to-CSV automation working
             camera: '',
-            date: '',
-            dist_humans_m: '',
-            dist_water_m: '',
-            image_url: '',
-            land_use: '',
-            latitude: '',
-            longitude: '',
-            month: '',
-            national_park: '',
-            season: '',
             //subject_id: ''  // No, leave this alone
-            time_period: '',
-            veg_type: '',
-            water_type: '',
+            location: '',
+            month: '',
             year: '',
+            'data.choice': '',
+            'data.choice_count': '',
+            'data.total_vote_count': '',
           };
         }
         

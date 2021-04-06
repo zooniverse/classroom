@@ -134,6 +134,8 @@ const mapConfig = {
             aggregations AS agg
           ON
             sbj.subject_id = agg.subject_id
+          WHERE
+            [data.choice_count] >= 3
           ) AS sbjagg
         ON
           cam.id = sbjagg.camera
