@@ -1,9 +1,9 @@
 /*
-WildCam Darien Classroom Config
-===============================
+Wildwatch Kenya Classroom Config
+================================
 
 Configuration file for the WildCam Classroom feature. Each ClassroomConfig is
-tailored to a specific project, and this config file is for WildCam Darien.
+tailored to a specific project, and this config file is for Wildwatch Kenya.
 
 ********************************************************************************
  */
@@ -18,9 +18,9 @@ import mapConfig from './wildwatch-kenya.map-config.js';
 const classroomConfig = {
   forStudents: {
     urlToAssignment: (env === 'production')
-      ? 'https://www.zooniverse.org/projects/wildcam/wildcam-darien/classify?workflow={WORKFLOW_ID}&classroom=1'
-      : 'https://www.zooniverse.org/projects/wildcam/wildcam-darien/classify?workflow={WORKFLOW_ID}&classroom=1',  //TODO: find the staging equivalent for WildCam Darien
-    transformClassificationsDownload: transformWildCamAssignments
+      ? 'https://www.zooniverse.org/projects/sandiegozooglobal/wildwatch-kenya/classify?workflow={WORKFLOW_ID}&classroom=1'
+      : 'https://www.zooniverse.org/projects/sandiegozooglobal/wildwatch-kenya/classify?workflow={WORKFLOW_ID}&classroom=1',  //TODO: find the staging equivalent for Wildwatch Kenya
+    transformClassificationsDownload: transformWildwatchAssignments
   },
   forEducators: {
     extraInfoFor: {
@@ -43,7 +43,7 @@ const classroomConfig = {
   },
 };
   
-function transformWildCamAssignments (classifications) {
+function transformWildwatchAssignments (classifications) {
   return Promise.resolve(classificationResourceToJson(classifications))
     .then(combineWithSubjectMetadata);
 }

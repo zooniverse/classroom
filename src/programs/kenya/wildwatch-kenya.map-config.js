@@ -32,7 +32,7 @@ const mapConfig = {
         LEFT JOIN
           (
           SELECT
-            sbj.camera, sbj.location, agg.[data.choice], agg.subject_id
+            sbj.subject_id, sbj.camera, sbj.location, agg.[data.choice]
           FROM
             subjects AS sbj
           INNER JOIN
@@ -64,7 +64,8 @@ const mapConfig = {
         INNER JOIN
           (
           SELECT
-            sbj.camera, sbj.location, sbj.month, sbj.year, agg.[data.choice], agg.[data.choice_count], agg.[data.total_vote_count], agg.[data.answers.whatbehaviorsdoyousee.standing], agg.[data.answers.whatbehaviorsdoyousee.interacting], agg.[data.answers.whatbehaviorsdoyousee.moving], agg.[data.answers.whatbehaviorsdoyousee.resting], agg.[data.answers.whatbehaviorsdoyousee.eating], agg.[data.answers.arethereanyyoungpresent.yes], agg.[data.answers.arethereanyyoungpresent.no], agg.[data.answers.howmany.1], agg.[data.answers.howmany.2], agg.[data.answers.howmany.3], agg.[data.answers.howmany.4], agg.[data.answers.howmany.5], agg.[data.answers.howmany.6], agg.[data.answers.howmany.7], agg.[data.answers.howmany.8], agg.[data.answers.howmany.9], agg.[data.answers.howmany.10], agg.[data.answers.howmany.1150], agg.[data.answers.howmany.51]
+            sbj.subject_id, sbj.camera, sbj.location, sbj.month, sbj.year,
+            agg.[data.choice], agg.[data.choice_count], agg.[data.total_vote_count], agg.[data.answers.whatbehaviorsdoyousee.standing], agg.[data.answers.whatbehaviorsdoyousee.interacting], agg.[data.answers.whatbehaviorsdoyousee.moving], agg.[data.answers.whatbehaviorsdoyousee.resting], agg.[data.answers.whatbehaviorsdoyousee.eating], agg.[data.answers.arethereanyyoungpresent.yes], agg.[data.answers.arethereanyyoungpresent.no], agg.[data.answers.howmany.1], agg.[data.answers.howmany.2], agg.[data.answers.howmany.3], agg.[data.answers.howmany.4], agg.[data.answers.howmany.5], agg.[data.answers.howmany.6], agg.[data.answers.howmany.7], agg.[data.answers.howmany.8], agg.[data.answers.howmany.9], agg.[data.answers.howmany.10], agg.[data.answers.howmany.1150], agg.[data.answers.howmany.51]
           FROM
             subjects AS sbj
           INNER JOIN
@@ -80,13 +81,64 @@ const mapConfig = {
       `,
       
       //Get all the minimum Subject details for all the (filtered) results. Has Order By and Limit clauses.
-      'selectForAssignment': 'SELECT sbjagg.subject_id, sbjagg.location FROM cameras AS cam INNER JOIN (SELECT sbj.subject_id, sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice, agg.data_answers_howmany_1, agg.data_answers_howmany_2, agg.data_answers_howmany_3, agg.data_answers_howmany_4, agg.data_answers_howmany_5, agg.data_answers_howmany_6, agg.data_answers_howmany_7, agg.data_answers_howmany_8, agg.data_answers_howmany_9, agg.data_answers_howmany_10, agg.data_answers_howmany_1120, agg.data_answers_howmany_21 FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE} {ORDER} {LIMIT}',
+      'selectForAssignment': `
+        SELECT
+          sbjagg.subject_id, sbjagg.location
+        FROM
+          cameras AS cam
+        INNER JOIN
+          (
+          SELECT
+            sbj.subject_id, sbj.camera, sbj.location, sbj.month, sbj.year,
+            agg.[data.choice], agg.[data.choice_count], agg.[data.total_vote_count], agg.[data.answers.whatbehaviorsdoyousee.standing], agg.[data.answers.whatbehaviorsdoyousee.interacting], agg.[data.answers.whatbehaviorsdoyousee.moving], agg.[data.answers.whatbehaviorsdoyousee.resting], agg.[data.answers.whatbehaviorsdoyousee.eating], agg.[data.answers.arethereanyyoungpresent.yes], agg.[data.answers.arethereanyyoungpresent.no], agg.[data.answers.howmany.1], agg.[data.answers.howmany.2], agg.[data.answers.howmany.3], agg.[data.answers.howmany.4], agg.[data.answers.howmany.5], agg.[data.answers.howmany.6], agg.[data.answers.howmany.7], agg.[data.answers.howmany.8], agg.[data.answers.howmany.9], agg.[data.answers.howmany.10], agg.[data.answers.howmany.1150], agg.[data.answers.howmany.51]
+          FROM
+            subjects AS sbj
+          INNER JOIN
+            aggregations AS agg
+          ON
+            sbj.subject_id = agg.subject_id
+          WHERE
+            [data.choice_count] >= 3
+          ) AS sbjagg
+        ON
+          cam.id = sbjagg.camera
+        {WHERE} {ORDER} {LIMIT}
+      `,
       
       //Get all subjects, with camera data.
-      'selectAllSubjects': 'SELECT sbj.subject_id, sbj.camera, cam.national_park, cam.longitude, cam.latitude, sbj.date, sbj.month, sbj.year, sbj.season, sbj.time_period, cam.veg_type, cam.land_use, cam.water_type, cam.dist_humans_m, cam.dist_water_m, sbj.location AS image_url FROM subjects AS sbj LEFT JOIN cameras AS cam ON sbj.camera = cam.id',
+      'selectAllSubjects': `
+        SELECT
+          sbj.subject_id, sbj.camera, cam.longitude, sbj.date, sbj.month, sbj.year, sbj.location, cam.latitude, cam.season
+        FROM
+          subjects AS sbj
+        LEFT JOIN
+          cameras AS cam
+        ON
+          sbj.camera = cam.id
+      `,
       
       //Select all the photos from a specific camera. Similar to selectForDownload
-      'selectCameraData': 'SELECT DISTINCT(sbjagg.location) FROM cameras AS cam INNER JOIN (SELECT sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE}',
+      'selectCameraData': `
+        SELECT
+          DISTINCT(sbjagg.location)
+        FROM
+          cameras AS cam
+        INNER JOIN
+          (
+          SELECT
+            sbj.subject_id, sbj.camera, sbj.location, sbj.month, sbj.year,
+            agg.[data.choice], agg.[data.choice_count], agg.[data.total_vote_count], agg.[data.answers.whatbehaviorsdoyousee.standing], agg.[data.answers.whatbehaviorsdoyousee.interacting], agg.[data.answers.whatbehaviorsdoyousee.moving], agg.[data.answers.whatbehaviorsdoyousee.resting], agg.[data.answers.whatbehaviorsdoyousee.eating], agg.[data.answers.arethereanyyoungpresent.yes], agg.[data.answers.arethereanyyoungpresent.no], agg.[data.answers.howmany.1], agg.[data.answers.howmany.2], agg.[data.answers.howmany.3], agg.[data.answers.howmany.4], agg.[data.answers.howmany.5], agg.[data.answers.howmany.6], agg.[data.answers.howmany.7], agg.[data.answers.howmany.8], agg.[data.answers.howmany.9], agg.[data.answers.howmany.10], agg.[data.answers.howmany.1150], agg.[data.answers.howmany.51]
+          FROM
+            subjects AS sbj
+          INNER JOIN
+            aggregations AS agg
+          ON
+            sbj.subject_id = agg.subject_id
+          ) AS sbjagg
+        ON
+          cam.id = sbjagg.camera
+        {WHERE}
+      `,
       
       //Select a single camera, mostly for the camera's metadata.
       'selectCameraMetadata': 'SELECT * FROM cameras {WHERE}',
