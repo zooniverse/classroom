@@ -22,7 +22,7 @@ export function constructWhereClause(mapConfig, selectedFilters) {
     const filter = mapConfig.map.filters[key];
 
     if (filter.type === 'multichoice') {
-      let sqlSelectedOptions = selectedFilters[key].map(val => `${sqlString(key)} LIKE '${sqlString(val)}'`);
+      let sqlSelectedOptions = selectedFilters[key].map(val => `[${sqlString(key)}] LIKE '${sqlString(val)}'`);
       sqlSelectedOptions = sqlSelectedOptions.join(' OR ');
       return `(${sqlSelectedOptions})`;
     }

@@ -197,232 +197,192 @@ const mapConfig = {
     ],
     'legend': {
       'type': 'simple',
-      'items': {
-        '#9c3': 'Montane evergreen tropical forest',
-        '#993': 'Lowland evergreen tropical forest',
-        '#693': 'Submontane evergreen tropical forest',
-        '#9c6': 'Lowland semideciduous tropical forest',
-        '#39c': 'Water'
-      },
+      'items': {},
     },
     'filters': {
-      'data_choice': {
+      'data.choice': {
         'label': 'Species',
         'type': 'multichoice',
         'options': [
           {
-            'value': 'agouti',
-            'label': 'Agouti'
+            "value":"HARE",
+            "label":"Hare"
           },
           {
-            'value': 'armadillonakedtailed',
-            'label': 'Armadillo, Naked-tailed'
+            "value":"KUDU",
+            "label":"Kudu"
           },
           {
-            'value': 'armadilloninebanded',
-            'label': 'Armadillo, Nine-banded'
+            "value":"LION",
+            "label":"Lion"
           },
           {
-            'value': 'bat',
-            'label': 'Bat'
+            "value":"ORYX",
+            "label":"Oryx"
           },
           {
-            'value': 'birdother',
-            'label': 'Bird (other)'
+            "value":"CIVET",
+            "label":"Civet"
           },
           {
-            'value': 'capuchinmonkey',
-            'label': 'Capuchin Monkey'
+            "value":"CRANE",
+            "label":"Crane"
           },
           {
-            'value': 'capybara',
-            'label': 'Capybara'
+            "value":"ELAND",
+            "label":"Eland"
           },
           {
-            'value': 'coati',
-            'label': 'Coati'
+            "value":"GENET",
+            "label":"Genet"
           },
           {
-            'value': 'coyote',
-            'label': 'Coyote'
+            "value":"HYENA",
+            "label":"Hyena"
           },
           {
-            'value': 'crestedguan',
-            'label': 'Crested Guan'
+            "value":"ZEBRA",
+            "label":"Zebra"
           },
           {
-            'value': 'deerredbrocket',
-            'label': 'Deer, Red Brocket'
+            "value":"BABOON",
+            "label":"Baboon"
           },
           {
-            'value': 'deerwhitetailed',
-            'label': 'Deer, White-tailed'
+            "value":"DIKDIK",
+            "label":"Dik Dik"
           },
           {
-            'value': 'dogbush',
-            'label': 'Dog, Bush'
+            "value":"DUIKER",
+            "label":"Duiker"
           },
           {
-            'value': 'dogdomestic',
-            'label': 'Dog, Domestic'
+            "value":"IMPALA",
+            "label":"Impala"
           },
           {
-            'value': 'foxcrabeating',
-            'label': 'Fox, Crab-eating'
+            "value":"JACKAL",
+            "label":"Jackal"
           },
           {
-            'value': 'foxgray',
-            'label': 'Fox, Gray'
+            "value":"SERVAL",
+            "label":"Serval"
           },
           {
-            'value': 'giantanteater',
-            'label': 'Giant Anteater'
+            "value":"BUFFALO",
+            "label":"Buffalo"
           },
           {
-            'value': 'greatcurassow',
-            'label': 'Great Curassow'
+            "value":"CARACAL",
+            "label":"Caracal"
           },
           {
-            'value': 'greattinamou',
-            'label': 'Great Tinamou'
+            "value":"CHEETAH",
+            "label":"Cheetah"
           },
           {
-            'value': 'grison',
-            'label': 'Grison'
+            "value":"GAZELLE",
+            "label":"Gazelle"
           },
           {
-            'value': 'jaguar',
-            'label': 'Jaguar'
+            "value":"GERENUK",
+            "label":"Gerenuk"
           },
           {
-            'value': 'jaguarundi',
-            'label': 'Jaguarundi'
+            "value":"GIRAFFE",
+            "label":"Giraffe"
           },
           {
-            'value': 'margay',
-            'label': 'Margay'
+            "value":"LEOPARD",
+            "label":"Leopard"
           },
           {
-            'value': 'monkeyother',
-            'label': 'Monkey (other)'
+            "value":"WARTHOG",
+            "label":"Warthog"
           },
           {
-            'value': 'ocelot',
-            'label': 'Ocelot'
+            "value":"WILDDOG",
+            "label":"Wild Dog"
           },
           {
-            'value': 'oncilla',
-            'label': 'Oncilla'
+            "value":"ZORILLA",
+            "label":"Zorilla"
           },
           {
-            'value': 'opossumother',
-            'label': 'Opossum (other)'
+            "value":"AARDVARK",
+            "label":"Aardvark"
           },
           {
-            'value': 'opossumcommon',
-            'label': 'Opossum, Common'
+            "value":"AARDWOLF",
+            "label":"Aardwolf"
           },
           {
-            'value': 'otter',
-            'label': 'Otter'
+            "value":"BUSHBUCK",
+            "label":"Bushbuck"
           },
           {
-            'value': 'paca',
-            'label': 'Paca'
+            "value":"ELEPHANT",
+            "label":"Elephant"
           },
           {
-            'value': 'peccarycollared',
-            'label': 'Peccary, Collared'
+            "value":"MONGOOSE",
+            "label":"Mongoose"
           },
           {
-            'value': 'peccarywhitelipped',
-            'label': 'Peccary, White-lipped'
+            "value":"BIRDOTHER",
+            "label":"Bird (other)"
           },
           {
-            'value': 'porcupine',
-            'label': 'Porcupine'
+            "value":"LIVESTOCK",
+            "label":"Livestock"
           },
           {
-            'value': 'puma',
-            'label': 'Puma'
+            "value":"PORCUPINE",
+            "label":"Porcupine"
           },
           {
-            'value': 'rabbit',
-            'label': 'Rabbit'
+            "value":"WATERBUCK",
+            "label":"Waterbuck"
           },
           {
-            'value': 'raccoon',
-            'label': 'Raccoon'
+            "value":"GUINEAFOWL",
+            "label":"Guinea Fowl"
           },
           {
-            'value': 'redtailedsquirrel',
-            'label': 'Red-tailed Squirrel'
+            "value":"HARTEBEEST",
+            "label":"Hartebeest"
           },
           {
-            'value': 'reptileamphibian',
-            'label': 'Reptile / Amphibian'
+            "value":"BATEAREDFOX",
+            "label":"Bat-eared Fox"
           },
           {
-            'value': 'rodentother',
-            'label': 'Rodent (other)'
+            "value":"HONEYBADGER",
+            "label":"Honey Badger"
           },
           {
-            'value': 'skunk',
-            'label': 'Skunk'
+            "value":"KORIBUSTARD",
+            "label":"Kori Bustard"
           },
           {
-            'value': 'spinyrat',
-            'label': 'Spiny Rat'
+            "value":"HIPPOPOTAMUS",
+            "label":"Hippopotamus"
           },
           {
-            'value': 'tamandua',
-            'label': 'Tamandua'
+            "value":"HUMANVEHICLE",
+            "label":"Human/Vehicle"
           },
           {
-            'value': 'tapir',
-            'label': 'Tapir'
+            "value":"VERVETMONKEY",
+            "label":"Vervet Monkey"
           },
           {
-            'value': 'tayra',
-            'label': 'Tayra'
+            "value":"GROUNDSQUIRREL",
+            "label":"Ground Squirrel"
           },
           {
-            'value': 'weasel',
-            'label': 'Weasel'
-          },
-          {
-            'value': 'humannotvehicles',
-            'label': 'Human (not vehicles)'
-          },
-          {
-            'value': 'vehicle',
-            'label': 'Vehicle'
-          },
-          {
-            'value': 'nothinghere',
-            'label': 'Nothing here'
-          }
-        ]
-      },
-      'veg_type': {
-        'label': 'Habitats',
-        'type': 'multichoice',
-        'options': [
-          {
-            'value': 'Mature Forest',
-            'label': 'Mature Forest'
-          },
-          {
-            'value': 'Lowland semideciduous tropical forest',
-            'label': 'Lowland semideciduous tropical forest'
-          },
-          {
-            'value': 'Lowland evergreen tropical forest',
-            'label': 'Lowland evergreen tropical forest'
-          },
-          {
-            'value': 'Submontane evergreen tropical forest',
-            'label': 'Submontane evergreen tropical forest'
+            "value":"LEOPARDTORTOISE",
+            "label":"Leopard Tortoise"
           }
         ]
       },
@@ -431,93 +391,15 @@ const mapConfig = {
         'type': 'multichoice',
         'options': [
           {
-            'value': 'Dry',
+            'value': 'dry',
             'label': 'Dry'
           },
           {
-            'value': 'Wet',
+            'value': 'wet',
             'label': 'Wet'
           }
         ]
       },
-      'time_period': {
-        'label': 'Times of Day',
-        'type': 'multichoice',
-        'options': [
-          {
-            'value': 'Dawn 0555-0616',
-            'label': 'Dawn (05:55-06:16)'
-          },
-          {
-            'value': 'Day 0617-1827',
-            'label': 'Day (06:17-18:27)'
-          },
-          {
-            'value': 'Dusk 1828-1849',
-            'label': 'Dusk (18:28-18:49)'
-          },
-          {
-            'value': 'Night 1850-0554',
-            'label': 'Night (18:50-05:54)'
-          }
-        ]
-      },
-      'national_park': {
-        'label': 'National Parks',
-        'type': 'multichoice',
-        'options': [
-          {
-            'value': 'Darien',
-            'label': 'Darien'
-          },
-          {
-            'value': 'Soberania',
-            'label': 'Soberania'
-          }
-        ]
-      },
-      'land_use': {
-        'label': 'Land Use',
-        'type': 'multichoice',
-        'options': [
-          {
-            'value': 'Tourism',
-            'label': 'Tourism'
-          },
-          {
-            'value': 'Wilderness',
-            'label': 'Wilderness'
-          }
-        ]
-      },
-      'human_type': {
-        'label': 'Nearby Humans',
-        'type': 'multichoice',
-        'options': [
-          {
-            'value': 'Road',
-            'label': 'Road'
-          },
-          {
-            'value': 'Village',
-            'label': 'Village'
-          }
-        ]
-      },
-      'water_type': {
-        'label': 'Nearby Water',
-        'type': 'multichoice',
-        'options': [
-          {
-            'value': 'River',
-            'label': 'River'
-          },
-          {
-            'value': 'Lake',
-            'label': 'Lake'
-          }
-        ]
-      }
     }
   },
   
