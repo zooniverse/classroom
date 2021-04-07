@@ -1,13 +1,14 @@
 /*
-WildCam Darien Map Config
-=========================
+Wildwatch Kenya Map Config
+==========================
 
 Configuration file for the WildCam Map feature. Each MapConfig is tailored to a
-specific project, and this config file is for WildCam Darien.
+specific project, and this config file is for Wildwatch Kenya.
 
 Requires:
-* (External dependency) an external database containing the map data for said
-  project; in this case, Carto.
+- (External dependency) a map service. In this case, Leaflet.
+- (External dependency) an external database containing the map data for said
+  project. In this case, https://classroom-maps-api.zooniverse.org/
 
 ********************************************************************************
  */
@@ -405,10 +406,10 @@ const mapConfig = {
   
   //Misc stuff related to the program
   'program': {
-    dataGuideURL: '/#/wildcam-darien-lab/explorers/data-guide/',
+    dataGuideURL: '/#/wildwatch-kenya-lab/explorers/data-guide/',
     transformDownloadData: function (csvData) {
       if (csvData && csvData.data && csvData.data.length > 0 && csvData.errors.length === 0) {
-        return Promise.resolve(transformDarienDownloadData(csvData));
+        return Promise.resolve(transformDownloadData(csvData));
       }
 
       if (csvData && csvData.errors.length > 0) {
@@ -422,17 +423,17 @@ const mapConfig = {
 
 export default mapConfig;
 
-/*  WildCam Darien data exports need to 1. be translated to the proper language, and 2. need to have a 'Consensus Count' field added.
+/*  Wildwatch Kenya data exports have a 'Consensus Count' field added.
  */
-function transformDarienDownloadData(csvData) {
+function transformDownloadData(csvData) {
   let output = '';
   const header = csvData.data[0].slice();
   header.push('consensus_count');  //Append consensus count to the final column of each row.
   
   const headerLookup = {};
   header.forEach((item, index) => {
-    if (item.startsWith('data_answers_howmany_')) headerLookup[item] = index;
-  }); 
+    if (item.startsWith('data.answers.howmany.')) headerLookup[item] = index;
+  });
   
   output = header.map(str => csvStr(str)).join(',') + '\n';
   
@@ -450,7 +451,7 @@ function transformDarienDownloadData(csvData) {
       const currentNumber = row[index];
       if (!consensusCount || numberForConsensus < currentNumber) {
         numberForConsensus = currentNumber;
-        consensusCount = key.replace('data_answers_howmany_', '');
+        consensusCount = key.replace('data.answers.howmany.', '');
         if (consensusCount === '1120') consensusCount = '11-20';
         if (consensusCount === '21') consensusCount = '21+';
       }

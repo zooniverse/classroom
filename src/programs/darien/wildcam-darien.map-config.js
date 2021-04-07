@@ -6,8 +6,10 @@ Configuration file for the WildCam Map feature. Each MapConfig is tailored to a
 specific project, and this config file is for WildCam Darien.
 
 Requires:
-* (External dependency) an external database containing the map data for said
-  project; in this case, Carto.
+Requires:
+- (External dependency) a map service. In this case, Leaflet.
+- (External dependency) an external database containing the map data for said
+  project. In this case, https://classroom-maps-api.zooniverse.org/
 
 ********************************************************************************
  */
