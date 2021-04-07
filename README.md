@@ -50,6 +50,18 @@ Or get a bash console where you can run `npm` cmds via the built container (ensu
 Run the tests via docker
 `docker-compose run --rm classrooms npm run test`
 
+## Deployment
+
+Deployment is handled by Github Action. Both staging and production deployment can be run ad hoc in the actions tab as needed if you have the appropriate permissions on the repository.
+
+### Staging
+
+On merge to master, a Github Action is triggered to deploy to staging to `https://classroom.preview.zooniverse.org`.
+
+### Production
+
+Production deployments are triggered by an update to which commit the `production-release` tag is pointed to. This tag should be updated via chat ops and then a Github Action will run that builds and uploads the files to our cloud provider found at `https://classroom.zooniverse.org`.
+
 ## External Dependencies
 
 Core:
