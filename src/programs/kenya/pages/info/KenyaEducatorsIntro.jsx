@@ -20,7 +20,7 @@ function KenyaEducatorsIntro(props) {
         backgroundColorIndex="dark"
         size="small"
       >
-        <Box align="center"><Heading className="program-home__header">Welcome to WildCam Darién Lab</Heading></Box>
+        <Box align="center"><Heading className="program-home__header">Welcome to Wildwatch Kenya Lab</Heading></Box>
       </Hero>
       <Section
         className="program-home__section"
@@ -31,7 +31,7 @@ function KenyaEducatorsIntro(props) {
       >
         <Box>
           <Paragraph>
-            WildCam Darién Lab is an educational resource that lets you and your students explore trail camera data using an interactive map.
+            Wildwatch Kenya Lab is an educational resource that lets you and your students explore trail camera data using an interactive map.
             Simply direct your students to explore and download the data, or use classrooms and assignments to guide their experience.
           </Paragraph>
           <Box direction="row">
@@ -43,7 +43,7 @@ function KenyaEducatorsIntro(props) {
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators" label="Manage Classrooms"></Button>
+              <Button  type="button" className="button--secondary" path="/wildwatch-kenya-lab/educators" label="Manage Classrooms"></Button>
             </Box>
           </Box>
           <Box direction="row">
@@ -52,26 +52,15 @@ function KenyaEducatorsIntro(props) {
               Our assignments guide provides information on how you can use assignments. 
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators/assignments-guide" label="Assignments Guide"></Button>
+              <Button  type="button" className="button--secondary" path="/wildwatch-kenya-lab/educators/assignments-guide" label="Assignments Guide"></Button>
             </Box>
           </Box>
           <Box direction="row">
             <Paragraph>
-              Explore a variety of educational resources produced by HHMI BioInteractive to use WildCam Darién Lab in your classroom.
+              ((TODO)) 
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/educators/resources" label="Explore Resources"></Button>
-            </Box>
-          </Box>
-          <Box direction="row">
-            <Paragraph>
-              You can learn more about the Darién and Soberanía ecosystems here.
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-            </Paragraph>
-            <Box pad="small">
-              <Button type="button" className="button--secondary" path="/wildcam-darien-lab/educators/ecology" label="Explore Ecology"></Button>
+              <Button type="button" className="button--secondary" path="/wildwatch-kenya-lab/educators/ecology" label="Explore Ecology"></Button>
             </Box>
           </Box>
         </Box>

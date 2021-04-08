@@ -28,7 +28,7 @@ function KenyaHome(props) {
   const name = (selectedProgramExists && props.selectedProgram.name) ? props.selectedProgram.name : '';
   
   return (
-    <ProgramHome className="darien-home">
+    <ProgramHome className="kenya-home">
       <Hero
         className="program-home__hero"
         background={<Image src={imgKenyaSplash} fit="cover" />}
@@ -75,7 +75,7 @@ function KenyaHome(props) {
 
             <Box pad="medium" size="medium">
               <Paragraph>
-                If you simply want to explore the data, enter as an explorer. You can use an interactive map to view and analyze the trail camera data from Darién and Soberanía National Parks.
+                If you simply want to explore the data, enter as an explorer. You can use an interactive map to view and analyze the trail camera data.
               </Paragraph>
               <Button type="button" className="button--secondary" path="/wildwatch-kenya-lab/explorers/map/" label={TEXT.LABELS.EXPLORER} />
             </Box>

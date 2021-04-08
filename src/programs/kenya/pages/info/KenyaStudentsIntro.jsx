@@ -23,7 +23,7 @@ function KenyaStudentsIntro(props) {
         backgroundColorIndex="dark"
         size="small"
       >
-        <Box align="center"><Heading className="program-home__header">Welcome to WildCam Darién Lab</Heading></Box>
+        <Box align="center"><Heading className="program-home__header">Welcome to Wildwatch Kenya Lab</Heading></Box>
       </Hero>
       <Section
         className="program-home__section"
@@ -34,7 +34,7 @@ function KenyaStudentsIntro(props) {
       >
         <Box>
           <Paragraph>
-            WildCam Darién Lab is a tool for you to explore the trail camera data collected in Darién and Soberanía National Parks, or to generate your own data through an assignment you have been given by your instructor.
+            Wildwatch Kenya Lab is a tool for you to explore the trail camera data, or to generate your own data through an assignment you have been given by your instructor.
           </Paragraph>
           <Box direction="row">
             <Paragraph>
@@ -44,7 +44,7 @@ function KenyaStudentsIntro(props) {
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/students/map" label="Explore Data"></Button>
+              <Button  type="button" className="button--secondary" path="/wildwatch-kenya-lab/students/map" label="Explore Data"></Button>
             </Box>
           </Box>
           <Box direction="row">
@@ -55,29 +55,15 @@ function KenyaStudentsIntro(props) {
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
             </Paragraph>
             <Box pad="small">
-              <Button  type="button" className="button--secondary" path="/wildcam-darien-lab/students" label="View Assignments"></Button>
+              <Button  type="button" className="button--secondary" path="/wildwatch-kenya-lab/students" label="View Assignments"></Button>
             </Box>
           </Box>
           <Box direction="row">
             <Paragraph>
-              You can learn more about the Darién and Soberanía ecosystems here.
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+              ((TODO))
             </Paragraph>
             <Box pad="small">
-              <Button type="button" className="button--secondary" path="/wildcam-darien-lab/students/ecology" label="Explore Ecology"></Button>
-            </Box>
-          </Box>
-          <Box direction="row">
-            <Paragraph>
-              Read the Darién blog for updates from the scientists in Panama.
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-            </Paragraph>
-            <Box pad="small">
-              <Button type="button" className="button--secondary" href="https://blog.wildcamgorongosa.org/" label="View Blog " rel="noopener noreferrer" icon={<ShareIcon size="small" />} reverse={true}></Button>
+              <Button type="button" className="button--secondary" path="/wildwatch-kenya-lab/students/ecology" label="Explore Ecology"></Button>
             </Box>
           </Box>
         </Box>

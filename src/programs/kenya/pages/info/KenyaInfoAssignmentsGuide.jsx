@@ -25,7 +25,7 @@ function KenyaInfoAssignmentsGuide(props) {
 
           <li><Paragraph>After you create a classroom and your students join, click “View”, then click “Create New Assignment”.</Paragraph></li>
 
-          <li><Paragraph>Fill in the Assignment name, instructions, and due date that your students will see. Include as much detail as you like in the instructions. For example, you may ask students to do a task outside the WildCam Lab platform (e.g. record observations while making animal identifications).</Paragraph></li>
+          <li><Paragraph>Fill in the Assignment name, instructions, and due date that your students will see. Include as much detail as you like in the instructions. For example, you may ask students to do a task outside the Wildwatch Lab platform (e.g. record observations while making animal identifications).</Paragraph></li>
 
           <li><Paragraph>Click select photos. On the interactive map, the entire set of trail camera photos will be preselected. The number in this box shows the total number of photos selected.</Paragraph></li>
 
