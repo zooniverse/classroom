@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
 
+import ShareIcon from 'grommet/components/icons/base/Share';
+
 function KenyaNavi(props) {
   return (
     <Box
