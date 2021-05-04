@@ -16,6 +16,7 @@ function KenyaNavi(props) {
       <Anchor className="link" path={`/wildwatch-darien-lab/educators`}>Classrooms</Anchor>
       <Anchor className="link" path={`/wildwatch-darien-lab/educators/map`}>Explore Data</Anchor>
       <Anchor className="link" path={`/wildwatch-darien-lab/educators/ecology`}>Ecology</Anchor>
+      <Anchor className="external link" href="https://www.zooniverse.org/projects/sandiegozooglobal/wildwatch-kenya/talk/4345" target="_blank" rel="noopener noreferrer">Discuss <ShareIcon size="xsmall" /></Anchor>
     </Box>
   );
 };

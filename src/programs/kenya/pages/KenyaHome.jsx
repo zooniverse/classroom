@@ -89,7 +89,7 @@ function KenyaHome(props) {
       <Section className="home__section" align="center" colorIndex="accent-2">
         <Paragraph className="section__paragraph" align="center">
           Need help? Have questions?<br />
-          Check out the ((TODO)) or <Anchor href="mailto:collab@zooniverse.org">email us</Anchor>
+          Check out the <Anchor href="https://www.zooniverse.org/projects/sandiegozooglobal/wildwatch-kenya/talk/4345">Wildwatch Kenya Talk Board</Anchor> or <Anchor href="mailto:collab@zooniverse.org">email us</Anchor>
         </Paragraph>
       </Section>
       {/*
