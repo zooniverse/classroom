@@ -16,6 +16,7 @@ Requires:
 const kenyaGeodata = require('./map-geojson/kenya.json');
 const loisabaGeodata = require('./map-geojson/loisaba.json');
 const namunyakGeodata = require('./map-geojson/namunyak.json');
+const wdpaGeodata = require('./map-geojson/wdpa.json');
 
 const mapConfig = {
   //Connection details for the external data source.
@@ -205,7 +206,7 @@ const mapConfig = {
           return {
             stroke: true,
             color: '#c84',
-            fill: false,
+            fill: '#c84',
           };
         },
       },
@@ -217,7 +218,19 @@ const mapConfig = {
           return {
             stroke: true,
             color: '#c48',
-            fill: false,
+            fill: '#c48',
+          };
+        },
+      },
+      {
+        'name': 'wdpa_zone',
+        'label': 'Protected Area (WDPA)',
+        'data': wdpaGeodata,
+        'style': function (feature) {
+          return {
+            stroke: false,
+            color: '#4c8',
+            fill: '#4c8',
           };
         },
       },
@@ -228,6 +241,7 @@ const mapConfig = {
         '#4cc': 'Kenya',
         '#c84': 'Loisaba Conservancy',
         '#c48': 'Namunyak Conservancy',
+        '#4c8': 'Protected Area (WDPA)',
       },
     },
     'filters': {
