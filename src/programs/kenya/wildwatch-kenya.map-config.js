@@ -15,6 +15,7 @@ Requires:
 
 const kenyaGeodata = require('./map-geojson/kenya.json');
 const loisabaGeodata = require('./map-geojson/loisaba.json');
+const namunyakGeodata = require('./map-geojson/namunyak.json');
 
 const mapConfig = {
   //Connection details for the external data source.
@@ -191,7 +192,7 @@ const mapConfig = {
         'style': function (feature) {
           return {
             stroke: true,
-            color: '#3cc',
+            color: '#4cc',
             fill: false,
           };
         },
@@ -203,7 +204,19 @@ const mapConfig = {
         'style': function (feature) {
           return {
             stroke: true,
-            color: '#e84',
+            color: '#c84',
+            fill: false,
+          };
+        },
+      },
+      {
+        'name': 'namunyak_zone',
+        'label': 'Namunyak Conservancy',
+        'data': namunyakGeodata,
+        'style': function (feature) {
+          return {
+            stroke: true,
+            color: '#c48',
             fill: false,
           };
         },
@@ -211,7 +224,11 @@ const mapConfig = {
     ],
     'legend': {
       'type': 'simple',
-      'items': {},
+      'items': {
+        '#4cc': 'Kenya',
+        '#c84': 'Loisaba Conservancy',
+        '#c48': 'Namunyak Conservancy',
+      },
     },
     'filters': {
       'data.choice': {
