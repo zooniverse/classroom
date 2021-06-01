@@ -15,7 +15,7 @@ function KenyaNavi(props) {
       <Anchor className="link" path={`/wildwatch-kenya-lab/students/intro`}>Student Home</Anchor>
       <Anchor className="link" path={`/wildwatch-kenya-lab/students`}>Assignments</Anchor>
       <Anchor className="link" path={`/wildwatch-kenya-lab/students/map`}>Explore Data</Anchor>
-      <Anchor className="link" path={`/wildwatch-kenya-lab/students/ecology`}>Ecology</Anchor>
+      <Anchor className="link" path={`/wildwatch-kenya-lab/students/project-overview`}>Project Overview</Anchor>
     </Box>
   );
 };
