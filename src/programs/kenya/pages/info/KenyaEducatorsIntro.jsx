@@ -60,7 +60,7 @@ function KenyaEducatorsIntro(props) {
               ((TODO)) 
             </Paragraph>
             <Box pad="small">
-              <Button type="button" className="button--secondary" path="/wildwatch-kenya-lab/educators/ecology" label="Explore Ecology"></Button>
+              <Button type="button" className="button--secondary" path="/wildwatch-kenya-lab/educators/project-overview" label="Project Overview"></Button>
             </Box>
           </Box>
         </Box>

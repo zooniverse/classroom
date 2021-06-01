@@ -7,20 +7,20 @@ import Heading from 'grommet/components/Heading';
 import Image from 'grommet/components/Image';
 import Paragraph from 'grommet/components/Paragraph';
 
-function KenyaInfoEcology(props) {
+function KenyaInfoProjectOverview(props) {
   return (
     <Box
       className="wildcam-info-page"
       pad={{ vertical: 'medium', horizontal: 'large' }}
     >
-      <Heading tag="h2">Ecology</Heading>
+      <Heading tag="h2">Project Overview</Heading>
       <Paragraph>((TODO))</Paragraph>
     </Box>
   );
 };
 
-KenyaInfoEcology.defaultProps = {};
+KenyaInfoProjectOverview.defaultProps = {};
 
-KenyaInfoEcology.propTypes = {};
+KenyaInfoProjectOverview.propTypes = {};
 
-export default KenyaInfoEcology;
+export default KenyaInfoProjectOverview;

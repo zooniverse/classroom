@@ -32,7 +32,7 @@ import KenyaNaviForExplorers from './common/KenyaNaviForExplorers';
 import KenyaEducatorsIntro from './pages/info/KenyaEducatorsIntro';
 import KenyaStudentsIntro from './pages/info/KenyaStudentsIntro';
 import KenyaInfoCSV from './pages/info/KenyaInfoCSV';
-import KenyaInfoEcology from './pages/info/KenyaInfoEcology';
+import KenyaInfoProjectOverview from './pages/info/KenyaInfoProjectOverview';
 import KenyaInfoAssignmentsGuide from './pages/info/KenyaInfoAssignmentsGuide';
 
 import Status401 from '../../components/common/Status401';
@@ -67,7 +67,7 @@ class KenyaProgram extends React.Component {
 
               <Route path={`${props.match.url}/(educators|students|explorers)/map`} component={KenyaMap} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/data-guide`} component={KenyaInfoCSV} />
-              <Route exact path={`${props.match.url}/(educators|students|explorers)/ecology`} component={KenyaInfoEcology} />
+              <Route exact path={`${props.match.url}/(educators|students|explorers)/project-overview`} component={KenyaInfoProjectOverview} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/assignments-guide`} component={KenyaInfoAssignmentsGuide} />
               
               <Route exact path={`${props.match.url}/educators/intro`} component={KenyaEducatorsIntro} />
@@ -91,7 +91,7 @@ class KenyaProgram extends React.Component {
 
               <Route path={`${props.match.url}/(educators|students|explorers)/map`} component={KenyaMap} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/data-guide`} component={KenyaInfoCSV} />
-              <Route exact path={`${props.match.url}/(educators|students|explorers)/ecology`} component={KenyaInfoEcology} />
+              <Route exact path={`${props.match.url}/(educators|students|explorers)/project-overview`} component={KenyaInfoProjectOverview} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/assignments-guide`} component={KenyaInfoAssignmentsGuide} />
               
               <Route path={`${props.match.url}/educators`} component={Status401} />
