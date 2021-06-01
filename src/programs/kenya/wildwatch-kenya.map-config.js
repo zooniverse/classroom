@@ -17,6 +17,7 @@ const kenyaGeodata = require('./map-geojson/kenya.json');
 const loisabaGeodata = require('./map-geojson/loisaba.json');
 const namunyakGeodata = require('./map-geojson/namunyak.json');
 const wdpaGeodata = require('./map-geojson/wdpa.json');
+const giraffesGeodata = require('./map-geojson/giraffes.json');
 
 const mapConfig = {
   //Connection details for the external data source.
@@ -234,6 +235,18 @@ const mapConfig = {
           };
         },
       },
+      {
+        'name': 'giraffes',
+        'label': 'Identified Giraffes',
+        'data': giraffesGeodata,
+        'style': function (feature) {
+          return {
+            stroke: false,
+            color: '#cc4',
+            fill: '#cc4',
+          };
+        },
+      },
     ],
     'legend': {
       'type': 'simple',
@@ -242,6 +255,7 @@ const mapConfig = {
         '#c84': 'Loisaba Conservancy',
         '#c48': 'Namunyak Conservancy',
         '#4c8': 'Protected Area (WDPA)',
+        '#cc4': 'Identified Giraffes',
       },
     },
     'filters': {
