@@ -14,6 +14,7 @@ Requires:
  */
 
 const kenyaGeodata = require('./map-geojson/kenya.json');
+const loisabaGeodata = require('./map-geojson/loisaba.json');
 
 const mapConfig = {
   //Connection details for the external data source.
@@ -191,6 +192,18 @@ const mapConfig = {
           return {
             stroke: true,
             color: '#3cc',
+            fill: false,
+          };
+        },
+      },
+      {
+        'name': 'loisaba_zone',
+        'label': 'Loisaba Conservancy',
+        'data': loisabaGeodata,
+        'style': function (feature) {
+          return {
+            stroke: true,
+            color: '#e84',
             fill: false,
           };
         },
