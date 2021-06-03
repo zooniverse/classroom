@@ -40,8 +40,13 @@ function KenyaInfoProjectOverview(props) {
       <Box margin={{ bottom: 'medium' }}>
         <Paragraph>The Twiga Walinzi on-the-ground research teams are headquartered at Loisaba Conservancy, in Laikipia County, and at Namunyak Community Conservancy, in Samburu County. While we work closely with many other conservancies in northern Kenya, currently we only have trail camera surveys setup at Loisaba and Namunyak. </Paragraph>
         <Paragraph>The map below shows Loisaba and Namunyak Conservancies in red, our companion conservancies in gray, and the overlap reticulated giraffe distribution in Northern Kenya (as shown by the shaded area). </Paragraph>
-        <Image className="full-image" src={imgOverview2} size="large" caption="The cameras!" />
+        <Image className="full-image" src={imgOverview2} size="large" caption="" />
+      </Box>
+      
+      <Heading tag="h3">The Cameras! </Heading>
+      <Box margin={{ bottom: 'medium' }}>
         <Paragraph>We created a grid trail cameras on both conservancies to gain a better understanding of giraffe habitat preference, movement patterns, and occupancy, as well as gathering data on other wildlife species, and livestock. These motion-activated trail cameras are placed in the field for about 3-6 weeks at a time and have captured an array of wildlife images. While Loisaba and Namunyak don’t appear to be located very far from each other (about a 45 minute plane ride or an 8-hour drive!), their vegetation composition and climate are vastly different. </Paragraph>
+        <Image className="full-image" src={imgOverview5} size="large" caption="" />
       </Box>
       
       <Heading tag="h3">Namunyak Conservancy</Heading>
@@ -58,7 +63,7 @@ function KenyaInfoProjectOverview(props) {
       </Box>
       
       <Box margin={{ bottom: 'medium' }}>
-        <Image className="full-image" src={imgOverview5} size="large" caption="" />
+        
       </Box>
       
       <Heading tag="h3">References</Heading>
