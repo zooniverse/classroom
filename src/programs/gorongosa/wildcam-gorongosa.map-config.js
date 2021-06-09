@@ -258,7 +258,7 @@ const mapConfig = {
             stroke: true,
             color: '#3cc',
             fill: false,
-            interactive: false,
+            interactive: false,  // Don't enable tooltips
           };
         },
       },
@@ -296,7 +296,7 @@ const mapConfig = {
             fill: true,
             fillColor: color,
             fillOpacity: 0.2,
-            interactive: false,
+            interactive: true,  // Allow tooltips
           };
         },
       },
