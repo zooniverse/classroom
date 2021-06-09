@@ -158,6 +158,15 @@ class MapVisuals extends React.Component {
     });
     //--------------------------------
     
+    // Add sorting function that ensures the data layer is always the top-most layer.
+    //--------------------------------
+    Object.values(geomapLayers).forEach(geomapLayer => {
+      geomapLayer.on('add', (event) => {
+        this.dataLayer && this.dataLayer.bringToFront();
+      })
+    })
+    //--------------------------------
+    
     //Add a map legend, if applicable.
     //--------------------------------
     if (this.props.mapConfig.map && this.props.mapConfig.map.legend) {
@@ -199,6 +208,7 @@ class MapVisuals extends React.Component {
     
     this.dataLayer.clearLayers();
     this.dataLayer.addData(props.markersData);  //Markers Data must be in GeoJSON format.
+    this.dataLayer && this.dataLayer.bringToFront();
   }
   
   renderMarker(feature, latlng) {
