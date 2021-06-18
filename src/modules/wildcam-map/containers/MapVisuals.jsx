@@ -50,6 +50,7 @@ class MapVisuals extends React.Component {
     this.renderMarker = this.renderMarker.bind(this);
     this.examineMarker = this.examineMarker.bind(this);
     this.updateDataLayer = this.updateDataLayer.bind(this);
+    this.enrichExtraLayer = this.enrichExtraLayer.bind(this);
     
     this.map = null;
     this.mapContainer = null;
@@ -107,7 +108,10 @@ class MapVisuals extends React.Component {
       //Extra Layer type: Offline (stored in mapconfig JSON)
       //----------------
       if (externalLayerType === 'offline') {
-        geomapLayers[ZooTran(item.label)] = L.geoJson(item.data, { style: item.style }).addTo(this.map);
+        geomapLayers[ZooTran(item.label)] = L.geoJson(
+          item.data,
+          { style: item.style, onEachFeature: this.enrichExtraLayer }
+        ).addTo(this.map);
         /*
         L.geoJson(vegetationGeodata.geojson, {
           style: function (feature) {
@@ -121,13 +125,15 @@ class MapVisuals extends React.Component {
         }).addTo(this.map)
         */
         
-        
       //----------------
       
       //Extra Layer type: Online (stored in external database)
       //----------------
       } else if (externalLayerType === 'online') {
-        geomapLayers[ZooTran(item.label)] = L.geoJson(null, { style: item.style }).addTo(this.map);
+        geomapLayers[ZooTran(item.label)] = L.geoJson(
+          null,
+          { style: item.style, onEachFeature: this.enrichExtraLayer }
+        ).addTo(this.map);
 
         const url = this.props.mapConfig.database.urls.geojson.replace('{SQLQUERY}', encodeURIComponent(item.query));
         superagent.get(url)
@@ -150,6 +156,15 @@ class MapVisuals extends React.Component {
       }
       //----------------
     });
+    //--------------------------------
+    
+    // Add sorting function that ensures the data layer is always the top-most layer.
+    //--------------------------------
+    Object.values(geomapLayers).forEach(geomapLayer => {
+      geomapLayer.on('add', (event) => {
+        this.dataLayer && this.dataLayer.bringToFront();
+      })
+    })
     //--------------------------------
     
     //Add a map legend, if applicable.
@@ -193,6 +208,7 @@ class MapVisuals extends React.Component {
     
     this.dataLayer.clearLayers();
     this.dataLayer.addData(props.markersData);  //Markers Data must be in GeoJSON format.
+    this.dataLayer && this.dataLayer.bringToFront();
   }
   
   renderMarker(feature, latlng) {
@@ -223,6 +239,21 @@ class MapVisuals extends React.Component {
       filters: this.props.filters,
       cameraId,
     });
+  }
+  
+  enrichExtraLayer(feature, layer) {
+    // The (feature, layer) follows leaflet documentation, but here's a
+    // better clarification:
+    // - "feature" is the GeoJSON data object representing the feature
+    // - "layer" is the actual visual component of the feature, e.g. a polygon
+    
+    const properties = feature && feature.properties;
+    if (!properties) return;
+    
+    const text = Object.entries(properties).map((key, val) => {
+      return `${key}: ${val}`
+    }).join('<br/>')
+    layer.bindTooltip(text);  // Note: this requires layer.style.interactive = true
   }
   
   //----------------------------------------------------------------

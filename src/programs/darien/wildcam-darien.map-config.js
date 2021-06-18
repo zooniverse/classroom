@@ -169,6 +169,7 @@ const mapConfig = {
             stroke: true,
             color: '#3cc',
             fill: false,
+            interactive: false,  // Disable tooltip
           };
         },
       },
@@ -181,7 +182,7 @@ const mapConfig = {
             stroke: true,
             color: '#3cc',
             fill: false,
-            interactive: false,
+            interactive: false,  // Disable tooltip
           };
         },
       },
@@ -211,7 +212,7 @@ const mapConfig = {
             fill: true,
             fillColor: color,
             fillOpacity: 0.5,
-            interactive: false,
+            interactive: true,  // Enable tooltip
           };
         },
       },
