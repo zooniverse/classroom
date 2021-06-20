@@ -250,10 +250,16 @@ class MapVisuals extends React.Component {
     const properties = feature && feature.properties;
     if (!properties) return;
     
-    const text = Object.entries(properties).map((key, val) => {
-      return `${key}: ${val}`
+    const text = Object.keys(properties).map(key => {
+      const val = properties[key];
+      return `${key}: ${val}`;
     }).join('<br/>')
-    layer.bindTooltip(text);  // Note: this requires layer.style.interactive = true
+    layer.bindTooltip(  // Note: this requires layer.style.interactive = true
+      text,
+      { sticky: true }
+    );
+    
+    
   }
   
   //----------------------------------------------------------------
