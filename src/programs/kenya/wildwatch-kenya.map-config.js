@@ -217,8 +217,8 @@ const mapConfig = {
         'style': function (feature) {
           return {
             stroke: false,
-            color: '#4c8',
-            fill: '#4c8',
+            color: '#693',
+            fill: '#693',
           };
         },
       },
@@ -227,10 +227,23 @@ const mapConfig = {
         'label': 'Identified Giraffes',
         'data': giraffesGeodata,
         'style': function (feature) {
+          let color = '#ccc';
+          if (feature && feature.properties) {
+            switch (feature.properties.Proposed_S) {
+              case 'Northern':
+                color = '#3f6'; break;
+              case 'Reticulated':
+                color = '#f63'; break;
+              case 'Masai':
+                color = '#fc3'; break;
+              case 'Southern':
+                color = '#36f'; break;
+            }
+          }
           return {
             stroke: false,
-            color: '#cc4',
-            fill: '#cc4',
+            color: color,
+            fill: color,
           };
         },
       },
@@ -241,8 +254,11 @@ const mapConfig = {
         '#4cc': 'Kenya',
         '#c84': 'Loisaba Conservancy',
         '#c48': 'Namunyak Conservancy',
-        '#4c8': 'Protected Area (WDPA)',
-        '#cc4': 'Identified Giraffes',
+        '#693': 'Protected Area (WDPA)',
+        '#3f6': 'Giraffes: Northern',
+        '#f63': 'Giraffes: Reticulated',
+        '#fc3': 'Giraffes: Masai',
+        '#36f': 'Giraffes: Southern',
       },
     },
     'filters': {
