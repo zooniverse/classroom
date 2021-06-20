@@ -13,7 +13,6 @@ Requires:
 ********************************************************************************
  */
 
-const kenyaGeodata = require('./map-geojson/kenya.json');
 const loisabaGeodata = require('./map-geojson/loisaba.json');
 const namunyakGeodata = require('./map-geojson/namunyak.json');
 const wdpaGeodata = require('./map-geojson/wdpa.json');
@@ -161,6 +160,11 @@ const mapConfig = {
     },
     'tileLayers': [
       {
+        'name': 'Plain',
+        'url': '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        'attribution': '&copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> &copy; <a href=\'http://cartodb.com/attributions\'>CartoDB</a>'
+      },
+      {
         'name': 'Terrain',
         'url': '//server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
         'attribution': 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
@@ -179,26 +183,9 @@ const mapConfig = {
         'name': 'Satellite',
         'url': '//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
         'attribution': 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-      },
-      {
-        'name': 'Plain',
-        'url': '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-        'attribution': '&copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> &copy; <a href=\'http://cartodb.com/attributions\'>CartoDB</a>'
       }
     ],
     extraLayers: [
-      {
-        'name': 'kenya_zone',
-        'label': 'Kenya',
-        'data': kenyaGeodata,
-        'style': function (feature) {
-          return {
-            stroke: true,
-            color: '#4cc',
-            fill: false,
-          };
-        },
-      },
       {
         'name': 'loisaba_zone',
         'label': 'Loisaba Conservancy',
