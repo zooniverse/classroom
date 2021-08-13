@@ -35,10 +35,13 @@ module.exports = {
 
   output: {
     path: path.join(__dirname, '/dist/'),
-    filename: '[name]-[hash].min.js',
+    filename: '[name]-[contenthash].min.js',
   },
 
   plugins: [
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
@@ -64,6 +67,12 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.styl', '.css', '.json'],
     modules: ['.', 'node_modules'],
+    fallback: { 
+      fs: false,
+      // for markdown-it plugins
+      path: require.resolve("path-browserify"),
+      punycode: require.resolve("punycode/")
+    }
   },
 
   module: {
@@ -98,15 +107,10 @@ module.exports = {
       ],
     }, {
       test: /\.(jpg|png|gif|otf|eot|svg|ttf|woff\d?)$/,
+      type: 'asset/resource',
       use: [{
-        loader: 'file-loader',
-      }, {
         loader: 'image-webpack-loader',
       }],
     }],
-  },
-
-  node: {
-    fs: 'empty'
   }
 };

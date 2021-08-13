@@ -28,7 +28,6 @@ module.exports = {
   },
 
   entry: [
-    'eventsource-polyfill', // necessary for hot reloading with IE
     path.join(__dirname, 'src/index.jsx')
   ],
 
@@ -39,6 +38,9 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
@@ -55,7 +57,14 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.css', '.styl'],
     modules: ['.', 'node_modules'],
-    symlinks: false
+    symlinks: false,
+    fallback: {
+      fs: false,
+      process: require.resolve("process"),
+      // for markdown-it plugins
+      path: require.resolve("path-browserify"),
+      punycode: require.resolve("punycode/")
+    }
   },
 
   module: {
@@ -68,7 +77,7 @@ module.exports = {
       ]
     }, {
       test: /\.(jpg|png|gif|otf|eot|svg|ttf|woff\d?)$/,
-      use: 'file-loader?name=[name].[ext]'
+      type: 'asset/resource'
     }, {
       test: /\.styl$/,
       use: [{
@@ -78,7 +87,9 @@ module.exports = {
       }, {
         loader: 'stylus-loader',
         options: {
-          use: [nib()]
+          stylusOptions: {
+            use: [nib()]
+          }
         }
       }]
     }, {
@@ -93,9 +104,5 @@ module.exports = {
         }
       }]
     }]
-  },
-
-  node: {
-    fs: 'empty'
   }
 };
