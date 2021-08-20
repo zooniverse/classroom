@@ -3,16 +3,13 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StatsPlugin = require('stats-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const nib = require('nib');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 module.exports = {
   mode: 'production',
-  entry: [
-    path.join(__dirname, 'src/index.jsx'),
-  ],
 
   optimization: {
     splitChunks: {
@@ -23,7 +20,7 @@ module.exports = {
           chunks: 'all',
           enforce: true
         },
-        vendor: {
+        defaultVendors: {
           name: 'vendor',
           test: /[\\/]node_modules[\\/]/,
           chunks: 'all',
@@ -34,7 +31,7 @@ module.exports = {
   },
 
   output: {
-    path: path.join(__dirname, '/dist/'),
+    clean: true,
     filename: '[name]-[contenthash].min.js',
   },
 
@@ -45,7 +42,6 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
-    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.tpl.html',
       inject: 'body',
@@ -59,9 +55,30 @@ module.exports = {
       source: false,
       modules: false,
     }),
-    new CopyWebpackPlugin([
-      { from: 'src/images', to: 'images' }
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'src/images', to: 'images' }
+      ]
+    }),
+    new ImageMinimizerPlugin({
+      minimizerOptions: {
+        plugins: [
+          ['gifsicle', { interlaced: true }],
+          ['jpegtran', { progressive: true }],
+          ['optipng', { optimizationLevel: 5 }],
+          [
+            'svgo',
+            {
+              plugins: [
+                {
+                  removeViewBox: false,
+                },
+              ],
+            },
+          ]
+        ]
+      }
+    })
   ],
 
   resolve: {
@@ -101,16 +118,18 @@ module.exports = {
         }, {
           loader: 'stylus-loader',
           options: {
-            use: [nib()],
+            stylusOptions: {
+              use: [nib()]
+            }
           },
         },
       ],
     }, {
-      test: /\.(jpg|png|gif|otf|eot|svg|ttf|woff\d?)$/,
-      type: 'asset/resource',
-      use: [{
-        loader: 'image-webpack-loader',
-      }],
+      test: /\.(jpe?g|png|gif|svg\d?)$/,
+      type: 'asset'
+    }, {
+      test: /\.(otf|eot|ttf|woff\d?)$/,
+      type: 'asset'
     }],
   }
 };

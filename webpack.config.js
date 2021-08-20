@@ -27,16 +27,6 @@ module.exports = {
     host: process.env.HOST || 'localhost'
   },
 
-  entry: [
-    path.join(__dirname, 'src/index.jsx')
-  ],
-
-  output: {
-    path: path.join(__dirname, '/dist/'),
-    filename: '[name].js',
-    publicPath: '/'
-  },
-
   plugins: [
     new webpack.ProvidePlugin({
       process: 'process/browser',
@@ -60,7 +50,6 @@ module.exports = {
     symlinks: false,
     fallback: {
       fs: false,
-      process: require.resolve("process"),
       // for markdown-it plugins
       path: require.resolve("path-browserify"),
       punycode: require.resolve("punycode/")
