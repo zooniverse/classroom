@@ -35,7 +35,7 @@ export class AuthContainer extends React.Component {
   loginWithGoogle() {
     let googleUrl = 'https://panoptes.zooniverse.org/users/auth/google_oauth2';
 
-    if (env === 'development') {
+    if (env === 'staging' || env === 'development') {
       googleUrl = 'https://panoptes-staging.zooniverse.org/users/auth/google_oauth2';
     }
 
