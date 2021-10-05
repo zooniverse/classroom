@@ -10,7 +10,8 @@
     "start": "export NODE_ENV=development; BABEL_ENV=development check-engines && check-dependencies && webpack-dashboard -p 3999 -- webpack-dev-server --config ./webpack.config.js",
     "test": "NODE_ENV=development BABEL_ENV=test mocha mocha-setup.js enzyme-setup.js $(find src -name *.spec.jsx) || true",
     "eslint": "eslint .",
-    "build": "export BABEL_ENV=production; check-engines && check-dependencies && webpack --config webpack.production.config.js -p"
+    "build": "export BABEL_ENV=production; check-engines && check-dependencies && webpack --config webpack.production.config.js -p",
+    "build-staging": "export BABEL_ENV=staging; check-engines && check-dependencies && webpack --config webpack.config.js -p"
   },
   "engines": {
     "node": ">=14",
