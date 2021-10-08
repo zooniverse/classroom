@@ -84,9 +84,9 @@ class AssignmentForm extends React.Component {
       students: [],  //This is a list of IDs for students selected for this Assignment.
     };
   }
-  
+
   // ----------------------------------------------------------------
-  
+
   componentDidMount() {
     this.initialise(this.props);
   }
@@ -94,24 +94,24 @@ class AssignmentForm extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.initialise(nextProps);
   }
-  
+
   /*  //Initialise:
       //Fetch the selected assignment (and classroom) data.
-      
+
       Based on the route/URL, we'll either create a new assignment or edit an existing one.
         .../classrooms/123/assignments/new - create a new assignment (i.e. no assignment_id parameter)
         .../classrooms/123/assignments/456 - edit assignment 456 (i.e. assignment_id=456 supplied.)
    */
   initialise(props = this.props) {
     const state = this.state;
-    
+
     const classroom_id = (props.match && props.match.params)
       ? props.match.params.classroom_id : undefined;
     const assignment_id = (props.match && props.match.params)
       ? props.match.params.assignment_id : undefined;
-    
+
     const selectedProgram = props.selectedProgram;
-    
+
     //Sanity check
     if (!classroom_id) return;
     const selectedClassroom = props.classroomsList &&
@@ -119,12 +119,12 @@ class AssignmentForm extends React.Component {
         return classroom.id === classroom_id
       });
     if (!selectedClassroom) return;
-    
+
     //Data store update + Redundancy Check (prevent infinite loop, only trigger once)
     if (props.selectedClassroom !== selectedClassroom) {
       Actions.wildcamClassrooms.setSelectedClassroom(selectedClassroom);
     }
-    
+
     //If we don't have a list of assignments yet, fetch it.
     //Redundancy Check: prevent infinite loop, only trigger once.
     if (props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.IDLE) {
@@ -133,13 +133,13 @@ class AssignmentForm extends React.Component {
       this.initialise_partTwo(props, classroom_id, assignment_id, props.assignmentsList);
     }
   }
-  
+
   initialise_partTwo(props, classroom_id, assignment_id, assignmentsList) {
     //Create a new assignment
     if (!assignment_id) {  //Note: there should never be assignment_id === 0 or ''
       this.setState({ view: VIEWS.CREATE_NEW });
       this.initialiseForm(props, null);
-    
+
     //Edit an existing assignment... if we can find it.
     } else {
       const selectedAssignment = assignmentsList &&
@@ -151,7 +151,7 @@ class AssignmentForm extends React.Component {
       if (selectedAssignment) {
         //Data store update
         Actions.wildcamClassrooms.setSelectedAssignment(selectedAssignment);
-        
+
         //Also extract initial subjects and filters used by the Assignment
         if (!this.state.subjects || this.state.subjects.length === 0) {
           const newSubjects = (selectedAssignment.metadata && selectedAssignment.metadata.subjects)
@@ -170,18 +170,18 @@ class AssignmentForm extends React.Component {
                                && selectedAssignment.relationships.student_users.data)
             ? selectedAssignment.relationships.student_users.data.map(s => s.id)
             : [];
-          
+
           this.setState({
             subjects: newSubjects,
             filters: newFilters,
             students: newStudents,
           });
         }
-        
+
         //View update
         this.setState({ view: VIEWS.EDIT_EXISTING });
         this.initialiseForm(props, selectedAssignment);
-        
+
       //Otherwise, uh oh.
       } else {
         //Data store update
@@ -192,14 +192,14 @@ class AssignmentForm extends React.Component {
       }
     }
   }
-  
+
   /*  Initialises the classroom form.
    */
   initialiseForm(props, selectedAssignment) {
     //Only run this once per page load, thank you.
     if (this.state.formInitialised) return;
     this.setState({ formInitialised: true });
-    
+
     if (!selectedAssignment) {
       this.setState({
         form: INITIAL_FORM_DATA,
@@ -217,12 +217,12 @@ class AssignmentForm extends React.Component {
           updatedForm[key] = originalForm[key];
         }
       });
-      
+
       this.setState({
         form: updatedForm,
       });
     }
-    
+
     //WildCam Map Selected Subjects:
     //Check the connection to WildCam Maps to see if the user recently selected
     //Subjects for the Assignment.
@@ -240,12 +240,12 @@ class AssignmentForm extends React.Component {
       Actions.wildcamMap.resetWccWcmAssignmentData();
     }
   }
-  
+
   // ----------------------------------------------------------------
-  
+
   updateForm(e) {
     let val = e.target.value;
-    
+
     //Special case: classificatons_target
     //The number of Classfications a Student needs to do cannot exceed the amount of Subjects selected.
     if (e.target.id === 'classifications_target') {
@@ -255,37 +255,37 @@ class AssignmentForm extends React.Component {
       val = Math.min(maxVal, val);
       val = Math.max(0, val);
     }
-    
+
     this.setState({
       form: {
         ...this.state.form,
         [e.target.id]: val,
       }
     });
-    
+
     //Apparently [square_brackets] a superconvenient way of specifying an
     //object key name that's variable. Sweet.
-    
+
   }
-  
+
   submitForm(e) {
     const props = this.props;
     const state = this.state;
-    
+
     //Prevent standard browser actions
     e.preventDefault();
-    
+
     //Sanity check
     if (!props.selectedProgram) return;
     if (!props.selectedClassroom) return;
-    
+
     //Change state values into something the API likes.
     const filters = (state.filters) ? state.filters : {};
     const subjects = (state.subjects)
       ? state.subjects.map(sub => sub.subject_id)
       : [];
     const students = (state.students) ? state.students : [];
-    
+
     //Submit Form: create new assignment
     if (state.view === VIEWS.CREATE_NEW) {
       return Actions.wcc_teachers_createAssignment({
@@ -299,7 +299,7 @@ class AssignmentForm extends React.Component {
       .then(() => {
         //Message
         Actions.wildcamClassrooms.setToast({ message: TEXT.STATUS.SUCCESSES.ASSIGNMENT_CREATED, status: 'ok' });
-        
+
         //Refresh
         return Actions.wcc_teachers_refreshData({ selectedProgram: props.selectedProgram })
         .then(() => {
@@ -309,7 +309,7 @@ class AssignmentForm extends React.Component {
       }).catch((err) => {
         //Error messaging done in Actions.wcc_teachers_createAssignment()
       });
-    
+
     //Submit Form: update existing classroom
     } else if (state.view === VIEWS.EDIT_EXISTING) {
       return Actions.wcc_teachers_editAssignment({
@@ -321,7 +321,7 @@ class AssignmentForm extends React.Component {
       }).then(() => {
         //Message
         Actions.wildcamClassrooms.setToast({ message: TEXT.STATUS.SUCCESSES.ASSIGNMENT_EDITED, status: 'ok' });
-        
+
         //Refresh
         return Actions.wcc_teachers_refreshData({
           selectedProgram: props.selectedProgram,
@@ -342,13 +342,13 @@ class AssignmentForm extends React.Component {
   render() {
     const props = this.props;
     const state = this.state;
-    
+
     //Get students and assignments only for this classroom.
     //const students = (props.selectedClassroom && props.selectedClassroom.students) ? props.selectedClassroom.students : [];
     //const assignments = (props.selectedClassroom && props.assignments && props.assignments[props.selectedClassroom.id])
     //  ? props.assignments[props.selectedClassroom.id]
     //  : [];
-    
+
     //State: Working
     //Data is being processed. Don't let the user do anything.
     if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SENDING || props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.FETCHING ||
@@ -363,7 +363,7 @@ class AssignmentForm extends React.Component {
         </Box>
       );
     }
-    
+
     //State: Ready
     //Page is now ready to accept user input.
     if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS && props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.SUCCESS) {
@@ -380,7 +380,7 @@ class AssignmentForm extends React.Component {
         </Box>
       );
     }
-    
+
     //State: Error
     if (props.classroomsStatus === WILDCAMCLASSROOMS_DATA_STATUS.ERROR ||
         props.assignmentsStatus === WILDCAMCLASSROOMS_DATA_STATUS.ERROR) {
@@ -394,16 +394,22 @@ class AssignmentForm extends React.Component {
         </Box>
       );
     }
-    
+
     //State: WTF
     //How did we even get here?
     return null;
   }
-  
+
   render_editState() {
     const props = this.props;
     const state = this.state;
-    
+
+    // Programs that are marked as "custom" allow Educators to create their own
+    // "spinoffs" of the main workflow for their assignment. Each "spinoff"
+    // workflow will have their own hand-picked list of Subjects to classify.
+    // By default, most WildCam Programs are "custom" Programs.
+    const canChooseSubjects = props.selectedProgram.attributes.custom
+
     return (
       <Form
         className="form"
@@ -439,7 +445,7 @@ class AssignmentForm extends React.Component {
             />
           </FormField>
         </fieldset>
-        
+
         <fieldset>
           <FormField htmlFor="name" label={TEXT.ASSIGNMENT_FORM.DUEDATE}>
             <TextInput
@@ -450,23 +456,25 @@ class AssignmentForm extends React.Component {
             />
           </FormField>
         </fieldset>
-        
+
         {
           //TODO: add (optional) Assignment link for students?
         }
-        
-        <SubjectsList
-          history={props.history}
-          location={props.location}
-          match={props.match}
-          selectedClassroom={props.selectedClassroom}
-          selectedAssignment={props.selectedAssignment}
-          filters={state.filters}
-          subjects={state.subjects}
-          wccwcmMapPath={props.wccwcmMapPath}
-          assignmentStateForSaving={state.form}
-        />
-        
+
+        {canChooseSubjects &&
+          <SubjectsList
+            history={props.history}
+            location={props.location}
+            match={props.match}
+            selectedClassroom={props.selectedClassroom}
+            selectedAssignment={props.selectedAssignment}
+            filters={state.filters}
+            subjects={state.subjects}
+            wccwcmMapPath={props.wccwcmMapPath}
+            assignmentStateForSaving={state.form}
+          />
+        }
+
         {(state.subjects && state.subjects.length > 0) && (
           <fieldset>
             <FormField htmlFor="name" label={TEXT.ASSIGNMENT_FORM.CLASSIFICATIONS_TARGET}>
@@ -478,7 +486,7 @@ class AssignmentForm extends React.Component {
             </FormField>
           </fieldset>
         )}
-        
+
         <StudentsList
           selectedClassroom={props.selectedClassroom}
           selectedAssignment={props.selectedAssignment}
@@ -522,7 +530,7 @@ class AssignmentForm extends React.Component {
               props.history && props.history.push('../');
             }}
           />
-          
+
           <Button
             className="button"
             icon={<HelpIcon />}
@@ -531,7 +539,7 @@ class AssignmentForm extends React.Component {
               Actions.wildcamClassrooms.showHelp('assignments-management');
             }}
           />
-          
+
           <Button
             className="button"
             icon={<LinkNextIcon size="small" />}
@@ -556,7 +564,7 @@ class AssignmentForm extends React.Component {
                   .then(() => {
                     //Message
                     Actions.wildcamClassrooms.setToast({ message: TEXT.STATUS.SUCCESSES.ASSIGNMENT_DELETED, status: 'ok' });
-                    
+
                     //Refresh
                     return Actions.wcc_teachers_refreshData({ selectedProgram: props.selectedProgram, selectedClassroom: props.selectedClassroom })
                     .then(() => {
@@ -574,19 +582,19 @@ class AssignmentForm extends React.Component {
       </Form>
     );
   }
-  
+
   render_workingState() {
     return (
       <StatusWorking />
     );
   }
-  
+
   render_notFoundState() {
     return (
       <StatusNotFound />
     );
   }
-  
+
   render_errorState() {
     return (
       <StatusBorked
@@ -606,7 +614,7 @@ AssignmentForm.defaultProps = {
   location: null,
   match: null,
   // ----------------
-  selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,  
+  selectedProgram: PROGRAMS_INITIAL_STATE.selectedProgram,
   // ----------------
   ...WILDCAMCLASSROOMS_INITIAL_STATE,
   ...WILDCAMMAP_INITIAL_STATE,
