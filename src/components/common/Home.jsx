@@ -12,6 +12,7 @@ import Spinning from 'grommet/components/icons/Spinning';
 
 import { Actions } from 'jumpstate';
 import { Link } from 'react-router-dom';
+import { env } from '../../lib/config';
 
 import {
   PROGRAMS_INITIAL_STATE,
@@ -28,7 +29,7 @@ export default function Home(props) {
       const lowercaseProgramB = programB.name.toLowerCase()
       return lowercaseProgramA.localeCompare(lowercaseProgramB);
     }
-  ) 
+  )
   return (
     <Section className="home" colorIndex="light-2">
       <Box align="center">
@@ -54,12 +55,12 @@ export default function Home(props) {
             const programLink = (program.metadata && program.metadata.redirect) ?
               <Anchor href={program.metadata.redirect} label="Visit Lab" /> :
               <Link to={program.slug} onClick={() => { Actions.getProgram({ programs: props.programs, param: program.slug }); }}>Enter</Link>;
-          
+
             // TEMPORARY  //HACK
             // Wildwatch Kenya has been added to the Education API for dev/preview purposes,
             // but it's NOT ready for showtime yet!
             // (@shaunanoordin 20210402)
-            if (program.slug === 'wildwatch-kenya-lab') return null
+            if (program.slug === 'wildwatch-kenya-lab' && env === 'production') return null
 
             return (
               <Tile key={program.name}>
@@ -89,4 +90,3 @@ Home.defaultProps = {
 Home.propTypes = {
   ...PROGRAMS_PROPTYPES
 };
-
