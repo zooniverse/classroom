@@ -18,8 +18,8 @@ import mapConfig from './wildwatch-kenya.map-config.js';
 const classroomConfig = {
   forStudents: {
     urlToAssignment: (env === 'production')
-      ? 'https://www.zooniverse.org/projects/sandiegozooglobal/wildwatch-kenya/classify?workflow={WORKFLOW_ID}&classroom=1'
-      : 'https://www.zooniverse.org/projects/sandiegozooglobal/wildwatch-kenya/classify?workflow={WORKFLOW_ID}&classroom=1',  //TODO: find the staging equivalent for Wildwatch Kenya
+      ? 'https://www.zooniverse.org/projects/sandiegozooglobal/wildwatch-kenya/classify?workflow=default&classroom=1'
+      : 'https://master.pfe-preview.zooniverse.org/projects/camallen/wildwatch-kenya/classify?workflow=default&classroom=1',
     transformClassificationsDownload: transformWildwatchAssignments
   },
   forEducators: {
@@ -42,17 +42,17 @@ const classroomConfig = {
     },
   },
 };
-  
+
 function transformWildwatchAssignments (classifications) {
   return Promise.resolve(classificationResourceToJson(classifications))
     .then(combineWithSubjectMetadata);
 }
-  
+
 function classificationResourceToJson (classifications) {
   let data = [];
-  
+
   classifications.forEach((classification) => {
-  
+
     const classification_id = classification.id;
     const subject_id =
       classification.links &&
@@ -83,18 +83,18 @@ function classificationResourceToJson (classifications) {
       });
     });
   });
-  
+
   return data;
 }
 
 function combineWithSubjectMetadata (classifications) {
-  
+
   const query = mapConfig.database.queries.selectAllSubjects
     .replace('{WHERE}', '')
     .replace('{ORDER}', '')
     .replace('{LIMIT}', '');
   const url = mapConfig.database.urls.json.replace('{SQLQUERY}', query);
-  
+
   return superagent.get(url)
     .then(res => {
       if (res.ok && res.body && res.body.rows) return res.body.rows;
@@ -103,7 +103,7 @@ function combineWithSubjectMetadata (classifications) {
     .then(subjects => {
       return classifications.map(classification => {
         let subject = subjects.find(s => s.subject_id == classification.subject_id);  // Use ==, not ===, due to different data types.
-        
+
         if (!subject) {
           subject = {  // Default Subject data; the data structure consistency is required to keep JSON-to-CSV automation working
             camera: '',
@@ -116,11 +116,11 @@ function combineWithSubjectMetadata (classifications) {
             'data.total_vote_count': '',
           };
         }
-        
+
         return { ...classification, ...subject };
       });
-    
-    
+
+
       return classifications;
     })
     .catch(err => {
