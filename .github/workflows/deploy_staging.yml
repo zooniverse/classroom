@@ -27,7 +27,6 @@ jobs:
     - name: Upload to blob storage
       uses: azure/CLI@v1
       with:
-        azcliversion: 2.29.2
         inlineScript: |
             az storage blob upload-batch \
               --account-name zooniversestatic \
