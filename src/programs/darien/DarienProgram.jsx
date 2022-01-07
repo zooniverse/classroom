@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { ZooTranSetLanguage, ZooTranGetLanguage } from '../../lib/zooniversal-translator'
+import { ZooTranSetLanguage, ZooTranCheckForValidLanguage } from '../../lib/zooniversal-translator';
 
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
@@ -44,8 +44,11 @@ import GenericStatusPage from '../../components/common/GenericStatusPage';
 class DarienProgram extends React.Component {
   constructor() {
     super();
+
+    // Set acceptable languages/locales for this program
+    ZooTranCheckForValidLanguage(['en', 'es']);
   }
-  
+
   componentWillReceiveProps(props = this.props) {
     //Register the connection between the WildCam Classrooms and the WildCam Maps.
     Actions.wildcamMap.setWccWcmMapPath(`${props.match.url}/educators/map`);
@@ -53,7 +56,7 @@ class DarienProgram extends React.Component {
 
   render() {
     const props = this.props;
-    
+
     if (!props.initialised) {  //User status unknown: wait.
       return (<GenericStatusPage status="fetching" message="Loading..." />);
     } else if (!props.selectedProgram) {  //Anomaly: program status not set.
@@ -72,12 +75,12 @@ class DarienProgram extends React.Component {
               <Route exact path={`${props.match.url}/(educators|students|explorers)/ecology`} component={DarienInfoEcology} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/resources`} component={DarienInfoResources} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/assignments-guide`} component={DarienInfoAssignmentsGuide} />
-              
+
               <Route exact path={`${props.match.url}/educators/intro`} component={DarienEducatorsIntro} />
               {/* //HACK: The following redirect avoids a weird bug where, if you go to a Classroom, then an Assignment, then press Back, then Back again, you end up in the /educators/classrooms URL. */}
               <Redirect exact from={`${props.match.url}/educators/classrooms`} to={`${props.match.url}/educators`}/>
               <Route path={`${props.match.url}/educators`} component={DarienEducators} />
-              
+
               <Route exact path={`${props.match.url}/students/intro`} component={DarienStudentsIntro} />
               <Route path={`${props.match.url}/students`} component={DarienStudents} />
 
@@ -98,7 +101,7 @@ class DarienProgram extends React.Component {
               <Route exact path={`${props.match.url}/(educators|students|explorers)/ecology`} component={DarienInfoEcology} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/resources`} component={DarienInfoResources} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/assignments-guide`} component={DarienInfoAssignmentsGuide} />
-              
+
               <Route path={`${props.match.url}/educators`} component={Status401} />
               <Route path={`${props.match.url}/students`} component={Status401} />
 
@@ -110,10 +113,10 @@ class DarienProgram extends React.Component {
       }
     }
   }
-  
+
   renderNavi() {
     const props = this.props;
-    
+
     return (
       <Switch>
         <Route path={`${props.match.url}/educators`} component={DarienNaviForEducators} />
@@ -123,10 +126,10 @@ class DarienProgram extends React.Component {
       </Switch>
     );
   }
-  
+
   renderLanguage() {
     const props = this.props;
-    
+
     return (
       <Section
         className="program-language-selection"

@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { ZooTranCheckForValidLanguage } from '../../lib/zooniversal-translator';
 
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
@@ -42,8 +43,11 @@ import GenericStatusPage from '../../components/common/GenericStatusPage';
 class KenyaProgram extends React.Component {
   constructor() {
     super();
+
+    // Set acceptable languages/locales for this program
+    ZooTranCheckForValidLanguage(['en']);
   }
-  
+
   componentWillReceiveProps(props = this.props) {
     //Register the connection between the WildCam Classrooms and the WildCam Maps.
     Actions.wildcamMap.setWccWcmMapPath(`${props.match.url}/educators/map`);
@@ -51,7 +55,7 @@ class KenyaProgram extends React.Component {
 
   render() {
     const props = this.props;
-    
+
     if (!props.initialised) {  //User status unknown: wait.
       return (<GenericStatusPage status="fetching" message="Loading..." />);
     } else if (!props.selectedProgram) {  //Anomaly: program status not set.
@@ -69,12 +73,12 @@ class KenyaProgram extends React.Component {
               <Route exact path={`${props.match.url}/(educators|students|explorers)/data-guide`} component={KenyaInfoCSV} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/project-overview`} component={KenyaInfoProjectOverview} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/assignments-guide`} component={KenyaInfoAssignmentsGuide} />
-              
+
               <Route exact path={`${props.match.url}/educators/intro`} component={KenyaEducatorsIntro} />
               {/* //HACK: The following redirect avoids a weird bug where, if you go to a Classroom, then an Assignment, then press Back, then Back again, you end up in the /educators/classrooms URL. */}
               <Redirect exact from={`${props.match.url}/educators/classrooms`} to={`${props.match.url}/educators`}/>
               <Route path={`${props.match.url}/educators`} component={KenyaEducators} />
-              
+
               <Route exact path={`${props.match.url}/students/intro`} component={KenyaStudentsIntro} />
               <Route path={`${props.match.url}/students`} component={KenyaStudents} />
 
@@ -93,7 +97,7 @@ class KenyaProgram extends React.Component {
               <Route exact path={`${props.match.url}/(educators|students|explorers)/data-guide`} component={KenyaInfoCSV} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/project-overview`} component={KenyaInfoProjectOverview} />
               <Route exact path={`${props.match.url}/(educators|students|explorers)/assignments-guide`} component={KenyaInfoAssignmentsGuide} />
-              
+
               <Route path={`${props.match.url}/educators`} component={Status401} />
               <Route path={`${props.match.url}/students`} component={Status401} />
 
@@ -104,10 +108,10 @@ class KenyaProgram extends React.Component {
       }
     }
   }
-  
+
   renderNavi() {
     const props = this.props;
-    
+
     return (
       <Switch>
         <Route path={`${props.match.url}/educators`} component={KenyaNaviForEducators} />
