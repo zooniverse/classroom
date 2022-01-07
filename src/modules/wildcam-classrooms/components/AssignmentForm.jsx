@@ -247,9 +247,15 @@ class AssignmentForm extends React.Component {
     let val = e.target.value;
 
     //Special case: classificatons_target
-    //The number of Classfications a Student needs to do cannot exceed the amount of Subjects selected.
     if (e.target.id === 'classifications_target') {
-      let maxVal = (this.state.subjects) ? this.state.subjects.length : 0;
+      let maxVal = Infinity
+
+      // For custom Programs, the number of Classfications a Student needs to do
+      // cannot exceed the amount of Subjects selected.
+      if (this.programAllowsSubjectSelection()) {
+        maxVal = (this.state.subjects) ? this.state.subjects.length : 0;
+      }
+
       val = parseInt(val);
       if (isNaN(val)) val = 0;
       val = Math.min(maxVal, val);
@@ -404,12 +410,6 @@ class AssignmentForm extends React.Component {
     const props = this.props;
     const state = this.state;
 
-    // Programs that are marked as "custom" allow Educators to create their own
-    // "spinoffs" of the main workflow for their assignment. Each "spinoff"
-    // workflow will have their own hand-picked list of Subjects to classify.
-    // By default, most WildCam Programs are "custom" Programs.
-    const canChooseSubjects = props.selectedProgram.attributes.custom
-
     return (
       <Form
         className="form"
@@ -461,7 +461,7 @@ class AssignmentForm extends React.Component {
           //TODO: add (optional) Assignment link for students?
         }
 
-        {canChooseSubjects &&
+        {this.programAllowsSubjectSelection() &&
           <SubjectsList
             history={props.history}
             location={props.location}
@@ -475,17 +475,15 @@ class AssignmentForm extends React.Component {
           />
         }
 
-        {(state.subjects && state.subjects.length > 0) && (
-          <fieldset>
-            <FormField htmlFor="name" label={TEXT.ASSIGNMENT_FORM.CLASSIFICATIONS_TARGET}>
-              <NumberInput
-                id="classifications_target"
-                value={this.state.form.classifications_target || 0}
-                onChange={this.updateForm.bind(this)}
-              />
-            </FormField>
-          </fieldset>
-        )}
+        <fieldset>
+          <FormField htmlFor="name" label={TEXT.ASSIGNMENT_FORM.CLASSIFICATIONS_TARGET}>
+            <NumberInput
+              id="classifications_target"
+              value={this.state.form.classifications_target || 0}
+              onChange={this.updateForm.bind(this)}
+            />
+          </FormField>
+        </fieldset>
 
         <StudentsList
           selectedClassroom={props.selectedClassroom}
@@ -602,6 +600,16 @@ class AssignmentForm extends React.Component {
         assignmentsStatusDetails={this.props.assignmentsStatusDetails}
       />
     );
+  }
+
+  /*
+  Programs that are marked as "custom" allow Educators to create their own
+  "spinoffs" of the main workflow for their assignment. Each "spinoff"
+  workflow will have their own hand-picked list of Subjects to classify.
+  By default, most WildCam Programs are "custom" Programs.
+  */
+  programAllowsSubjectSelection () {
+    return this.props.selectedProgram.attributes.custom
   }
 };
 
