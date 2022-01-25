@@ -49,7 +49,7 @@
     "superagent": "~3.8.3",
     "superagent-jsonapify": "~1.4.5",
     "zoo-grommet": "~0.3.0",
-    "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.9.3"
+    "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.9.4"
   },
   "devDependencies": {
     "@babel/cli": "~7.14.8",
