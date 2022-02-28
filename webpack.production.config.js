@@ -88,7 +88,8 @@ module.exports = {
       fs: false,
       // for markdown-it plugins
       path: require.resolve("path-browserify"),
-      punycode: require.resolve("punycode/")
+      punycode: require.resolve("punycode/"),
+      url: false
     }
   },
 

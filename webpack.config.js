@@ -10,21 +10,22 @@ module.exports = {
   devtool: 'eval-source-map',
 
   devServer: {
-    contentBase: path.join(__dirname, '/src/'),
-    disableHostCheck: true,  //Allow access using custom host names, e.g. local.zooniverse.org:3998, which is necessary for testing certain API calls.
-    https: true,
-    inline: true,
-    stats: {
-      colors: true,
-      hash: false,
-      timings: true,
-      chunks: false,
-      chunkModules: false,
-      modules: false
+    allowedHosts: 'all',
+    client: {
+      overlay: true,
+      progress: true
     },
+    server: 'https',
     // Change this for your project
     port: process.env.PORT || 3998,
-    host: process.env.HOST || 'localhost'
+    host: process.env.HOST || 'localhost',
+    static: {
+      directory: path.join(__dirname, '/src/'),
+      staticOptions: {},
+      publicPath: '/',
+      serveIndex: true,
+      watch: true
+    }
   },
 
   plugins: [
@@ -52,7 +53,8 @@ module.exports = {
       fs: false,
       // for markdown-it plugins
       path: require.resolve("path-browserify"),
-      punycode: require.resolve("punycode/")
+      punycode: require.resolve("punycode/"),
+      url: false
     }
   },
 
