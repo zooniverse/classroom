@@ -30,7 +30,7 @@
     "grommet": "~1.13.0",
     "jumpstate": "~2.2.2",
     "leaflet": "1.7.1",
-    "panoptes-client": "~3.3.2",
+    "panoptes-client": "~3.3.5",
     "papaparse": "~5.2.0",
     "path-browserify": "~1.0.1",
     "prop-types": "~15.7.2",
@@ -48,6 +48,7 @@
     "redux-logger": "~3.0.6",
     "superagent": "~3.8.3",
     "superagent-jsonapify": "~1.4.5",
+    "url": "~0.11.0",
     "zoo-grommet": "~0.3.0",
     "zooniverse-react-components": "github:zooniverse/Zooniverse-React-Components#v0.9.4"
   },
@@ -97,7 +98,7 @@
     "stylus": "~0.54.8",
     "stylus-loader": "~6.1.0",
     "webpack": "~5.50.0",
-    "webpack-cli": "~4.7.2",
+    "webpack-cli": "~4.9.2",
     "webpack-dashboard": "~3.3.5",
     "webpack-dev-server": "~4.7.4"
   }

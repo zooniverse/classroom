@@ -84,12 +84,13 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.styl', '.css', '.json'],
     modules: ['.', 'node_modules'],
-    fallback: { 
+    fallback: {
       fs: false,
       // for markdown-it plugins
       path: require.resolve("path-browserify"),
       punycode: require.resolve("punycode/"),
-      url: false
+      url: require.resolve("url"),
+      process: false,
     }
   },
 
