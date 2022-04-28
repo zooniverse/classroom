@@ -7,10 +7,10 @@ on:
 
 jobs:
   build:
-    name: Build staging
+    name: Build production
     uses: zooniverse/ci-cd/.github/workflows/npm_build.yaml@main
     with:
       commit_id: ${{ github.sha }}
       node_version: '16.x'
       output: 'dist'
-      script: 'build-staging'
+      script: 'build'
