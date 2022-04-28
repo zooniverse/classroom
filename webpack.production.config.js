@@ -7,6 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const nib = require('nib');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const { extendDefaultPlugins } = require("svgo");
 
 module.exports = {
   mode: 'production',
@@ -61,22 +62,32 @@ module.exports = {
       ]
     }),
     new ImageMinimizerPlugin({
-      minimizerOptions: {
-        plugins: [
-          ['gifsicle', { interlaced: true }],
-          ['jpegtran', { progressive: true }],
-          ['optipng', { optimizationLevel: 5 }],
-          [
-            'svgo',
-            {
-              plugins: [
-                {
-                  removeViewBox: false,
-                },
-              ],
-            },
+      minimizer: {
+        implementation: ImageMinimizerPlugin.imageminMinify,
+        options: {
+          plugins: [
+            ['gifsicle', { interlaced: true }],
+            ['jpegtran', { progressive: true }],
+            ['optipng', { optimizationLevel: 5 }],
+            [
+              'svgo',
+              {
+                plugins: extendDefaultPlugins([
+                  {
+                    name: "removeViewBox",
+                    active: false,
+                  },
+                  {
+                    name: "addAttributesToSVGElement",
+                    params: {
+                      attributes: [{ xmlns: "http://www.w3.org/2000/svg" }],
+                    },
+                  },
+                ]),
+              },
+            ]
           ]
-        ]
+        }
       }
     })
   ],
