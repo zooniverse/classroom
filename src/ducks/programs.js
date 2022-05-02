@@ -76,22 +76,22 @@ const activitiesForUndergrads = {
     id: '7',
     name: 'Zooniverse-based Activities for Undergraduates',
     custom: true,
-    description: '75-90 minute activities to be completed in in-person or online classrooms.',
+    description: 'Ready-made activities for use in undergraduate classrooms in-person or online.',
     slug: 'zooniverse-based-activities-for-undergraduates',
     metadata: {
-      backgroundImage: '',
-      cardImage: 'home-card-zba4u.jpg'
+      backgroundImage: 'planet-hunters.jpg',
+      cardImage: 'zooniverse-logos.png'
     }
   },
   production: {
     id: '7',
     name: 'Zooniverse-based Activities for Undergraduates',
     custom: true,
-    description: '75-90 minute activities to be completed in in-person or online classrooms.',
+    description: 'Ready-made activities for use in undergraduate classrooms in-person or online.',
     slug: 'zooniverse-based-activities-for-undergraduates',
     metadata: {
-      backgroundImage: '',
-      cardImage: 'home-card-zba4u.jpg'
+      backgroundImage: 'planet-hunters.jpg',
+      cardImage: 'zooniverse-logos.png'
     }
   }
 };

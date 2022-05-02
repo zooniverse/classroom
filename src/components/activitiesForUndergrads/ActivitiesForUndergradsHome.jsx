@@ -30,7 +30,6 @@ function ActivitiesForUndergradsHome({
       src={`../images/${selectedProgram.metadata.backgroundImage}`}
       alt=""
       fit="cover"
-      align={{ bottom: true }}
     />
     ) : null;
 
@@ -97,15 +96,16 @@ function ActivitiesForUndergradsHome({
           <Image
             alt="Floating Forests"
             height="200px"
-            src="../../images/zba4u-ff.png"
+            src="../../images/floating-forests.png"
           />
           <Button
-            className="button--secondary"
+            className="button--primary"
             href="https://drive.google.com/drive/folders/1WrbAgukXtdUWnyfdIeE_2k8tjY_mFrm6?usp=sharing"
-            type="button"
             label="Instructors Guide"
-            target="_blank"
+            primary
             rel="noopener noreferrer"
+            target="_blank"
+            type="button"
           />
         </Box>
         <Box
@@ -129,7 +129,7 @@ function ActivitiesForUndergradsHome({
       </Section>
       <Section
         className="program-home__section"
-        colorIndex="accent-3"
+        colorIndex="grey-5"
         direction="row"
         full="horizontal"
         size={{ height: 'medium' }}
@@ -145,15 +145,16 @@ function ActivitiesForUndergradsHome({
           <Image
             alt="Planet Hunters"
             height="200px"
-            src="../../images/zba4u-ph.png"
+            src="../../images/planet-hunters-light-curve.png"
           />
           <Button
-            className="button--secondary"
+            className="button--primary"
             href="https://drive.google.com/drive/folders/1tTaDUez9PDPf0guaEzXlEoRGM8tKCDam?usp=sharing"
-            type="button"
             label="Instructors Guide"
-            target="_blank"
+            primary
             rel="noopener noreferrer"
+            target="_blank"
+            type="button"
           />
         </Box>
         <Box
@@ -199,15 +200,16 @@ function ActivitiesForUndergradsHome({
           <Image
             alt="Planet Four"
             height="200px"
-            src="../../images/zba4u-p4.png"
+            src="../../images/planet-four.png"
           />
           <Button
-            className="button--secondary"
+            className="button--primary"
             href=""
-            type="button"
             label="Instructors Guide"
-            target="_blank"
+            primary
             rel="noopener noreferrer"
+            target="_blank"
+            type="button"
           />
         </Box>
         <Box
