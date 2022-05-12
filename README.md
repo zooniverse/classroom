@@ -15,6 +15,7 @@ Currently available Programs:
 - **Astro 101 with Galaxy Zoo**
   - Has materials and tools for introductory astronomy students.
   - Associated projects: [Galaxy Zoo 101](https://www.zooniverse.org/projects/zooniverse/galaxy-zoo-in-astronomy-101/) and [Hubble's Law](https://www.zooniverse.org/projects/zooniverse/intro2astro-hubbles-law/)
+- **Zooniverse-based Activities for Undergraduates** (WIP)
 - **WildCam Darien Lab**
   - Educational tool for students and explorers interested in learning about ecology, using real world camera trap data from the jungles of Panama.
   - Heavy focus on using geographical map data.

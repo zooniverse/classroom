@@ -71,6 +71,31 @@ const i2a = {
   }
 };
 
+const activitiesForUndergrads = {
+  staging: {
+    id: '7',
+    name: 'Zooniverse-based Activities for Undergraduates',
+    custom: true,
+    description: 'Ready-made activities for use in undergraduate classrooms in-person or online.',
+    slug: 'zooniverse-based-activities-for-undergraduates',
+    metadata: {
+      backgroundImage: 'planet-hunters.jpg',
+      cardImage: 'zooniverse-logos.png'
+    }
+  },
+  production: {
+    id: '7',
+    name: 'Zooniverse-based Activities for Undergraduates',
+    custom: true,
+    description: 'Ready-made activities for use in undergraduate classrooms in-person or online.',
+    slug: 'zooniverse-based-activities-for-undergraduates',
+    metadata: {
+      backgroundImage: 'planet-hunters.jpg',
+      cardImage: 'zooniverse-logos.png'
+    }
+  }
+};
+
 const darien = {
   staging: {
     id: '2',
@@ -137,7 +162,7 @@ const gorongosa = {
 
 const kenya = {
   staging: {
-    id: '5',
+    id: '6',
     name: 'Wildwatch Kenya Lab',
     custom: true,
     description: 'A map for exploring camera trap data from the Wildwatch Kenya project.',
@@ -169,12 +194,14 @@ const kenya = {
 };
 
 i2a.development = i2a.staging;
+activitiesForUndergrads.development = activitiesForUndergrads.staging;
 darien.development = darien.staging;
 gorongosa.development = gorongosa.staging;
 kenya.development = kenya.staging;
 
 const programsArray = [
   i2a[env],
+  activitiesForUndergrads[env],
   darien[env],
   gorongosa[env],
   kenya[env],
@@ -182,6 +209,7 @@ const programsArray = [
 
 const programsMocks = {
   i2a: i2a[env],
+  activitiesForUndergrads: activitiesForUndergrads[env],
   darien: darien[env],
   gorongosa: gorongosa[env],
   kenya: kenya[env],

@@ -10,6 +10,7 @@ const AppHeader = ({ location }) => {
       <Header size="small" align="center" justify="center" colorIndex="grey-5" separator="bottom">
         <NavLink to="/">Home</NavLink>
         <NavLink to="/astro-101-with-galaxy-zoo">Astro 101</NavLink>
+        <NavLink to="/zooniverse-based-activities-for-undergraduates">Activities for Undergraduates</NavLink>
         <NavLink to="/wildcam-darien-lab">WildCam Darién Lab</NavLink>
         <NavLink to="/wildcam-gorongosa-lab">WildCam Gorongosa Lab</NavLink>
       </Header>
