@@ -13,4 +13,4 @@ jobs:
       commit_id: ${{ github.sha }}
       node_version: '16.x'
       output: 'dist'
-      script: 'build'
+      script: '_build-staging'
