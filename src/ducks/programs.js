@@ -77,7 +77,7 @@ const activitiesForUndergrads = {
     name: 'Zooniverse-based Activities for Undergraduates',
     custom: true,
     description: 'Ready-made activities for use in undergraduate classrooms in-person or online.',
-    slug: 'zooniverse-based-activities-for-undergraduates',
+    slug: 'activities-for-undergraduates',
     metadata: {
       backgroundImage: 'planet-hunters.jpg',
       cardImage: 'zooniverse-logos.png'
@@ -88,7 +88,7 @@ const activitiesForUndergrads = {
     name: 'Zooniverse-based Activities for Undergraduates',
     custom: true,
     description: 'Ready-made activities for use in undergraduate classrooms in-person or online.',
-    slug: 'zooniverse-based-activities-for-undergraduates',
+    slug: 'activities-for-undergraduates',
     metadata: {
       backgroundImage: 'planet-hunters.jpg',
       cardImage: 'zooniverse-logos.png'
