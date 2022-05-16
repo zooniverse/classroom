@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
-import queryString from 'query-string';
 
 import JoinPage from '../../components/common/JoinPage';
 import {
@@ -39,7 +38,8 @@ export class JoinPageContainer extends React.Component {
 
   joinClassroom(props, program) {
     const classroomId = props.match.params.classroomId;
-    const joinToken = queryString.parse(props.location.search);
+    const searchParams = new URLSearchParams(props.location.search)
+    const joinToken = searchParams.get('joinToken');
     const selectedProgram = program || props.selectedProgram;
 
     Actions.joinClassroom({ classroomId, joinToken: joinToken.token })
