@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
-import Layer from 'grommet/components/Layer';
 
 import AssignmentFormContainer from './AssignmentFormContainer';
 import {
@@ -15,9 +14,7 @@ export const AssignmentFormDialog = (props) => {
 
   if (props.showForm) {
     return (
-      <Layer closer={true} onClose={toggleForm}>
-        <AssignmentFormContainer heading={props.heading} submitLabel={props.submitLabel} onSubmit={toggleForm} />
-      </Layer>
+      <AssignmentFormContainer heading={props.heading} submitLabel={props.submitLabel} onSubmit={toggleForm} />
     );
   }
 

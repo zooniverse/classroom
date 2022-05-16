@@ -7,7 +7,6 @@ import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import Heading from 'grommet/components/Heading';
 import Label from 'grommet/components/Label';
-import Layer from 'grommet/components/Layer';
 import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
 import Paragraph from 'grommet/components/Paragraph';
@@ -85,9 +84,8 @@ const ClassroomEditor = (props) => {
         </ConfirmationDialog>
 
         {props.showForm &&
-          <Layer closer={true} onClose={props.toggleFormVisibility}>
-            <ClassroomFormContainer heading="Edit Classroom" submitLabel="Update" />
-          </Layer>}
+          <ClassroomFormContainer heading="Edit Classroom" submitLabel="Update" />
+        }
 
         <Box
           align="center"
