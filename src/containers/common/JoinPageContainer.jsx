@@ -38,11 +38,11 @@ export class JoinPageContainer extends React.Component {
 
   joinClassroom(props, program) {
     const classroomId = props.match.params.classroomId;
-    const searchParams = new URLSearchParams(props.location.search)
-    const joinToken = searchParams.get('joinToken');
+    const searchParams = new URLSearchParams(props.location.search);
+    const joinToken = searchParams.get('token');
     const selectedProgram = program || props.selectedProgram;
 
-    Actions.joinClassroom({ classroomId, joinToken: joinToken.token })
+    Actions.joinClassroom({ classroomId, joinToken })
       .then(() => {
         if (props.programsStatus === PROGRAMS_STATUS.SUCCESS &&
             (selectedProgram && selectedProgram.metadata && selectedProgram.metadata.redirectOnJoin)) {
