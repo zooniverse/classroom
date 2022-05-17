@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'jumpstate';
+import Layer from 'grommet/components/Layer';
 
 import AssignmentForm from '../../components/assignments/AssignmentForm';
 import {
@@ -116,15 +117,17 @@ export class AssignmentFormContainer extends React.Component {
 
   render() {
     return (
-      <AssignmentForm
-        heading={this.props.heading}
-        fields={this.props.formFields}
-        onChange={this.onChange}
-        onChangeDate={this.onChangeDate}
-        onSubmit={this.onSubmit}
-        students={this.props.selectedClassroomToLink ? this.props.selectedClassroomToLink.students : []}
-        submitLabel={this.props.submitLabel}
-      />
+      <Layer closer={true} onClose={Actions.assignments.toggleFormVisibility}>
+        <AssignmentForm
+          heading={this.props.heading}
+          fields={this.props.formFields}
+          onChange={this.onChange}
+          onChangeDate={this.onChangeDate}
+          onSubmit={this.onSubmit}
+          students={this.props.selectedClassroomToLink ? this.props.selectedClassroomToLink.students : []}
+          submitLabel={this.props.submitLabel}
+        />
+      </Layer>
     );
   }
 }

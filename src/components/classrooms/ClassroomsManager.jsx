@@ -6,7 +6,6 @@ import Box from 'grommet/components/Box';
 import Paragraph from 'grommet/components/Paragraph';
 import Button from 'grommet/components/Button';
 import Spinning from 'grommet/components/icons/Spinning';
-import Layer from 'grommet/components/Layer';
 
 import {
   CLASSROOMS_STATUS, CLASSROOMS_INITIAL_STATE, CLASSROOMS_PROPTYPES
@@ -26,13 +25,12 @@ const ClassroomsManager = (props) => {
           type="button"
           primary={true}
           label="Create New Classroom"
-          onClick={props.toggleFormVisibility}
+          onClick={Actions.classrooms.toggleFormVisibility}
         />
       </Box>
       {props.showForm &&
-        <Layer closer={true} onClose={props.toggleFormVisibility}>
-          <ClassroomFormContainer heading="Create Classroom" submitLabel="Create" />
-        </Layer>}
+        <ClassroomFormContainer heading="Create Classroom" submitLabel="Create" />
+      }
       {(props.classrooms.length === 0 && props.classroomsStatus === CLASSROOMS_STATUS.FETCHING) &&
         <Box align="center"><Spinning /></Box>}
       {props.classrooms.length === 0 && props.classroomsStatus === CLASSROOMS_STATUS.SUCCESS &&
@@ -48,7 +46,6 @@ const ClassroomsManager = (props) => {
 ClassroomsManager.defaultProps = {
   classroomInstructions: 'First, make sure your students have set up a Zooniverse account. Then create a classroom and share the classroom\'s unique join URL with your students to keep track of their progress as they work through each assignment. Students must be logged in to their Zooniverse accounts first to be able to use the join link. Share the URL under View Project with your students for them to complete the assignment.',
   showForm: false,
-  toggleFormVisibility: Actions.classrooms.toggleFormVisibility,
   ...CLASSROOMS_INITIAL_STATE
 };
 
