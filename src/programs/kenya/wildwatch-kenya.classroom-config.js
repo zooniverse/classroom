@@ -87,10 +87,12 @@ function classificationResourceToJson (classifications) {
   return data;
 }
 
-function combineWithSubjectMetadata (classifications) {
+function combineWithSubjectMetadata (classifications = []) {
+  if (classifications.length === 0) return []
 
+  const allSubjectIds = classifications.map(c => c.subject_id).join(',')
   const query = mapConfig.database.queries.selectAllSubjects
-    .replace('{WHERE}', '')
+    .replace('{WHERE}', allSubjectIds ? ` WHERE subject_id IN (${allSubjectIds})` : '')
     .replace('{ORDER}', '')
     .replace('{LIMIT}', '');
   const url = mapConfig.database.urls.json.replace('{SQLQUERY}', query);
@@ -109,8 +111,6 @@ function combineWithSubjectMetadata (classifications) {
             camera: '',
             //subject_id: ''  // No, leave this alone
             location: '',
-            month: '',
-            year: '',
             'data.choice': '',
             'data.choice_count': '',
             'data.total_vote_count': '',
