@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
 import Heading from 'grommet/components/Heading';
 import Image from 'grommet/components/Image';
@@ -19,7 +20,7 @@ function KenyaInfoAssignmentsGuide(props) {
         <Paragraph>The value of creating classrooms is the ability to create assignments for your students where you can keep track of how many photos they process on the Wildwatch Kenya platform. To do this please follow the following instructions:</Paragraph>
 
         <ol>
-          <li><Paragraph>Click the "Educator" tab from the Wildwatch Kenya Lab [link] home screen.</Paragraph></li>
+          <li><Paragraph>Click the "Educator" tab from the <Anchor href="https://classroom.zooniverse.org/#/wildwatch-kenya-lab">Wildwatch Kenya Lab</Anchor> home screen.</Paragraph></li>
           <li><Paragraph>Click "Manage Classrooms".</Paragraph></li>
           <li><Paragraph>Click "Register Teacher" and fill out the information you see there to help us learn more about who is using these platforms.</Paragraph></li>
           <li><Paragraph>From the List of Classrooms page, click "+Create new classroom."</Paragraph></li>
