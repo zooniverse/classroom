@@ -112,7 +112,7 @@ const mapConfig = {
       //Get all subjects, with camera data.
       'selectAllSubjects': `
         SELECT
-          sbj.subject_id, sbj.camera, cam.longitude, sbj.location, cam.latitude, cam.season
+          sbj.subject_id, sbj.camera, cam.longitude, sbj.month, sbj.year, sbj.location, cam.latitude, cam.season
         FROM
           subjects AS sbj
         LEFT JOIN
