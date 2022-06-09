@@ -54,7 +54,7 @@ const mapConfig = {
         ORDER BY
           count DESC
         `,
-      
+
       //Get all the details for all the (filtered) results.
       'selectForDownload': `
         SELECT
@@ -83,7 +83,7 @@ const mapConfig = {
           cam.id = sbjagg.camera
         {WHERE}
       `,
-      
+
       //Get all the minimum Subject details for all the (filtered) results. Has Order By and Limit clauses.
       'selectForAssignment': `
         SELECT
@@ -108,19 +108,20 @@ const mapConfig = {
           cam.id = sbjagg.camera
         {WHERE} {ORDER} {LIMIT}
       `,
-      
+
       //Get all subjects, with camera data.
       'selectAllSubjects': `
         SELECT
-          sbj.subject_id, sbj.camera, cam.longitude, sbj.date, sbj.month, sbj.year, sbj.location, cam.latitude, cam.season
+          sbj.subject_id, sbj.camera, cam.longitude, sbj.location, cam.latitude, cam.season
         FROM
           subjects AS sbj
         LEFT JOIN
           cameras AS cam
         ON
           sbj.camera = cam.id
+        {WHERE} {ORDER} {LIMIT}
       `,
-      
+
       //Select all the photos from a specific camera. Similar to selectForDownload
       'selectCameraData': `
         SELECT
@@ -145,15 +146,15 @@ const mapConfig = {
           cam.id = sbjagg.camera
         {WHERE}
       `,
-      
+
       //Select a single camera, mostly for the camera's metadata.
       'selectCameraMetadata': 'SELECT * FROM cameras {WHERE}',
     }
   },
-  
+
   //The map visualisation bits. Compatible with Leaflet tech.
   'map': {
-    'centre': {  //Some arbitrary point in Kenya. 
+    'centre': {  //Some arbitrary point in Kenya.
       'latitude': 1.5,
       'longitude': 40,
       'zoom': 7,
@@ -464,7 +465,7 @@ const mapConfig = {
       },
     }
   },
-  
+
   //Misc stuff related to the program
   'program': {
     dataGuideURL: '/#/wildwatch-kenya-lab/explorers/data-guide/',
@@ -477,7 +478,7 @@ const mapConfig = {
         return Promise.reject(csvData.errors[0].message);
       }
 
-      return Promise.resolve(null);      
+      return Promise.resolve(null);
     }
   },
 };
@@ -490,23 +491,23 @@ function transformDownloadData(csvData) {
   let output = '';
   const header = csvData.data[0].slice();
   header.push('consensus_count');  //Append consensus count to the final column of each row.
-  
+
   const headerLookup = {};
   header.forEach((item, index) => {
     if (item.startsWith('data.answers.howmany.')) headerLookup[item] = index;
   });
-  
+
   output = header.map(str => csvStr(str)).join(',') + '\n';
-  
+
   for (let i = 1; i < csvData.data.length; i ++) {
     let row = csvData.data[i];
-    
+
     if (row.join().length === 0) continue
-    
+
     let consensusCount = undefined;
     let numberForConsensus = 0;
-    
-    //Which "animal was seen X times in this photo" has the highest count?    
+
+    //Which "animal was seen X times in this photo" has the highest count?
     Object.keys(headerLookup).forEach((key) => {
       const index = headerLookup[key];
       const currentNumber = row[index];
@@ -517,16 +518,16 @@ function transformDownloadData(csvData) {
         if (consensusCount === '21') consensusCount = '21+';
       }
     });
-    
+
     if (!consensusCount) {
       row.push('-')
     } else {
       row.push(consensusCount)
     }
-    
+
     output += row.map(str => csvStr(str)).join(',') + '\n';
   }
-  
+
   return output;
 }
 

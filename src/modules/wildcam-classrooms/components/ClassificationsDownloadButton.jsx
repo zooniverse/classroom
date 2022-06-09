@@ -28,9 +28,9 @@ class ClassificationsDownloadButton extends React.Component {
       state: 'idle',
     };
   }
-  
+
   // ----------------------------------------------------------------
-  
+
   componentDidMount() {
     this.initialise(this.props);
   }
@@ -38,19 +38,19 @@ class ClassificationsDownloadButton extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.initialise(nextProps);
   }
-  
+
   initialise(props = this.props) {
   }
 
   render() {
     const props = this.props;
     const state = this.state;
-    
+
     let icon = <DownloadIcon size="small" />;
     if (state.state === 'fetching') icon = <LoadingIcon size="small" />;
-    
+
     const onClick = this.onClick.bind(this);
-    
+
     return (
       <Button
         className="classifications-download-button button"
@@ -62,29 +62,29 @@ class ClassificationsDownloadButton extends React.Component {
 
     return null;
   }
-  
+
   onClick() {
     this.initiateFetchData();
   }
-  
+
   initiateFetchData() {
     const props = this.props;
-    
+
     this.classificationsData = [];
     this.safetyCounter = 0;
-    
+
     const fetchArguments = { page: 1 };  //Default page_size is 20
     if (props.workflow_id) fetchArguments.workflow_id = props.workflow_id;
-    
+
     this.setState({ state: 'fetching' });
     this.doFetchData(fetchArguments);
   }
-  
+
   doFetchData(fetchArguments) {
     if (!fetchArguments) return;
-    
+
     this.safetyCounter++;
-    
+
     apiClient.type('classifications').get(fetchArguments)
       .then((data) => {
         //For each Classification resource, add it to our collection.
@@ -95,7 +95,7 @@ class ClassificationsDownloadButton extends React.Component {
             this.classificationsData.push(data)
           }
         });
-      
+
         //Fetch next set of data
         if (data && data.length > 0 && this.safetyCounter < SAFETY_LIMIT) {
           fetchArguments.page++;
@@ -103,12 +103,12 @@ class ClassificationsDownloadButton extends React.Component {
         } else {
           this.finishFetchData();
         }
-      
+
         return data;
       })
       .catch(err => this.handleError(err));
   }
-  
+
   finishFetchData() {
     Promise.resolve(this.props.transformData(this.classificationsData))
     .then((classifications) => {
@@ -117,13 +117,14 @@ class ClassificationsDownloadButton extends React.Component {
       this.setState({ state: 'idle' });
     });
   }
-  
+
   handleError(err) {
     Actions.notification.setNotification({ status: 'critical' , message: 'Something went wrong.' });
     console.error(err);
   }
-  
-  saveFile(data) {
+
+  saveFile(data = '') {
+    console.log('+++ data: [[[', data, ']]]', `[${this.props.contentType}]`)
     saveAs(blobbifyData(data, this.props.contentType), generateFilename(this.props.fileNameBase));
   }
 };
@@ -139,7 +140,7 @@ function csvStr (str) {
 
 function jsonToCsv (json) {
   let csv = '';
-  
+
   //Get the header
   if (json[0]) {
     csv += Object.keys(json[0]).map(csvStr).join(',') + '\n';
@@ -149,8 +150,8 @@ function jsonToCsv (json) {
   json.forEach((row) => {
     csv += Object.values(row).map(csvStr).join(',') + '\n'
   });
-  
-  return csv;
+
+  return (csv.length > 0) ? csv : 'No data';
 }
 
 /*
