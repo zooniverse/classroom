@@ -124,7 +124,6 @@ class ClassificationsDownloadButton extends React.Component {
   }
 
   saveFile(data = '') {
-    console.log('+++ data: [[[', data, ']]]', `[${this.props.contentType}]`)
     saveAs(blobbifyData(data, this.props.contentType), generateFilename(this.props.fileNameBase));
   }
 };
