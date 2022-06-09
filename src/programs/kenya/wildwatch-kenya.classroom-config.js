@@ -110,6 +110,8 @@ function combineWithSubjectMetadata (classifications = []) {
             camera: '',
             //subject_id: ''  // No, leave this alone
             location: '',
+            month: '',
+            year: '',
             'data.choice': '',
             'data.choice_count': '',
             'data.total_vote_count': '',
