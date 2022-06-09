@@ -24,7 +24,7 @@ const classroomConfig = {
   },
   forEducators: {
     extraInfoFor: {
-      classroomsList: 'A classroom allows you to see how many animal identifications each of your students do and to create assignments for groups of students. Students must create Zooniverse accounts to join a classroom. Create a new classroom or view and edit an existing classroom below.',
+      classroomsList: 'A classroom allows you to see how many animal identifications each of your students has done and to create assignments for groups of students. Students must create Zooniverse accounts to join a classroom. Create a new classroom or view and edit an existing classroom below.',
       classroomsHelpPart1: [
         'The value of creating classrooms is the ability to create assignments for your students.',
         'If you do not create a classroom, your students can still view and download the trail camera data as Explorers without creating a Zooniverse account.',
@@ -42,17 +42,17 @@ const classroomConfig = {
     },
   },
 };
-  
+
 function transformWildCamAssignments (classifications) {
   return Promise.resolve(classificationResourceToJson(classifications))
     .then(combineWithSubjectMetadata);
 }
-  
+
 function classificationResourceToJson (classifications) {
   let data = [];
-  
+
   classifications.forEach((classification) => {
-  
+
     const classification_id = classification.id;
     const subject_id =
       classification.links &&
@@ -83,18 +83,18 @@ function classificationResourceToJson (classifications) {
       });
     });
   });
-  
+
   return data;
 }
 
 function combineWithSubjectMetadata (classifications) {
-  
+
   const query = mapConfig.database.queries.selectAllSubjects
     .replace('{WHERE}', '')
     .replace('{ORDER}', '')
     .replace('{LIMIT}', '');
   const url = mapConfig.database.urls.json.replace('{SQLQUERY}', query);
-  
+
   return superagent.get(url)
     .then(res => {
       if (res.ok && res.body && res.body.rows) return res.body.rows;
@@ -103,7 +103,7 @@ function combineWithSubjectMetadata (classifications) {
     .then(subjects => {
       return classifications.map(classification => {
         let subject = subjects.find(s => s.subject_id == classification.subject_id);  // Use ==, not ===, due to different data types.
-        
+
         if (!subject) {
           subject = {  // Default Subject data; the data structure consistency is required to keep JSON-to-CSV automation working
             camera: '',
@@ -124,11 +124,11 @@ function combineWithSubjectMetadata (classifications) {
             year: '',
           };
         }
-        
+
         return { ...classification, ...subject };
       });
-    
-    
+
+
       return classifications;
     })
     .catch(err => {
