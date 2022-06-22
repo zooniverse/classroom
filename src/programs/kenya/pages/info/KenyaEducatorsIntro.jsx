@@ -24,7 +24,7 @@ function KenyaEducatorsIntro(props) {
         <Box align="center"><Heading className="program-home__header">Welcome to Wildwatch Kenya Lab</Heading></Box>
       </Hero>
       <Section
-        className="program-home__section"
+        className="program-home__section wildcam-intro-page"
         align="center"
         colorIndex="accent-3"
         direction="column"
