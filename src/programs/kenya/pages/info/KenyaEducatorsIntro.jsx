@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
 import Heading from 'grommet/components/Heading';
@@ -38,9 +39,9 @@ function KenyaEducatorsIntro(props) {
             <Paragraph>
               Classrooms are a way to manage groups of students, send them assignments, and monitor their progress as they identify animals.
               To begin, create a classroom and invite your students to join.
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
             </Paragraph>
             <Box pad="small">
               <Button  type="button" className="button--secondary" path="/wildwatch-kenya-lab/educators" label="Manage Classrooms"></Button>
@@ -49,7 +50,7 @@ function KenyaEducatorsIntro(props) {
           <Box direction="row">
             <Paragraph>
               Once you have invited students to your classroom, you can create assignments that allow them to make their own data sets by identifying animals in trail camera photos.
-              Our assignments guide provides information on how you can use assignments. 
+              Our assignments guide provides information on how you can use assignments.
             </Paragraph>
             <Box pad="small">
               <Button  type="button" className="button--secondary" path="/wildwatch-kenya-lab/educators/assignments-guide" label="Assignments Guide"></Button>
@@ -58,13 +59,18 @@ function KenyaEducatorsIntro(props) {
           <Box direction="row">
             <Paragraph>
               You can learn more about the Wildwatch Kenya project here.
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
             </Paragraph>
             <Box pad="small">
               <Button type="button" className="button--secondary" path="/wildwatch-kenya-lab/educators/project-overview" label="Project Overview"></Button>
             </Box>
+          </Box>
+          <Box direction="row">
+            <Paragraph>
+              This lab is new, so if you see any glitches or have suggestions for edits please email us at <Anchor href="mailto:conservationeducation@sdzwa.org">conservationeducation@sdzwa.org</Anchor>
+            </Paragraph>
           </Box>
         </Box>
       </Section>
