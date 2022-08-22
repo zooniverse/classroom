@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/zooniverse/classroom",
   "dependencies": {
-    "@reduxjs/toolkit": "~1.8.3",
+    "@reduxjs/toolkit": "~1.8.5",
     "browser-filesaver": "1.1.1",
     "classnames": "~2.3.1",
     "debounce": "~1.2.1",
