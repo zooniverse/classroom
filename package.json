@@ -29,7 +29,7 @@
     "debounce": "~1.2.1",
     "grommet": "~1.13.0",
     "jumpstate": "~2.2.2",
-    "leaflet": "1.8.0",
+    "leaflet": "1.9.0",
     "panoptes-client": "~4.0.0",
     "papaparse": "~5.3.2",
     "path-browserify": "~1.0.1",
