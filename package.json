@@ -58,7 +58,7 @@
     "@babel/register": "~7.18.9",
     "babel-loader": "~9.1.0",
     "babel-plugin-react-transform": "~3.0.0",
-    "chai": "~4.3.4",
+    "chai": "~4.3.7",
     "check-dependencies": "~1.1.0",
     "check-engines": "~1.6.0",
     "copy-webpack-plugin": "~11.0.0",
