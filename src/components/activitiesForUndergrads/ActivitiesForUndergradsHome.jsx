@@ -89,7 +89,6 @@ function ActivitiesForUndergradsHome({
       >
         <Box
           basis="1/3"
-          full="vertical"
           justify="between"
           margin={{ horizontal: 'medium' }}
         >
@@ -109,7 +108,6 @@ function ActivitiesForUndergradsHome({
           />
         </Box>
         <Box
-          full="vertical"
           margin={{ horizontal: 'medium' }}
         >
           <Heading
@@ -138,7 +136,6 @@ function ActivitiesForUndergradsHome({
       >
         <Box
           basis="1/3"
-          full="vertical"
           justify="between"
           margin={{ horizontal: 'medium' }}
         >
@@ -158,7 +155,6 @@ function ActivitiesForUndergradsHome({
           />
         </Box>
         <Box
-          full="vertical"
           margin={{ horizontal: 'medium' }}
         >
           <Heading
@@ -187,13 +183,11 @@ function ActivitiesForUndergradsHome({
         colorIndex="grey-5"
         direction="row"
         full="horizontal"
-        size={{ height: 'medium' }}
         margin={{ vertical: 'none', horizontal: 'none' }}
         pad={{ vertical: 'large', horizontal: 'large' }}
       >
         <Box
           basis="1/3"
-          full="vertical"
           justify="between"
           margin={{ horizontal: 'medium' }}
         >
@@ -204,7 +198,7 @@ function ActivitiesForUndergradsHome({
           />
           <Button
             className="button--primary"
-            href=""
+            href="https://drive.google.com/drive/folders/1b7ZuY5ITW55tbXuCI3UN5SRihtn0NI3P?usp=share_link"
             label="Instructors Guide"
             primary
             rel="noopener noreferrer"
@@ -213,7 +207,6 @@ function ActivitiesForUndergradsHome({
           />
         </Box>
         <Box
-          full="vertical"
           margin={{ horizontal: 'medium' }}
         >
           <Heading
@@ -222,7 +215,7 @@ function ActivitiesForUndergradsHome({
             ASTRO/GEO 101 with Planet Four
           </Heading>
           <Paragraph>
-            Coming August 2022
+            In this activity that includes two 50-75 minutes class sessions (with a homework assignment in between) and can be completed in either in-person or online classrooms, students will learn about ongoing research in Planet Four, a citizen science project that asks volunteers to classify images of the surface of Mars. They will learn about how this science can potentially help us better understand our own weather and climate here on Earth. Students will also engage in prompts and scaffolded discussions that embed culturally responsive practices, which emphasize incorporating and welcoming students’ own knowledge and beliefs, creating space for reflecting on the assumptions that underlie knowledge, and encourage connections with their peers and communities.
           </Paragraph>
         </Box>
       </Section>
