@@ -19,16 +19,16 @@ const wdpaGeodata = require('./map-geojson/wdpa.json');
 const giraffesGeodata = require('./map-geojson/giraffes.json');
 
 const mapConfig = {
-  //Connection details for the external data source.
-  'database': {
-    'urls': {
-      'json': '//classroom-maps-api.zooniverse.org/kenya.json?_shape=objects&sql={SQLQUERY}',
-      'geojson': '//classroom-maps-api.zooniverse.org/kenya.geojson?sql={SQLQUERY}',
-      'csv': '//classroom-maps-api.zooniverse.org/kenya.csv?sql={SQLQUERY}'
+  // Connection details for the external data source.
+  database: {
+    urls: {
+      json: '//classroom-maps-api.zooniverse.org/kenya.json?_shape=objects&sql={SQLQUERY}',
+      geojson: '//classroom-maps-api.zooniverse.org/kenya.geojson?sql={SQLQUERY}',
+      csv: '//classroom-maps-api.zooniverse.org/kenya.csv?sql={SQLQUERY}'
     },
-    'queries': {
-      //For each camera, show how many (filtered) results are available.
-      'selectCameraCount': `
+    queries: {
+      // For each camera, show how many (filtered) results are available.
+      selectCameraCount: `
         SELECT
           cam.id, cam.latitude, cam.longitude, COUNT(*) as count
         FROM
@@ -55,8 +55,8 @@ const mapConfig = {
           count DESC
         `,
 
-      //Get all the details for all the (filtered) results.
-      'selectForDownload': `
+      // Get all the details for all the (filtered) results.
+      selectForDownload: `
         SELECT
           cam.id,
           cam.latitude,
@@ -84,8 +84,8 @@ const mapConfig = {
         {WHERE}
       `,
 
-      //Get all the minimum Subject details for all the (filtered) results. Has Order By and Limit clauses.
-      'selectForAssignment': `
+      // Get all the minimum Subject details for all the (filtered) results. Has Order By and Limit clauses.
+      selectForAssignment: `
         SELECT
           sbjagg.subject_id, sbjagg.location
         FROM
@@ -109,8 +109,8 @@ const mapConfig = {
         {WHERE} {ORDER} {LIMIT}
       `,
 
-      //Get all subjects, with camera data.
-      'selectAllSubjects': `
+      // Get all subjects, with camera data.
+      selectAllSubjects: `
         SELECT
           sbj.subject_id, sbj.camera, cam.longitude, sbj.month, sbj.year, sbj.location, cam.latitude, cam.season
         FROM
@@ -122,8 +122,8 @@ const mapConfig = {
         {WHERE} {ORDER} {LIMIT}
       `,
 
-      //Select all the photos from a specific camera. Similar to selectForDownload
-      'selectCameraData': `
+      // Select all the photos from a specific camera. Similar to selectForDownload
+      selectCameraData: `
         SELECT
           DISTINCT(sbjagg.location)
         FROM
@@ -147,87 +147,87 @@ const mapConfig = {
         {WHERE}
       `,
 
-      //Select a single camera, mostly for the camera's metadata.
-      'selectCameraMetadata': 'SELECT * FROM cameras {WHERE}',
+      // Select a single camera, mostly for the camera's metadata.
+      selectCameraMetadata: 'SELECT * FROM cameras {WHERE}'
     }
   },
 
-  //The map visualisation bits. Compatible with Leaflet tech.
-  'map': {
-    'centre': {  //Some arbitrary point in Kenya.
-      'latitude': 1.5,
-      'longitude': 40,
-      'zoom': 7,
+  // The map visualisation bits. Compatible with Leaflet tech.
+  map: {
+    centre: { // Some arbitrary point in Kenya.
+      latitude: 1.5,
+      longitude: 40,
+      zoom: 7
     },
-    'tileLayers': [
+    tileLayers: [
       {
-        'name': 'Plain',
-        'url': '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-        'attribution': '&copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> &copy; <a href=\'http://cartodb.com/attributions\'>CartoDB</a>'
+        name: 'Plain',
+        url: '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        attribution: '&copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> &copy; <a href=\'http://cartodb.com/attributions\'>CartoDB</a>'
       },
       {
-        'name': 'Terrain',
-        'url': '//server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
-        'attribution': 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+        name: 'Terrain',
+        url: '//server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
       },
       {
-        'name': 'Terrain (Shaded)',
-        'url': '//server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}',
-        'attribution': 'Tiles &copy; Esri &mdash; Source: Esri'
+        name: 'Terrain (Shaded)',
+        url: '//server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}',
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri'
       },
       {
-        'name': 'Roads',
-        'url': '//{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png',
-        'attribution': '&copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a>'
+        name: 'Roads',
+        url: '//{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png',
+        attribution: '&copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a>'
       },
       {
-        'name': 'Satellite',
-        'url': '//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        'attribution': 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        name: 'Satellite',
+        url: '//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
       }
     ],
     extraLayers: [
       {
-        'name': 'loisaba_zone',
-        'label': 'Loisaba Conservancy',
-        'data': loisabaGeodata,
-        'style': function (feature) {
+        name: 'loisaba_zone',
+        label: 'Loisaba Conservancy',
+        data: loisabaGeodata,
+        style(feature) {
           return {
             stroke: true,
             color: '#c84',
-            fill: '#c84',
+            fill: '#c84'
           };
-        },
+        }
       },
       {
-        'name': 'namunyak_zone',
-        'label': 'Namunyak Conservancy',
-        'data': namunyakGeodata,
-        'style': function (feature) {
+        name: 'namunyak_zone',
+        label: 'Namunyak Conservancy',
+        data: namunyakGeodata,
+        style(feature) {
           return {
             stroke: true,
             color: '#c48',
-            fill: '#c48',
+            fill: '#c48'
           };
-        },
+        }
       },
       {
-        'name': 'wdpa_zone',
-        'label': 'Protected Area (WDPA)',
-        'data': wdpaGeodata,
-        'style': function (feature) {
+        name: 'wdpa_zone',
+        label: 'Protected Area (WDPA)',
+        data: wdpaGeodata,
+        style(feature) {
           return {
             stroke: false,
             color: '#693',
-            fill: '#693',
+            fill: '#693'
           };
-        },
+        }
       },
       {
-        'name': 'giraffes',
-        'label': 'Identified Giraffes',
-        'data': giraffesGeodata,
-        'style': function (feature) {
+        name: 'giraffes',
+        label: 'Identified Giraffes',
+        data: giraffesGeodata,
+        style(feature) {
           let color = '#ccc';
           if (feature && feature.properties) {
             switch (feature.properties.Proposed_S) {
@@ -243,15 +243,15 @@ const mapConfig = {
           }
           return {
             stroke: false,
-            color: color,
-            fill: color,
+            color,
+            fill: color
           };
-        },
-      },
+        }
+      }
     ],
-    'legend': {
-      'type': 'simple',
-      'items': {
+    legend: {
+      type: 'simple',
+      items: {
         '#4cc': 'Kenya',
         '#c84': 'Loisaba Conservancy',
         '#c48': 'Namunyak Conservancy',
@@ -259,217 +259,217 @@ const mapConfig = {
         '#3f6': 'Giraffes: Northern',
         '#f63': 'Giraffes: Reticulated',
         '#fc3': 'Giraffes: Masai',
-        '#36f': 'Giraffes: Southern',
-      },
+        '#36f': 'Giraffes: Southern'
+      }
     },
-    'filters': {
+    filters: {
       'data.choice': {
-        'label': 'Species',
-        'type': 'multichoice',
-        'options': [
+        label: 'Species',
+        type: 'multichoice',
+        options: [
           {
-            "value":"HARE",
-            "label":"Hare"
+            value: 'HARE',
+            label: 'Hare'
           },
           {
-            "value":"KUDU",
-            "label":"Kudu"
+            value: 'KUDU',
+            label: 'Kudu'
           },
           {
-            "value":"LION",
-            "label":"Lion"
+            value: 'LION',
+            label: 'Lion'
           },
           {
-            "value":"ORYX",
-            "label":"Oryx"
+            value: 'ORYX',
+            label: 'Oryx'
           },
           {
-            "value":"CIVET",
-            "label":"Civet"
+            value: 'CIVET',
+            label: 'Civet'
           },
           {
-            "value":"CRANE",
-            "label":"Crane"
+            value: 'CRANE',
+            label: 'Crane'
           },
           {
-            "value":"ELAND",
-            "label":"Eland"
+            value: 'ELAND',
+            label: 'Eland'
           },
           {
-            "value":"GENET",
-            "label":"Genet"
+            value: 'GENET',
+            label: 'Genet'
           },
           {
-            "value":"HYENA",
-            "label":"Hyena"
+            value: 'HYENA',
+            label: 'Hyena'
           },
           {
-            "value":"ZEBRA",
-            "label":"Zebra"
+            value: 'ZEBRA',
+            label: 'Zebra'
           },
           {
-            "value":"BABOON",
-            "label":"Baboon"
+            value: 'BABOON',
+            label: 'Baboon'
           },
           {
-            "value":"DIKDIK",
-            "label":"Dik Dik"
+            value: 'DIKDIK',
+            label: 'Dik Dik'
           },
           {
-            "value":"DUIKER",
-            "label":"Duiker"
+            value: 'DUIKER',
+            label: 'Duiker'
           },
           {
-            "value":"IMPALA",
-            "label":"Impala"
+            value: 'IMPALA',
+            label: 'Impala'
           },
           {
-            "value":"JACKAL",
-            "label":"Jackal"
+            value: 'JACKAL',
+            label: 'Jackal'
           },
           {
-            "value":"SERVAL",
-            "label":"Serval"
+            value: 'SERVAL',
+            label: 'Serval'
           },
           {
-            "value":"BUFFALO",
-            "label":"Buffalo"
+            value: 'BUFFALO',
+            label: 'Buffalo'
           },
           {
-            "value":"CARACAL",
-            "label":"Caracal"
+            value: 'CARACAL',
+            label: 'Caracal'
           },
           {
-            "value":"CHEETAH",
-            "label":"Cheetah"
+            value: 'CHEETAH',
+            label: 'Cheetah'
           },
           {
-            "value":"GAZELLE",
-            "label":"Gazelle"
+            value: 'GAZELLE',
+            label: 'Gazelle'
           },
           {
-            "value":"GERENUK",
-            "label":"Gerenuk"
+            value: 'GERENUK',
+            label: 'Gerenuk'
           },
           {
-            "value":"GIRAFFE",
-            "label":"Giraffe"
+            value: 'GIRAFFE',
+            label: 'Giraffe'
           },
           {
-            "value":"LEOPARD",
-            "label":"Leopard"
+            value: 'LEOPARD',
+            label: 'Leopard'
           },
           {
-            "value":"WARTHOG",
-            "label":"Warthog"
+            value: 'WARTHOG',
+            label: 'Warthog'
           },
           {
-            "value":"WILDDOG",
-            "label":"Wild Dog"
+            value: 'WILDDOG',
+            label: 'Wild Dog'
           },
           {
-            "value":"ZORILLA",
-            "label":"Zorilla"
+            value: 'ZORILLA',
+            label: 'Zorilla'
           },
           {
-            "value":"AARDVARK",
-            "label":"Aardvark"
+            value: 'AARDVARK',
+            label: 'Aardvark'
           },
           {
-            "value":"AARDWOLF",
-            "label":"Aardwolf"
+            value: 'AARDWOLF',
+            label: 'Aardwolf'
           },
           {
-            "value":"BUSHBUCK",
-            "label":"Bushbuck"
+            value: 'BUSHBUCK',
+            label: 'Bushbuck'
           },
           {
-            "value":"ELEPHANT",
-            "label":"Elephant"
+            value: 'ELEPHANT',
+            label: 'Elephant'
           },
           {
-            "value":"MONGOOSE",
-            "label":"Mongoose"
+            value: 'MONGOOSE',
+            label: 'Mongoose'
           },
           {
-            "value":"BIRDOTHER",
-            "label":"Bird (other)"
+            value: 'BIRDOTHER',
+            label: 'Bird (other)'
           },
           {
-            "value":"LIVESTOCK",
-            "label":"Livestock"
+            value: 'LIVESTOCK',
+            label: 'Livestock'
           },
           {
-            "value":"PORCUPINE",
-            "label":"Porcupine"
+            value: 'PORCUPINE',
+            label: 'Porcupine'
           },
           {
-            "value":"WATERBUCK",
-            "label":"Waterbuck"
+            value: 'WATERBUCK',
+            label: 'Waterbuck'
           },
           {
-            "value":"GUINEAFOWL",
-            "label":"Guinea Fowl"
+            value: 'GUINEAFOWL',
+            label: 'Guinea Fowl'
           },
           {
-            "value":"HARTEBEEST",
-            "label":"Hartebeest"
+            value: 'HARTEBEEST',
+            label: 'Hartebeest'
           },
           {
-            "value":"BATEAREDFOX",
-            "label":"Bat-eared Fox"
+            value: 'BATEAREDFOX',
+            label: 'Bat-eared Fox'
           },
           {
-            "value":"HONEYBADGER",
-            "label":"Honey Badger"
+            value: 'HONEYBADGER',
+            label: 'Honey Badger'
           },
           {
-            "value":"KORIBUSTARD",
-            "label":"Kori Bustard"
+            value: 'KORIBUSTARD',
+            label: 'Kori Bustard'
           },
           {
-            "value":"HIPPOPOTAMUS",
-            "label":"Hippopotamus"
+            value: 'HIPPOPOTAMUS',
+            label: 'Hippopotamus'
           },
           {
-            "value":"HUMANVEHICLE",
-            "label":"Human/Vehicle"
+            value: 'HUMANVEHICLE',
+            label: 'Human/Vehicle'
           },
           {
-            "value":"VERVETMONKEY",
-            "label":"Vervet Monkey"
+            value: 'VERVETMONKEY',
+            label: 'Vervet Monkey'
           },
           {
-            "value":"GROUNDSQUIRREL",
-            "label":"Ground Squirrel"
+            value: 'GROUNDSQUIRREL',
+            label: 'Ground Squirrel'
           },
           {
-            "value":"LEOPARDTORTOISE",
-            "label":"Leopard Tortoise"
+            value: 'LEOPARDTORTOISE',
+            label: 'Leopard Tortoise'
           }
         ]
       },
-      'season': {
-        'label': 'Seasons',
-        'type': 'multichoice',
-        'options': [
+      season: {
+        label: 'Seasons',
+        type: 'multichoice',
+        options: [
           {
-            'value': 'dry',
-            'label': 'Dry'
+            value: 'dry',
+            label: 'Dry'
           },
           {
-            'value': 'wet',
-            'label': 'Wet'
+            value: 'wet',
+            label: 'Wet'
           }
         ]
-      },
+      }
     }
   },
 
-  //Misc stuff related to the program
-  'program': {
+  // Misc stuff related to the program
+  program: {
     dataGuideURL: '/#/wildwatch-kenya-lab/explorers/data-guide/',
-    transformDownloadData: function (csvData) {
+    transformDownloadData(csvData) {
       if (csvData && csvData.data && csvData.data.length > 0 && csvData.errors.length === 0) {
         return Promise.resolve(transformDownloadData(csvData));
       }
@@ -480,7 +480,7 @@ const mapConfig = {
 
       return Promise.resolve(null);
     }
-  },
+  }
 };
 
 export default mapConfig;
@@ -490,24 +490,24 @@ export default mapConfig;
 function transformDownloadData(csvData) {
   let output = '';
   const header = csvData.data[0].slice();
-  header.push('consensus_count');  //Append consensus count to the final column of each row.
+  header.push('consensus_count'); // Append consensus count to the final column of each row.
 
   const headerLookup = {};
   header.forEach((item, index) => {
     if (item.startsWith('data.answers.howmany.')) headerLookup[item] = index;
   });
 
-  output = header.map(str => csvStr(str)).join(',') + '\n';
+  output = `${header.map((str) => csvStr(str)).join(',')}\n`;
 
-  for (let i = 1; i < csvData.data.length; i ++) {
-    let row = csvData.data[i];
+  for (let i = 1; i < csvData.data.length; i++) {
+    const row = csvData.data[i];
 
-    if (row.join().length === 0) continue
+    if (row.join().length === 0) continue;
 
-    let consensusCount = undefined;
+    let consensusCount;
     let numberForConsensus = 0;
 
-    //Which "animal was seen X times in this photo" has the highest count?
+    // Which "animal was seen X times in this photo" has the highest count?
     Object.keys(headerLookup).forEach((key) => {
       const index = headerLookup[key];
       const currentNumber = row[index];
@@ -520,17 +520,17 @@ function transformDownloadData(csvData) {
     });
 
     if (!consensusCount) {
-      row.push('-')
+      row.push('-');
     } else {
-      row.push(consensusCount)
+      row.push(consensusCount);
     }
 
-    output += row.map(str => csvStr(str)).join(',') + '\n';
+    output += `${row.map((str) => csvStr(str)).join(',')}\n`;
   }
 
   return output;
 }
 
 function csvStr(str) {
-  return '"' + str.replace(/"/g, '""') + '"';
+  return `"${str.replace(/"/g, '""')}"`;
 }

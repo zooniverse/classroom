@@ -14,7 +14,7 @@ export function get(endpoint, query) {
       if (typeof obj === 'object') request.query(obj);
     });
   }
-  return request.then(response => response);
+  return request.then((response) => response);
 }
 
 export function post(endpoint, data) {
@@ -22,7 +22,7 @@ export function post(endpoint, data) {
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
     .send(data)
-    .then(response => response);
+    .then((response) => response);
 }
 
 export function put(endpoint, data) {
@@ -30,14 +30,14 @@ export function put(endpoint, data) {
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
     .send(data)
-    .then(response => response);
+    .then((response) => response);
 }
 
 export function httpDelete(endpoint) {
   return superagent.delete(`${config.root}${endpoint}`)
     .set('Content-Type', 'application/json')
     .set('Authorization', apiClient.headers.Authorization)
-    .then(response => response);
+    .then((response) => response);
 }
 
 window.eduAPI = superagent;

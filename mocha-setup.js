@@ -3,7 +3,6 @@ import chai from 'chai';
 import dirtyChai from 'dirty-chai';
 import { JSDOM } from 'jsdom';
 
-
 chai.use(dirtyChai);
 global.React = React;
 global.expect = chai.expect;
@@ -13,8 +12,8 @@ const { window } = jsdom;
 
 function copyProps(src, target) {
   const props = Object.getOwnPropertyNames(src)
-    .filter(prop => typeof target[prop] === 'undefined')
-    .map(prop => Object.getOwnPropertyDescriptor(src, prop));
+    .filter((prop) => typeof target[prop] === 'undefined')
+    .map((prop) => Object.getOwnPropertyDescriptor(src, prop));
   Object.defineProperties(target, props);
 }
 

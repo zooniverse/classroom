@@ -10,16 +10,17 @@ tailored to a specific project, and this config file is for WildCam Gorongosa.
 
 import superagent from 'superagent';
 import superagentJsonapify from 'superagent-jsonapify';
-superagentJsonapify(superagent);
 
 import { env } from '../../lib/config';
 import mapConfig from './wildcam-gorongosa.map-config.js';
+
+superagentJsonapify(superagent);
 
 const classroomConfig = {
   forStudents: {
     urlToAssignment: (env === 'production')
       ? 'https://www.zooniverse.org/projects/zooniverse/wildcam-gorongosa/classify?workflow={WORKFLOW_ID}&classroom=1'
-      : 'https://www.zooniverse.org/projects/zooniverse/wildcam-gorongosa/classify?workflow={WORKFLOW_ID}&classroom=1',  //TODO: find the staging equivalent for WildCam Gorongosa
+      : 'https://www.zooniverse.org/projects/zooniverse/wildcam-gorongosa/classify?workflow={WORKFLOW_ID}&classroom=1', // TODO: find the staging equivalent for WildCam Gorongosa
     transformClassificationsDownload: transformWildCamAssignments
   },
   forEducators: {
@@ -35,36 +36,32 @@ const classroomConfig = {
         'If you want your students to identify a particular type of photo, click the filters dropdown and select as many filters as you wish to apply. Click Select.',
         'Edit the number of photos you want your students to identify. Next, select the students to send this assignment to. You can send an assignment to the entire class or send different assignments to groups of students. Click Create.',
         'To see a list of your students and the number of classifications they made, navigate to that classroom and click the dropdown arrow next to the assignment. To edit or delete your assignment, click Edit.',
-        'Your students can start their assignment by logging in and going to the assignments page in the Student section.',
-      ],
-    },
-  },
+        'Your students can start their assignment by logging in and going to the assignments page in the Student section.'
+      ]
+    }
+  }
 };
 
-function transformWildCamAssignments (classifications) {
+function transformWildCamAssignments(classifications) {
   return Promise.resolve(classificationResourceToJson(classifications))
     .then(combineWithSubjectMetadata);
 }
-  
-function classificationResourceToJson (classifications) {
-  let data = [];
-  
-  classifications.forEach((classification) => {
-  
-    const classification_id = classification.id;
-    const subject_id =
-      classification.links &&
-      classification.links.subjects &&
-      classification.links.subjects[0];
-    const user_id =
-      classification.links &&
-      classification.links.user;
-    const assignment_id =
-      classification.links &&
-      classification.links.workflow;
 
-    classification.annotations.forEach(task => {
-      task.value.forEach(answer => {
+function classificationResourceToJson(classifications) {
+  const data = [];
+
+  classifications.forEach((classification) => {
+    const classification_id = classification.id;
+    const subject_id = classification.links
+      && classification.links.subjects
+      && classification.links.subjects[0];
+    const user_id = classification.links
+      && classification.links.user;
+    const assignment_id = classification.links
+      && classification.links.workflow;
+
+    classification.annotations.forEach((task) => {
+      task.value.forEach((answer) => {
         const species = answer.choice;
         const count = answer.answers && answer.answers.HOWMANY;
 
@@ -75,35 +72,34 @@ function classificationResourceToJson (classifications) {
             classification_id,
             subject_id,
             species,
-            count,
+            count
           });
         }
       });
     });
   });
-  
+
   return data;
 }
 
-function combineWithSubjectMetadata (classifications) {
-  
+function combineWithSubjectMetadata(classifications) {
   const query = mapConfig.database.queries.selectAllSubjects
     .replace('{WHERE}', '')
     .replace('{ORDER}', '')
     .replace('{LIMIT}', '');
   const url = mapConfig.database.urls.json.replace('{SQLQUERY}', query);
-  
+
   return superagent.get(url)
-    .then(res => {
+    .then((res) => {
       if (res.ok && res.body && res.body.rows) return res.body.rows;
       throw 'ERROR';
     })
-    .then(subjects => {
-      return classifications.map(classification => {
-        let subject = subjects.find(s => s.subject_id == classification.subject_id);  // Use ==, not ===, due to different data types.
-        
+    .then((subjects) => {
+      return classifications.map((classification) => {
+        let subject = subjects.find((s) => s.subject_id == classification.subject_id); // Use ==, not ===, due to different data types.
+
         if (!subject) {
-          subject = {  // Default Subject data; the data structure consistency is required to keep JSON-to-CSV automation working
+          subject = { // Default Subject data; the data structure consistency is required to keep JSON-to-CSV automation working
             camera: '',
             date: '',
             dist_humans_m: '',
@@ -115,23 +111,20 @@ function combineWithSubjectMetadata (classifications) {
             month: '',
             national_park: '',
             season: '',
-            //subject_id: ''  // No, leave this alone
+            // subject_id: ''  // No, leave this alone
             time_period: '',
             veg_type: '',
             water_type: '',
-            year: '',
+            year: ''
           };
         }
-        
+
         return { ...classification, ...subject };
       });
-    
-    
+
       return classifications;
     })
-    .catch(err => {
-      return classifications;
-    });
+    .catch((err) => classifications);
 }
 
 export default classroomConfig;

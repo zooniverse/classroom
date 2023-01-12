@@ -30,10 +30,10 @@ module.exports = {
 
   plugins: [
     new webpack.ProvidePlugin({
-      process: 'process/browser',
+      process: 'process/browser'
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.tpl.html',
@@ -52,10 +52,10 @@ module.exports = {
     fallback: {
       fs: false,
       // for markdown-it plugins
-      path: require.resolve("path-browserify"),
-      punycode: require.resolve("punycode/"),
-      url: require.resolve("url"),
-      process: false,
+      path: require.resolve('path-browserify'),
+      punycode: require.resolve('punycode/'),
+      url: require.resolve('url'),
+      process: false
     }
   },
 

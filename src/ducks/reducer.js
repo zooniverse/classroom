@@ -16,5 +16,5 @@ export default combineReducers({
   notification,
   caesarExports,
   wildcamClassrooms,
-  wildcamMap,
+  wildcamMap
 });

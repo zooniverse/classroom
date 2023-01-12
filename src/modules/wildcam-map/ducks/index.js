@@ -28,14 +28,14 @@ const WILDCAMMAP_MARKERS_STATUS = {
   IDLE: 'idle',
   FETCHING: 'fetching',
   SUCCESS: 'success',
-  ERROR: 'error',
+  ERROR: 'error'
 };
 
 const WILDCAMMAP_CAMERA_STATUS = {
   IDLE: 'idle',
   FETCHING: 'fetching',
   SUCCESS: 'success',
-  ERROR: 'error',
+  ERROR: 'error'
 };
 
 /*
@@ -65,16 +65,16 @@ const WILDCAMMAP_INITIAL_STATE = {
   activeCameraData: null,
   activeCameraDataStatus: WILDCAMMAP_CAMERA_STATUS.IDLE,
 
-  filters: {},  //Selected filters
+  filters: {}, // Selected filters
 
-  showHelp: null,  //If set to a valid string value, shows the help/tutoria/guide for the specified activity.
+  showHelp: null, // If set to a valid string value, shows the help/tutoria/guide for the specified activity.
 
-  //Connection between WildCam Classroom and WildCam Map
-  wccwcmMapPath: '',  //The URL/path that the Teacher is taken to when they click on "Select subject" in the WildCam Classroom - Create Assignment stage. Must be registered early on in the Program.
-  wccwcmAssignmentPath: '',  //The URL/path that the Teacher is returned to when they finally finish selecting subjects on the WildCam Map.
+  // Connection between WildCam Classroom and WildCam Map
+  wccwcmMapPath: '', // The URL/path that the Teacher is taken to when they click on "Select subject" in the WildCam Classroom - Create Assignment stage. Must be registered early on in the Program.
+  wccwcmAssignmentPath: '', // The URL/path that the Teacher is returned to when they finally finish selecting subjects on the WildCam Map.
   wccwcmSavedAssignmentState: null,
   wccwcmSelectedSubjects: null,
-  wccwcmSelectedFilters: null,
+  wccwcmSelectedFilters: null
 };
 
 /*
@@ -93,7 +93,7 @@ const WILDCAMMAP_INITIAL_STATE = {
       };
  */
 const WILDCAMMAP_PROPTYPES = {
-  markersData: PropTypes.object,  //GeoJSON object.
+  markersData: PropTypes.object, // GeoJSON object.
   markersError: PropTypes.object,
   markersStatus: PropTypes.string,
   markersDataCount: PropTypes.number,
@@ -104,7 +104,7 @@ const WILDCAMMAP_PROPTYPES = {
   activeCameraData: PropTypes.arrayOf(PropTypes.object),
   activeCameraDataStatus: PropTypes.string,
 
-  filters: PropTypes.object,  //Dynamically constructed object.
+  filters: PropTypes.object, // Dynamically constructed object.
 
   showHelp: PropTypes.string,
 
@@ -112,7 +112,7 @@ const WILDCAMMAP_PROPTYPES = {
   wccwcmAssignmentPath: PropTypes.string,
   wccwcmSavedAssignmentState: PropTypes.object,
   wccwcmSelectedSubjects: PropTypes.array,
-  wccwcmSelectedFilters: PropTypes.object,
+  wccwcmSelectedFilters: PropTypes.object
 };
 
 /*  WILDCAMMAP_MAP_STATE is used as a convenience feature in mapStateToProps()
@@ -129,7 +129,7 @@ const WILDCAMMAP_MAP_STATE = (state, prefix = '') => {
   const dataStore = state.wildcamMap;
   const mappedObject = {};
   Object.keys(WILDCAMMAP_INITIAL_STATE).map((key) => {
-    //The prefix is optional, and is useful to avoid naming collisions.
+    // The prefix is optional, and is useful to avoid naming collisions.
     mappedObject[prefix + key] = dataStore[key];
   });
   return mappedObject;
@@ -142,65 +142,43 @@ const WILDCAMMAP_MAP_STATE = (state, prefix = '') => {
 // Jumpstate Synchronous Actions
 // -----------------------------
 
-const setMarkersStatus = (state, markersStatus) => {
-  return { ...state, markersStatus };
-};
+const setMarkersStatus = (state, markersStatus) => ({ ...state, markersStatus });
 
-const setMarkersData = (state, markersData) => {
-  return { ...state, markersData };
-};
+const setMarkersData = (state, markersData) => ({ ...state, markersData });
 
-const setMarkersError = (state, markersError) => {
-  return { ...state, markersError };
-};
+const setMarkersError = (state, markersError) => ({ ...state, markersError });
 
-const setMarkersDataCount = (state, markersDataCount) => {
-  return { ...state, markersDataCount };
-};
+const setMarkersDataCount = (state, markersDataCount) => ({ ...state, markersDataCount });
 
-const resetActiveCamera = (state) => {
-  return {
-    ...state,
-    activeCameraId: WILDCAMMAP_INITIAL_STATE.activeCameraId,
-    activeCameraMetadata: WILDCAMMAP_INITIAL_STATE.activeCameraMetadata,
-    activeCameraMetadataStatus: WILDCAMMAP_INITIAL_STATE.activeCameraMetadataStatus,
-    activeCameraData: WILDCAMMAP_INITIAL_STATE.activeCameraData,
-    activeCameraDataStatus: WILDCAMMAP_INITIAL_STATE.activeCameraDataStatus,
-  };
-};
+const resetActiveCamera = (state) => ({
+  ...state,
+  activeCameraId: WILDCAMMAP_INITIAL_STATE.activeCameraId,
+  activeCameraMetadata: WILDCAMMAP_INITIAL_STATE.activeCameraMetadata,
+  activeCameraMetadataStatus: WILDCAMMAP_INITIAL_STATE.activeCameraMetadataStatus,
+  activeCameraData: WILDCAMMAP_INITIAL_STATE.activeCameraData,
+  activeCameraDataStatus: WILDCAMMAP_INITIAL_STATE.activeCameraDataStatus
+});
 
-const setActiveCameraId = (state, activeCameraId) => {
-  return { ...state, activeCameraId };
-};
+const setActiveCameraId = (state, activeCameraId) => ({ ...state, activeCameraId });
 
-const setActiveCameraMetadata = (state, activeCameraMetadata) => {
-  return { ...state, activeCameraMetadata };
-};
+const setActiveCameraMetadata = (state, activeCameraMetadata) => ({ ...state, activeCameraMetadata });
 
-const setActiveCameraMetadataStatus = (state, activeCameraMetadataStatus) => {
-  return { ...state, activeCameraMetadataStatus };
-};
+const setActiveCameraMetadataStatus = (state, activeCameraMetadataStatus) => ({ ...state, activeCameraMetadataStatus });
 
-const setActiveCameraData = (state, activeCameraData) => {
-  return { ...state, activeCameraData };
-};
+const setActiveCameraData = (state, activeCameraData) => ({ ...state, activeCameraData });
 
-const setActiveCameraDataStatus = (state, activeCameraDataStatus) => {
-  return { ...state, activeCameraDataStatus };
-};
+const setActiveCameraDataStatus = (state, activeCameraDataStatus) => ({ ...state, activeCameraDataStatus });
 
-const setFilters = (state, filters) => {
-  return { ...state, filters };
-};
+const setFilters = (state, filters) => ({ ...state, filters });
 
 /*  Adds to a multi-choice filter selection.
  */
 const addFilterSelectionItem = (state, item) => {
   const filters = { ...state.filters };
-  const key = item.key;
-  const value = item.value;
-  let newValues = (Array.isArray(filters[key])) ? filters[key].slice() : [];  //If filter doesn't exist (undefined) or isn't an array, init an array. Also, make a new array.
-  if (newValues.indexOf(value) === -1) {  //Add the item value if it doesn't exist.
+  const { key } = item;
+  const { value } = item;
+  const newValues = (Array.isArray(filters[key])) ? filters[key].slice() : []; // If filter doesn't exist (undefined) or isn't an array, init an array. Also, make a new array.
+  if (newValues.indexOf(value) === -1) { // Add the item value if it doesn't exist.
     newValues.push(value);
     filters[key] = newValues;
   }
@@ -211,10 +189,10 @@ const addFilterSelectionItem = (state, item) => {
  */
 const removeFilterSelectionItem = (state, item) => {
   const filters = { ...state.filters };
-  const key = item.key;
-  const value = item.value;
-  if (!Array.isArray(filters[key])) filters[key] = [];  //If filter doesn't exist (undefined) or isn't an array, init an array.
-  filters[key] = filters[key].filter(cur => cur !== value);  //Remove the matching item value. Note that this creates a new array.
+  const { key } = item;
+  const { value } = item;
+  if (!Array.isArray(filters[key])) filters[key] = []; // If filter doesn't exist (undefined) or isn't an array, init an array.
+  filters[key] = filters[key].filter((cur) => cur !== value); // Remove the matching item value. Note that this creates a new array.
   if (filters[key].length === 0) delete filters[key];
   return { ...state, filters };
 };
@@ -233,40 +211,24 @@ const setFilterSelectionItem = (state, key, value) => {
 
 /*  Shows or Hides help for the respective activity.
  */
-const showHelp = (state, activity) => {
-  return { ...state, showHelp: activity };
-};
-const hideHelp = (state) => {
-  return { ...state, showHelp: null };
-};
+const showHelp = (state, activity) => ({ ...state, showHelp: activity });
+const hideHelp = (state) => ({ ...state, showHelp: null });
 
 /*  WildCam Classroom-WildCam Map connection functions
  */
-const resetWccWcmAssignmentData = (state) => {
-  return {
-    ...state,
-    //Maintain the Map Path, however
-    wccwcmAssignmentPath: WILDCAMMAP_INITIAL_STATE.wccwcmAssignmentPath,
-    wccwcmSavedAssignmentState: WILDCAMMAP_INITIAL_STATE.wccwcmSavedAssignmentState,
-    wccwcmSelectedSubjects: WILDCAMMAP_INITIAL_STATE.wccwcmSelectedSubjects,
-    wccwcmSelectedFilters: WILDCAMMAP_INITIAL_STATE.wccwcmSelectedFilters,
-  }
-}
-const setWccWcmMapPath = (state, wccwcmMapPath) => {
-  return { ...state, wccwcmMapPath };
-}
-const setWccWcmAssignmentPath = (state, wccwcmAssignmentPath) => {
-  return { ...state, wccwcmAssignmentPath };
-}
-const setWccWcmSavedAssignmentState = (state, wccwcmSavedAssignmentState) => {
-  return { ...state, wccwcmSavedAssignmentState };
-}
-const setWccWcmSelectedSubjects = (state, wccwcmSelectedSubjects) => {
-  return { ...state, wccwcmSelectedSubjects };
-}
-const setWccWcmSelectedFilters = (state, wccwcmSelectedFilters) => {
-  return { ...state, wccwcmSelectedFilters };
-}
+const resetWccWcmAssignmentData = (state) => ({
+  ...state,
+  // Maintain the Map Path, however
+  wccwcmAssignmentPath: WILDCAMMAP_INITIAL_STATE.wccwcmAssignmentPath,
+  wccwcmSavedAssignmentState: WILDCAMMAP_INITIAL_STATE.wccwcmSavedAssignmentState,
+  wccwcmSelectedSubjects: WILDCAMMAP_INITIAL_STATE.wccwcmSelectedSubjects,
+  wccwcmSelectedFilters: WILDCAMMAP_INITIAL_STATE.wccwcmSelectedFilters
+});
+const setWccWcmMapPath = (state, wccwcmMapPath) => ({ ...state, wccwcmMapPath });
+const setWccWcmAssignmentPath = (state, wccwcmAssignmentPath) => ({ ...state, wccwcmAssignmentPath });
+const setWccWcmSavedAssignmentState = (state, wccwcmSavedAssignmentState) => ({ ...state, wccwcmSavedAssignmentState });
+const setWccWcmSelectedSubjects = (state, wccwcmSelectedSubjects) => ({ ...state, wccwcmSelectedSubjects });
+const setWccWcmSelectedFilters = (state, wccwcmSelectedFilters) => ({ ...state, wccwcmSelectedFilters });
 
 /*
 --------------------------------------------------------------------------------
@@ -278,52 +240,53 @@ const setWccWcmSelectedFilters = (state, wccwcmSelectedFilters) => {
 // list. NOTE: Effects can only have one argument.
 
 Effect('wcm_getMapMarkers', (payload = {}) => {
-  const mapConfig = payload.mapConfig;
+  const { mapConfig } = payload;
   const selectedFilters = payload.filters;
 
-  if (!mapConfig) return;  //We absolutely need mapConfig, but we're fine if filters is null or undefined (i.e. user has not selected any filters.)
+  if (!mapConfig) return; // We absolutely need mapConfig, but we're fine if filters is null or undefined (i.e. user has not selected any filters.)
 
   Actions.wildcamMap.setMarkersStatus(WILDCAMMAP_MARKERS_STATUS.FETCHING);
   const where = constructWhereClause(mapConfig, selectedFilters);
-  const url = mapConfig.database.urls.geojson.replace('{SQLQUERY}',
+  const url = mapConfig.database.urls.geojson.replace(
+    '{SQLQUERY}',
     encodeURIComponent(mapConfig.database.queries.selectCameraCount.replace('{WHERE}', where))
   );
 
   superagent.get(url)
-  .then(response => {
-    if (!response) { throw 'ERROR (wildcam-map/ducks/getMapMarkers): No response'; }
-    if (response.ok && response.body) {
-      return response.body;
-    }
-    throw 'ERROR (wildcam-map/ducks/getMapMarkers): invalid response';
-  })
-  .then(geojson => {
-    Actions.wildcamMap.setMarkersStatus(WILDCAMMAP_MARKERS_STATUS.SUCCESS);
-    Actions.wildcamMap.setMarkersData(geojson);
+    .then((response) => {
+      if (!response) { throw 'ERROR (wildcam-map/ducks/getMapMarkers): No response'; }
+      if (response.ok && response.body) {
+        return response.body;
+      }
+      throw 'ERROR (wildcam-map/ducks/getMapMarkers): invalid response';
+    })
+    .then((geojson) => {
+      Actions.wildcamMap.setMarkersStatus(WILDCAMMAP_MARKERS_STATUS.SUCCESS);
+      Actions.wildcamMap.setMarkersData(geojson);
 
-    let count = 0;
-    if (geojson && geojson.features) {
-      count = geojson.features.reduce((total, item) => {
-        if (item.properties && item.properties.count) {
-          return total + item.properties.count;
-        }
-        return total;
-      }, 0);
-    }
-    Actions.wildcamMap.setMarkersDataCount(count);
-  })
-  .catch(err => {
-    Actions.wildcamMap.setMarkersStatus(WILDCAMMAP_MARKERS_STATUS.ERROR);
-    console.error(err);
-  });
+      let count = 0;
+      if (geojson && geojson.features) {
+        count = geojson.features.reduce((total, item) => {
+          if (item.properties && item.properties.count) {
+            return total + item.properties.count;
+          }
+          return total;
+        }, 0);
+      }
+      Actions.wildcamMap.setMarkersDataCount(count);
+    })
+    .catch((err) => {
+      Actions.wildcamMap.setMarkersStatus(WILDCAMMAP_MARKERS_STATUS.ERROR);
+      console.error(err);
+    });
 });
 
 //----------------------------------------------------------------
 
 Effect('wcm_getActiveCamera', (payload = {}) => {
-  const mapConfig = payload.mapConfig;
+  const { mapConfig } = payload;
   const selectedFilters = payload.filters;
-  const cameraId = payload.cameraId;
+  const { cameraId } = payload;
 
   if (!mapConfig) return;
   if (!cameraId) return;
@@ -332,61 +295,64 @@ Effect('wcm_getActiveCamera', (payload = {}) => {
   Actions.wildcamMap.setActiveCameraDataStatus(WILDCAMMAP_CAMERA_STATUS.FETCHING);
   Actions.wildcamMap.setActiveCameraMetadataStatus(WILDCAMMAP_CAMERA_STATUS.FETCHING);
 
-  let where, url;
+  let where; let
+    url;
 
-  //Get Camera Data
+  // Get Camera Data
   //--------------------------------
   where = constructWhereClause(mapConfig, selectedFilters);
-  where = (where === '')  //TODO: Move this to the project config. This is very project-specific.
+  where = (where === '') // TODO: Move this to the project config. This is very project-specific.
     ? ` WHERE camera LIKE '${sqlString(cameraId)}'`
-    : where + ` AND camera LIKE '${sqlString(cameraId)}'`;
-  url = mapConfig.database.urls.json.replace('{SQLQUERY}',
+    : `${where} AND camera LIKE '${sqlString(cameraId)}'`;
+  url = mapConfig.database.urls.json.replace(
+    '{SQLQUERY}',
     encodeURIComponent(mapConfig.database.queries.selectCameraData.replace('{WHERE}', where))
   );
   superagent.get(url)
-  .then(response => {
-    if (!response) { throw 'ERROR (wildcam-map/ducks/getActiveCamera Data): No response'; }
-    if (response.ok && response.body) {
-      return response.body;
-    }
-    throw 'ERROR (wildcam-map/ducks/getActiveCamera Data): invalid response';
-  })
-  .then(json => {
-    Actions.wildcamMap.setActiveCameraDataStatus(WILDCAMMAP_CAMERA_STATUS.SUCCESS);
-    Actions.wildcamMap.setActiveCameraData(json.rows);
-  })
-  .catch(err => {
-    Actions.wildcamMap.setActiveCameraDataStatus(WILDCAMMAP_CAMERA_STATUS.ERROR);
-    console.error(err);
-  });
+    .then((response) => {
+      if (!response) { throw 'ERROR (wildcam-map/ducks/getActiveCamera Data): No response'; }
+      if (response.ok && response.body) {
+        return response.body;
+      }
+      throw 'ERROR (wildcam-map/ducks/getActiveCamera Data): invalid response';
+    })
+    .then((json) => {
+      Actions.wildcamMap.setActiveCameraDataStatus(WILDCAMMAP_CAMERA_STATUS.SUCCESS);
+      Actions.wildcamMap.setActiveCameraData(json.rows);
+    })
+    .catch((err) => {
+      Actions.wildcamMap.setActiveCameraDataStatus(WILDCAMMAP_CAMERA_STATUS.ERROR);
+      console.error(err);
+    });
   //--------------------------------
 
-  //Get Camera Metadata
+  // Get Camera Metadata
   //--------------------------------
-  where = ` WHERE id LIKE '${sqlString(cameraId)}'`;  //TODO: Move this to the project config. This is very project-specific.
-  url = mapConfig.database.urls.json.replace('{SQLQUERY}',
+  where = ` WHERE id LIKE '${sqlString(cameraId)}'`; // TODO: Move this to the project config. This is very project-specific.
+  url = mapConfig.database.urls.json.replace(
+    '{SQLQUERY}',
     encodeURIComponent(mapConfig.database.queries.selectCameraMetadata.replace('{WHERE}', where))
   );
   superagent.get(url)
-  .then(response => {
-    if (!response) { throw 'ERROR (wildcam-map/ducks/getActiveCamera Metadata): No response'; }
-    if (response.ok && response.body) {
-      return response.body;
-    }
-    throw 'ERROR (wildcam-map/ducks/getActiveCamera Metadata): invalid response';
-  })
-  .then(json => {
-    Actions.wildcamMap.setActiveCameraMetadataStatus(WILDCAMMAP_CAMERA_STATUS.SUCCESS);
-    if (json && json.rows) {
-      Actions.wildcamMap.setActiveCameraMetadata(json.rows[0]);  //SELECT query should only return one result.
-    } else {
-      Actions.wildcamMap.setActiveCameraMetadata(null);
-    }
-  })
-  .catch(err => {
-    Actions.wildcamMap.setActiveCameraMetadataStatus(WILDCAMMAP_CAMERA_STATUS.ERROR);
-    console.error(err);
-  });
+    .then((response) => {
+      if (!response) { throw 'ERROR (wildcam-map/ducks/getActiveCamera Metadata): No response'; }
+      if (response.ok && response.body) {
+        return response.body;
+      }
+      throw 'ERROR (wildcam-map/ducks/getActiveCamera Metadata): invalid response';
+    })
+    .then((json) => {
+      Actions.wildcamMap.setActiveCameraMetadataStatus(WILDCAMMAP_CAMERA_STATUS.SUCCESS);
+      if (json && json.rows) {
+        Actions.wildcamMap.setActiveCameraMetadata(json.rows[0]); // SELECT query should only return one result.
+      } else {
+        Actions.wildcamMap.setActiveCameraMetadata(null);
+      }
+    })
+    .catch((err) => {
+      Actions.wildcamMap.setActiveCameraMetadataStatus(WILDCAMMAP_CAMERA_STATUS.ERROR);
+      console.error(err);
+    });
   //--------------------------------
 });
 
@@ -419,7 +385,7 @@ const wildcamMap = State('wildcamMap', {
   setWccWcmAssignmentPath,
   setWccWcmSavedAssignmentState,
   setWccWcmSelectedSubjects,
-  setWccWcmSelectedFilters,
+  setWccWcmSelectedFilters
 });
 
 export default wildcamMap;
@@ -428,5 +394,5 @@ export {
   WILDCAMMAP_CAMERA_STATUS,
   WILDCAMMAP_INITIAL_STATE,
   WILDCAMMAP_PROPTYPES,
-  WILDCAMMAP_MAP_STATE,
+  WILDCAMMAP_MAP_STATE
 };

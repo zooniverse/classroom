@@ -2,14 +2,16 @@
 
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
-import { get, post, put, httpDelete } from '../lib/edu-api';
+import {
+  get, post, put, httpDelete
+} from '../lib/edu-api';
 import { env } from '../lib/config';
 
 // testing mocks and constants
 const i2aAssignmentNames = {
-  galaxy: "Galaxy Zoo 101",
-  hubble: "Hubble's Law"
-}
+  galaxy: 'Galaxy Zoo 101',
+  hubble: 'Hubble\'s Law'
+};
 
 const i2a = {
   staging: {
@@ -28,14 +30,14 @@ const i2a = {
         // back to a project without having to request that from Panoptes
         // to then build the URL to the project in the UI.
         // These are just test projects on staging...
-        "2218": {
+        2218: {
           name: i2aAssignmentNames.hubble,
-          classifications_target: "10",
+          classifications_target: '10',
           slug: 'srallen086/intro2astro-hubble-testing'
         },
-        "3037": {
+        3037: {
           name: i2aAssignmentNames.galaxy,
-          classifications_target: "22",
+          classifications_target: '22',
           slug: 'srallen086/galaxy-zoo-in-astronomy-101'
         }
       }
@@ -56,14 +58,14 @@ const i2a = {
         // used to relate the assignment resource that has a workflow id property
         // back to a project without having to request that from Panoptes
         // to then build the URL to the project in the UI.
-        "5522": {
+        5522: {
           name: i2aAssignmentNames.hubble,
-          classifications_target: "10",
+          classifications_target: '10',
           slug: 'zooniverse/intro2astro-hubbles-law'
         },
-        "11981": {
+        11981: {
           name: i2aAssignmentNames.galaxy,
-          classifications_target: "22",
+          classifications_target: '22',
           slug: 'mollysimon/galaxy-zoo-crowdsourcing-activity'
         }
       }
@@ -204,7 +206,7 @@ const programsArray = [
   activitiesForUndergrads[env],
   darien[env],
   gorongosa[env],
-  kenya[env],
+  kenya[env]
 ];
 
 const programsMocks = {
@@ -212,7 +214,7 @@ const programsMocks = {
   activitiesForUndergrads: activitiesForUndergrads[env],
   darien: darien[env],
   gorongosa: gorongosa[env],
-  kenya: kenya[env],
+  kenya: kenya[env]
 };
 
 // Constants
@@ -254,12 +256,12 @@ const PROGRAMS_PROPTYPES = {
 function handleError(error) {
   Actions.programs.setStatus(PROGRAMS_STATUS.ERROR);
   Actions.programs.setError(error);
-  Actions.notification.setNotification({ status: 'critical' , message: 'Something went wrong.' });
+  Actions.notification.setNotification({ status: 'critical', message: 'Something went wrong.' });
   console.error(error);
 }
 
 function sortPrograms(programs) {
-  programs.sort((a,b) => {
+  programs.sort((a, b) => {
     const programNameA = a.name.toUpperCase();
     const programNameB = b.name.toUpperCase();
 
@@ -272,21 +274,13 @@ function sortPrograms(programs) {
 }
 
 // Synchonous actions
-const setStatus = (state, status) => {
-  return { ...state, status };
-};
+const setStatus = (state, status) => ({ ...state, status });
 
-const selectProgram = (state, selectedProgram) => {
-  return { ...state, selectedProgram };
-};
+const selectProgram = (state, selectedProgram) => ({ ...state, selectedProgram });
 
-const setPrograms = (state, programs) => {
-  return { ...state, programs };
-};
+const setPrograms = (state, programs) => ({ ...state, programs });
 
-const setError = (state, error) => {
-  return { ...state, error };
-};
+const setError = (state, error) => ({ ...state, error });
 
 // Effects are for async actions and get automatically to the global Actions list
 Effect('getPrograms', () => {
@@ -295,8 +289,8 @@ Effect('getPrograms', () => {
   return get('/programs')
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/programs/getPrograms): No response'; }
-      if (response.ok &&
-          response.body && response.body.data) {
+      if (response.ok
+          && response.body && response.body.data) {
         const sortedPrograms = sortPrograms(response.body.data);
         Actions.programs.setStatus(PROGRAMS_STATUS.SUCCESS);
         Actions.programs.setPrograms(sortedPrograms);
@@ -304,18 +298,18 @@ Effect('getPrograms', () => {
         return sortedPrograms;
       }
       throw 'ERROR (ducks/programs/getPrograms): Invalid response';
-    }).catch(error => handleError(error));
+    }).catch((error) => handleError(error));
 });
 
 Effect('getProgram', (data) => {
   Actions.programs.setStatus(PROGRAMS_STATUS.FETCHING);
 
-  return Promise.resolve(data.programs.filter(program => program.slug === data.param))
+  return Promise.resolve(data.programs.filter((program) => program.slug === data.param))
     .then(([program]) => {
       Actions.programs.setStatus(PROGRAMS_STATUS.SUCCESS);
       Actions.programs.selectProgram(program);
       return program;
-    }).catch(error => handleError(error));
+    }).catch((error) => handleError(error));
 });
 
 // For a UI managed by Admins eventually. Untested...
@@ -325,8 +319,8 @@ Effect('createProgram', (data) => {
   return post('/programs', { data: { attributes: data } })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/programs/createProgram): No response'; }
-      if (response.ok &&
-          response.body && response.body.data) {
+      if (response.ok
+          && response.body && response.body.data) {
         return Actions.programs.setStatus(PROGRAMS_STATUS.SUCCESS);
       }
       throw 'ERROR (ducks/programs/createProgram): Invalid response';

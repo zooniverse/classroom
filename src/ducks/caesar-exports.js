@@ -44,30 +44,20 @@ function handleError(error) {
 }
 
 // Synchonous actions
-const setStatus = (state, status) => {
-  return { ...state, status };
-};
+const setStatus = (state, status) => ({ ...state, status });
 
-const setCaesarExport = (state, caesarExport) => {
-  return { ...state, caesarExport };
-};
+const setCaesarExport = (state, caesarExport) => ({ ...state, caesarExport });
 
-const setError = (state, error) => {
-  return { ...state, error };
-};
+const setError = (state, error) => ({ ...state, error });
 
-const setGoogleFileUrl = (state, googleFileUrl) => {
-  return { ...state, googleFileUrl };
-};
+const setGoogleFileUrl = (state, googleFileUrl) => ({ ...state, googleFileUrl });
 
 const setRequestedExports = (state, newRequestedExport) => {
-  const mergedRequestedExports = Object.assign({}, state.requestedExports, newRequestedExport);
+  const mergedRequestedExports = { ...state.requestedExports, ...newRequestedExport };
   return { ...state, requestedExports: mergedRequestedExports };
 };
 
-const showModal = (state) => {
-  return { ...state, showModal: !state.showModal };
-};
+const showModal = (state) => ({ ...state, showModal: !state.showModal });
 
 // Effects are for async actions and get automatically to the global Actions list
 // Requests to caesar should include an Accept: 'application/json' header
@@ -86,19 +76,15 @@ Effect('getCaesarExports', (data) => {
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/caesarExports/getCaesarExport): No response'; }
       if (response.ok && response.body) {
-
         return response.body;
       }
-    }).then((caesarExports) => {
+    })
+    .then((caesarExports) => {
       // We check if there are any complete exports and if there are, we use the most recent complete export
       if (caesarExports.length > 0) {
-        const pendingExports = caesarExports.filter((caesarExport) => {
-          return caesarExport.status === 'pending' || caesarExport.status === 'processing';
-        });
+        const pendingExports = caesarExports.filter((caesarExport) => caesarExport.status === 'pending' || caesarExport.status === 'processing');
 
-        const completedExports = caesarExports.filter((caesarExport) => {
-          return caesarExport.status === 'complete';
-        });
+        const completedExports = caesarExports.filter((caesarExport) => caesarExport.status === 'complete');
 
         if (completedExports.length > 0 && pendingExports.length === 0) {
           Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
@@ -121,7 +107,8 @@ Effect('getCaesarExports', (data) => {
       }
 
       return caesarExports;
-    }).catch((error) => {
+    })
+    .catch((error) => {
       if (error.status !== 404) handleError(error);
       if (error.status === 404) {
         Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
@@ -164,7 +151,8 @@ Effect('getCaesarExport', (data) => {
           Actions.notification.setNotification({ status: 'critical', message: 'Something went wrong.' });
         }
       }
-    }).catch((error) => {
+    })
+    .catch((error) => {
       if (error.status !== 404) handleError(error);
       if (error.status === 404) {
         Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
@@ -195,7 +183,8 @@ Effect('createCaesarExport', (data) => {
           Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.PENDING);
         }
       }
-    }).catch((error) => {
+    })
+    .catch((error) => {
       if (error.status !== 404) handleError(error);
       if (error.status === 404) {
         Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.SUCCESS);
@@ -220,7 +209,7 @@ Effect('exportToGoogleDrive', (data) => {
 
   Actions.caesarExports.setStatus(CAESAR_EXPORTS_STATUS.EXPORTING);
 
-  const gapi = window.gapi;
+  const { gapi } = window;
   if (gapi) {
     return gapi.client.request({
       path: 'https://www.googleapis.com/upload/drive/v3/files',
