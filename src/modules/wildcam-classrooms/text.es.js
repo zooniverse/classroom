@@ -10,30 +10,30 @@ const TEXT_ES = {
     STUDENTS: 'Estudiantes',
     SUBJECTS: 'Fotos',
     LIST_OF_CLASSROOMS: 'Lista de aulas',
-    TEACHER_REGISTRATION_FORM: 'Formulario de registro de educador',
+    TEACHER_REGISTRATION_FORM: 'Formulario de registro de educador'
   },
   ACTIONS: {
-    BACK: 'Regreso',  //Go back to the previous page.
-    CREATE: 'Crear',  //Generic "create item" action.
+    BACK: 'Regreso', // Go back to the previous page.
+    CREATE: 'Crear', // Generic "create item" action.
     CREATE_NEW_CLASSROOM: 'Crear un salón de clases nuevo',
     CREATE_NEW_ASSIGNMENT: 'Crear una nueva asignaciones',
-    DELETE: 'Borrar',  //Generic "delete item" action.
+    DELETE: 'Borrar', // Generic "delete item" action.
     DOWNLOAD_MY_DATA: 'Mis datos',
-    EDIT: 'Editar',  //Generic "edit item" action.
-    HELP: 'Ayuda',  //Generic "help" action, for How Tos, Guides, Instructions, etc.
-    NEXT: 'Siguiente',  //Generic "next" action, e.g. to go to the next step in a tutorial.
-    PREVIOUS: 'Anterior',  //Generic "previous" action, e.g. to go to the previous step in a tutorial.
+    EDIT: 'Editar', // Generic "edit item" action.
+    HELP: 'Ayuda', // Generic "help" action, for How Tos, Guides, Instructions, etc.
+    NEXT: 'Siguiente', // Generic "next" action, e.g. to go to the next step in a tutorial.
+    PREVIOUS: 'Anterior', // Generic "previous" action, e.g. to go to the previous step in a tutorial.
     REGISTER_TEACHER: 'Registrar educador',
-    SELECT_ALL: 'Seleccionar todo',  //Generic "select all" action, e.g. for a list of students.
+    SELECT_ALL: 'Seleccionar todo', // Generic "select all" action, e.g. for a list of students.
     SELECT_SUBJECTS: 'Seleccionar fotos',
     SELECT_SUBJECTS_AGAIN: 'Cambiar la selección de fotos',
     START_ASSIGNMENT: 'Comenzar la asignación',
     SIGN_IN: 'Registrarse',
-    SUBMIT: 'Enviar',  //Generic "submit form" action.
-    UNSELECT_ALL: 'Deseleccionar todo',  //Generic "unselect all" action, e.g. for a list of students.
-    UPDATE: 'Actualizar',  //Generic "update item" action.
+    SUBMIT: 'Enviar', // Generic "submit form" action.
+    UNSELECT_ALL: 'Deseleccionar todo', // Generic "unselect all" action, e.g. for a list of students.
+    UPDATE: 'Actualizar', // Generic "update item" action.
     UPDATE_STUDENTS: 'Actualizar estudiantes',
-    VIEW: 'Ver',  //Generic "view item" action.
+    VIEW: 'Ver' // Generic "view item" action.
   },
   STATUS: {
     SUCCESSES: {
@@ -44,20 +44,20 @@ const TEXT_ES = {
       ASSIGNMENT_CREATED: 'Asignación creada',
       ASSIGNMENT_EDITED: 'Cambios guardados',
       ASSIGNMENT_DELETED: 'Asignación eliminada',
-      COPIED_TO_CLIPBOARD: 'Copiado al portapapeles',
+      COPIED_TO_CLIPBOARD: 'Copiado al portapapeles'
     },
     ERRORS: {
       GENERAL: 'Algo salió mal',
-      NOT_FOUND: 'No encontrada',
+      NOT_FOUND: 'No encontrada'
     },
-    WORKING: 'Trabajando...',
+    WORKING: 'Trabajando...'
   },
   HELPERS: {
     EDUCATORS_ASSIGNMENT_LIST: 'Haga clic en la flecha al lado del nombre de la tarea para ver la lista de estudiantes y su estado de finalización.',
     STUDENTS_ASSIGNMENT_LIST: 'Haga clic en la flecha al lado del nombre de la asignación para ver la fecha de vencimiento y las instrucciones.',
     EDUCATORS_JOIN_URL: 'Envíe esta URL a todos los estudiantes a los que desea unirse a este aula. ¡Pero primero, asegúrese de que sus estudiantes tengan una cuenta de Zooniverse y que hayan iniciado sesión antes de hacer clic en el enlace para unirse!',
     SUBJECTS_LIST: 'Elija el tipo y la cantidad de fotos de la cámara de fotos que desea que los estudiantes identifiquen.',
-    REMEMBER_TO_LOGIN: 'Por favor, recuerde iniciar sesión en zooniverse.org antes de comenzar su tarea. Haga clic en "Comenzar la asignación" de nuevo una vez que esté listo.',
+    REMEMBER_TO_LOGIN: 'Por favor, recuerde iniciar sesión en zooniverse.org antes de comenzar su tarea. Haga clic en "Comenzar la asignación" de nuevo una vez que esté listo.'
   },
   LABELS: {
     JOIN_URL: 'Únete a la URL',
@@ -70,28 +70,28 @@ const TEXT_ES = {
     SIGN_IN_REQUIRED: 'Inicio de sesión requerido',
     PHOTOS_SELECTED: 'foto(s) seleccionadas',
     FILTERS_SELECTED: 'filtros selected',
-    PROGRESS: 'Progreso',
+    PROGRESS: 'Progreso'
   },
   CLASSROOM_FORM: {
     NAME: 'Nombre del aula',
     SUBJECT: 'Materia del aula',
     SCHOOL: 'Colegio',
-    DESCRIPTION: 'Descripción',
+    DESCRIPTION: 'Descripción'
   },
   ASSIGNMENT_FORM: {
     NAME: 'Nombre de la asignación',
     DESCRIPTION: 'Instrucciones para estudiantes',
     CLASSIFICATIONS_TARGET: 'Número de materias que cada estudiante necesita clasificar',
-    DUEDATE: 'Fecha de vencimiento',
+    DUEDATE: 'Fecha de vencimiento'
   },
   ASSIGNMENT_FORM_PLACEHOLDERS: {
-    DUEDATE: 'MM-DD-YYYY',
+    DUEDATE: 'MM-DD-YYYY'
   },
   TEACHER_REGISTRATION_FORM: {
     STATUS: {
       DATA_FETCHED: 'You have already registered.',
       DATA_SENT: 'Success: registration data submitted.',
-      ERROR: 'Error: could not communicate registration data.',
+      ERROR: 'Error: could not communicate registration data.'
     },
     FIELDS: {
       COUNTRY: 'Where do you teach?',
@@ -100,14 +100,14 @@ const TEXT_ES = {
       COURSE: 'In what course(s) do you plan to use this resource?',
       FOUNDON: 'How did you find out about this resource?',
       RESOURCE: 'Have you used HHMI BioInteractive resources in your teaching before?',
-      FEEDBACK: 'Feedback from educators like you helps us improve our free educational resources. May we contact you at a later time?',
+      FEEDBACK: 'Feedback from educators like you helps us improve our free educational resources. May we contact you at a later time?'
     },
     ANSWERS: {
       SETTING: [
         'Formal education (e.g., classroom, lab)',
         'Informal education (e.g., zoo, museum, nature center)',
         'Home school',
-        'Other',
+        'Other'
       ],
       AGE: [
         'Elementary School',
@@ -115,7 +115,7 @@ const TEXT_ES = {
         'High School',
         '2-yr College',
         '4-yr College/University',
-        'Other',
+        'Other'
       ],
       COURSE: [
         'Ecology',
@@ -123,7 +123,7 @@ const TEXT_ES = {
         'Environmental Science',
         'Geology/Earth Science',
         'Geography',
-        'Other',
+        'Other'
       ],
       FOUNDON: [
         'Zooniverse',
@@ -134,18 +134,18 @@ const TEXT_ES = {
         'Internet search',
         'Educator Forum or ListServ',
         'Friend/Colleague',
-        'Other',
+        'Other'
       ],
       RESOURCE: [
         'Yes',
-        'No',
+        'No'
       ],
       FEEDBACK: [
         'Yes',
-        'No',
-      ],
-    },
-  },
+        'No'
+      ]
+    }
+  }
 };
 
 export { TEXT_ES };

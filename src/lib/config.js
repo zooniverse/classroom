@@ -11,10 +11,10 @@ By default, this is the development environment, but this can be changed either 
 
  */
 
-var DEFAULT_ENV = 'development';
-var envFromBrowser = locationMatch(/\W?env=(\w+)/);
-var envFromShell = process.env.NODE_ENV;
-var env = envFromBrowser || envFromShell || DEFAULT_ENV;
+const DEFAULT_ENV = 'development';
+const envFromBrowser = locationMatch(/\W?env=(\w+)/);
+const envFromShell = process.env.NODE_ENV;
+const env = envFromBrowser || envFromShell || DEFAULT_ENV;
 
 if (!env.match(/^(production|staging|development)$/)) {
   throw new Error(`Error: Invalid Environment - ${envFromShell}`);
@@ -65,7 +65,7 @@ export { env, config };
 // Try and match the location.search property against a regex. Basically mimics
 // the CoffeeScript existential operator, in case we're not in a browser.
 function locationMatch(regex) {
-  var match;
+  let match;
   if (typeof location !== 'undefined' && location !== null) {
     match = location.search.match(regex);
   }

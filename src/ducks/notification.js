@@ -14,9 +14,7 @@ const NOTIFICATION_PROPTYPES = {
 };
 
 // Synchonous actions
-const setNotification = (state, notification) => {
-  return { ...state, notification };
-};
+const setNotification = (state, notification) => ({ ...state, notification });
 
 const notification = State('notification', {
   // Initial state

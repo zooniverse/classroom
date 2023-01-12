@@ -1,6 +1,8 @@
 import { State, Effect, Actions } from 'jumpstate';
 import PropTypes from 'prop-types';
-import { get, post, put, httpDelete } from '../lib/edu-api';
+import {
+  get, post, put, httpDelete
+} from '../lib/edu-api';
 
 // Constants
 const CLASSROOMS_STATUS = {
@@ -59,34 +61,20 @@ function handleError(error) {
 }
 
 // Synchonous actions
-const setStatus = (state, status) => {
-  return { ...state, status };
-};
+const setStatus = (state, status) => ({ ...state, status });
 
 // Sets the active classroom. Use null to deselect active classroom.
-const selectClassroom = (state, selectedClassroom) => {
-  return { ...state, selectedClassroom };
-};
+const selectClassroom = (state, selectedClassroom) => ({ ...state, selectedClassroom });
 
-const setClassrooms = (state, classrooms) => {
-  return { ...state, classrooms };
-};
+const setClassrooms = (state, classrooms) => ({ ...state, classrooms });
 
-const setError = (state, error) => {
-  return { ...state, error };
-};
+const setError = (state, error) => ({ ...state, error });
 
-const setToastState = (state, toast) => {
-  return { ...state, toast };
-};
+const setToastState = (state, toast) => ({ ...state, toast });
 
-const toggleFormVisibility = (state) => {
-  return { ...state, showForm: !state.showForm };
-};
+const toggleFormVisibility = (state) => ({ ...state, showForm: !state.showForm });
 
-const updateFormFields = (state, formFields) => {
-  return { ...state, formFields };
-};
+const updateFormFields = (state, formFields) => ({ ...state, formFields });
 
 // Effects are for async actions and get automatically to the global Actions list
 Effect('getClassrooms', (selectedProgramId) => {
@@ -95,8 +83,8 @@ Effect('getClassrooms', (selectedProgramId) => {
   return get('/teachers/classrooms/', [{ program_id: selectedProgramId }])
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/getClassrooms): No response'; }
-      if (response.ok &&
-          response.body && response.body.data) {
+      if (response.ok
+          && response.body && response.body.data) {
         return response.body.data;
       }
       throw 'ERROR (ducks/classrooms/getClassrooms): Invalid response';
@@ -116,8 +104,8 @@ Effect('getClassroom', (id) => {
   return get(`/teachers/classrooms/${id}`)
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/getClassroom): No response'; }
-      if (response.ok &&
-          response.body && response.body.data) {
+      if (response.ok
+          && response.body && response.body.data) {
         return response.body.data;
       }
       throw 'ERROR (ducks/classrooms/getClassroom): Invalid response';
@@ -156,8 +144,8 @@ Effect('createClassroom', (data) => {
   return post('/teachers/classrooms/', { data })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/createClassroom): No response'; }
-      if (response.ok &&
-          response.body && response.body.data) {
+      if (response.ok
+          && response.body && response.body.data) {
         Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
         return response.body.data;
       }
@@ -171,7 +159,7 @@ Effect('createClassroom', (data) => {
 // Hmm.... Effects can only take one argument?
 Effect('updateClassroom', (data) => {
   Actions.classrooms.setStatus(CLASSROOMS_STATUS.UPDATING);
-  return put(`/teachers/classrooms/${data.id}`, { data: { attributes: data.payload } } )
+  return put(`/teachers/classrooms/${data.id}`, { data: { attributes: data.payload } })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/updateClassroom): No response'; }
       if (response.ok) {
@@ -210,7 +198,7 @@ Effect('removeStudentFromClassroom', (data) => {
         return Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
       }
       throw 'ERROR (ducks/classrooms/deleteClassroom): Invalid response';
-    }).catch(error => handleError(error));
+    }).catch((error) => handleError(error));
 });
 
 Effect('joinClassroom', (data) => {
@@ -219,12 +207,12 @@ Effect('joinClassroom', (data) => {
   return post(`/students/classrooms/${data.classroomId}/join`, { join_token: data.joinToken })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/joinClassroom): No response'; }
-      if (response.ok &&
-          response.body && response.body.data) {
+      if (response.ok
+          && response.body && response.body.data) {
         return Actions.classrooms.setStatus(CLASSROOMS_STATUS.SUCCESS);
       }
       throw 'ERROR (ducks/classrooms/joinClassroom): Invalid response';
-    }).catch(error => handleError(error));
+    }).catch((error) => handleError(error));
 });
 
 const classrooms = State('classrooms', {

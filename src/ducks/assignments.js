@@ -17,7 +17,7 @@ const ASSIGNMENTS_INITIAL_STATE = {
   assignments: {},
   error: null,
   formFields: {
-    classifications_target: "0",
+    classifications_target: '0',
     description: '',
     duedate: '',
     name: ''
@@ -64,8 +64,8 @@ function handleError(error) {
 }
 
 function sortAssignments(assignments) {
-  const firstAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.galaxy);
-  const secondAssignment = assignments.find(assignment => assignment.name === i2aAssignmentNames.hubble);
+  const firstAssignment = assignments.find((assignment) => assignment.name === i2aAssignmentNames.galaxy);
+  const secondAssignment = assignments.find((assignment) => assignment.name === i2aAssignmentNames.hubble);
 
   if (firstAssignment && secondAssignment) {
     return [firstAssignment, secondAssignment];
@@ -78,9 +78,7 @@ function joinStudentAssignmentsToAssignments(assignments, studentAssignments) {
   const joinedData = assignments.map((assignment) => {
     assignment.studentAssignmentsData = [];
     assignment.relationships.student_assignments.data.forEach((student_assignment) => {
-      const assignedStudent = studentAssignments.filter(studentAssignment =>
-        student_assignment.id === studentAssignment.id
-      );
+      const assignedStudent = studentAssignments.filter((studentAssignment) => student_assignment.id === studentAssignment.id);
       if (assignedStudent.length > 0) assignment.studentAssignmentsData.push(assignedStudent[0]);
     });
     return assignment;
@@ -90,34 +88,22 @@ function joinStudentAssignmentsToAssignments(assignments, studentAssignments) {
 }
 
 // Synchronous actions
-const selectAssignment = (state, selectedAssignment) => {
-  return { ...state, selectedAssignment };
-};
+const selectAssignment = (state, selectedAssignment) => ({ ...state, selectedAssignment });
 
-const selectClassroomToLink = (state, classroomId) => {
-  return { ...state, selectedClassroomToLink: classroomId };
-};
+const selectClassroomToLink = (state, classroomId) => ({ ...state, selectedClassroomToLink: classroomId });
 
-const setStatus = (state, status) => {
-  return { ...state, status };
-};
+const setStatus = (state, status) => ({ ...state, status });
 
 const setAssignments = (state, assignments) => {
-  const mergedAssignments = Object.assign({}, state.assignments, assignments);
+  const mergedAssignments = { ...state.assignments, ...assignments };
   return { ...state, assignments: mergedAssignments };
 };
 
-const setError = (state, error) => {
-  return { ...state, error };
-};
+const setError = (state, error) => ({ ...state, error });
 
-const toggleFormVisibility = (state) => {
-  return { ...state, showForm: !state.showForm };
-};
+const toggleFormVisibility = (state) => ({ ...state, showForm: !state.showForm });
 
-const updateFormFields = (state, formFields) => {
-  return { ...state, formFields };
-};
+const updateFormFields = (state, formFields) => ({ ...state, formFields });
 
 // Effects are for async actions and get automatically to the global Actions list
 Effect('getAssignments', (data) => {
@@ -126,8 +112,8 @@ Effect('getAssignments', (data) => {
   return get('/assignments', [{ classroom_id: data.classroomId }])
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/classrooms/getClassrooms): No response'; }
-      if (response.ok &&
-          response.body && response.body.data) {
+      if (response.ok
+          && response.body && response.body.data) {
         return response.body;
       }
       throw 'ERROR (ducks/classrooms/getClassrooms): Invalid response';
@@ -161,8 +147,8 @@ Effect('createAssignment', (data) => {
   return post('/assignments', { data })
     .then((response) => {
       if (!response) { throw 'ERROR (ducks/assignments/createAssignment): No response'; }
-      if (response.ok &&
-          response.body && response.body.data) {
+      if (response.ok
+          && response.body && response.body.data) {
         return Actions.assignments.setStatus(ASSIGNMENTS_STATUS.SUCCESS);
       }
       throw 'ERROR (ducks/assignments/createAssignment): Invalid response';

@@ -52,10 +52,10 @@ Checks if ZooTran is using a valid language for the current Program. If not,
 reset to a valid language, and then reload the page.
  */
 export function ZooTranCheckForValidLanguage(acceptableLanguages = ['en']) {
-  const lang = ZooTranGetLanguage();  // Note: lang can be null or ''
+  const lang = ZooTranGetLanguage(); // Note: lang can be null or ''
   if (lang && !acceptableLanguages.includes(lang)) {
     ZooTranSetLanguage('');
-    setTimeout(() => { window.location.reload() }, 100);
+    setTimeout(() => { window.location.reload(); }, 100);
     // Using timeout + reload is a crude but effective solution. A more elegant
     // solution would be to rework the translation system entirely, using
     // `counterpart` or a similar library to replace the Zooniversal Translator

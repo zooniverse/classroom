@@ -17,16 +17,16 @@ Requires:
 import { ZooTran } from '../../lib/zooniversal-translator.js';
 
 const mapConfig = {
-  //Connection details for the external data source.
-  'database': {
-    'urls': {
-      'json': '//classroom-maps-api.zooniverse.org/darien.json?_shape=objects&sql={SQLQUERY}',
-      'geojson': '//classroom-maps-api.zooniverse.org/darien.geojson?sql={SQLQUERY}',
-      'csv': '//classroom-maps-api.zooniverse.org/darien.csv?sql={SQLQUERY}'
+  // Connection details for the external data source.
+  database: {
+    urls: {
+      json: '//classroom-maps-api.zooniverse.org/darien.json?_shape=objects&sql={SQLQUERY}',
+      geojson: '//classroom-maps-api.zooniverse.org/darien.geojson?sql={SQLQUERY}',
+      csv: '//classroom-maps-api.zooniverse.org/darien.csv?sql={SQLQUERY}'
     },
-    'queries': {
-      //For each camera, show how many (filtered) results are available.
-      'selectCameraCount': `
+    queries: {
+      // For each camera, show how many (filtered) results are available.
+      selectCameraCount: `
         SELECT
           cam.*, COUNT(*) as count
         FROM
@@ -50,7 +50,7 @@ const mapConfig = {
         ORDER BY
           count DESC
         `,
-        /*  //Variant for dynamically flattening camera IDs, e.g. 'CP01a' -> 'CP01'. Technically not needed as flattening is now done during database setup instead of at runtime.
+      /*  //Variant for dynamically flattening camera IDs, e.g. 'CP01a' -> 'CP01'. Technically not needed as flattening is now done during database setup instead of at runtime.
         `SELECT
           cam.*, COUNT(sbjagg.*) as count
         FROM
@@ -78,10 +78,10 @@ const mapConfig = {
           cam.id, human_type, dist_humans_m, dist_water_m, land_use, national_park, water_type, veg_type, longitude, latitude, the_geom
         ORDER BY
           count DESC
-        `,*/
-      
-      //Get all the details for all the (filtered) results.
-      'selectForDownload': `
+        `, */
+
+      // Get all the details for all the (filtered) results.
+      selectForDownload: `
         SELECT
           cam.national_park,
           cam.veg_type,
@@ -110,87 +110,87 @@ const mapConfig = {
           cam.id = sbjagg.camera
         {WHERE}
       `,
-      
-      //Get all the minimum Subject details for all the (filtered) results. Has Order By and Limit clauses.
-      'selectForAssignment': 'SELECT sbjagg.subject_id, sbjagg.location FROM cameras AS cam INNER JOIN (SELECT sbj.subject_id, sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice, agg.data_answers_howmany_1, agg.data_answers_howmany_2, agg.data_answers_howmany_3, agg.data_answers_howmany_4, agg.data_answers_howmany_5, agg.data_answers_howmany_6, agg.data_answers_howmany_7, agg.data_answers_howmany_8, agg.data_answers_howmany_9, agg.data_answers_howmany_10, agg.data_answers_howmany_1120, agg.data_answers_howmany_21 FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE} {ORDER} {LIMIT}',
-      
-      //Get all subjects, with camera data.
-      'selectAllSubjects': 'SELECT sbj.subject_id, sbj.camera, cam.national_park, cam.longitude, cam.latitude, sbj.date, sbj.month, sbj.year, sbj.season, sbj.time_period, cam.veg_type, cam.land_use, cam.water_type, cam.dist_humans_m, cam.dist_water_m, sbj.location AS image_url FROM subjects AS sbj LEFT JOIN cameras AS cam ON sbj.camera = cam.id',
-      
-      //Select all the photos from a specific camera. Similar to selectForDownload
-      'selectCameraData': 'SELECT DISTINCT(sbjagg.location) FROM cameras AS cam INNER JOIN (SELECT sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE}',
-      
-      //Select a single camera, mostly for the camera's metadata.
-      'selectCameraMetadata': 'SELECT * FROM cameras {WHERE}',
+
+      // Get all the minimum Subject details for all the (filtered) results. Has Order By and Limit clauses.
+      selectForAssignment: 'SELECT sbjagg.subject_id, sbjagg.location FROM cameras AS cam INNER JOIN (SELECT sbj.subject_id, sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice, agg.data_answers_howmany_1, agg.data_answers_howmany_2, agg.data_answers_howmany_3, agg.data_answers_howmany_4, agg.data_answers_howmany_5, agg.data_answers_howmany_6, agg.data_answers_howmany_7, agg.data_answers_howmany_8, agg.data_answers_howmany_9, agg.data_answers_howmany_10, agg.data_answers_howmany_1120, agg.data_answers_howmany_21 FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE} {ORDER} {LIMIT}',
+
+      // Get all subjects, with camera data.
+      selectAllSubjects: 'SELECT sbj.subject_id, sbj.camera, cam.national_park, cam.longitude, cam.latitude, sbj.date, sbj.month, sbj.year, sbj.season, sbj.time_period, cam.veg_type, cam.land_use, cam.water_type, cam.dist_humans_m, cam.dist_water_m, sbj.location AS image_url FROM subjects AS sbj LEFT JOIN cameras AS cam ON sbj.camera = cam.id',
+
+      // Select all the photos from a specific camera. Similar to selectForDownload
+      selectCameraData: 'SELECT DISTINCT(sbjagg.location) FROM cameras AS cam INNER JOIN (SELECT sbj.camera, sbj.location, sbj.month, sbj.year, sbj.season, sbj.time_period, sbj.time, sbj.date, sbj.darien_id, agg.data_choice FROM subjects AS sbj INNER JOIN aggregations AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE}',
+
+      // Select a single camera, mostly for the camera's metadata.
+      selectCameraMetadata: 'SELECT * FROM cameras {WHERE}'
     }
   },
-  
-  //The map visualisation bits. Compatible with Leaflet tech.
-  'map': {
-    'centre': {  //Some arbitrary point between Soberania National Park and Darien National Park. 
-      'latitude': 8.300,
-      'longitude': -78.600,
-      'zoom': 8
+
+  // The map visualisation bits. Compatible with Leaflet tech.
+  map: {
+    centre: { // Some arbitrary point between Soberania National Park and Darien National Park.
+      latitude: 8.300,
+      longitude: -78.600,
+      zoom: 8
     },
-    'tileLayers': [
+    tileLayers: [
       {
-        'name': 'Terrain',
-        'url': '//server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
-        'attribution': 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+        name: 'Terrain',
+        url: '//server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
       },
       {
-        'name': 'Terrain (Shaded)',
-        'url': '//server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}',
-        'attribution': 'Tiles &copy; Esri &mdash; Source: Esri'
+        name: 'Terrain (Shaded)',
+        url: '//server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}',
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri'
       },
       {
-        'name': 'Roads',
-        'url': '//{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png',
-        'attribution': '&copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a>'
+        name: 'Roads',
+        url: '//{s}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png',
+        attribution: '&copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a>'
       },
       {
-        'name': 'Satellite',
-        'url': '//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        'attribution': 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        name: 'Satellite',
+        url: '//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
       },
       {
-        'name': 'Plain',
-        'url': '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-        'attribution': '&copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> &copy; <a href=\'http://cartodb.com/attributions\'>CartoDB</a>'
+        name: 'Plain',
+        url: '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        attribution: '&copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> &copy; <a href=\'http://cartodb.com/attributions\'>CartoDB</a>'
       }
     ],
     extraLayers: [
       {
-        'name': 'darien_national_park',
-        'label': 'Darien National Park',
-        'query': 'SELECT * FROM darien_national_park',
-        'style': function (feature) {
+        name: 'darien_national_park',
+        label: 'Darien National Park',
+        query: 'SELECT * FROM darien_national_park',
+        style(feature) {
           return {
             stroke: true,
             color: '#3cc',
             fill: false,
-            interactive: false,  // Disable tooltip
+            interactive: false // Disable tooltip
           };
-        },
+        }
       },
       {
-        'name': 'soberania_national_park',
-        'label': 'Soberania National Park',
-        'query': 'SELECT * FROM soberania_national_park',
-        'style': function (feature) {
+        name: 'soberania_national_park',
+        label: 'Soberania National Park',
+        query: 'SELECT * FROM soberania_national_park',
+        style(feature) {
           return {
             stroke: true,
             color: '#3cc',
             fill: false,
-            interactive: false,  // Disable tooltip
+            interactive: false // Disable tooltip
           };
-        },
+        }
       },
       {
-        'name': 'veg_type',
-        'label': 'Habitats',
-        'query': 'SELECT * FROM vegetation_map',
-        'style': function (feature) {
+        name: 'veg_type',
+        label: 'Habitats',
+        query: 'SELECT * FROM vegetation_map',
+        style(feature) {
           let color = '#ccc';
           if (feature && feature.properties) {
             switch (feature.properties.veg_type) {
@@ -206,347 +206,347 @@ const mapConfig = {
                 color = '#39c'; break;
             }
           }
-          
+
           return {
             stroke: false,
             fill: true,
             fillColor: color,
             fillOpacity: 0.5,
-            interactive: true,  // Enable tooltip
+            interactive: true // Enable tooltip
           };
-        },
-      },
+        }
+      }
     ],
-    'legend': {
-      'type': 'simple',
-      'items': {
+    legend: {
+      type: 'simple',
+      items: {
         '#9c3': 'Montane evergreen tropical forest',
         '#993': 'Lowland evergreen tropical forest',
         '#693': 'Submontane evergreen tropical forest',
         '#9c6': 'Lowland semideciduous tropical forest',
         '#39c': 'Water'
-      },
+      }
     },
-    'filters': {
-      'data_choice': {
-        'label': 'Species',
-        'type': 'multichoice',
-        'options': [
+    filters: {
+      data_choice: {
+        label: 'Species',
+        type: 'multichoice',
+        options: [
           {
-            'value': 'agouti',
-            'label': 'Agouti'
+            value: 'agouti',
+            label: 'Agouti'
           },
           {
-            'value': 'armadillonakedtailed',
-            'label': 'Armadillo, Naked-tailed'
+            value: 'armadillonakedtailed',
+            label: 'Armadillo, Naked-tailed'
           },
           {
-            'value': 'armadilloninebanded',
-            'label': 'Armadillo, Nine-banded'
+            value: 'armadilloninebanded',
+            label: 'Armadillo, Nine-banded'
           },
           {
-            'value': 'bat',
-            'label': 'Bat'
+            value: 'bat',
+            label: 'Bat'
           },
           {
-            'value': 'birdother',
-            'label': 'Bird (other)'
+            value: 'birdother',
+            label: 'Bird (other)'
           },
           {
-            'value': 'capuchinmonkey',
-            'label': 'Capuchin Monkey'
+            value: 'capuchinmonkey',
+            label: 'Capuchin Monkey'
           },
           {
-            'value': 'capybara',
-            'label': 'Capybara'
+            value: 'capybara',
+            label: 'Capybara'
           },
           {
-            'value': 'coati',
-            'label': 'Coati'
+            value: 'coati',
+            label: 'Coati'
           },
           {
-            'value': 'coyote',
-            'label': 'Coyote'
+            value: 'coyote',
+            label: 'Coyote'
           },
           {
-            'value': 'crestedguan',
-            'label': 'Crested Guan'
+            value: 'crestedguan',
+            label: 'Crested Guan'
           },
           {
-            'value': 'deerredbrocket',
-            'label': 'Deer, Red Brocket'
+            value: 'deerredbrocket',
+            label: 'Deer, Red Brocket'
           },
           {
-            'value': 'deerwhitetailed',
-            'label': 'Deer, White-tailed'
+            value: 'deerwhitetailed',
+            label: 'Deer, White-tailed'
           },
           {
-            'value': 'dogbush',
-            'label': 'Dog, Bush'
+            value: 'dogbush',
+            label: 'Dog, Bush'
           },
           {
-            'value': 'dogdomestic',
-            'label': 'Dog, Domestic'
+            value: 'dogdomestic',
+            label: 'Dog, Domestic'
           },
           {
-            'value': 'foxcrabeating',
-            'label': 'Fox, Crab-eating'
+            value: 'foxcrabeating',
+            label: 'Fox, Crab-eating'
           },
           {
-            'value': 'foxgray',
-            'label': 'Fox, Gray'
+            value: 'foxgray',
+            label: 'Fox, Gray'
           },
           {
-            'value': 'giantanteater',
-            'label': 'Giant Anteater'
+            value: 'giantanteater',
+            label: 'Giant Anteater'
           },
           {
-            'value': 'greatcurassow',
-            'label': 'Great Curassow'
+            value: 'greatcurassow',
+            label: 'Great Curassow'
           },
           {
-            'value': 'greattinamou',
-            'label': 'Great Tinamou'
+            value: 'greattinamou',
+            label: 'Great Tinamou'
           },
           {
-            'value': 'grison',
-            'label': 'Grison'
+            value: 'grison',
+            label: 'Grison'
           },
           {
-            'value': 'jaguar',
-            'label': 'Jaguar'
+            value: 'jaguar',
+            label: 'Jaguar'
           },
           {
-            'value': 'jaguarundi',
-            'label': 'Jaguarundi'
+            value: 'jaguarundi',
+            label: 'Jaguarundi'
           },
           {
-            'value': 'margay',
-            'label': 'Margay'
+            value: 'margay',
+            label: 'Margay'
           },
           {
-            'value': 'monkeyother',
-            'label': 'Monkey (other)'
+            value: 'monkeyother',
+            label: 'Monkey (other)'
           },
           {
-            'value': 'ocelot',
-            'label': 'Ocelot'
+            value: 'ocelot',
+            label: 'Ocelot'
           },
           {
-            'value': 'oncilla',
-            'label': 'Oncilla'
+            value: 'oncilla',
+            label: 'Oncilla'
           },
           {
-            'value': 'opossumother',
-            'label': 'Opossum (other)'
+            value: 'opossumother',
+            label: 'Opossum (other)'
           },
           {
-            'value': 'opossumcommon',
-            'label': 'Opossum, Common'
+            value: 'opossumcommon',
+            label: 'Opossum, Common'
           },
           {
-            'value': 'otter',
-            'label': 'Otter'
+            value: 'otter',
+            label: 'Otter'
           },
           {
-            'value': 'paca',
-            'label': 'Paca'
+            value: 'paca',
+            label: 'Paca'
           },
           {
-            'value': 'peccarycollared',
-            'label': 'Peccary, Collared'
+            value: 'peccarycollared',
+            label: 'Peccary, Collared'
           },
           {
-            'value': 'peccarywhitelipped',
-            'label': 'Peccary, White-lipped'
+            value: 'peccarywhitelipped',
+            label: 'Peccary, White-lipped'
           },
           {
-            'value': 'porcupine',
-            'label': 'Porcupine'
+            value: 'porcupine',
+            label: 'Porcupine'
           },
           {
-            'value': 'puma',
-            'label': 'Puma'
+            value: 'puma',
+            label: 'Puma'
           },
           {
-            'value': 'rabbit',
-            'label': 'Rabbit'
+            value: 'rabbit',
+            label: 'Rabbit'
           },
           {
-            'value': 'raccoon',
-            'label': 'Raccoon'
+            value: 'raccoon',
+            label: 'Raccoon'
           },
           {
-            'value': 'redtailedsquirrel',
-            'label': 'Red-tailed Squirrel'
+            value: 'redtailedsquirrel',
+            label: 'Red-tailed Squirrel'
           },
           {
-            'value': 'reptileamphibian',
-            'label': 'Reptile / Amphibian'
+            value: 'reptileamphibian',
+            label: 'Reptile / Amphibian'
           },
           {
-            'value': 'rodentother',
-            'label': 'Rodent (other)'
+            value: 'rodentother',
+            label: 'Rodent (other)'
           },
           {
-            'value': 'skunk',
-            'label': 'Skunk'
+            value: 'skunk',
+            label: 'Skunk'
           },
           {
-            'value': 'spinyrat',
-            'label': 'Spiny Rat'
+            value: 'spinyrat',
+            label: 'Spiny Rat'
           },
           {
-            'value': 'tamandua',
-            'label': 'Tamandua'
+            value: 'tamandua',
+            label: 'Tamandua'
           },
           {
-            'value': 'tapir',
-            'label': 'Tapir'
+            value: 'tapir',
+            label: 'Tapir'
           },
           {
-            'value': 'tayra',
-            'label': 'Tayra'
+            value: 'tayra',
+            label: 'Tayra'
           },
           {
-            'value': 'weasel',
-            'label': 'Weasel'
+            value: 'weasel',
+            label: 'Weasel'
           },
           {
-            'value': 'humannotvehicles',
-            'label': 'Human (not vehicles)'
+            value: 'humannotvehicles',
+            label: 'Human (not vehicles)'
           },
           {
-            'value': 'vehicle',
-            'label': 'Vehicle'
+            value: 'vehicle',
+            label: 'Vehicle'
           },
           {
-            'value': 'nothinghere',
-            'label': 'Nothing here'
+            value: 'nothinghere',
+            label: 'Nothing here'
           }
         ]
       },
-      'veg_type': {
-        'label': 'Habitats',
-        'type': 'multichoice',
-        'options': [
+      veg_type: {
+        label: 'Habitats',
+        type: 'multichoice',
+        options: [
           {
-            'value': 'Mature Forest',
-            'label': 'Mature Forest'
+            value: 'Mature Forest',
+            label: 'Mature Forest'
           },
           {
-            'value': 'Lowland semideciduous tropical forest',
-            'label': 'Lowland semideciduous tropical forest'
+            value: 'Lowland semideciduous tropical forest',
+            label: 'Lowland semideciduous tropical forest'
           },
           {
-            'value': 'Lowland evergreen tropical forest',
-            'label': 'Lowland evergreen tropical forest'
+            value: 'Lowland evergreen tropical forest',
+            label: 'Lowland evergreen tropical forest'
           },
           {
-            'value': 'Submontane evergreen tropical forest',
-            'label': 'Submontane evergreen tropical forest'
+            value: 'Submontane evergreen tropical forest',
+            label: 'Submontane evergreen tropical forest'
           }
         ]
       },
-      'season': {
-        'label': 'Seasons',
-        'type': 'multichoice',
-        'options': [
+      season: {
+        label: 'Seasons',
+        type: 'multichoice',
+        options: [
           {
-            'value': 'Dry',
-            'label': 'Dry'
+            value: 'Dry',
+            label: 'Dry'
           },
           {
-            'value': 'Wet',
-            'label': 'Wet'
+            value: 'Wet',
+            label: 'Wet'
           }
         ]
       },
-      'time_period': {
-        'label': 'Times of Day',
-        'type': 'multichoice',
-        'options': [
+      time_period: {
+        label: 'Times of Day',
+        type: 'multichoice',
+        options: [
           {
-            'value': 'Dawn 0555-0616',
-            'label': 'Dawn (05:55-06:16)'
+            value: 'Dawn 0555-0616',
+            label: 'Dawn (05:55-06:16)'
           },
           {
-            'value': 'Day 0617-1827',
-            'label': 'Day (06:17-18:27)'
+            value: 'Day 0617-1827',
+            label: 'Day (06:17-18:27)'
           },
           {
-            'value': 'Dusk 1828-1849',
-            'label': 'Dusk (18:28-18:49)'
+            value: 'Dusk 1828-1849',
+            label: 'Dusk (18:28-18:49)'
           },
           {
-            'value': 'Night 1850-0554',
-            'label': 'Night (18:50-05:54)'
+            value: 'Night 1850-0554',
+            label: 'Night (18:50-05:54)'
           }
         ]
       },
-      'national_park': {
-        'label': 'National Parks',
-        'type': 'multichoice',
-        'options': [
+      national_park: {
+        label: 'National Parks',
+        type: 'multichoice',
+        options: [
           {
-            'value': 'Darien',
-            'label': 'Darien'
+            value: 'Darien',
+            label: 'Darien'
           },
           {
-            'value': 'Soberania',
-            'label': 'Soberania'
+            value: 'Soberania',
+            label: 'Soberania'
           }
         ]
       },
-      'land_use': {
-        'label': 'Land Use',
-        'type': 'multichoice',
-        'options': [
+      land_use: {
+        label: 'Land Use',
+        type: 'multichoice',
+        options: [
           {
-            'value': 'Tourism',
-            'label': 'Tourism'
+            value: 'Tourism',
+            label: 'Tourism'
           },
           {
-            'value': 'Wilderness',
-            'label': 'Wilderness'
+            value: 'Wilderness',
+            label: 'Wilderness'
           }
         ]
       },
-      'human_type': {
-        'label': 'Nearby Humans',
-        'type': 'multichoice',
-        'options': [
+      human_type: {
+        label: 'Nearby Humans',
+        type: 'multichoice',
+        options: [
           {
-            'value': 'Road',
-            'label': 'Road'
+            value: 'Road',
+            label: 'Road'
           },
           {
-            'value': 'Village',
-            'label': 'Village'
+            value: 'Village',
+            label: 'Village'
           }
         ]
       },
-      'water_type': {
-        'label': 'Nearby Water',
-        'type': 'multichoice',
-        'options': [
+      water_type: {
+        label: 'Nearby Water',
+        type: 'multichoice',
+        options: [
           {
-            'value': 'River',
-            'label': 'River'
+            value: 'River',
+            label: 'River'
           },
           {
-            'value': 'Lake',
-            'label': 'Lake'
+            value: 'Lake',
+            label: 'Lake'
           }
         ]
       }
     }
   },
-  
-  //Misc stuff related to the program
-  'program': {
+
+  // Misc stuff related to the program
+  program: {
     dataGuideURL: '/#/wildcam-darien-lab/explorers/data-guide/',
-    transformDownloadData: function (csvData) {
+    transformDownloadData(csvData) {
       if (csvData && csvData.data && csvData.data.length > 0 && csvData.errors.length === 0) {
         return Promise.resolve(transformDarienDownloadData(csvData));
       }
@@ -555,9 +555,9 @@ const mapConfig = {
         return Promise.reject(csvData.errors[0].message);
       }
 
-      return Promise.resolve(null);      
+      return Promise.resolve(null);
     }
-  },
+  }
 };
 
 export default mapConfig;
@@ -567,24 +567,24 @@ export default mapConfig;
 function transformDarienDownloadData(csvData) {
   let output = '';
   const header = csvData.data[0].slice();
-  header.push('consensus_count');  //Append consensus count to the final column of each row.
-  
+  header.push('consensus_count'); // Append consensus count to the final column of each row.
+
   const headerLookup = {};
   header.forEach((item, index) => {
     if (item.startsWith('data_answers_howmany_')) headerLookup[item] = index;
-  }); 
-  
-  output = header.map(str => csvStr(str)).join(',') + '\n';
-  
-  for (let i = 1; i < csvData.data.length; i ++) {
-    let row = csvData.data[i];
-    
-    if (row.join().length === 0) continue
-    
-    let consensusCount = undefined;
+  });
+
+  output = `${header.map((str) => csvStr(str)).join(',')}\n`;
+
+  for (let i = 1; i < csvData.data.length; i++) {
+    const row = csvData.data[i];
+
+    if (row.join().length === 0) continue;
+
+    let consensusCount;
     let numberForConsensus = 0;
-    
-    //Which "animal was seen X times in this photo" has the highest count?    
+
+    // Which "animal was seen X times in this photo" has the highest count?
     Object.keys(headerLookup).forEach((key) => {
       const index = headerLookup[key];
       const currentNumber = row[index];
@@ -595,19 +595,19 @@ function transformDarienDownloadData(csvData) {
         if (consensusCount === '21') consensusCount = '21+';
       }
     });
-    
+
     if (!consensusCount) {
-      row.push('-')
+      row.push('-');
     } else {
-      row.push(consensusCount)
+      row.push(consensusCount);
     }
-    
-    output += row.map(str => csvStr(str)).join(',') + '\n';
+
+    output += `${row.map((str) => csvStr(str)).join(',')}\n`;
   }
-  
+
   return output;
 }
 
 function csvStr(str) {
-  return '"' + ZooTran(str).replace(/"/g, '""') + '"';
+  return `"${ZooTran(str).replace(/"/g, '""')}"`;
 }

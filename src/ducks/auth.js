@@ -11,37 +11,25 @@ const AUTH_STATUS = {
 };
 
 // Helper functions
-const computeRedirectURL = () => {
-  return config.origin;
-};
+const computeRedirectURL = () => config.origin;
 
 function handleError(error) {
   Actions.auth.setStatus(AUTH_STATUS.ERROR);
   Actions.auth.setError(error);
-  Actions.notification.setNotification({ status: 'critical' , message: `Something went wrong: ${(error && error.toString())}` });
+  Actions.notification.setNotification({ status: 'critical', message: `Something went wrong: ${(error && error.toString())}` });
   console.error(error);
 }
 
 // Synchronous Actions
-const toggleOauthModal = (state) => {
-  return { ...state, showOauthModal: !state.showOauthModal };
-};
+const toggleOauthModal = (state) => ({ ...state, showOauthModal: !state.showOauthModal });
 
-const setLoginUser = (state, user) => {
-  return { ...state, initialised: true, user };
-};
+const setLoginUser = (state, user) => ({ ...state, initialised: true, user });
 
-const setAdminUser = (state, isAdmin) => {
-  return { ...state, admin: isAdmin };
-};
+const setAdminUser = (state, isAdmin) => ({ ...state, admin: isAdmin });
 
-const setStatus = (state, status) => {
-  return { ...state, status };
-};
+const setStatus = (state, status) => ({ ...state, status });
 
-const setError = (state, error) => {
-  return { ...state, error };
-};
+const setError = (state, error) => ({ ...state, error });
 
 // Effects are for async actions and get automatically to the global Actions list
 Effect('checkLoginUser', () => {
