@@ -20,7 +20,7 @@ import { Actions } from 'jumpstate';
 import SimpleMapLegend from '../components/SimpleMapLegend';
 import Box from 'grommet/components/Box';
 
-import L from 'leaflet';
+import { DomUtil, Map, circleMarker, control, geoJson, tileLayer } from 'leaflet';
 import superagent from 'superagent';
 import { ZooTran } from '../../../lib/zooniversal-translator.js';
 
@@ -45,46 +45,46 @@ const DEFAULT_MARKER = {
 class MapVisuals extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.initMap = this.initMap.bind(this);
     this.renderMarker = this.renderMarker.bind(this);
     this.examineMarker = this.examineMarker.bind(this);
     this.updateDataLayer = this.updateDataLayer.bind(this);
     this.enrichExtraLayer = this.enrichExtraLayer.bind(this);
-    
+
     this.map = null;
     this.mapContainer = null;
     this.dataLayer = null;
   }
-  
+
   //----------------------------------------------------------------
 
   initMap() {
     if (this.map) return;  //Don't initialise the map if a map already exists.
     if (!this.props.mapConfig) return;
-    
+
     //Prepare the actual map. POWERED BY LEAFLET!
     //--------------------------------
-    this.map = new L.Map(this.mapContainer.boxContainerRef, {
+    this.map = new Map(this.mapContainer.boxContainerRef, {
       center: [this.props.mapConfig.map.centre.latitude, this.props.mapConfig.map.centre.longitude],  //Lat-Long
       zoom: this.props.mapConfig.map.centre.zoom,
     });
     //--------------------------------
-    
+
     //Prepare the tile (map base) layers.
     //--------------------------------
     const tileLayers = {};
     this.props.mapConfig.map.tileLayers.map((layer, index) => {
-      const tl = L.tileLayer(layer.url, { attribution: layer.attribution, });
+      const tl = tileLayer(layer.url, { attribution: layer.attribution, });
       tileLayers[ZooTran(layer.name)] = tl;
       if (index === 0) tl.addTo(this.map);  //Use the first tile layer as the default tile layer.
     });
     //--------------------------------
-    
+
     //Prepare the dynamic data layer.
     //Starts off empty, but is populated by updateDataLayer().
     //--------------------------------
-    this.dataLayer = L.geoJson(null, {
+    this.dataLayer = geoJson(null, {
       pointToLayer: this.renderMarker
     }).addTo(this.map);
     Actions.wcm_getMapMarkers({
@@ -92,23 +92,23 @@ class MapVisuals extends React.Component {
       filters: this.props.filters,
     });
     //--------------------------------
-    
+
     //Prepare additional geographic information layers (park boundaries, etc)
     //--------------------------------
     const extraLayers = (this.props.mapConfig.map && this.props.mapConfig.map.extraLayers)
       ? this.props.mapConfig.map.extraLayers
       : [];
-    
+
     const geomapLayers = {};
     extraLayers.map(item => {  //TODO: Maybe move this to an external duck?
       const externalLayerType = (item.query)
         ? 'online'
         : 'offline';
-      
+
       //Extra Layer type: Offline (stored in mapconfig JSON)
       //----------------
       if (externalLayerType === 'offline') {
-        geomapLayers[ZooTran(item.label)] = L.geoJson(
+        geomapLayers[ZooTran(item.label)] = geoJson(
           item.data,
           { style: item.style, onEachFeature: this.enrichExtraLayer }
         ).addTo(this.map);
@@ -124,13 +124,13 @@ class MapVisuals extends React.Component {
           }
         }).addTo(this.map)
         */
-        
+
       //----------------
-      
+
       //Extra Layer type: Online (stored in external database)
       //----------------
       } else if (externalLayerType === 'online') {
-        geomapLayers[ZooTran(item.label)] = L.geoJson(
+        geomapLayers[ZooTran(item.label)] = geoJson(
           null,
           { style: item.style, onEachFeature: this.enrichExtraLayer }
         ).addTo(this.map);
@@ -157,7 +157,7 @@ class MapVisuals extends React.Component {
       //----------------
     });
     //--------------------------------
-    
+
     // Add sorting function that ensures the data layer is always the top-most layer.
     //--------------------------------
     Object.values(geomapLayers).forEach(geomapLayer => {
@@ -166,73 +166,73 @@ class MapVisuals extends React.Component {
       })
     })
     //--------------------------------
-    
+
     //Add a map legend, if applicable.
     //--------------------------------
     if (this.props.mapConfig.map && this.props.mapConfig.map.legend) {
       if (this.props.mapConfig.map.legend.type === 'simple') {
-        const legend = L.control({position: 'bottomleft'});
+        const legend = control({position: 'bottomleft'});
         legend.onAdd = (map) => {
-          let div = L.DomUtil.create('div', 'map-legend');
+          let div = DomUtil.create('div', 'map-legend');
           ReactDOM.render(<SimpleMapLegend items={this.props.mapConfig.map.legend.items} />, div);
           return div;
         };
         legend.addTo(this.map);
-        
+
       }
     }
     //--------------------------------
-    
-    
+
+
     //Add standard 'Layer' controls
     //--------------------------------
     let controllableLayers = {};
     controllableLayers[ZooTran('Cameras')] = this.dataLayer;
     controllableLayers = { ...controllableLayers, ...geomapLayers };
-    
-    L.control.layers(tileLayers, controllableLayers, {
+
+    control.layers(tileLayers, controllableLayers, {
       position: 'topleft',
       collapsed: true,
     }).addTo(this.map);
     //--------------------------------
   }
-  
+
   //----------------------------------------------------------------
-  
+
   /*  This function acts as the "render()" action for the Leaflet map, since
       the Leaflet map isn't tied into the React lifecycle and needs to be nudged
       (via componentWillReceiveProps()) when the data state updates.
    */
   updateDataLayer(props = this.props) {
     if (!this.map || !this.dataLayer || !props.markersData) return;
-    
+
     this.dataLayer.clearLayers();
     this.dataLayer.addData(props.markersData);  //Markers Data must be in GeoJSON format.
     this.dataLayer && this.dataLayer.bringToFront();
   }
-  
+
   renderMarker(feature, latlng) {
     const count = (feature && feature.properties && feature.properties.count !== undefined)
       ? feature.properties.count : 0;  //Warning: assumption is `count` is an integer.
-    const radius = 
+    const radius =
       Math.max(Math.min((count - DEFAULT_MARKER.minValue) / DEFAULT_MARKER.maxValue, 1), 0) *
       (DEFAULT_MARKER.maxRadius - DEFAULT_MARKER.minRadius) +
       DEFAULT_MARKER.minRadius;
-    
-    const marker = L.circleMarker(latlng, {
+
+    const marker = circleMarker(latlng, {
       color: DEFAULT_MARKER.color,
       fillColor: (count > 0) ? DEFAULT_MARKER.fillColor : DEFAULT_MARKER.emptyFillColor,
       fillOpacity: DEFAULT_MARKER.fillOpacity,
       radius,
     });
-    
+
     marker.on('click', this.examineMarker);
     return marker;
   }
-  
+
   examineMarker(e) {
     if (!e || !e.target || !e.target.feature || !e.target.feature.properties) return;
-    
+
     const cameraId = e.target.feature.properties.id;
     Actions.wcm_getActiveCamera({
       mapConfig: this.props.mapConfig,
@@ -240,16 +240,16 @@ class MapVisuals extends React.Component {
       cameraId,
     });
   }
-  
+
   enrichExtraLayer(feature, layer) {
     // The (feature, layer) follows leaflet documentation, but here's a
     // better clarification:
     // - "feature" is the GeoJSON data object representing the feature
     // - "layer" is the actual visual component of the feature, e.g. a polygon
-    
+
     const properties = feature && feature.properties;
     if (!properties) return;
-    
+
     const text = Object.keys(properties).map(key => {
       const val = properties[key];
       return `${key}: ${val}`;
@@ -258,26 +258,26 @@ class MapVisuals extends React.Component {
       text,
       { sticky: true }
     );
-    
-    
+
+
   }
-  
+
   //----------------------------------------------------------------
-  
+
   render() {
     return (
       <Box className="map-visuals" ref={(c)=>{this.mapContainer=c}}></Box>
     );
   }
-  
+
   componentDidMount() {
     this.initMap();
   }
-  
+
   componentWillReceiveProps(nextProps) {
     this.updateDataLayer(nextProps);
   }
-  
+
   //----------------------------------------------------------------
 }
 
