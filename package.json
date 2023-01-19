@@ -34,7 +34,7 @@
     "papaparse": "~5.3.2",
     "path-browserify": "~1.0.1",
     "prop-types": "~15.8.1",
-    "punycode": "~2.2.0",
+    "punycode": "~2.3.0",
     "react": "~16.14.0",
     "react-copy-to-clipboard": "~5.1.0",
     "react-dom": "~16.14.0",
