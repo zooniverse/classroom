@@ -19,7 +19,7 @@ import {
 
 function HomePage (props) {
   const selectedProgramExists = (props.programsStatus === PROGRAMS_STATUS.SUCCESS && props.selectedProgram)
-  const name = (selectedProgramExists && props.selectedProgram.name) ? props.selectedProgram.name : '???'
+  const name = (selectedProgramExists && props.selectedProgram.name) ? props.selectedProgram.name : 'Zooniverse In Schools'
 
   return (
     <ProgramHome className="zooniverseInSchools-home">
@@ -47,13 +47,6 @@ function HomePage (props) {
           <Box align="end" direction="row" justify="center" wrap={true}>
             <Box pad="medium" size="medium">
               <Paragraph>
-                Webinar Links
-              </Paragraph>
-              <Button type="button" className="button--secondary" path="/" label="Placeholder" />
-            </Box>
-
-            <Box pad="medium" size="medium">
-              <Paragraph>
                 Educator Page
               </Paragraph>
               <Button type="button" className="button--secondary" path="/astro-101-with-galaxy-zoo" label="Go" />
@@ -64,6 +57,13 @@ function HomePage (props) {
                 Resources
               </Paragraph>
               <Button type="button" className="button--secondary" path="/zooniverse-in-schools/resources" label="Go" />
+            </Box>
+
+            <Box pad="medium" size="medium">
+              <Paragraph>
+                Webinar Links
+              </Paragraph>
+              <Button type="button" className="button--secondary" path="/" label="Placeholder" />
             </Box>
 
             <Box pad="medium" size="medium">

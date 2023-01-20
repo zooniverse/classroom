@@ -10,12 +10,15 @@ import Paragraph from 'grommet/components/Paragraph'
 import LinkNextIcon from 'grommet/components/icons/base/LinkNext'
 import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious'
 
+import ScrollToTopOnMount from '../../../containers/common/ScrollToTopOnMount';
+
 function ResourcesPage (props) {
   return (
     <Box
       className="wildcam-info-page"
       pad={{ vertical: 'medium', horizontal: 'large' }}
     >
+      <ScrollToTopOnMount />
       <Heading tag="h2">Zooniverse In School Resources Page</Heading>
 
       <Paragraph>Placeholder</Paragraph>
@@ -57,7 +60,7 @@ function ResourcesPage (props) {
       </Box>
 
       <Box direction="row" align="start" margin={{ bottom: 'small' }}>
-        <Button type="button" className="button--secondary" path="/" label="Back to home page" icon={<LinkPreviousIcon/>} />
+        <Button type="button" className="button--secondary" path="/zooniverse-in-schools" label="Back to home page" icon={<LinkPreviousIcon/>} />
       </Box>
 
     </Box>
