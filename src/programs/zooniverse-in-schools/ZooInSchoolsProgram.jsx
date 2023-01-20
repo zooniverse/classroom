@@ -16,7 +16,7 @@ import Box from 'grommet/components/Box'
 import Button from 'grommet/components/Button'
 import Section from 'grommet/components/Section'
 
-import KenyaHome from '../kenya/pages/KenyaHome'
+import HomePage from './pages/HomePage'
 
 import Status401 from '../../components/common/Status401'
 import Status404 from '../../components/common/Status404'
@@ -42,7 +42,7 @@ function ZooInSchoolsProgram ({
   return (
     <Box>
       <Switch>
-        <Route exact path={`${match.url}/`} component={KenyaHome} />
+        <Route exact path={`${match.url}/`} component={HomePage} />
 
         <Route path="*" component={Status404} />
       </Switch>
