@@ -63,7 +63,7 @@ function HomePage (props) {
               <Paragraph>
                 Resources
               </Paragraph>
-              <Button type="button" className="button--secondary" path="/" label="Placeholder" />
+              <Button type="button" className="button--secondary" path="/zooniverse-in-schools/resources" label="Go" />
             </Box>
 
             <Box pad="medium" size="medium">
