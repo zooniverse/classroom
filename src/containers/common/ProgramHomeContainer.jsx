@@ -9,6 +9,7 @@ import ActivitiesForUndergradsHome from '../../components/activitiesForUndergrad
 import DarienProgram from '../../programs/darien/DarienProgram';
 import GorongosaProgram from '../../programs/gorongosa/GorongosaProgram';
 import KenyaProgram from '../../programs/kenya/KenyaProgram';
+import ZooInSchools from '../../programs/zooniverse-in-schools/ZooInSchoolsProgram';
 import GenericStatusPage from '../../components/common/GenericStatusPage';
 
 import {
@@ -68,6 +69,7 @@ export class ProgramHomeContainer extends React.Component {
         <Route path="/wildcam-darien-lab" component={DarienProgram} />
         <Route path="/wildcam-gorongosa-lab" component={GorongosaProgram} />
         <Route path="/wildwatch-kenya-lab" component={KenyaProgram} />
+        <Route path="/zooniverse-in-schools" component={ZooInSchools} />
       </Switch>
     );
   }
