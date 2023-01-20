@@ -11,7 +11,7 @@ import Button from 'grommet/components/Button'
 import Paragraph from 'grommet/components/Paragraph'
 
 import ProgramHome from '../../../components/common/ProgramHome'
-import imgZooInSchools from '../../kenya/images/kenya-splash-B.jpg'
+import imgZooInSchools from '../../../images/astro-background.jpg'
 
 import {
   PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES, PROGRAMS_STATUS
