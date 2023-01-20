@@ -1,28 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Actions } from 'jumpstate';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-import Section from 'grommet/components/Section';
-import Anchor from 'grommet/components/Anchor';
-import Box from 'grommet/components/Box';
-import Hero from 'grommet/components/Hero';
-import Image from 'grommet/components/Image';
-import Heading from 'grommet/components/Heading';
-import Button from 'grommet/components/Button';
-import Paragraph from 'grommet/components/Paragraph';
-import Label from 'grommet/components/Label';
+import Section from 'grommet/components/Section'
+import Box from 'grommet/components/Box'
+import Hero from 'grommet/components/Hero'
+import Image from 'grommet/components/Image'
+import Heading from 'grommet/components/Heading'
+import Button from 'grommet/components/Button'
+import Paragraph from 'grommet/components/Paragraph'
 
-import ProgramHome from '../../../components/common/ProgramHome';
-import imgZooInSchools from '../../kenya/images/kenya-splash-B.jpg';
+import ProgramHome from '../../../components/common/ProgramHome'
+import imgZooInSchools from '../../kenya/images/kenya-splash-B.jpg'
 
 import {
   PROGRAMS_INITIAL_STATE, PROGRAMS_PROPTYPES, PROGRAMS_STATUS
-} from '../../../ducks/programs';
+} from '../../../ducks/programs'
 
 function HomePage (props) {
-  const selectedProgramExists = (props.programsStatus === PROGRAMS_STATUS.SUCCESS && props.selectedProgram);
-  const name = (selectedProgramExists && props.selectedProgram.name) ? props.selectedProgram.name : '???';
+  const selectedProgramExists = (props.programsStatus === PROGRAMS_STATUS.SUCCESS && props.selectedProgram)
+  const name = (selectedProgramExists && props.selectedProgram.name) ? props.selectedProgram.name : '???'
 
   return (
     <ProgramHome className="zooniverseInSchools-home">
@@ -79,20 +76,20 @@ function HomePage (props) {
         </Box>
       </Section>
     </ProgramHome>
-  );
+  )
 }
 
 HomePage.propTypes = {
   ...PROGRAMS_PROPTYPES,
   initialised: PropTypes.bool,
   user: PropTypes.shape({ login: PropTypes.string })
-};
+}
 
 HomePage.defaultProps = {
   ...PROGRAMS_INITIAL_STATE,
   initialised: false,
   user: null
-};
+}
 
 function mapStateToProps(state) {
   return {
@@ -100,7 +97,7 @@ function mapStateToProps(state) {
     programsStatus: state.programs.status,
     selectedProgram: state.programs.selectedProgram,
     user: state.auth.user
-  };
+  }
 }
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps)(HomePage)
