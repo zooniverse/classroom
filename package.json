@@ -30,7 +30,7 @@
     "grommet": "~1.13.0",
     "jumpstate": "~2.2.2",
     "leaflet": "1.9.3",
-    "panoptes-client": "~4.2.8",
+    "panoptes-client": "~5.0.1",
     "papaparse": "~5.3.2",
     "path-browserify": "~1.0.1",
     "prop-types": "~15.8.1",
