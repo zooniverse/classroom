@@ -47,7 +47,7 @@
     "superagent-jsonapify": "~1.4.5",
     "url": "~0.11.0",
     "zoo-grommet": "~0.3.4",
-    "zooniverse-react-components": "~0.11.3"
+    "zooniverse-react-components": "~0.12.0"
   },
   "devDependencies": {
     "@babel/cli": "~7.20.7",
