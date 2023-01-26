@@ -64,14 +64,22 @@ function handleError(error) {
 }
 
 function sortAssignments(assignments) {
-  const firstAssignment = assignments.find((assignment) => assignment.name === i2aAssignmentNames.galaxy);
-  const secondAssignment = assignments.find((assignment) => assignment.name === i2aAssignmentNames.hubble);
+  const sortedAssignments = [...assignments]
 
-  if (firstAssignment && secondAssignment) {
-    return [firstAssignment, secondAssignment];
-  }
+  sortedAssignments.sort(function (a, b) {
+    // First assignment: Galaxy Zoo 101
+    if (a.name === i2aAssignmentNames.galaxy) return -1;
+    if (b.name === i2aAssignmentNames.galaxy) return 1;
 
-  return assignments;
+    // Second assignment: Hubble
+    if (a.name === i2aAssignmentNames.hubble) return -1;
+    if (b.name === i2aAssignmentNames.hubble) return 1;
+
+    // All other assignments
+    return 0
+  })
+
+  return sortedAssignments;
 }
 
 function joinStudentAssignmentsToAssignments(assignments, studentAssignments) {
