@@ -57,9 +57,9 @@ export default function Home(props) {
               <Link to={program.slug} onClick={() => { Actions.getProgram({ programs: props.programs, param: program.slug }); }}>Enter</Link>;
 
             // TEMPORARY // DEBUG
-            // Hide Zooniverse In Schools unless ?preview=true
+            // Hide Zooniverse In Schools/Zooniverse In Classrooms unless ?preview=true
             if (
-              program.slug === 'zooniverse-in-schools'
+              (program.slug === 'zooniverse-in-schools' || program.slug === 'zooniverse-in-classrooms')
               && !window?.location?.search.match(/(^\?|&)preview=true($|&)/)
             ) {
               return null
