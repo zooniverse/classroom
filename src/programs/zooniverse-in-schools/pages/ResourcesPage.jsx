@@ -21,16 +21,13 @@ function ResourcesPage (props) {
       <ScrollToTopOnMount />
       <Heading tag="h2">Zooniverse In School Resources Page</Heading>
 
-      <Paragraph>Placeholder</Paragraph>
-
-      <Heading tag="h3">Some PDF type thing</Heading>
-
-      <Box direction="row" align="start" margin={{ bottom: 'small' }}>
-        <Paragraph>
-          Placeholder
-          &nbsp <Anchor label="Example link" target="_blank" icon={<LinkNextIcon/>} reverse={true} href="https://example.com" />
-        </Paragraph>
-      </Box>
+      <Heading tag="h3">PDF Documents</Heading>
+      <Paragraph>
+        <Anchor label="Galaxy Zoo Activity - Educator's Guide" target="_blank" icon={<LinkNextIcon/>} reverse={true} href="https://drive.google.com/file/d/1WpN-KrHZ1smu5kXmLrhWYBq_p3yswlyj/view?usp=share_link" />
+      </Paragraph>
+      <Paragraph>
+        <Anchor label="Galaxy Zoo Activity - Worksheet" target="_blank" icon={<LinkNextIcon/>} reverse={true} href="https://drive.google.com/file/d/1-OanRxi26FYO6RDkciUor-DOUSfMG01z/view?usp=share_link" />
+      </Paragraph>
 
       <Heading tag="h3">Video Guide</Heading>
 
