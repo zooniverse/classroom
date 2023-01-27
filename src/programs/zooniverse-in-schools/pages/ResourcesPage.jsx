@@ -29,32 +29,15 @@ function ResourcesPage (props) {
         <Anchor label="Galaxy Zoo Activity - Worksheet" target="_blank" icon={<LinkNextIcon/>} reverse={true} href="https://drive.google.com/file/d/1-OanRxi26FYO6RDkciUor-DOUSfMG01z/view?usp=share_link" />
       </Paragraph>
 
-      <Heading tag="h3">Video Guide</Heading>
+      <Heading tag="h3">Video Guides</Heading>
 
-      <Box direction="row" align="start" margin={{ bottom: 'small' }}>
-        <Paragraph>
-          Placeholder
-          &nbsp <Anchor label="Example link" target="_blank" icon={<LinkNextIcon/>} reverse={true} href="https://example.com" />
-        </Paragraph>
-      </Box>
+      <Paragraph>
+        <Anchor label="Zooniverse Classroom Activity - Class Video" target="_blank" icon={<LinkNextIcon/>} reverse={true} href="https://youtu.be/h0Xr6Ckp_Xs" />
+      </Paragraph>
 
-      <Heading tag="h3">Another PDF type thing</Heading>
-
-      <Box direction="row" align="start" margin={{ bottom: 'small' }}>
-        <Paragraph>
-          Placeholder
-          &nbsp <Anchor label="Example link" target="_blank" icon={<LinkNextIcon/>} reverse={true} href="https://example.com" />
-        </Paragraph>
-      </Box>
-
-      <Heading tag="h3">More Resources</Heading>
-
-      <Box direction="row" align="start" margin={{ bottom: 'small' }}>
-        <Paragraph>
-          Placeholder
-          &nbsp <Anchor label="Example link" target="_blank" icon={<LinkNextIcon/>} reverse={true} href="https://example.com" />
-        </Paragraph>
-      </Box>
+      <Paragraph>
+        <Anchor label="Galaxy Zoo Activity - Class Video" target="_blank" icon={<LinkNextIcon/>} reverse={true} href="https://youtu.be/x2NdDZDHO_Q" />
+      </Paragraph>
 
       <Box direction="row" align="start" margin={{ bottom: 'small' }}>
         <Button type="button" className="button--secondary" path="/zooniverse-in-schools" label="Back to home page" icon={<LinkPreviousIcon/>} />
