@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import Section from 'grommet/components/Section'
+import Anchor from 'grommet/components/Anchor'
 import Box from 'grommet/components/Box'
 import Hero from 'grommet/components/Hero'
 import Image from 'grommet/components/Image'
@@ -47,9 +48,9 @@ function HomePage (props) {
           <Box align="end" direction="row" justify="center" wrap={true}>
             <Box pad="medium" size="medium">
               <Paragraph>
-                Educator Page
+                Intro Video
               </Paragraph>
-              <Button type="button" className="button--secondary" path="/astro-101-with-galaxy-zoo" label="Go" />
+              <Button type="button" className="button--secondary" path="/" label="Placeholder" />
             </Box>
 
             <Box pad="medium" size="medium">
@@ -61,17 +62,18 @@ function HomePage (props) {
 
             <Box pad="medium" size="medium">
               <Paragraph>
-                Webinar Links
+                Educator Page for Zooniverse Classroom Activity
               </Paragraph>
-              <Button type="button" className="button--secondary" path="/" label="Placeholder" />
+              <Button type="button" className="button--secondary" path="/astro-101-with-galaxy-zoo" label="Go" />
             </Box>
 
             <Box pad="medium" size="medium">
               <Paragraph>
-                Intro Video
+                Go to I'm A Scientist to chat to researchers
               </Paragraph>
-              <Button type="button" className="button--secondary" path="/" label="Placeholder" />
+              <Button type="button" className="button--secondary" href="https://zooniverse.imascientist.org.uk/" label="Go" />
             </Box>
+
           </Box>
         </Box>
       </Section>
