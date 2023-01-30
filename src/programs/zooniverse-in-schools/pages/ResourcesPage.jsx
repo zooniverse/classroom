@@ -23,10 +23,43 @@ function ResourcesPage (props) {
 
       <Heading tag="h3">PDF Documents</Heading>
       <Paragraph>
-        <Anchor label="Galaxy Zoo Activity - Educator's Guide" target="_blank" icon={<LinkNextIcon/>} reverse={true} href="https://drive.google.com/file/d/1WpN-KrHZ1smu5kXmLrhWYBq_p3yswlyj/view?usp=share_link" />
+        <Anchor
+          label="Zooniverse in Schools - Introduction"
+          href="https://drive.google.com/file/d/1vuR8FfnmhdN7JCbc-KJJZVM03g2hAU1k/view?usp=share_link"
+          target="_blank" icon={<LinkNextIcon/>} reverse={true}
+        />
       </Paragraph>
+
       <Paragraph>
-        <Anchor label="Galaxy Zoo Activity - Worksheet" target="_blank" icon={<LinkNextIcon/>} reverse={true} href="https://drive.google.com/file/d/1-OanRxi26FYO6RDkciUor-DOUSfMG01z/view?usp=share_link" />
+        <Anchor
+          label="Galaxy Zoo Activity - Educator's Guide"
+          href="https://drive.google.com/file/d/1UeGgOwC8s2ThqX1-AnVzzennrN1DN-Tx/view?usp=share_link"
+          target="_blank" icon={<LinkNextIcon/>} reverse={true}
+        />
+      </Paragraph>
+
+      <Paragraph>
+        <Anchor
+          label="Galaxy Zoo Activity - Worksheet"
+          href="https://drive.google.com/file/d/1rikX9FBl9Az1jP4nay4eulGgtYFbATAM/view?usp=share_link"
+          target="_blank" icon={<LinkNextIcon/>} reverse={true}
+        />
+      </Paragraph>
+
+      <Paragraph>
+        <Anchor
+          label="Zooniverse Classroom Activity - Educator's Guide"
+          href="https://drive.google.com/file/d/1fcaYldweaVyKPoE4ZXwZuZ7boil9TIoM/view?usp=share_link"
+          target="_blank" icon={<LinkNextIcon/>} reverse={true}
+        />
+      </Paragraph>
+
+      <Paragraph>
+        <Anchor
+          label="Zooniverse Classroom Activity - Worksheet"
+          href="https://drive.google.com/file/d/1608JTaKo9BNXGGCOaJsMwRwBBVM06X_c/view?usp=share_link"
+          target="_blank" icon={<LinkNextIcon/>} reverse={true}
+        />
       </Paragraph>
 
       <Heading tag="h3">Video Guides</Heading>
