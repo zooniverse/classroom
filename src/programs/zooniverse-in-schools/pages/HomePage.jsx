@@ -69,7 +69,7 @@ function HomePage (props) {
 
             <Box pad="medium" size="medium">
               <Paragraph>
-                Go to I'm A Scientist to chat to researchers
+                Go to <b>I'm A Scientist</b> to chat to researchers
               </Paragraph>
               <Button type="button" className="button--secondary" href="https://zooniverse.imascientist.org.uk/" label="Go" />
             </Box>
