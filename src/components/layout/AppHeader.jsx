@@ -11,8 +11,10 @@ const AppHeader = ({ location }) => {
         <NavLink to="/">Home</NavLink>
         <NavLink to="/astro-101-with-galaxy-zoo">Astro 101</NavLink>
         <NavLink to="/activities-for-undergraduates">Activities for Undergraduates</NavLink>
+        <NavLink to="/zooniverse-in-schools">Zooniverse In Schools</NavLink>
         <NavLink to="/wildcam-darien-lab">WildCam Darién Lab</NavLink>
         <NavLink to="/wildcam-gorongosa-lab">WildCam Gorongosa Lab</NavLink>
+        <NavLink to="/wildwatch-kenya">Wildwatch Kenya</NavLink>
       </Header>
     );
   }
