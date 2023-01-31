@@ -20,10 +20,7 @@ export class ClassroomEditorContainer extends React.Component {
     super(props);
 
     this.state = {
-      showCounts: {
-        galaxy: false,
-        hubble: false
-      },
+      showCounts: true,
       showConfirmationDialog: false,
       studentToDelete: {
         classroomId: null,
@@ -132,16 +129,10 @@ export class ClassroomEditorContainer extends React.Component {
     });
   }
 
-  toggleCountView(assignment) {
-    if (assignment === i2aAssignmentNames.galaxy) {
-      this.setState((prevState) => {
-        return { showCounts: { galaxy: !prevState.showCounts.galaxy, hubble: prevState.showCounts.hubble } };
-      });
-    } else if (assignment === i2aAssignmentNames.hubble) {
-      this.setState((prevState) => {
-        return { showCounts: { galaxy: prevState.showCounts.galaxy, hubble: !prevState.showCounts.hubble } };
-      });
-    }
+  toggleCountView() {
+    this.setState((prevState) => {
+      return { showCounts: !prevState.showCounts }
+    })
   }
 
   render() {

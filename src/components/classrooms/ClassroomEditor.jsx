@@ -235,8 +235,8 @@ const ClassroomEditor = (props) => {
                       ? <span>{student.zooniverseDisplayName}</span>
                       : <span className="secondary">{student.zooniverseLogin}</span> }
                   </td>
-                  <td headers="assignment-galaxy">{props.showCounts.galaxy ? galaxyCount : `${galaxyPercentage <= 100 ? galaxyPercentage : 100}%`}</td>
-                  <td headers="assignment-hubble">{props.showCounts.hubble ? hubbleCount : `${hubblePercentage <= 100 ? hubblePercentage : 100}%`}</td>
+                  <td headers="assignment-galaxy">{props.showCounts ? galaxyCount : `${galaxyPercentage <= 100 ? galaxyPercentage : 100}%`}</td>
+                  <td headers="assignment-hubble">{props.showCounts ? hubbleCount : `${hubblePercentage <= 100 ? hubblePercentage : 100}%`}</td>
                   <td headers="student-remove">
                     <Button
                       className="manager-table__button--delete"
@@ -264,10 +264,7 @@ ClassroomEditor.defaultProps = {
   removeStudentFromClassroom: () => {},
   //----------------
   showConfirmationDialog: false,
-  showCounts: {
-    galaxy: false,
-    hubble: false
-  },
+  showCounts: false,
   showForm: false,
   toggleFormVisibility: Actions.classrooms.toggleFormVisibility,
   //----------------
@@ -281,10 +278,7 @@ ClassroomEditor.propTypes = {
   removeStudentFromClassroom: PropTypes.func,
   //----------------
   showConfirmationDialog: PropTypes.bool,
-  showCounts: PropTypes.shape({
-    galaxy: PropTypes.bool,
-    hubble: PropTypes.bool
-  }),
+  showCounts: PropTypes.bool,
   showForm: PropTypes.bool,
   toggleFormVisibility: PropTypes.func,
   //----------------
