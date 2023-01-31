@@ -50,7 +50,7 @@ function HomePage (props) {
               <Paragraph>
                 Intro Video
               </Paragraph>
-              <Button type="button" className="button--secondary" path="/" label="Placeholder" />
+              <Button type="button" className="button--secondary" path="/zooniverse-in-schools" label="Coming Soon" />
             </Box>
 
             <Box pad="medium" size="medium">
