@@ -20,7 +20,7 @@ import {
 
 function HomePage (props) {
   const selectedProgramExists = (props.programsStatus === PROGRAMS_STATUS.SUCCESS && props.selectedProgram)
-  const name = (selectedProgramExists && props.selectedProgram.name) ? props.selectedProgram.name : 'Zooniverse In Schools'
+  const name = (selectedProgramExists && props.selectedProgram.name) ? props.selectedProgram.name : ''
 
   return (
     <ProgramHome className="zooniverseInSchools-home">
