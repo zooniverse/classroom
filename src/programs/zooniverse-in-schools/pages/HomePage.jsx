@@ -20,7 +20,7 @@ import {
 
 function HomePage (props) {
   const selectedProgramExists = (props.programsStatus === PROGRAMS_STATUS.SUCCESS && props.selectedProgram)
-  const name = (selectedProgramExists && props.selectedProgram.name) ? props.selectedProgram.name : 'Zooniverse In Schools'
+  const name = (selectedProgramExists && props.selectedProgram.name) ? props.selectedProgram.name : ''
 
   return (
     <ProgramHome className="zooniverseInSchools-home">
@@ -50,7 +50,7 @@ function HomePage (props) {
               <Paragraph>
                 Intro Video
               </Paragraph>
-              <Button type="button" className="button--secondary" path="/" label="Placeholder" />
+              <Button type="button" className="button--secondary" path="/zooniverse-in-schools" label="Coming Soon" />
             </Box>
 
             <Box pad="medium" size="medium">
