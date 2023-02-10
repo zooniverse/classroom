@@ -74,6 +74,13 @@ function HomePage (props) {
               <Button type="button" className="button--secondary" href="https://zooniverse.imascientist.org.uk/" label="Go" />
             </Box>
 
+            <Box pad="medium" size="medium">
+              <Paragraph>
+                Get in touch about Zooniverse in Schools
+              </Paragraph>
+              <Button type="button" className="button--secondary" href="mailto:zooniverseinschools@physics.ox.ac.uk" label="Email" />
+            </Box>
+
           </Box>
         </Box>
       </Section>
