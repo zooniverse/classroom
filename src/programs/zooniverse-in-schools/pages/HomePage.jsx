@@ -62,7 +62,7 @@ function HomePage (props) {
 
             <Box pad="medium" size="medium">
               <Paragraph>
-                Educator Page for Zooniverse Classroom Activity
+                Educator Page for Zooniverse Classroom ActivityCreate a virtual classroom for activities 2 and 3
               </Paragraph>
               <Button type="button" className="button--secondary" path="/astro-101-with-galaxy-zoo" label="Go" />
             </Box>
