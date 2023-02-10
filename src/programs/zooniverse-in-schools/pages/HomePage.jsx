@@ -62,7 +62,7 @@ function HomePage (props) {
 
             <Box pad="medium" size="medium">
               <Paragraph>
-                Educator Page for Zooniverse Classroom Activity
+                Create a virtual classroom for activities 2 and 3
               </Paragraph>
               <Button type="button" className="button--secondary" path="/astro-101-with-galaxy-zoo" label="Go" />
             </Box>
@@ -72,6 +72,13 @@ function HomePage (props) {
                 Go to <b>I'm A Scientist</b> to chat to researchers
               </Paragraph>
               <Button type="button" className="button--secondary" href="https://zooniverse.imascientist.org.uk/" label="Go" />
+            </Box>
+
+            <Box pad="medium" size="medium">
+              <Paragraph>
+                Get in touch about Zooniverse in Schools
+              </Paragraph>
+              <Button type="button" className="button--secondary" href="mailto:zooniverseinschools@physics.ox.ac.uk" label="Email" />
             </Box>
 
           </Box>

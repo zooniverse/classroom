@@ -19,9 +19,11 @@ function ResourcesPage (props) {
       pad={{ vertical: 'medium', horizontal: 'large' }}
     >
       <ScrollToTopOnMount />
+
       <Heading tag="h2">Zooniverse In School Resources Page</Heading>
 
       <Heading tag="h3">PDF Documents</Heading>
+      
       <Paragraph>
         <Anchor
           label="Zooniverse in Schools - Introduction"
@@ -32,7 +34,7 @@ function ResourcesPage (props) {
 
       <Paragraph>
         <Anchor
-          label="Galaxy Zoo Activity - Educator's Guide"
+          label="Activity 1 - Galaxy Zoo Activity - Educator's Guide"
           href="https://drive.google.com/file/d/1UeGgOwC8s2ThqX1-AnVzzennrN1DN-Tx/view?usp=share_link"
           target="_blank" icon={<LinkNextIcon/>} reverse={true}
         />
@@ -40,7 +42,7 @@ function ResourcesPage (props) {
 
       <Paragraph>
         <Anchor
-          label="Galaxy Zoo Activity - Worksheet"
+          label="Activity 1 - Galaxy Zoo Activity - Worksheet"
           href="https://drive.google.com/file/d/1rikX9FBl9Az1jP4nay4eulGgtYFbATAM/view?usp=share_link"
           target="_blank" icon={<LinkNextIcon/>} reverse={true}
         />
@@ -48,7 +50,7 @@ function ResourcesPage (props) {
 
       <Paragraph>
         <Anchor
-          label="Zooniverse Classroom Activity - Educator's Guide"
+          label="Activity 2 - Zooniverse Classroom Activity - Educator's Guide"
           href="https://drive.google.com/file/d/1fcaYldweaVyKPoE4ZXwZuZ7boil9TIoM/view?usp=share_link"
           target="_blank" icon={<LinkNextIcon/>} reverse={true}
         />
@@ -56,8 +58,16 @@ function ResourcesPage (props) {
 
       <Paragraph>
         <Anchor
-          label="Zooniverse Classroom Activity - Worksheet"
+          label="Activity 2 - Zooniverse Classroom Activity - Worksheet"
           href="https://drive.google.com/file/d/1608JTaKo9BNXGGCOaJsMwRwBBVM06X_c/view?usp=share_link"
+          target="_blank" icon={<LinkNextIcon/>} reverse={true}
+        />
+      </Paragraph>
+
+      <Paragraph>
+        <Anchor
+          label="Additional Hands-on Activities"
+          href="https://drive.google.com/file/d/1e8K74sJiyEhKpZ9kFRLIIXL9wZ_7ZOxm/view?usp=sharing"
           target="_blank" icon={<LinkNextIcon/>} reverse={true}
         />
       </Paragraph>
