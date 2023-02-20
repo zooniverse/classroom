@@ -48,9 +48,16 @@ function HomePage (props) {
           <Box align="end" direction="row" justify="center" wrap={true}>
             <Box pad="medium" size="medium">
               <Paragraph>
-                Intro Video
+                Introductory Video
               </Paragraph>
-              <Button type="button" className="button--secondary" path="/zooniverse-in-schools" label="Coming Soon" />
+              <Button
+                type="button"
+                className="button--secondary"
+                href="https://youtu.be/5xhNIw3R5z4"
+                label="Go"
+                target="_blank"
+                rel="noopener noreferrer"
+              />
             </Box>
 
             <Box pad="medium" size="medium">
