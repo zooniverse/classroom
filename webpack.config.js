@@ -18,7 +18,7 @@ module.exports = {
     server: 'https',
     // Change this for your project
     port: process.env.PORT || 3998,
-    host: process.env.HOST || 'localhost',
+    open: true,
     static: {
       directory: path.join(__dirname, '/src/'),
       staticOptions: {},
