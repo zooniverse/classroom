@@ -94,7 +94,7 @@
     "stylus": "~0.59.0",
     "stylus-loader": "~7.1.0",
     "webpack": "~5.80.0",
-    "webpack-cli": "~5.0.1",
+    "webpack-cli": "~5.0.2",
     "webpack-dashboard": "~3.3.5",
     "webpack-dev-server": "~4.13.3"
   }
