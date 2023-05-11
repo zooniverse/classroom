@@ -93,7 +93,7 @@
     "style-loader": "~3.3.2",
     "stylus": "~0.59.0",
     "stylus-loader": "~7.1.0",
-    "webpack": "~5.82.0",
+    "webpack": "~5.82.1",
     "webpack-cli": "~5.1.1",
     "webpack-dashboard": "~3.3.5",
     "webpack-dev-server": "~4.15.0"
