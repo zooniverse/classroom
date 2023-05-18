@@ -84,7 +84,7 @@
     "jsdom": "~22.0.0",
     "mini-css-extract-plugin": "~2.7.5",
     "mocha": "~10.2.0",
-    "mock-local-storage": "~1.1.23",
+    "mock-local-storage": "~1.1.24",
     "nib": "~1.2.0",
     "process": "~0.11.10",
     "rimraf": "~5.0.1",
