@@ -82,7 +82,7 @@
     "imagemin-optipng": "~8.0.0",
     "imagemin-svgo": "~10.0.1",
     "jsdom": "~22.0.0",
-    "mini-css-extract-plugin": "~2.7.5",
+    "mini-css-extract-plugin": "~2.7.6",
     "mocha": "~10.2.0",
     "mock-local-storage": "~1.1.24",
     "nib": "~1.2.0",
