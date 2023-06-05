@@ -60,35 +60,6 @@ module.exports = {
       patterns: [
         { from: 'src/images', to: 'images' }
       ]
-    }),
-    new ImageMinimizerPlugin({
-      minimizer: {
-        implementation: ImageMinimizerPlugin.imageminMinify,
-        options: {
-          plugins: [
-            ['gifsicle', { interlaced: true }],
-            ['jpegtran', { progressive: true }],
-            ['optipng', { optimizationLevel: 5 }],
-            [
-              'svgo',
-              {
-                plugins: extendDefaultPlugins([
-                  {
-                    name: 'removeViewBox',
-                    active: false
-                  },
-                  {
-                    name: 'addAttributesToSVGElement',
-                    params: {
-                      attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }]
-                    }
-                  }
-                ])
-              }
-            ]
-          ]
-        }
-      }
     })
   ],
 
