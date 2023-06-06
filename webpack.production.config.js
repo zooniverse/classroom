@@ -6,8 +6,6 @@ const StatsPlugin = require('stats-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const nib = require('nib');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
-const { extendDefaultPlugins } = require('svgo');
 
 module.exports = {
   mode: 'production',
