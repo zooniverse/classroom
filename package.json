@@ -46,7 +46,7 @@
     "superagent": "~8.0.9",
     "superagent-jsonapify": "~1.4.5",
     "url": "~0.11.1",
-    "zoo-grommet": "~0.3.4",
+    "zoo-grommet": "~0.3.5",
     "zooniverse-react-components": "~0.12.1"
   },
   "devDependencies": {
