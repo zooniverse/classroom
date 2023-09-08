@@ -45,7 +45,7 @@
     "redux-logger": "~3.0.6",
     "superagent": "~8.1.2",
     "superagent-jsonapify": "~1.4.5",
-    "url": "~0.11.1",
+    "url": "~0.11.2",
     "zoo-grommet": "~0.3.5",
     "zooniverse-react-components": "~0.12.4"
   },
