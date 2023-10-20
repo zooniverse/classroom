@@ -82,7 +82,7 @@
     "nib": "~1.2.0",
     "process": "~0.11.10",
     "rimraf": "~5.0.5",
-    "sinon": "~16.1.3",
+    "sinon": "~17.0.0",
     "stats-webpack-plugin": "~0.7.0",
     "style-loader": "~3.3.3",
     "stylus": "~0.60.0",
