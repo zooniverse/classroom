@@ -179,6 +179,23 @@ class MapControls extends React.Component {
             
           </AccordionPanel>
         </Accordion>
+
+        {/* TEMPORARY: please see https://github.com/zooniverse/classroom/issues/838 */}
+        <Accordion>
+          <AccordionPanel heading="Notice" className="map-controls-notice">
+            <Box className="map-controls-notice-message" pad="small">
+              <p>
+                We've recently had reports of teachers and students encountering intermittent issues with the Map Explorer.
+                If you can't see any orange circles on the map, or download data, or the "Loading..." message stays there for more than a minute, then it's likely that the <a href="https://classroom-maps-api.zooniverse.org/">Maps API server</a> is temporarily down.
+                The dev team is currently looking into the problem, and we apologise for the disruption to your classroom, research, and/or personal exploration.
+                To follow the dev team's progress, please check <a href="https://github.com/zooniverse/classroom/issues/838">Github issue 838 on the Zooniverse Classroom repo</a>.
+                If you have any queries, or wish to report additional problems, please contact the Zooniverse team at <a href="mailto:contact@zooniverse.org">contact@zooniverse.org</a>
+                &nbsp; (Last updated 2023.11.07)
+              </p>
+            </Box>
+          </AccordionPanel>
+        </Accordion>
+
         <Accordion
           openMulti={true}
           active={[0]}
