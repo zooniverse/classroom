@@ -25,7 +25,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "~1.9.7",
     "browser-filesaver": "1.1.1",
-    "classnames": "~2.3.2",
+    "classnames": "~2.5.1",
     "debounce": "~2.0.0",
     "grommet": "~1.13.0",
     "jumpstate": "~2.2.2",
