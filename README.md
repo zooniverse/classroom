@@ -56,7 +56,7 @@ __When you are done, create a production-ready version of the JS bundle:__
 
 `npm run build`
 
-#### Alternatviely run it via docker & docker-compose
+#### Alternatively run it via docker & docker-compose
 Depends on [docker install](https://docs.docker.com/install/) and [docker-compose install](https://docs.docker.com/compose/install/)
 1. `docker-compose build`
 2. `docker-compose up`
@@ -112,12 +112,12 @@ Astro 101 requires a few unique services.
   - Repo: [zooniverse/zootools-sheets](https://github.com/zooniverse/zootools-sheets)
   - ⚠️ Since late 2022, this hasn't been working!
 - **Google Drive integration**
-  - We allowe teachers to export directly to Google Drive via "Export Data -> Export with Google".
+  - We allow teachers to export directly to Google Drive via "Export Data -> Export with Google".
   - Note that this feature sometimes won't appear if you're logged in on a Chrome Incognito window or similar.
 
 **Mapping Services**
 
-WildCam Darién Lab, WildCam Gorongosa Lab, and Wildwatch Kenya Lab all use mapping services to provide the geopgraphical map interface.
+WildCam Darién Lab, WildCam Gorongosa Lab, and Wildwatch Kenya Lab all use mapping services to provide the geographical map interface.
 
 - **Classroom Maps API:**
   - Contains data related to subjects, aggregations, park boundaries, etc - essentially the points of interest on the map.
@@ -143,7 +143,7 @@ Here are some very nerdy details about how each project works. Only read this se
 - **General**
   - For Programs that feature _classrooms_ and _assignments,_ the general idea is the same:
     - Teachers create _classrooms_ and must _invite_ students to join.
-    - Students "work" on _assignments_ by submitting classifications to a specific workflow (determined by the assignment). This classifying is done via the the associated Zooniverse project's Classify page (on zooniverse.org), except with some flags attached.
+    - Students "work" on _assignments_ by submitting classifications to a specific workflow (determined by the assignment). This classifying is done via the associated Zooniverse project's Classify page (on zooniverse.org), except with some flags attached.
       - Example 1: a Darien assignment link might look like `https://www.zooniverse.org/projects/wildcam/wildcam-darien/classify?workflow=10937&classroom=1` , with the `workflow` specifying "please let me classify on workflow 10937, which the Education API knows is associated with assignments XYZ".
       - Example 2: a Hubble's Law assignment link might look like `https://www.zooniverse.org/projects/zooniverse/intro2astro-hubbles-law/classify?group=1599406`, with the `group` specifying that "hey, I'm classifying on the default workflow, but as part of a student group."
 - **Astro 101 with Galaxy Zoo**
