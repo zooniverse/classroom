@@ -75,7 +75,7 @@
     "html-webpack-plugin": "~5.6.3",
     "jsdom": "~23.0.1",
     "mini-css-extract-plugin": "~2.7.6",
-    "mocha": "~10.2.0",
+    "mocha": "~10.8.2",
     "mock-local-storage": "~1.1.24",
     "nib": "~1.2.0",
     "process": "~0.11.10",
